@@ -57,14 +57,26 @@
       "name": "As Seen In",
       "settings": {}
     },
-    "visual_cta_epGfFq": {
-      "type": "visual-cta",
-      "name": "Call to Action",
+    "visual_shop_M9JUhD": {
+      "type": "visual-shop",
+      "name": "Shop Carousel",
       "settings": {
-        "subtitle": "Begin Your Story",
-        "title": "Ready to preserve\nwhat matters most?",
-        "button_label": "Shop The Collection",
-        "button_link": ""
+        "subtitle": "Curated Essentials",
+        "title": "Shop the Collection",
+        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
+    },
+    "visual_howitworks_MP9k9D": {
+      "type": "visual-howitworks",
+      "name": "How It Works",
+      "settings": {
+        "title": "How It Works",
+        "tab_1_label": "Classic Visual Book",
+        "tab_2_label": "Audio Greetings Card"
       }
     },
     "visual_cinematic_RUjyVt": {
@@ -105,149 +117,6 @@
       ],
       "name": "Cinematic Showcase",
       "settings": {}
-    },
-    "visual_credentials_6EQEWk": {
-      "type": "visual-credentials",
-      "blocks": {
-        "credential_rgph7V": {
-          "type": "credential",
-          "settings": {
-            "icon": "award",
-            "title": "2023 Winner",
-            "subtitle": "Best Luxury Wedding Memory Preservation",
-            "text": "Recognised by the Luxury Wedding Awards for our unparalleled commitment to preserving life's most precious moments with artisan craftsmanship."
-          }
-        },
-        "credential_PAE6AB": {
-          "type": "credential",
-          "settings": {
-            "icon": "shield-check",
-            "title": "Intellectual Property",
-            "subtitle": "UK IPO Certified — Registered Design",
-            "text": "Our unique Visual Book design is registered and protected under the UK Intellectual Property Office, guaranteeing the authenticity and originality of every piece."
-          }
-        }
-      },
-      "block_order": [
-        "credential_rgph7V",
-        "credential_PAE6AB"
-      ],
-      "name": "Credentials",
-      "settings": {
-        "subtitle": "Recognised Excellence",
-        "title": "Award Winning & Exclusive"
-      }
-    },
-    "visual_faq_cEL3Qt": {
-      "type": "visual-faq",
-      "blocks": {
-        "faq_3QTrQF": {
-          "type": "faq",
-          "settings": {
-            "question": "How long does shipping take?",
-            "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
-          }
-        },
-        "faq_w8q9TR": {
-          "type": "faq",
-          "settings": {
-            "question": "Can I change the videos after I receive the book?",
-            "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
-          }
-        },
-        "faq_qFaWxm": {
-          "type": "faq",
-          "settings": {
-            "question": "How long does the battery last?",
-            "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
-          }
-        },
-        "faq_GBAVXg": {
-          "type": "faq",
-          "settings": {
-            "question": "Is there a limit to how many videos I can upload?",
-            "answer": "The standard Visual Book includes 8GB of internal memory, which comfortably holds about 2-3 hours of high-definition video or thousands of photos."
-          }
-        }
-      },
-      "block_order": [
-        "faq_3QTrQF",
-        "faq_w8q9TR",
-        "faq_qFaWxm",
-        "faq_GBAVXg"
-      ],
-      "name": "FAQ Accordion",
-      "settings": {
-        "subtitle": "Support",
-        "title": "Common Questions"
-      }
-    },
-    "visual_founder_6xenEK": {
-      "type": "visual-founder",
-      "name": "Founder Story",
-      "settings": {
-        "subtitle": "Our Story",
-        "title": "Born from Loss,\nDesigned for Forever",
-        "story_html": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>",
-        "founder_name": "Adanna Okafor",
-        "founder_title": "Founder & CEO"
-      }
-    },
-    "visual_howitworks_MP9k9D": {
-      "type": "visual-howitworks",
-      "name": "How It Works",
-      "settings": {
-        "title": "How It Works",
-        "tab_1_label": "Classic Visual Book",
-        "tab_2_label": "Audio Greetings Card"
-      }
-    },
-    "visual_instore_Y6gda7": {
-      "type": "visual-instore",
-      "blocks": {
-        "store_3xCRqL": {
-          "type": "store",
-          "settings": {
-            "store_name": "Selfridges & Co"
-          }
-        },
-        "store_hDDP77": {
-          "type": "store",
-          "settings": {
-            "store_name": "la Rinascente"
-          }
-        },
-        "store_KJLeKw": {
-          "type": "store",
-          "settings": {
-            "store_name": "KaDeWe"
-          }
-        },
-        "store_MTpW8m": {
-          "type": "store",
-          "settings": {
-            "store_name": "Le Bon Marché"
-          }
-        },
-        "store_93Gi3c": {
-          "type": "store",
-          "settings": {
-            "store_name": "Harrods"
-          }
-        }
-      },
-      "block_order": [
-        "store_3xCRqL",
-        "store_hDDP77",
-        "store_KJLeKw",
-        "store_MTpW8m",
-        "store_93Gi3c"
-      ],
-      "name": "In-Store Marquee",
-      "settings": {
-        "title": "Available In-Store At",
-        "scroll_speed": 1
-      }
     },
     "visual_realmoments_JjaeYa": {
       "type": "visual-realmoments",
@@ -336,17 +205,148 @@
         "rating_text": "4.9 / 5 — 2,400+ Reviews"
       }
     },
-    "visual_shop_M9JUhD": {
-      "type": "visual-shop",
-      "name": "Shop Carousel",
+    "visual_credentials_6EQEWk": {
+      "type": "visual-credentials",
+      "blocks": {
+        "credential_rgph7V": {
+          "type": "credential",
+          "settings": {
+            "icon": "award",
+            "title": "2023 Winner",
+            "subtitle": "Best Luxury Wedding Memory Preservation",
+            "text": "Recognised by the Luxury Wedding Awards for our unparalleled commitment to preserving life's most precious moments with artisan craftsmanship."
+          }
+        },
+        "credential_PAE6AB": {
+          "type": "credential",
+          "settings": {
+            "icon": "shield-check",
+            "title": "Intellectual Property",
+            "subtitle": "UK IPO Certified — Registered Design",
+            "text": "Our unique Visual Book design is registered and protected under the UK Intellectual Property Office, guaranteeing the authenticity and originality of every piece."
+          }
+        }
+      },
+      "block_order": [
+        "credential_rgph7V",
+        "credential_PAE6AB"
+      ],
+      "name": "Credentials",
       "settings": {
-        "subtitle": "Curated Essentials",
-        "title": "Shop the Collection",
-        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
-        "tab_1_label": "Video Book",
-        "collection_1": "",
-        "tab_2_label": "Audio Cards",
-        "collection_2": ""
+        "subtitle": "Recognised Excellence",
+        "title": "Award Winning & Exclusive"
+      }
+    },
+    "visual_founder_6xenEK": {
+      "type": "visual-founder",
+      "name": "Founder Story",
+      "settings": {
+        "subtitle": "Our Story",
+        "title": "Born from Loss,\nDesigned for Forever",
+        "story_html": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>",
+        "founder_name": "Adanna Okafor",
+        "founder_title": "Founder & CEO"
+      }
+    },
+    "visual_instore_Y6gda7": {
+      "type": "visual-instore",
+      "blocks": {
+        "store_3xCRqL": {
+          "type": "store",
+          "settings": {
+            "store_name": "Selfridges & Co"
+          }
+        },
+        "store_hDDP77": {
+          "type": "store",
+          "settings": {
+            "store_name": "la Rinascente"
+          }
+        },
+        "store_KJLeKw": {
+          "type": "store",
+          "settings": {
+            "store_name": "KaDeWe"
+          }
+        },
+        "store_MTpW8m": {
+          "type": "store",
+          "settings": {
+            "store_name": "Le Bon Marché"
+          }
+        },
+        "store_93Gi3c": {
+          "type": "store",
+          "settings": {
+            "store_name": "Harrods"
+          }
+        }
+      },
+      "block_order": [
+        "store_3xCRqL",
+        "store_hDDP77",
+        "store_KJLeKw",
+        "store_MTpW8m",
+        "store_93Gi3c"
+      ],
+      "name": "In-Store Marquee",
+      "settings": {
+        "title": "Available In-Store At",
+        "scroll_speed": 1
+      }
+    },
+    "visual_faq_cEL3Qt": {
+      "type": "visual-faq",
+      "blocks": {
+        "faq_3QTrQF": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
+          }
+        },
+        "faq_w8q9TR": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change the videos after I receive the book?",
+            "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
+          }
+        },
+        "faq_qFaWxm": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does the battery last?",
+            "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
+          }
+        },
+        "faq_GBAVXg": {
+          "type": "faq",
+          "settings": {
+            "question": "Is there a limit to how many videos I can upload?",
+            "answer": "The standard Visual Book includes 8GB of internal memory, which comfortably holds about 2-3 hours of high-definition video or thousands of photos."
+          }
+        }
+      },
+      "block_order": [
+        "faq_3QTrQF",
+        "faq_w8q9TR",
+        "faq_qFaWxm",
+        "faq_GBAVXg"
+      ],
+      "name": "FAQ Accordion",
+      "settings": {
+        "subtitle": "Support",
+        "title": "Common Questions"
+      }
+    },
+    "visual_cta_epGfFq": {
+      "type": "visual-cta",
+      "name": "Call to Action",
+      "settings": {
+        "subtitle": "Begin Your Story",
+        "title": "Ready to preserve\nwhat matters most?",
+        "button_label": "Shop The Collection",
+        "button_link": ""
       }
     }
   },
