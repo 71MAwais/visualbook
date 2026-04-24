@@ -1,1 +1,27 @@
-{ "sections": {}, "order": [] } 
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "visual_hero_TEieYW": {
+      "type": "visual-hero",
+      "name": "Visual Hero",
+      "settings": {
+        "video_url": "",
+        "heading": "The Signature\nCollection",
+        "subheading": "A new window onto time. Your digital life, beautifully bound and ready to be experienced.",
+        "button_label": "SHOP NOW",
+        "button_link": "shopify://collections/all"
+      }
+    }
+  },
+  "order": [
+    "visual_hero_TEieYW"
+  ]
+}
