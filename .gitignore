@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules/
+/dist
+/.shopify
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Environment variables (Security)
+.env
+.env.local
+
+# Build logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
