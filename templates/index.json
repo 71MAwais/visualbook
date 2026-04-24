@@ -95,9 +95,10 @@
         "feature_qn4e4w": {
           "type": "feature",
           "settings": {
-            "number": "01",
+            "number": "02",
             "title": "Vivid Memory Display",
             "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "image": "shopify://shop_images/photo_0027_706320ff-8c2c-4cc9-b2d7-23be85358b92.jpg",
             "icon": "aperture"
           }
         },
