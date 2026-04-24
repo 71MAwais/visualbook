@@ -105,9 +105,10 @@
         "feature_FCPTLY": {
           "type": "feature",
           "settings": {
-            "number": "01",
+            "number": "03",
             "title": "Vivid Memory Display",
             "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "image": "shopify://shop_images/photo_0126.jpg",
             "icon": "aperture"
           }
         }
