@@ -1,0 +1,192 @@
+{% comment %} sections/visual-reviews.liquid {% endcomment %}
+<style>
+    .luxury-fast { transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+    .luxury-transition { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+</style>
+
+<section class="py-16 md:py-24 bg-[#FAFAFA] overflow-hidden" id="reviews-{{ section.id }}">
+    <div class="max-w-[1600px] mx-auto px-5 md:px-8">
+        
+        <div class="text-center mb-12">
+            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
+            <h2 class="font-serif text-3xl md:text-5xl font-light tracking-tight text-black">{{ section.settings.title }}</h2>
+            
+            {% if section.settings.show_rating %}
+            <div class="flex items-center justify-center gap-1 mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#B8906B" stroke="#B8906B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#B8906B" stroke="#B8906B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#B8906B" stroke="#B8906B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#B8906B" stroke="#B8906B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#B8906B" stroke="#B8906B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span class="ml-2 text-sm text-black/50">{{ section.settings.rating_text }}</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="relative group/nav">
+            <button id="reviewPrev-{{ section.id }}" class="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-black/5 flex items-center justify-center text-black/50 hover:bg-[#B8906B] hover:text-white hover:border-[#B8906B] luxury-fast opacity-0 group-hover/nav:opacity-100 md:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button id="reviewNext-{{ section.id }}" class="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-lg border border-black/5 flex items-center justify-center text-black/50 hover:bg-[#B8906B] hover:text-white hover:border-[#B8906B] luxury-fast opacity-0 group-hover/nav:opacity-100 md:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            
+            <div id="reviewsTrack-{{ section.id }}" class="flex gap-5 overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-smooth px-12 md:px-6 pb-4">
+                
+                {% for block in section.blocks %}
+                    <div class="review-card w-[85vw] sm:w-[300px] md:w-[340px] bg-white border border-gray-200 p-6 flex flex-col snap-center flex-shrink-0 rounded-sm shadow-sm" {{ block.shopify_attributes }}>
+                        <div class="flex items-center gap-1 mb-3">
+                            {% for i in (1..5) %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#000{% else %}none{% endif %}" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            {% endfor %}
+                        </div>
+                        
+                        <h4 class="text-[15px] font-medium text-black mb-2">{{ block.settings.title }}</h4>
+                        <p class="text-[13px] text-gray-500 font-light leading-relaxed flex-grow mb-6">{{ block.settings.text }}</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-medium text-black uppercase tracking-wider">{{ block.settings.author }}</span>
+                            {% if block.settings.verified %}
+                                <span class="text-[9px] font-sans tracking-widest uppercase text-green-600 font-bold bg-green-50 px-2 py-1 rounded-sm">Verified</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    {% for i in (1..3) %}
+                        <div class="review-card w-[85vw] sm:w-[300px] md:w-[340px] bg-white border border-gray-200 p-6 flex flex-col snap-center flex-shrink-0 rounded-sm shadow-sm">
+                            <div class="flex items-center gap-1 mb-3">
+                                {% for j in (1..5) %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                {% endfor %}
+                            </div>
+                            <h4 class="text-[15px] font-medium text-black mb-2">Beautifully Crafted</h4>
+                            <p class="text-[13px] text-gray-500 font-light leading-relaxed flex-grow mb-6">Add a review in the Shopify customizer.</p>
+                            <span class="text-[11px] font-medium text-black uppercase tracking-wider">Customer Name</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+        </div>
+        
+        <div class="mt-8 mx-auto max-w-xs h-[2px] bg-black/5 rounded-full overflow-hidden">
+            <div id="reviewsProgress-{{ section.id }}" class="h-full bg-[#B8906B] rounded-full luxury-transition" style="width:0%"></div>
+        </div>
+        
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('reviewsTrack-{{ section.id }}');
+    const prevBtn = document.getElementById('reviewPrev-{{ section.id }}');
+    const nextBtn = document.getElementById('reviewNext-{{ section.id }}');
+    const progressBar = document.getElementById('reviewsProgress-{{ section.id }}');
+
+    if (track) {
+        // Update Progress Bar
+        const updateProgress = () => {
+            if (progressBar) {
+                const maxScrollLeft = track.scrollWidth - track.clientWidth;
+                if (maxScrollLeft > 0) {
+                    const progress = (track.scrollLeft / maxScrollLeft) * 100;
+                    progressBar.style.width = `${progress}%`;
+                } else {
+                    progressBar.style.width = '100%';
+                }
+            }
+        };
+
+        updateProgress();
+        track.addEventListener('scroll', updateProgress);
+        window.addEventListener('resize', updateProgress);
+
+        // Arrow Controls
+        const getCardWidth = () => {
+            const firstCard = track.querySelector('.review-card');
+            return firstCard ? firstCard.offsetWidth + 20 : 360; // Card width + gap
+        };
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+            });
+        }
+
+        // Drag to scroll functionality
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        track.addEventListener('mousedown', (e) => {
+            isDown = true;
+            track.classList.add('cursor-grabbing');
+            track.classList.remove('snap-mandatory', 'scroll-smooth');
+            startX = e.pageX - track.offsetLeft;
+            scrollLeft = track.scrollLeft;
+        });
+
+        track.addEventListener('mouseleave', () => {
+            if(!isDown) return;
+            isDown = false;
+            track.classList.remove('cursor-grabbing');
+            track.classList.add('snap-mandatory', 'scroll-smooth');
+        });
+
+        track.addEventListener('mouseup', () => {
+            isDown = false;
+            track.classList.remove('cursor-grabbing');
+            track.classList.add('snap-mandatory', 'scroll-smooth');
+        });
+
+        track.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - track.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            track.scrollLeft = scrollLeft - walk;
+        });
+    }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Testimonials" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "From our Customers" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show Aggregate Rating", "default": true },
+    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9 / 5 — 2,400+ Reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Star Rating", "default": 5 },
+        { "type": "text", "id": "title", "label": "Review Title", "default": "Absolutely Beautiful" },
+        { "type": "textarea", "id": "text", "label": "Review Text", "default": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family." },
+        { "type": "text", "id": "author", "label": "Author Name", "default": "Verified Customer" },
+        { "type": "checkbox", "id": "verified", "label": "Show Verified Badge", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

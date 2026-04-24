@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+    
+    <title>{{ page_title }}</title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {{ content_for_header }}
+
+    <link rel="preload" as="style" href="{{ 'tailwind-custom.css' | asset_url }}">
+    {{ 'tailwind-custom.css' | asset_url | stylesheet_tag }}
+
+    <script src="{{ 'visual-book-logic.js' | asset_url }}" defer="defer"></script>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+      };
+    </script>
+  </head>
+
+  <body class="font-sans antialiased text-black bg-white overflow-x-hidden">
+    <a class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-black focus:text-white focus:z-[100]" href="#MainContent">
+      Skip to content
+    </a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="content-for-layout focus-none pt-[80px]" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+  </body>
+</html>

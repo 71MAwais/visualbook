@@ -1,0 +1,188 @@
+{% comment %} sections/visual-realmoments.liquid {% endcomment %}
+<style>
+    .luxury-fast { transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+    .luxury-transition { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+</style>
+
+<section class="py-16 md:py-24 bg-[#050505] overflow-hidden" id="real-moments-{{ section.id }}">
+    <div class="max-w-[1600px] mx-auto px-5 md:px-8">
+        
+        <div class="text-center mb-12">
+            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
+            <h2 class="font-serif text-3xl md:text-5xl font-light tracking-tight text-white">{{ section.settings.title }}</h2>
+        </div>
+        
+        <div class="relative group/nav">
+            <button id="momentsPrev-{{ section.id }}" class="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#B8906B] hover:border-[#B8906B] hover:text-white luxury-fast opacity-0 group-hover/nav:opacity-100 md:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button id="momentsNext-{{ section.id }}" class="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#B8906B] hover:border-[#B8906B] hover:text-white luxury-fast opacity-0 group-hover/nav:opacity-100 md:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            
+            <div id="momentsCarousel-{{ section.id }}" class="flex gap-4 md:gap-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-smooth px-12 md:px-0 pb-4">
+                
+                {% for block in section.blocks %}
+                    <div class="relative w-[75vw] sm:w-[260px] md:w-[300px] aspect-[4/5] bg-[#111] snap-center flex-shrink-0 group overflow-hidden cursor-pointer rounded-sm" {{ block.shopify_attributes }}>
+                        
+                        {% if block.settings.image != blank %}
+                            <img src="{{ block.settings.image | img_url: '600x' }}" alt="{{ block.settings.handle | escape }}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" loading="lazy">
+                        {% else %}
+                            <div class="w-full h-full bg-[#111] flex items-center justify-center text-white/20 text-xs uppercase tracking-widest">No Image</div>
+                        {% endif %}
+                        
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-500">
+                            <div class="w-12 h-12 rounded-full border border-white/40 backdrop-blur-sm flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all duration-300 transform scale-95 group-hover:scale-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                        </div>
+                        
+                        {% if block.settings.handle != blank %}
+                            <div class="absolute bottom-5 left-5 text-white text-[12px] font-medium z-10 tracking-wide drop-shadow-md">
+                                {{ block.settings.handle }}
+                            </div>
+                        {% endif %}
+                        
+                    </div>
+                {% else %}
+                    {% for i in (1..4) %}
+                        <div class="relative w-[75vw] sm:w-[260px] md:w-[300px] aspect-[4/5] bg-[#111] snap-center flex-shrink-0 group overflow-hidden cursor-pointer rounded-sm border border-white/5">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-500">
+                                <div class="w-12 h-12 rounded-full border border-white/40 backdrop-blur-sm flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-all duration-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-5 left-5 text-white/50 text-[12px] font-medium z-10 tracking-wide">
+                                @your_handle
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+        </div>
+        
+        <div class="mt-8 mx-auto max-w-xs h-[2px] bg-white/10 rounded-full overflow-hidden">
+            <div id="momentsProgress-{{ section.id }}" class="h-full bg-[#B8906B] rounded-full luxury-transition" style="width:0%"></div>
+        </div>
+        
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('momentsCarousel-{{ section.id }}');
+    const prevBtn = document.getElementById('momentsPrev-{{ section.id }}');
+    const nextBtn = document.getElementById('momentsNext-{{ section.id }}');
+    const progressBar = document.getElementById('momentsProgress-{{ section.id }}');
+
+    if (carousel) {
+        // Update Progress Bar
+        const updateProgress = () => {
+            if (progressBar) {
+                // Calculate max scrollable width
+                const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+                // Avoid division by zero if not scrollable
+                if (maxScrollLeft > 0) {
+                    const progress = (carousel.scrollLeft / maxScrollLeft) * 100;
+                    progressBar.style.width = `${progress}%`;
+                } else {
+                    progressBar.style.width = '100%';
+                }
+            }
+        };
+
+        // Initialize progress
+        updateProgress();
+
+        // Listen for scroll
+        carousel.addEventListener('scroll', updateProgress);
+
+        // Desktop Drag-to-Scroll Support
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDown = true;
+            carousel.classList.add('cursor-grabbing');
+            carousel.classList.remove('snap-mandatory', 'scroll-smooth');
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            if(!isDown) return;
+            isDown = false;
+            carousel.classList.remove('cursor-grabbing');
+            carousel.classList.add('snap-mandatory', 'scroll-smooth');
+        });
+
+        carousel.addEventListener('mouseup', () => {
+            isDown = false;
+            carousel.classList.remove('cursor-grabbing');
+            carousel.classList.add('snap-mandatory', 'scroll-smooth');
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 1.5; // Scroll speed multiplier
+            carousel.scrollLeft = scrollLeft - walk;
+        });
+
+        // Arrow Controls
+        const getCardWidth = () => {
+            const firstCard = carousel.querySelector('.group');
+            return firstCard ? firstCard.offsetWidth + 24 : 324; // Card width + gap
+        };
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+            });
+        }
+        
+        // Optional window resize listener to update progress bar accurately
+        window.addEventListener('resize', updateProgress);
+    }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Real Moments",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Community" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Real Moments" }
+  ],
+  "blocks": [
+    {
+      "type": "moment",
+      "name": "Social Moment",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image/Thumbnail" },
+        { "type": "text", "id": "handle", "label": "Social Handle", "default": "@the_visual_book" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Real Moments",
+      "blocks": [
+        { "type": "moment", "settings": { "handle": "@sarah_weddings" } },
+        { "type": "moment", "settings": { "handle": "@the_miller_family" } },
+        { "type": "moment", "settings": { "handle": "@emma.gifting" } },
+        { "type": "moment", "settings": { "handle": "@joshua_memories" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

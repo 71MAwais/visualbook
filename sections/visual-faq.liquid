@@ -1,0 +1,153 @@
+{% comment %} sections/visual-faq.liquid {% endcomment %}
+<style>
+    .faq-answer { 
+        transition: max-height 0.4s ease, opacity 0.4s ease; 
+        max-height: 0; 
+        opacity: 0; 
+        overflow: hidden; 
+    }
+    .faq-answer.open { 
+        max-height: 300px; 
+        opacity: 1; 
+    }
+</style>
+
+<section id="faq-{{ section.id }}" class="py-16 md:py-24 bg-[#FAFAFA]">
+    <div class="max-w-[800px] mx-auto px-5 md:px-8">
+        
+        <div class="text-center mb-12">
+            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
+            <h2 class="font-serif text-3xl md:text-5xl font-light tracking-tight text-black">{{ section.settings.title }}</h2>
+        </div>
+        
+        <div id="faqList-{{ section.id }}" class="space-y-0">
+            {% for block in section.blocks %}
+                <div class="border-b border-gray-200 faq-item" {{ block.shopify_attributes }}>
+                    
+                    <button class="faq-btn w-full py-6 md:py-8 flex items-center justify-between text-left focus:outline-none group" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <span class="faq-title font-serif text-[20px] md:text-[24px] transition-colors {% if forloop.first %}text-black{% else %}text-gray-500 group-hover:text-black{% endif %}">
+                            {{ block.settings.question }}
+                        </span>
+                        
+                        <span class="faq-icon ml-4 text-gray-400 shrink-0 transition-transform duration-300" style="transform: {% if forloop.first %}rotate(180deg){% else %}rotate(0deg){% endif %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                {% if forloop.first %}
+                                    <line x1="5" x2="19" y1="12" y2="12"/>
+                                {% else %}
+                                    <path d="M5 12h14"/><path d="M12 5v14"/>
+                                {% endif %}
+                            </svg>
+                        </span>
+                    </button>
+                    
+                    <div class="faq-answer {% if forloop.first %}open{% endif %}">
+                        <p class="pb-8 font-sans text-[15px] text-gray-500 font-light leading-relaxed pr-8 whitespace-pre-line">{{ block.settings.answer }}</p>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('faqList-{{ section.id }}');
+    if (!container) return;
+
+    const btns = container.querySelectorAll('.faq-btn');
+    
+    // SVG strings for open/close states
+    const iconPlus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
+    const iconMinus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/></svg>';
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const answer = btn.nextElementSibling;
+            const isAlreadyOpen = answer.classList.contains('open');
+            
+            // Close all items
+            container.querySelectorAll('.faq-answer').forEach(ans => ans.classList.remove('open'));
+            container.querySelectorAll('.faq-title').forEach(title => { 
+                title.classList.remove('text-black'); 
+                title.classList.add('text-gray-500'); 
+            });
+            container.querySelectorAll('.faq-icon').forEach(icon => { 
+                icon.style.transform = 'rotate(0deg)'; 
+                icon.innerHTML = iconPlus; 
+            });
+            container.querySelectorAll('.faq-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+            // If the clicked item was closed, open it
+            if(!isAlreadyOpen) {
+                answer.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+                
+                const title = btn.querySelector('.faq-title');
+                title.classList.remove('text-gray-500');
+                title.classList.add('text-black');
+                
+                const iconSpan = btn.querySelector('.faq-icon');
+                iconSpan.style.transform = 'rotate(180deg)';
+                iconSpan.innerHTML = iconMinus;
+            }
+        });
+    });
+});
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Accordion",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Support" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Common Questions" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long does shipping take?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Standard bespoke orders take 5-7 business days to craft and assemble." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Accordion",
+      "blocks": [
+        { 
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
+          }
+        },
+        { 
+          "type": "faq",
+          "settings": {
+            "question": "Can I change the videos after I receive the book?",
+            "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
+          }
+        },
+        { 
+          "type": "faq",
+          "settings": {
+            "question": "How long does the battery last?",
+            "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
+          }
+        },
+        { 
+          "type": "faq",
+          "settings": {
+            "question": "Is there a limit to how many videos I can upload?",
+            "answer": "The standard Visual Book includes 8GB of internal memory, which comfortably holds about 2-3 hours of high-definition video or thousands of photos."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "visual-header": {
+      "type": "visual-header",
+      "settings": {
+        "logo_text": "THE VISUAL BOOK",
+        "city_text": "LONDON",
+        "menu": "main-menu"
+      }
+    }
+  },
+  "order": [
+    "visual-header"
+  ]
+}

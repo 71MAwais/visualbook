@@ -1,0 +1,68 @@
+{% comment %} sections/visual-cta.liquid {% endcomment %}
+<style>
+    .cta-glow {
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 70%);
+    }
+    .luxury-fast { 
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
+    }
+</style>
+
+<section class="relative py-24 md:py-36 bg-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+    <div class="cta-glow absolute inset-0 pointer-events-none"></div>
+    
+    <div class="relative z-10 text-center px-5">
+        {% if section.settings.subtitle != blank %}
+            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-4">{{ section.settings.subtitle }}</p>
+        {% endif %}
+        
+        {% if section.settings.title != blank %}
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-8">{{ section.settings.title | newline_to_br }}</h2>
+        {% endif %}
+        
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="inline-flex items-center gap-3 bg-white text-[#050505] text-[11px] uppercase tracking-[0.18em] font-semibold px-8 py-4 rounded-sm hover:bg-[#B8906B] hover:text-white group luxury-fast">
+                <span>{{ section.settings.button_label }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 luxury-fast">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Call to Action",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Begin Your Story"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading",
+      "default": "Ready to preserve\nwhat matters most?"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Call to Action"
+    }
+  ]
+}
+{% endschema %}

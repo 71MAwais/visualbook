@@ -1,0 +1,102 @@
+{% comment %} sections/footer.liquid {% endcomment %}
+<style>
+    .luxury-fast { transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+</style>
+
+<footer id="contact-{{ section.id }}" class="bg-[#111111] pt-16 pb-8 border-t border-black/10 mt-10">
+    <div class="max-w-[1600px] mx-auto px-5 md:px-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
+            
+            <div>
+                <span class="font-serif text-2xl text-white font-semibold">{{ section.settings.brand_name }}</span>
+                <span class="block text-[9px] uppercase tracking-[0.25em] text-white/30 mt-0.5">{{ section.settings.city }}</span>
+                <p class="text-sm text-white/40 leading-relaxed mt-4 max-w-xs">{{ section.settings.brand_description }}</p>
+            </div>
+            
+            <div>
+                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold mb-4">{{ section.settings.menu_title }}</h4>
+                <nav class="flex flex-col gap-3">
+                    {% if section.settings.footer_menu != blank %}
+                        {% for link in linklists[section.settings.footer_menu].links %}
+                            <a href="{{ link.url }}" class="text-sm text-white/40 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="#" class="text-sm text-white/40 hover:text-[#B8906B] luxury-fast">Please select a menu in theme settings</a>
+                    {% endif %}
+                </nav>
+            </div>
+            
+            <div>
+                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold mb-4">{{ section.settings.newsletter_title }}</h4>
+                <p class="text-sm text-white/40 mb-4">{{ section.settings.newsletter_text }}</p>
+                
+                {% form 'customer', class: 'flex relative' %}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    
+                    <div class="flex w-full">
+                        <input 
+                            type="email" 
+                            name="contact[email]" 
+                            id="Email-{{ section.id }}" 
+                            value="{% if customer %}{{ customer.email }}{% endif %}"
+                            placeholder="Your email" 
+                            class="flex-1 bg-white/5 border border-white/10 text-white text-sm px-4 py-3 rounded-l-sm outline-none focus:border-[#B8906B] luxury-fast placeholder:text-white/20" 
+                            required
+                        >
+                        <button type="submit" class="bg-[#B8906B] text-white px-5 py-3 rounded-r-sm hover:bg-[#8A6A4E] luxury-fast" aria-label="Subscribe">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                    
+                    {%- if form.posted_successfully? -%}
+                        <p class="text-[11px] text-green-400 mt-2 absolute -bottom-6">Thank you for subscribing!</p>
+                    {%- endif -%}
+                    {%- if form.errors -%}
+                        <p class="text-[11px] text-red-400 mt-2 absolute -bottom-6">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+                    {%- endif -%}
+                {% endform %}
+            </div>
+            
+        </div>
+        
+        <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-[11px] text-white/25">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+            
+            <div class="flex items-center gap-6">
+                {% if section.settings.legal_menu != blank %}
+                    {% for link in linklists[section.settings.legal_menu].links %}
+                        <a href="{{ link.url }}" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                    {% endfor %}
+                {% else %}
+                    <a href="#" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">Privacy Policy</a>
+                    <a href="#" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">Terms of Service</a>
+                {% endif %}
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "header", "content": "Brand Column" },
+    { "type": "text", "id": "brand_name", "label": "Brand Name", "default": "The Visual Book" },
+    { "type": "text", "id": "city", "label": "City / Location", "default": "London" },
+    { "type": "textarea", "id": "brand_description", "label": "Description", "default": "Preserving life's most cherished moments through artisan craftsmanship and timeless design." },
+    
+    { "type": "header", "content": "Navigation Column" },
+    { "type": "text", "id": "menu_title", "label": "Menu Title", "default": "Shop & Support" },
+    { "type": "link_list", "id": "footer_menu", "label": "Main Footer Menu" },
+    
+    { "type": "header", "content": "Newsletter Column" },
+    { "type": "text", "id": "newsletter_title", "label": "Title", "default": "Newsletter" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Description", "default": "Receive exclusive previews and early access to new collections." },
+    
+    { "type": "header", "content": "Legal Bottom Row" },
+    { "type": "link_list", "id": "legal_menu", "label": "Legal Menu (Privacy, Terms, etc.)" }
+  ]
+}
+{% endschema %}

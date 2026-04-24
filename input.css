@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Extend the Tailwind Theme */
+@theme {
+  /* Add your custom font */
+  --font-logo: "Inter", sans-serif;
+  
+  /* Add your marquee animation */
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Custom Utilities */
+@utility hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Base styles to ensure a clean luxury feel */
+@layer base {
+  body {
+    @apply antialiased text-black bg-white;
+  }
+}

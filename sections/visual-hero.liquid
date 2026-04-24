@@ -1,0 +1,85 @@
+{% comment %} sections/visual-hero.liquid {% endcomment %}
+
+<section class="w-full bg-white relative">
+    <div class="max-w-[1800px] mx-auto px-4 md:px-8">
+        <div class="relative w-full h-[80vh] md:h-[90vh] lg:h-[95vh] bg-black overflow-hidden group lg:rounded-[4px] shadow-2xl">
+            
+            {% if section.settings.video_url != blank %}
+                <video id="hero-video" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-85 transition-transform duration-[10s] group-hover:scale-105">
+                    <source src="{{ section.settings.video_url }}" type="video/mp4" />
+                </video>
+            {% elsif section.settings.image != blank %}
+                <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.heading | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-85 transition-transform duration-[10s] group-hover:scale-105" loading="eager">
+            {% endif %}
+            
+            <div class="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
+            
+            <div class="absolute bottom-10 left-6 md:bottom-16 md:left-16 z-20">
+                {% if section.settings.heading != blank %}
+                    <h2 class="font-logo font-medium text-white text-[32px] md:text-[48px] lg:text-[56px] tracking-[0.05em] uppercase mb-4 drop-shadow-2xl leading-[1.05]">
+                        {{ section.settings.heading | newline_to_br }}
+                    </h2>
+                {% endif %}
+                
+                {% if section.settings.subheading != blank %}
+                    <p class="text-white/90 text-[13px] md:text-[15px] font-light mb-8 drop-shadow-md max-w-[300px] md:max-w-[420px] leading-relaxed">
+                        {{ section.settings.subheading }}
+                    </p>
+                {% endif %}
+                
+                {% if section.settings.button_link != blank and section.settings.button_label != blank %}
+                    <a href="{{ section.settings.button_link }}" class="inline-block bg-white border border-white text-black px-10 py-3.5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-white/10 hover:backdrop-blur-md hover:text-white transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                        {{ section.settings.button_label }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Visual Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (MP4)",
+      "info": "Upload your video to Shopify Settings > Files, and paste the link here. This overrides the fallback image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback Image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Signature\nCollection"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sub-heading",
+      "default": "A new window onto time. Your digital life, beautifully bound and ready to be experienced."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Visual Hero"
+    }
+  ]
+}
+{% endschema %}

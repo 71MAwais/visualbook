@@ -1,0 +1,74 @@
+{% comment %} sections/visual-as-seen.liquid {% endcomment %}
+
+<section class="w-full bg-white py-12 border-b border-gray-50">
+    <div class="max-w-[1400px] mx-auto px-6">
+        <p class="text-center text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-10 font-medium">As Featured In</p>
+        <div class="relative overflow-hidden">
+            <div class="flex items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap">
+                
+                {%- for block in section.blocks -%}
+                    <div class="flex-shrink-0 opacity-40 hover:opacity-100 transition-opacity duration-500">
+                        {% if block.settings.logo_svg != blank %}
+                            {{ block.settings.logo_svg }}
+                        {% elsif block.settings.logo_image != blank %}
+                            <img src="{{ block.settings.logo_image | img_url: 'master' }}" alt="{{ block.settings.logo_image.alt | default: 'Featured Logo' }}" class="h-6 md:h-8 object-contain">
+                        {% else %}
+                            <span class="text-xs uppercase tracking-widest text-gray-500">Add Logo</span>
+                        {% endif %}
+                    </div>
+                {%- endfor -%}
+
+                {%- for block in section.blocks -%}
+                    <div class="flex-shrink-0 opacity-40 hover:opacity-100 transition-opacity duration-500">
+                        {% if block.settings.logo_svg != blank %}
+                            {{ block.settings.logo_svg }}
+                        {% elsif block.settings.logo_image != blank %}
+                            <img src="{{ block.settings.logo_image | img_url: 'master' }}" alt="{{ block.settings.logo_image.alt | default: 'Featured Logo' }}" class="h-6 md:h-8 object-contain">
+                        {% else %}
+                            <span class="text-xs uppercase tracking-widest text-gray-500">Add Logo</span>
+                        {% endif %}
+                    </div>
+                {%- endfor -%}
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "As Seen In",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Featured Logo",
+      "settings": [
+        {
+          "type": "html",
+          "id": "logo_svg",
+          "label": "SVG Code (Recommended)",
+          "info": "Paste the raw SVG code for crispest quality."
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Or Image",
+          "info": "Use if you don't have SVG code. PNG with transparent background recommended."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "As Seen In",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
