@@ -127,6 +127,7 @@
         "moment_JRgb9p": {
           "type": "moment",
           "settings": {
+            "image": "shopify://shop_images/5065017721114_ALT5.jpg",
             "handle": "@sarah_weddings"
           }
         },
