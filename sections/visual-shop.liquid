@@ -63,23 +63,23 @@
     <span id="toast-message">Added to cart</span>
 </div>
 
-<section id="shop" class="w-full bg-[#FAFAFA] py-6 md:py-8 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100">
+<section id="shop" class="w-full bg-[#FAFAFA] py-5 md:py-6 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100">
 
-    <div class="w-full text-center pb-3 md:pb-4 px-6 flex-shrink-0 z-10">
-        <p class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.3em] uppercase text-[#B8906B] mb-2">{{ section.settings.subtitle }}</p>
-        <h2 id="shop-title" class="font-serif text-[36px] md:text-[48px] lg:text-[56px] text-black tracking-tight leading-[1.05]">{{ section.settings.title }}</h2>
-        <p class="mt-2 text-black/50 text-sm md:text-base font-light max-w-lg mx-auto leading-relaxed">{{ section.settings.text }}</p>
+    <div class="w-full text-center pb-2 md:pb-3 px-5 flex-shrink-0 z-10">
+        <p class="text-[10px] sm:text-[11px] font-sans font-semibold tracking-[0.3em] uppercase text-[#B8906B] mb-1.5">{{ section.settings.subtitle }}</p>
+        <h2 id="shop-title" class="font-serif text-[30px] md:text-[38px] lg:text-[44px] text-stone-950 tracking-tight leading-[1.05]">{{ section.settings.title }}</h2>
+        <p class="mt-1.5 text-stone-500 text-xs md:text-[14px] font-light max-w-lg mx-auto leading-relaxed">{{ section.settings.text }}</p>
     </div>
 
-    <div class="w-full max-w-3xl px-6 pb-3 md:pb-5 flex-shrink-0 z-10 mx-auto">
-        <div class="flex flex-nowrap justify-center items-center w-full gap-4 md:gap-8 border-b border-gray-200 relative" role="tablist" id="shop-tabs">
-            <button role="tab" class="tab-btn active pb-1.5 md:pb-2 text-[10px] sm:text-[11px] md:text-[12px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-black font-bold" data-tab="1">
+    <div class="w-full max-w-2xl px-5 pb-3 flex-shrink-0 z-10 mx-auto">
+        <div class="flex flex-nowrap justify-center items-center w-full gap-5 md:gap-10 border-b border-gray-200 relative" role="tablist" id="shop-tabs">
+            <button role="tab" class="tab-btn active pb-1.5 md:pb-2 text-[10px] sm:text-[11px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-black font-bold" data-tab="1">
                 {{ section.settings.tab_1_label }}
-                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[2px] bg-black transform scale-x-100 origin-left transition-transform duration-500"></div>
+                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-black transform scale-x-100 origin-left transition-transform duration-500"></div>
             </button>
-            <button role="tab" class="tab-btn pb-1.5 md:pb-2 text-[10px] sm:text-[11px] md:text-[12px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-gray-400 hover:text-gray-600" data-tab="2">
+            <button role="tab" class="tab-btn pb-1.5 md:pb-2 text-[10px] sm:text-[11px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-gray-400 hover:text-gray-600" data-tab="2">
                 {{ section.settings.tab_2_label }}
-                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[2px] bg-black transform scale-x-0 origin-left transition-transform duration-500"></div>
+                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-black transform scale-x-0 origin-left transition-transform duration-500"></div>
             </button>
         </div>
     </div>
@@ -90,32 +90,32 @@
         
         <div id="shop-scroll" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-2 relative">
             <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
-            <div id="card-container" class="flex gap-4 md:gap-6 items-center shrink-0"></div>
+            <div id="card-container" class="flex gap-4 items-center shrink-0"></div>
             <div id="end-spacer" class="shrink-0 w-[50vw]"></div>
         </div>
     </div>
 
-    <div class="w-full flex-shrink-0 pt-4 md:pt-6 px-6 md:px-12 z-10 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
-        <div class="max-w-[1100px] mx-auto flex items-center justify-between w-full pointer-events-auto">
+    <div class="w-full flex-shrink-0 pt-3 px-5 md:px-10 z-10 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+        <div class="max-w-[1000px] mx-auto flex items-center justify-between w-full pointer-events-auto">
             
-            <div class="flex items-start shrink-0 w-16">
-                <span id="card-current" class="font-serif text-[28px] md:text-[34px] text-black font-medium leading-none tracking-wide">01</span>
-                <div class="flex flex-col ml-1.5 mt-0.5 md:mt-1">
-                    <span class="text-[10px] md:text-[12px] text-gray-400 font-sans tracking-widest leading-none">/</span>
-                    <span id="card-total" class="text-[10px] md:text-[12px] text-gray-400 font-sans tracking-widest leading-none mt-1 ml-0.5">00</span>
+            <div class="flex items-start shrink-0 w-14 md:w-16">
+                <span id="card-current" class="font-serif text-[26px] md:text-[32px] text-black font-medium leading-none tracking-wide">01</span>
+                <div class="flex flex-col ml-1 mt-0.5 md:mt-1">
+                    <span class="text-[9px] md:text-[11px] text-gray-400 font-sans tracking-widest leading-none">/</span>
+                    <span id="card-total" class="text-[9px] md:text-[11px] text-gray-400 font-sans tracking-widest leading-none mt-1 ml-0.5">00</span>
                 </div>
             </div>
 
-            <div class="flex-1 mx-4 md:mx-8 h-[1px] bg-gray-200 relative overflow-hidden" aria-hidden="true">
+            <div class="flex-1 mx-4 md:mx-6 h-[1.5px] bg-gray-200 relative overflow-hidden" aria-hidden="true">
                 <div id="shop-progress" class="absolute top-0 left-0 h-full bg-[#B8906B] transition-all duration-500 ease-out" style="width: 0%; left: 0%;"></div>
             </div>
 
-            <div class="flex gap-3 shrink-0">
-                <button aria-label="Previous Product" id="shop-prev-btn" class="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <div class="flex gap-2 md:gap-3 shrink-0">
+                <button aria-label="Previous Product" id="shop-prev-btn" class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
-                <button aria-label="Next Product" id="shop-next-btn" class="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <button aria-label="Next Product" id="shop-next-btn" class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
             </div>
             
@@ -125,29 +125,29 @@
 
 <div id="shop-data-1" class="hidden">
     {% for product in section.settings.collection_1.products %}
-        <div class="product-card flex-shrink-0 w-[70vw] sm:w-[260px] md:w-[280px] lg:w-[300px] snap-center cursor-pointer">
+        <div class="product-card flex-shrink-0 w-[65vw] sm:w-[220px] md:w-[240px] lg:w-[260px] snap-center cursor-pointer">
             <div class="relative group w-full">
-                <div class="img-wrapper w-full aspect-[4/5] rounded-[2px] overflow-hidden bg-[#F0F0F0] shadow-md">
-                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title | escape }}" class="w-full h-full object-cover mix-blend-multiply" draggable="false" loading="lazy">
+                <div class="img-wrapper w-full aspect-[4/5] rounded-[2px] overflow-hidden bg-[#F0F0F0] shadow-sm border border-stone-100/50">
+                    <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title | escape }}" class="w-full h-full object-cover mix-blend-multiply" draggable="false" loading="lazy">
                 </div>
                 {% for tag in product.tags %}
                     {% if tag contains 'badge:' %}
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-sm shadow-sm border border-black/5">
-                            <span class="text-[9px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
+                        <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-sm shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
                         </div>
                     {% endif %}
                 {% endfor %}
-                <div class="overlay absolute inset-0 bg-black/5 rounded-[2px] flex items-end justify-center pb-6 pointer-events-none transition-colors">
+                <div class="overlay absolute inset-0 bg-black/5 rounded-[2px] flex items-end justify-center pb-5 pointer-events-none transition-colors">
                     <form method="post" action="/cart/add" class="pointer-events-auto w-full flex justify-center" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-                        <button type="submit" class="quick-add-btn pointer-events-auto bg-white/95 backdrop-blur-md border border-gray-200 text-black text-[10px] font-sans tracking-[0.2em] uppercase font-bold px-8 py-3.5 shadow-xl hover:bg-black hover:text-white hover:border-black transition-all duration-300">Quick Add</button>
+                        <button type="submit" class="quick-add-btn pointer-events-auto bg-white/95 backdrop-blur-md border border-gray-200 text-black text-[9px] font-sans tracking-[0.2em] uppercase font-bold px-6 py-2.5 shadow-lg hover:bg-black hover:text-white hover:border-black transition-all duration-300">Quick Add</button>
                     </form>
                 </div>
             </div>
-            <div class="mt-5 text-center px-2">
-                <span class="text-[8px] text-gray-400 uppercase tracking-[0.25em] block mb-2">{{ section.settings.tab_1_label }}</span>
-                <a href="{{ product.url }}"><h3 class="font-serif text-[22px] md:text-[26px] font-medium text-black tracking-tight leading-tight">{{ product.title }}</h3></a>
-                <p class="mt-2 text-gray-500 text-xs md:text-sm font-sans italic">{{ product.price | money }}</p>
+            <div class="mt-4 text-center px-2">
+                <span class="text-[8px] text-gray-400 uppercase tracking-[0.25em] block mb-1.5">{{ section.settings.tab_1_label }}</span>
+                <a href="{{ product.url }}"><h3 class="font-serif text-[18px] md:text-[22px] font-medium text-black tracking-tight leading-tight">{{ product.title }}</h3></a>
+                <p class="mt-1.5 text-gray-500 text-xs font-sans italic">{{ product.price | money }}</p>
             </div>
         </div>
     {% endfor %}
@@ -155,29 +155,29 @@
 
 <div id="shop-data-2" class="hidden">
     {% for product in section.settings.collection_2.products %}
-        <div class="product-card flex-shrink-0 w-[70vw] sm:w-[260px] md:w-[280px] lg:w-[300px] snap-center cursor-pointer">
+        <div class="product-card flex-shrink-0 w-[65vw] sm:w-[220px] md:w-[240px] lg:w-[260px] snap-center cursor-pointer">
             <div class="relative group w-full">
-                <div class="img-wrapper w-full aspect-[4/5] rounded-[2px] overflow-hidden bg-[#F0F0F0] shadow-md">
-                    <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title | escape }}" class="w-full h-full object-cover mix-blend-multiply" draggable="false" loading="lazy">
+                <div class="img-wrapper w-full aspect-[4/5] rounded-[2px] overflow-hidden bg-[#F0F0F0] shadow-sm border border-stone-100/50">
+                    <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title | escape }}" class="w-full h-full object-cover mix-blend-multiply" draggable="false" loading="lazy">
                 </div>
                 {% for tag in product.tags %}
                     {% if tag contains 'badge:' %}
-                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-sm shadow-sm border border-black/5">
-                            <span class="text-[9px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
+                        <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-sm shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
                         </div>
                     {% endif %}
                 {% endfor %}
-                <div class="overlay absolute inset-0 bg-black/5 rounded-[2px] flex items-end justify-center pb-6 pointer-events-none transition-colors">
+                <div class="overlay absolute inset-0 bg-black/5 rounded-[2px] flex items-end justify-center pb-5 pointer-events-none transition-colors">
                     <form method="post" action="/cart/add" class="pointer-events-auto w-full flex justify-center" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-                        <button type="submit" class="quick-add-btn pointer-events-auto bg-white/95 backdrop-blur-md border border-gray-200 text-black text-[10px] font-sans tracking-[0.2em] uppercase font-bold px-8 py-3.5 shadow-xl hover:bg-black hover:text-white hover:border-black transition-all duration-300">Quick Add</button>
+                        <button type="submit" class="quick-add-btn pointer-events-auto bg-white/95 backdrop-blur-md border border-gray-200 text-black text-[9px] font-sans tracking-[0.2em] uppercase font-bold px-6 py-2.5 shadow-lg hover:bg-black hover:text-white hover:border-black transition-all duration-300">Quick Add</button>
                     </form>
                 </div>
             </div>
-            <div class="mt-5 text-center px-2">
-                <span class="text-[8px] text-gray-400 uppercase tracking-[0.25em] block mb-2">{{ section.settings.tab_2_label }}</span>
-                <a href="{{ product.url }}"><h3 class="font-serif text-[22px] md:text-[26px] font-medium text-black tracking-tight leading-tight">{{ product.title }}</h3></a>
-                <p class="mt-2 text-gray-500 text-xs md:text-sm font-sans italic">{{ product.price | money }}</p>
+            <div class="mt-4 text-center px-2">
+                <span class="text-[8px] text-gray-400 uppercase tracking-[0.25em] block mb-1.5">{{ section.settings.tab_2_label }}</span>
+                <a href="{{ product.url }}"><h3 class="font-serif text-[18px] md:text-[22px] font-medium text-black tracking-tight leading-tight">{{ product.title }}</h3></a>
+                <p class="mt-1.5 text-gray-500 text-xs font-sans italic">{{ product.price | money }}</p>
             </div>
         </div>
     {% endfor %}
@@ -194,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.getElementById('shop-next-btn');
     const tabBtns = document.querySelectorAll('.tab-btn');
     
-    // Fetch raw templates from hidden divs
     const data1 = Array.from(document.getElementById('shop-data-1').children);
     const data2 = Array.from(document.getElementById('shop-data-2').children);
     
@@ -208,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cardContainer.innerHTML = '';
         
         if (totalOriginal === 0) {
-            cardContainer.innerHTML = '<div class="w-full text-center py-20 px-8 text-gray-400 font-sans tracking-widest uppercase text-xs">Please select a collection in the customizer.</div>';
+            cardContainer.innerHTML = '<div class="w-full text-center py-10 px-8 text-gray-400 font-sans tracking-widest uppercase text-[10px]">Please select a collection in the customizer.</div>';
             if (totalEl) totalEl.textContent = '00';
             return;
         }
@@ -234,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function adjustSpacers() {
         if (!cardContainer.children.length) return;
-        const cardWidth = cardContainer.children[0].offsetWidth || 280;
+        const cardWidth = cardContainer.children[0].offsetWidth || 260;
         const containerWidth = scrollContainer.clientWidth;
         const space = (containerWidth / 2) - (cardWidth / 2);
         document.getElementById('start-spacer').style.width = `${space}px`;
