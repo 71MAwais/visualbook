@@ -1,73 +1,207 @@
 {% comment %} sections/visual-as-seen.liquid {% endcomment %}
 
-<section class="w-full bg-white py-12 border-b border-gray-50">
-    <div class="max-w-[1400px] mx-auto px-6">
-        <p class="text-center text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-10 font-medium">As Featured In</p>
-        <div class="relative overflow-hidden">
-            <div class="flex items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap">
-                
-                {%- for block in section.blocks -%}
-                    <div class="flex-shrink-0 opacity-40 hover:opacity-100 transition-opacity duration-500">
-                        {% if block.settings.logo_svg != blank %}
-                            {{ block.settings.logo_svg }}
-                        {% elsif block.settings.logo_image != blank %}
-                            <img src="{{ block.settings.logo_image | img_url: 'master' }}" alt="{{ block.settings.logo_image.alt | default: 'Featured Logo' }}" class="h-6 md:h-8 object-contain">
-                        {% else %}
-                            <span class="text-xs uppercase tracking-widest text-gray-500">Add Logo</span>
-                        {% endif %}
-                    </div>
-                {%- endfor -%}
+<style>
+    #visual-as-seen-{{ section.id }} {
+        background-color: {{ section.settings.bg_color }};
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    #visual-as-seen-{{ section.id }} .font-serif {
+        font-family: 'Playfair Display', serif;
+    }
+    
+    /* Hide scrollbars but allow scrolling */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Drag to scroll interactive logic */
+    .drag-scroll {
+        overflow-x: auto;
+        scroll-behavior: auto;
+        -webkit-overflow-scrolling: touch;
+        cursor: grab;
+    }
+    .drag-scroll:active {
+        cursor: grabbing !important;
+    }
+    .drag-scroll.is-dragging {
+        user-select: none;
+    }
+    .drag-scroll.is-dragging * {
+        pointer-events: none; /* Prevents text selection while dragging */
+    }
+</style>
 
-                {%- for block in section.blocks -%}
-                    <div class="flex-shrink-0 opacity-40 hover:opacity-100 transition-opacity duration-500">
-                        {% if block.settings.logo_svg != blank %}
-                            {{ block.settings.logo_svg }}
-                        {% elsif block.settings.logo_image != blank %}
-                            <img src="{{ block.settings.logo_image | img_url: 'master' }}" alt="{{ block.settings.logo_image.alt | default: 'Featured Logo' }}" class="h-6 md:h-8 object-contain">
-                        {% else %}
-                            <span class="text-xs uppercase tracking-widest text-gray-500">Add Logo</span>
-                        {% endif %}
-                    </div>
-                {%- endfor -%}
+<section id="visual-as-seen-{{ section.id }}" class="w-full py-5 md:py-8 border-y border-stone-100/50">
+    <div class="max-w-[1800px] mx-auto overflow-hidden">
+        
+        <div class="flex flex-col items-center mb-5 md:mb-6 text-center px-4">
+            <h3 class="font-serif text-[18px] md:text-[20px] font-medium tracking-wide text-stone-900">
+                {{ section.settings.heading }}
+            </h3>
+        </div>
+
+        <div class="relative w-full" aria-hidden="true">
+            <div class="absolute top-0 left-0 w-8 md:w-16 h-full bg-gradient-to-r from-[{{ section.settings.bg_color }}] to-transparent z-10 pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-8 md:w-16 h-full bg-gradient-to-l from-[{{ section.settings.bg_color }}] to-transparent z-10 pointer-events-none"></div>
+            
+            <div id="as-seen-scroll-{{ section.id }}" class="drag-scroll hide-scrollbar w-full" style="overscroll-behavior-x: none;">
                 
+                <div class="flex shrink-0 pb-4 pt-2">
+                    
+                    {% capture logos %}
+                        <div class="shrink-0 flex items-center justify-center">
+                            <span class="font-serif text-[34px] md:text-[40px] tracking-widest uppercase text-[#E00000] leading-none">Vogue</span>
+                        </div>
+                        
+                        <div class="shrink-0 flex items-center justify-center">
+                            <div class="flex flex-col items-center justify-center text-black">
+                                <div class="w-9 h-9 md:w-11 md:h-11 border-[1.5px] border-black rounded-full flex items-center justify-center mb-1">
+                                    <span class="font-serif text-[15px] md:text-[17px] leading-none font-bold">SH</span>
+                                </div>
+                                <span class="text-[7.5px] md:text-[8px] tracking-[0.2em] uppercase font-bold mt-[-4px]">House</span>
+                            </div>
+                        </div>
+                        
+                        <div class="shrink-0 flex items-center justify-center">
+                            <div class="flex flex-col items-center justify-center text-black">
+                                <span class="text-[30px] md:text-[36px] tracking-tighter font-bold lowercase leading-none">wed<span class="font-light">2b</span></span>
+                                <span class="text-[6.5px] md:text-[7.5px] tracking-[0.3em] uppercase mt-1 text-stone-500 font-semibold">The Bridal Experts</span>
+                            </div>
+                        </div>
+                        
+                        <div class="shrink-0 flex items-center justify-center">
+                            <div class="flex flex-col items-center justify-center text-[#E5A93D]">
+                                <span class="font-serif text-[16px] md:text-[20px] tracking-[0.1em] uppercase font-semibold">Wedding Chicks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="shrink-0 flex items-center justify-center">
+                            <div class="flex flex-col items-center justify-center text-black">
+                                <span class="font-serif text-[26px] md:text-[32px] leading-[0.9] font-bold tracking-tight">
+                                    <span class="text-[#00529b]">Reader's</span><br/>
+                                    <span class="text-black ml-4">Digest</span>
+                                </span>
+                            </div>
+                        </div>
+                    {% endcapture %}
+
+                    {% for i in (1..6) %}
+                        <div class="logo-group flex shrink-0 items-center justify-around gap-12 md:gap-20 px-6 md:px-10">
+                            {{ logos }}
+                        </div>
+                    {% endfor %}
+                    
+                </div>
             </div>
         </div>
+
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.getElementById('as-seen-scroll-{{ section.id }}');
+        if (!slider) return;
+
+        const group = slider.querySelector('.logo-group');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isAnimating = true;
+        let animationId;
+        const speed = 0.8; // Adjust this number to change auto-scroll speed (e.g., 0.5 is slower, 1.5 is faster)
+
+        // 1. Automatic Infinite Scrolling Logic
+        function autoScroll() {
+            if (isAnimating && group) {
+                slider.scrollLeft += speed;
+                
+                const groupWidth = group.offsetWidth;
+                
+                // Seamlessly jump back/forward when we scroll past a full group's width
+                if (slider.scrollLeft >= groupWidth * 2) {
+                    slider.scrollLeft -= groupWidth;
+                } else if (slider.scrollLeft <= 0) {
+                    slider.scrollLeft += groupWidth;
+                }
+            }
+            animationId = requestAnimationFrame(autoScroll);
+        }
+
+        // Start the loop
+        autoScroll();
+
+        // 2. Desktop Mouse Interaction
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isAnimating = false; // Pause auto-scroll on grab
+            slider.classList.add('is-dragging');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll when mouse leaves
+            slider.classList.remove('is-dragging');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll on release
+            slider.classList.remove('is-dragging');
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Multiply by 2 for faster drag scrolling
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // 3. Mobile Touch Interaction
+        slider.addEventListener('touchstart', (e) => {
+            isDown = true;
+            isAnimating = false; // Pause auto-scroll on touch
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        }, {passive: true});
+
+        slider.addEventListener('touchend', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll on release
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        }, {passive: true});
+    });
+</script>
 
 {% schema %}
 {
   "name": "As Seen In",
-  "settings": [],
-  "blocks": [
+  "settings": [
     {
-      "type": "logo",
-      "name": "Featured Logo",
-      "settings": [
-        {
-          "type": "html",
-          "id": "logo_svg",
-          "label": "SVG Code (Recommended)",
-          "info": "Paste the raw SVG code for crispest quality."
-        },
-        {
-          "type": "image_picker",
-          "id": "logo_image",
-          "label": "Or Image",
-          "info": "Use if you don't have SVG code. PNG with transparent background recommended."
-        }
-      ]
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "As Seen"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FCFBF9"
     }
   ],
   "presets": [
     {
-      "name": "As Seen In",
-      "blocks": [
-        { "type": "logo" },
-        { "type": "logo" },
-        { "type": "logo" },
-        { "type": "logo" }
-      ]
+      "name": "As Seen In"
     }
   ]
 }

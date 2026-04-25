@@ -1,18 +1,10 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "name": "Header",
   "type": "header",
   "sections": {
-    "visual-header": {
-      "type": "visual-header",
+    "header": {
+      "type": "header",
       "settings": {
         "logo_text": "THE VISUAL BOOK",
         "city_text": "LONDON",
@@ -21,6 +13,6 @@
     }
   },
   "order": [
-    "visual-header"
+    "header"
   ]
 }
