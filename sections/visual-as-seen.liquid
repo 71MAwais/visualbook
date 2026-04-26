@@ -49,40 +49,49 @@
                 <div class="flex shrink-0 pb-4 pt-2">
                     
                     {% capture logos %}
-                        <div class="shrink-0 flex items-center justify-center">
-                            <span class="font-serif text-[34px] md:text-[40px] tracking-widest uppercase text-[#E00000] leading-none">Vogue</span>
-                        </div>
-                        
-                        <div class="shrink-0 flex items-center justify-center">
-                            <div class="flex flex-col items-center justify-center text-black">
-                                <div class="w-9 h-9 md:w-11 md:h-11 border-[1.5px] border-black rounded-full flex items-center justify-center mb-1">
-                                    <span class="font-serif text-[15px] md:text-[17px] leading-none font-bold">SH</span>
-                                </div>
-                                <span class="text-[7.5px] md:text-[8px] tracking-[0.2em] uppercase font-bold mt-[-4px]">House</span>
+                        {% for block in section.blocks %}
+                            <div class="shrink-0 flex items-center justify-center" {{ block.shopify_attributes }}>
+                                {% if block.settings.logo != blank %}
+                                    <img src="{{ block.settings.logo | image_url: height: 100 }}" alt="{{ block.settings.text | escape }}" class="h-8 md:h-10 lg:h-12 w-auto object-contain" loading="lazy">
+                                {% else %}
+                                    {% assign brand_name = block.settings.text | downcase %}
+                                    
+                                    {% if brand_name == 'vogue' %}
+                                        <span class="font-serif text-[34px] md:text-[40px] tracking-widest uppercase text-[#E00000] leading-none">Vogue</span>
+                                        
+                                    {% elsif brand_name == 'soho house' %}
+                                        <div class="flex flex-col items-center justify-center text-black">
+                                            <div class="w-9 h-9 md:w-11 md:h-11 border-[1.5px] border-black rounded-full flex items-center justify-center mb-1">
+                                                <span class="font-serif text-[15px] md:text-[17px] leading-none font-bold">SH</span>
+                                            </div>
+                                            <span class="text-[7.5px] md:text-[8px] tracking-[0.2em] uppercase font-bold mt-[-4px]">House</span>
+                                        </div>
+                                        
+                                    {% elsif brand_name == 'wed2b' %}
+                                        <div class="flex flex-col items-center justify-center text-black">
+                                            <span class="text-[30px] md:text-[36px] tracking-tighter font-bold lowercase leading-none">wed<span class="font-light">2b</span></span>
+                                            <span class="text-[6.5px] md:text-[7.5px] tracking-[0.3em] uppercase mt-1 text-stone-500 font-semibold">The Bridal Experts</span>
+                                        </div>
+                                        
+                                    {% elsif brand_name == 'wedding chicks' %}
+                                        <div class="flex flex-col items-center justify-center text-[#E5A93D]">
+                                            <span class="font-serif text-[16px] md:text-[20px] tracking-[0.1em] uppercase font-semibold">Wedding Chicks</span>
+                                        </div>
+                                        
+                                    {% elsif brand_name contains "reader" %}
+                                        <div class="flex flex-col items-center justify-center text-black">
+                                            <span class="font-serif text-[26px] md:text-[32px] leading-[0.9] font-bold tracking-tight">
+                                                <span class="text-[#00529b]">Reader's</span><br/>
+                                                <span class="text-black ml-4">Digest</span>
+                                            </span>
+                                        </div>
+                                        
+                                    {% else %}
+                                        <span class="font-serif text-[28px] md:text-[34px] tracking-wide font-bold text-stone-800 leading-none">{{ block.settings.text }}</span>
+                                    {% endif %}
+                                {% endif %}
                             </div>
-                        </div>
-                        
-                        <div class="shrink-0 flex items-center justify-center">
-                            <div class="flex flex-col items-center justify-center text-black">
-                                <span class="text-[30px] md:text-[36px] tracking-tighter font-bold lowercase leading-none">wed<span class="font-light">2b</span></span>
-                                <span class="text-[6.5px] md:text-[7.5px] tracking-[0.3em] uppercase mt-1 text-stone-500 font-semibold">The Bridal Experts</span>
-                            </div>
-                        </div>
-                        
-                        <div class="shrink-0 flex items-center justify-center">
-                            <div class="flex flex-col items-center justify-center text-[#E5A93D]">
-                                <span class="font-serif text-[16px] md:text-[20px] tracking-[0.1em] uppercase font-semibold">Wedding Chicks</span>
-                            </div>
-                        </div>
-                        
-                        <div class="shrink-0 flex items-center justify-center">
-                            <div class="flex flex-col items-center justify-center text-black">
-                                <span class="font-serif text-[26px] md:text-[32px] leading-[0.9] font-bold tracking-tight">
-                                    <span class="text-[#00529b]">Reader's</span><br/>
-                                    <span class="text-black ml-4">Digest</span>
-                                </span>
-                            </div>
-                        </div>
+                        {% endfor %}
                     {% endcapture %}
 
                     {% for i in (1..6) %}
@@ -104,12 +113,14 @@
         if (!slider) return;
 
         const group = slider.querySelector('.logo-group');
+        if (!group || group.children.length === 0) return;
+
         let isDown = false;
         let startX;
         let scrollLeft;
         let isAnimating = true;
         let animationId;
-        const speed = 0.8; // Adjust this number to change auto-scroll speed (e.g., 0.5 is slower, 1.5 is faster)
+        const speed = 0.8; // Adjust this number to change auto-scroll speed
 
         // 1. Automatic Infinite Scrolling Logic
         function autoScroll() {
@@ -199,9 +210,37 @@
       "default": "#FCFBF9"
     }
   ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo Image",
+          "info": "If an image is uploaded, it will display instead of the text."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Brand Name",
+          "default": "Vogue",
+          "info": "Used as fallback text if no image is uploaded. Magic names: Vogue, Soho House, wed2b, Wedding Chicks, Reader's Digest."
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "As Seen In"
+      "name": "As Seen In",
+      "blocks": [
+        { "type": "brand", "settings": { "text": "Vogue" } },
+        { "type": "brand", "settings": { "text": "Soho House" } },
+        { "type": "brand", "settings": { "text": "wed2b" } },
+        { "type": "brand", "settings": { "text": "Wedding Chicks" } },
+        { "type": "brand", "settings": { "text": "Reader's Digest" } }
+      ]
     }
   ]
 }

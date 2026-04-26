@@ -1,17 +1,63 @@
 {% comment %} sections/visual-instore.liquid {% endcomment %}
 
-<section class="py-10 md:py-14 bg-white overflow-hidden" id="instore-{{ section.id }}">
+<style>
+    /* Hide scrollbars but allow scrolling */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Drag to scroll interactive logic */
+    .drag-scroll {
+        overflow-x: auto;
+        scroll-behavior: auto;
+        -webkit-overflow-scrolling: touch;
+        cursor: grab;
+    }
+    .drag-scroll:active {
+        cursor: grabbing !important;
+    }
+    .drag-scroll.is-dragging {
+        user-select: none;
+    }
+    .drag-scroll.is-dragging * {
+        pointer-events: none; /* Prevents text selection while dragging */
+    }
+</style>
+
+<section class="py-12 md:py-16 bg-white overflow-hidden" id="instore-{{ section.id }}">
     {% if section.settings.title != blank %}
-        <p class="text-center text-[10px] uppercase tracking-[0.25em] text-black/40 font-medium mb-8">{{ section.settings.title }}</p>
+        <p class="text-center text-[11px] md:text-[13px] font-sans font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-10 md:mb-14">
+            {{ section.settings.title }}
+        </p>
     {% endif %}
     
-    <div class="w-full relative">
-        <div id="instore-scroll-{{ section.id }}" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab active:cursor-grabbing items-center" style="overscroll-behavior-x: none;">
-            <div class="instore-group flex shrink-0 items-center justify-around min-w-max gap-12 md:gap-20 px-8 h-12 whitespace-nowrap">
+    <div class="relative w-full" aria-hidden="true">
+        <div class="absolute top-0 left-0 w-12 md:w-24 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-12 md:w-24 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+        
+        <div id="instore-scroll-{{ section.id }}" class="drag-scroll hide-scrollbar w-full" style="overscroll-behavior-x: none;">
+            
+            <div class="flex shrink-0 items-center">
                 
-                {% for block in section.blocks %}
-                    <span class="font-serif text-2xl md:text-3xl text-black/25" {{ block.shopify_attributes }}>{{ block.settings.store_name }}</span>
-                    <span class="text-[#B8906B]/40 mx-4">✦</span>
+                {% capture store_names %}
+                    <div class="instore-group flex shrink-0 items-center justify-around min-w-max gap-12 md:gap-24 px-6 md:px-12 h-20 whitespace-nowrap">
+                        {% for block in section.blocks %}
+                            
+                            <div class="flex items-center justify-center shrink-0" {{ block.shopify_attributes }}>
+                                {% if block.settings.logo != blank %}
+                                    <img src="{{ block.settings.logo | image_url: height: 120 }}" alt="{{ block.settings.store_name }}" class="h-10 md:h-14 lg:h-16 w-auto object-contain" loading="lazy">
+                                {% else %}
+                                    <span class="font-serif text-[36px] md:text-[48px] lg:text-[56px] text-stone-950 font-medium tracking-tight">{{ block.settings.store_name }}</span>
+                                {% endif %}
+                            </div>
+                            
+                            <span class="text-[#B8906B] mx-2 md:mx-6 text-lg md:text-2xl">✦</span>
+                            
+                        {% endfor %}
+                    </div>
+                {% endcapture %}
+
+                {% for i in (1..6) %}
+                    {{ store_names }}
                 {% endfor %}
                 
             </div>
@@ -20,47 +66,81 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Infinite Marquee Logic ported from main.js
-    const container = document.getElementById('instore-scroll-{{ section.id }}');
-    if (!container) return;
-    
-    const group = container.querySelector('.instore-group');
-    if(!group || group.children.length === 0) return;
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.getElementById('instore-scroll-{{ section.id }}');
+        if (!slider) return;
 
-    // Clone group twice for infinite scroll
-    container.appendChild(group.cloneNode(true));
-    container.appendChild(group.cloneNode(true));
+        const group = slider.querySelector('.instore-group');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isAnimating = true;
+        let animationId;
+        const speed = {{ section.settings.scroll_speed | default: 1 }};
 
-    let scrollPos = group.offsetWidth;
-    container.scrollLeft = scrollPos;
-    let isInteracting = false;
-
-    const toggleInteract = (state) => () => isInteracting = state;
-    container.addEventListener('mouseenter', toggleInteract(true));
-    container.addEventListener('mouseleave', toggleInteract(false));
-    container.addEventListener('touchstart', toggleInteract(true), {passive:true});
-    container.addEventListener('touchend', toggleInteract(false), {passive:true});
-
-    // Speed setting from Customizer
-    const speed = {{ section.settings.scroll_speed | default: 1 }};
-
-    function loop() {
-        const gw = container.querySelector('.instore-group').offsetWidth;
-        if (!isInteracting) {
-            scrollPos += speed;
-            if (scrollPos >= gw * 2) scrollPos -= gw;
-            else if (scrollPos < 0) scrollPos += gw;
-            container.scrollLeft = scrollPos;
-        } else {
-            scrollPos = container.scrollLeft;
-            if (scrollPos >= gw * 2) container.scrollLeft = scrollPos = scrollPos - gw;
-            else if (scrollPos <= 0) container.scrollLeft = scrollPos = scrollPos + gw;
+        // 1. Automatic Infinite Scrolling Logic
+        function autoScroll() {
+            if (isAnimating && group) {
+                slider.scrollLeft += speed;
+                const groupWidth = group.offsetWidth;
+                
+                // Seamlessly jump back/forward when we scroll past a full group's width
+                if (slider.scrollLeft >= groupWidth * 2) {
+                    slider.scrollLeft -= groupWidth;
+                } else if (slider.scrollLeft <= 0) {
+                    slider.scrollLeft += groupWidth;
+                }
+            }
+            animationId = requestAnimationFrame(autoScroll);
         }
-        requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-});
+
+        // Start the loop
+        autoScroll();
+
+        // 2. Desktop Mouse Interaction
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isAnimating = false; // Pause auto-scroll on grab
+            slider.classList.add('is-dragging');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll when mouse leaves
+            slider.classList.remove('is-dragging');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll on release
+            slider.classList.remove('is-dragging');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Multiply by 2 for faster drag scrolling
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // 3. Mobile Touch Interaction
+        slider.addEventListener('touchstart', (e) => {
+            isDown = true;
+            isAnimating = false; // Pause auto-scroll on touch
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        }, {passive: true});
+        slider.addEventListener('touchend', () => {
+            isDown = false;
+            isAnimating = true; // Resume auto-scroll on release
+        });
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        }, {passive: true});
+    });
 </script>
 
 {% schema %}
@@ -73,9 +153,20 @@ document.addEventListener('DOMContentLoaded', () => {
   "blocks": [
     {
       "type": "store",
-      "name": "Store Name",
+      "name": "Store",
       "settings": [
-        { "type": "text", "id": "store_name", "label": "Name", "default": "Selfridges & Co" }
+        { 
+          "type": "text", 
+          "id": "store_name", 
+          "label": "Store Name", 
+          "default": "Selfridges & Co" 
+        },
+        { 
+          "type": "image_picker", 
+          "id": "logo", 
+          "label": "Store Logo (Optional)",
+          "info": "If an image is uploaded, it will replace the text name."
+        }
       ]
     }
   ],

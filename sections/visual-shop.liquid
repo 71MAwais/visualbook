@@ -56,6 +56,10 @@
         transform: translateY(0);
         opacity: 1;
     }
+    /* Side Arrow Active State */
+    .shop-arrow:active {
+        transform: translateY(-50%) scale(0.95);
+    }
 </style>
 
 <div id="toast" class="toast fixed left-1/2 -translate-x-1/2 z-50 bg-[#050505] text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium pointer-events-none bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
@@ -88,6 +92,13 @@
         <div class="absolute top-0 left-0 w-[10vw] md:w-[15vw] h-full bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         <div class="absolute top-0 right-0 w-[10vw] md:w-[15vw] h-full bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         
+        <button aria-label="Previous Product" id="shop-prev-btn" class="shop-arrow absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 hover:text-stone-950 hover:border-stone-950 hover:bg-white transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button aria-label="Next Product" id="shop-next-btn" class="shop-arrow absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 hover:text-stone-950 hover:border-stone-950 hover:bg-white transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
         <div id="shop-scroll" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-2 relative">
             <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
             <div id="card-container" class="flex gap-4 items-center shrink-0"></div>
@@ -110,14 +121,7 @@
                 <div id="shop-progress" class="absolute top-0 left-0 h-full bg-[#B8906B] transition-all duration-500 ease-out" style="width: 0%; left: 0%;"></div>
             </div>
 
-            <div class="flex gap-2 md:gap-3 shrink-0">
-                <button aria-label="Previous Product" id="shop-prev-btn" class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                </button>
-                <button aria-label="Next Product" id="shop-next-btn" class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:text-black hover:border-black transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </button>
-            </div>
+            <div class="flex shrink-0 w-14 md:w-16"></div>
             
         </div>
     </div>

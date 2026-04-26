@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Close all items
             container.querySelectorAll('.faq-answer').forEach(ans => ans.classList.remove('open'));
             container.querySelectorAll('.faq-title').forEach(title => { 
-                title.classList.remove('text-black'); 
-                title.classList.add('text-gray-500'); 
+                // Ensure closed items revert to gray and inherit hover state
+                title.className = "faq-title font-serif text-[20px] md:text-[24px] transition-colors text-gray-500 group-hover:text-black";
             });
             container.querySelectorAll('.faq-icon').forEach(icon => { 
                 icon.style.transform = 'rotate(0deg)'; 
@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.setAttribute('aria-expanded', 'true');
                 
                 const title = btn.querySelector('.faq-title');
-                title.classList.remove('text-gray-500');
-                title.classList.add('text-black');
+                // Force open items to stay black, overriding the gray baseline
+                title.className = "faq-title font-serif text-[20px] md:text-[24px] transition-colors text-black";
                 
                 const iconSpan = btn.querySelector('.faq-icon');
                 iconSpan.style.transform = 'rotate(180deg)';

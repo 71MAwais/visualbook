@@ -6,9 +6,9 @@
 
     /* Showcase Center Focus Effects */
     .moment-card {
-        transition: all 600ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition: all 500ms cubic-bezier(0.25, 1, 0.5, 1);
         transform-origin: center center;
-        opacity: 0.3;
+        opacity: 0.35;
         transform: scale(0.85);
         will-change: transform, opacity;
     }
@@ -33,18 +33,18 @@
         transform: scale(1);
     }
 
-    /* Scroll Track Behaviors */
+    /* EXACT Scroll Track Behaviors from Shop Carousel */
     #moments-track {
         -webkit-user-select: none;
         user-select: none;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         touch-action: pan-y; 
+        -webkit-overflow-scrolling: touch;
     }
     #moments-track.dragging {
         cursor: grabbing;
         scroll-behavior: auto !important; 
-        scroll-snap-type: none !important; 
     }
 
     .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -57,11 +57,11 @@
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
     }
-    .moment-arrow:hover {
+    .moment-arrow:hover,
+    .moment-arrow:active {
         background: #B8906B;
         border-color: #B8906B;
         color: white;
-        transform: translateY(-50%) scale(1.1);
     }
 </style>
 
@@ -74,11 +74,11 @@
 
     <div class="w-full relative group/carousel max-w-[1800px] mx-auto flex items-center px-4 md:px-12">
         
-        <button aria-label="Previous" id="moments-prev" class="moment-arrow absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white/70">
+        <button aria-label="Previous" id="moments-prev" class="moment-arrow absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white/70 transition-transform duration-300 hover:scale-110 active:scale-95">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
         </button>
         
-        <button aria-label="Next" id="moments-next" class="moment-arrow absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white/70">
+        <button aria-label="Next" id="moments-next" class="moment-arrow absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white/70 transition-transform duration-300 hover:scale-110 active:scale-95">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
@@ -89,7 +89,7 @@
                 
                 {% capture moment_cards %}
                     {% for block in section.blocks %}
-                        <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-[#111] snap-center relative overflow-hidden rounded-[4px] cursor-pointer group" data-index="{{ forloop.index0 }}">
+                        <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-[#111] snap-center relative overflow-hidden rounded-[4px] cursor-pointer group">
                             
                             {% if block.settings.video != blank %}
                                 <video preload="none" loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
@@ -141,7 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cards = Array.from(container.querySelectorAll('.moment-card'));
     const totalUnique = {{ section.blocks.size }};
-    if (totalUnique === 0) return;
+    if (totalUnique === 0 || cards.length === 0) return;
+
+    // Apply strict index mapping (Shop Logic)
+    cards.forEach((card, idx) => {
+        card.dataset.index = idx;
+        card.dataset.realIndex = idx % totalUnique;
+    });
 
     function adjustSpacers() {
         const cardWidth = cards[0].offsetWidth;
@@ -150,31 +156,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('moments-end-spacer').style.minWidth = `${space}px`;
     }
 
-    function scrollToCard(index, smooth = true) {
+    // Exact Scroll Logic from Shop Carousel
+    function scrollToCard(index) {
         if (!cards[index]) return;
         const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
-        track.style.scrollBehavior = smooth ? 'smooth' : 'auto';
-        track.scrollLeft = cardCenter - (track.clientWidth / 2);
+        const scrollPos = cardCenter - (track.clientWidth / 2);
+        track.scrollTo({ left: scrollPos, behavior: 'smooth' });
     }
 
-    let currentIndex = totalUnique;
+    // Exact Silent Jump Logic from Shop Carousel (NO SNAP DISABLING)
+    function jumpToIndexSilently(index) {
+        isJumping = true;
+        track.style.scrollBehavior = 'auto';
+
+        if (cards[index]) {
+            const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
+            const scrollPos = cardCenter - (track.clientWidth / 2);
+            track.scrollLeft = scrollPos;
+            
+            cards.forEach(c => c.classList.remove('active-card'));
+            cards[index].classList.add('active-card');
+        }
+        
+        requestAnimationFrame(() => {
+            track.style.scrollBehavior = 'smooth';
+            isJumping = false;
+        });
+    }
+
     let isJumping = false;
     let isVisible = false;
+    let scrollTimeout = null;
 
-    function handleScroll() {
-        if (isJumping) return;
-        const trackCenter = track.scrollLeft + (track.clientWidth / 2);
-        let minDiff = Infinity;
-        let closestIndex = 0;
-
+    // Heavy video operations extracted out of the scroll event
+    function updateVideoStates(activeIndex) {
         cards.forEach((card, i) => {
-            const diff = Math.abs(trackCenter - (card.offsetLeft + card.offsetWidth / 2));
-            if (diff < minDiff) { minDiff = diff; closestIndex = i; }
-        });
-
-        cards.forEach((card, i) => {
-            const isActive = i === closestIndex;
-            card.classList.toggle('active-card', isActive);
+            const isActive = i === activeIndex;
             const video = card.querySelector('video');
             const playSvg = card.querySelector('.play-svg');
             const pauseSvg = card.querySelector('.pause-svg');
@@ -184,32 +201,81 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!card.classList.contains('manual-pause')) {
                         video.play().catch(() => {});
                         card.classList.add('is-playing');
-                        playSvg.classList.add('hidden');
-                        pauseSvg.classList.remove('hidden');
+                        if(playSvg) playSvg.classList.add('hidden');
+                        if(pauseSvg) pauseSvg.classList.remove('hidden');
                     }
                 } else {
                     video.pause();
                     card.classList.remove('is-playing');
-                    playSvg.classList.remove('hidden');
-                    pauseSvg.classList.add('hidden');
+                    if(playSvg) playSvg.classList.remove('hidden');
+                    if(pauseSvg) pauseSvg.classList.add('hidden');
                 }
             }
         });
-
-        currentIndex = closestIndex;
-
-        if (closestIndex < totalUnique / 2 || closestIndex > cards.length - (totalUnique / 2) - 1) {
-            isJumping = true;
-            const targetIndex = (closestIndex % totalUnique) + totalUnique;
-            setTimeout(() => {
-                track.style.scrollSnapType = 'none';
-                scrollToCard(targetIndex, false);
-                track.style.scrollSnapType = 'x mandatory';
-                isJumping = false;
-            }, 50);
-        }
     }
 
+    // Fast, lightweight scroll handler
+    function handleScroll() {
+        if (isJumping) return;
+        
+        const trackCenter = track.scrollLeft + (track.clientWidth / 2);
+        let minDiff = Infinity;
+        let closestIndex = 0;
+
+        cards.forEach((card, i) => {
+            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+            const diff = Math.abs(trackCenter - cardCenter);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = i;
+            }
+        });
+
+        cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
+
+        // EXACT Debounced Loop Reset from Shop Carousel
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (closestIndex < totalUnique || closestIndex >= totalUnique * 2) {
+                const safeIndex = (closestIndex % totalUnique) + totalUnique;
+                jumpToIndexSilently(safeIndex);
+                updateVideoStates(safeIndex);
+            } else {
+                updateVideoStates(closestIndex);
+            }
+        }, 100); // 100ms delay matches Shop exactly
+    }
+
+    // Exact Arrow Button Logic from Shop Carousel
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const active = track.querySelector('.moment-card.active-card');
+            if (active) {
+                let currentIndex = parseInt(active.dataset.index);
+                if (currentIndex <= 0) {
+                    jumpToIndexSilently(totalUnique);
+                    currentIndex = totalUnique;
+                }
+                scrollToCard(currentIndex - 1);
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const active = track.querySelector('.moment-card.active-card');
+            if (active) {
+                let currentIndex = parseInt(active.dataset.index);
+                if (currentIndex >= (totalUnique * 3) - 1) {
+                    jumpToIndexSilently(totalUnique + (currentIndex % totalUnique));
+                    currentIndex = totalUnique + (currentIndex % totalUnique);
+                }
+                scrollToCard(currentIndex + 1);
+            }
+        });
+    }
+
+    // Click on Card to Play/Pause
     cards.forEach((card, idx) => {
         card.addEventListener('click', () => {
             if (!card.classList.contains('active-card')) {
@@ -217,8 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollToCard(idx);
                 return;
             }
+            
             const video = card.querySelector('video');
             if (!video) return;
+            
             const playSvg = card.querySelector('.play-svg');
             const pauseSvg = card.querySelector('.pause-svg');
 
@@ -226,31 +294,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 video.play();
                 card.classList.add('is-playing');
                 card.classList.remove('manual-pause');
-                playSvg.classList.add('hidden');
-                pauseSvg.classList.remove('hidden');
+                if(playSvg) playSvg.classList.add('hidden');
+                if(pauseSvg) pauseSvg.classList.remove('hidden');
             } else {
                 video.pause();
                 card.classList.remove('is-playing');
                 card.classList.add('manual-pause');
-                playSvg.classList.remove('hidden');
-                pauseSvg.classList.add('hidden');
+                if(playSvg) playSvg.classList.remove('hidden');
+                if(pauseSvg) pauseSvg.classList.add('hidden');
             }
         });
     });
 
+    // Exact Desktop Mouse Drag from Shop Carousel
+    let isDown = false, startX, scrollLeft;
+    track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('dragging');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => { 
+        if(!isDown) return; 
+        isDown = false; 
+        track.classList.remove('dragging'); 
+        handleScroll(); 
+    });
+    track.addEventListener('mouseup', () => { 
+        if(!isDown) return; 
+        isDown = false; 
+        track.classList.remove('dragging'); 
+        handleScroll(); 
+    });
+    track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+        track.scrollLeft = scrollLeft - walk;
+    });
+
+    // Auto-Pause when scrolling out of view vertically
     const obs = new IntersectionObserver((entries) => {
         isVisible = entries[0].isIntersecting;
-        handleScroll();
+        const active = track.querySelector('.moment-card.active-card');
+        if (active) updateVideoStates(parseInt(active.dataset.index));
     }, { threshold: 0.2 });
-    obs.observe(section);
+    if (section) obs.observe(section);
 
     track.addEventListener('scroll', handleScroll);
-    prevBtn.addEventListener('click', () => scrollToCard(currentIndex - 1));
-    nextBtn.addEventListener('click', () => scrollToCard(currentIndex + 1));
+    
+    window.addEventListener('resize', () => {
+        adjustSpacers();
+        const active = track.querySelector('.moment-card.active-card');
+        if (active) jumpToIndexSilently(parseInt(active.dataset.index));
+    });
 
-    window.addEventListener('resize', adjustSpacers);
+    // Initialize
     adjustSpacers();
-    setTimeout(() => scrollToCard(currentIndex, false), 100);
+    requestAnimationFrame(() => {
+        jumpToIndexSilently(totalUnique); // Start securely in the middle
+        updateVideoStates(totalUnique);
+    });
 });
 </script>
 
