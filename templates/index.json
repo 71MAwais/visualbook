@@ -104,6 +104,18 @@
     "visual_howitworks_MP9k9D": {
       "type": "visual-howitworks",
       "blocks": {
+        "step_nHf9h3": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
+            "tag": "Step 03",
+            "title": "Gift-Ready Book",
+            "description": "Benefit from our complimentary service, optional pre-loading service by media experts, ensuring your Book arrives ready to showcase your memories, all presented in our gift box.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_4cEeKJ": {
           "type": "step",
           "settings": {
@@ -130,6 +142,7 @@
         }
       },
       "block_order": [
+        "step_nHf9h3",
         "step_4cEeKJ",
         "step_J9dMVy"
       ],
