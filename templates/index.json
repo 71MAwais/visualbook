@@ -175,6 +175,18 @@
             "link_text": "",
             "link_url": ""
           }
+        },
+        "step_neNwHb": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/audiocards-04.png",
+            "tag": "Step 03",
+            "title": "Playback & Re-Record",
+            "description": "If you want to listen to your recording, click the play button on your audio card.\n\nIf you want to re-record, simply follow the same steps again.\n\nNote: The previous recording will automatically be deleted and replaced with the new recording.",
+            "link_text": "",
+            "link_url": ""
+          }
         }
       },
       "block_order": [
@@ -183,7 +195,8 @@
         "step_DeUzHc",
         "step_DbxCBA",
         "step_Wd4LXj",
-        "step_hmMrji"
+        "step_hmMrji",
+        "step_neNwHb"
       ],
       "name": "How It Works",
       "settings": {
