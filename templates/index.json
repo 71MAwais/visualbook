@@ -179,7 +179,7 @@
         "step_neNwHb": {
           "type": "step",
           "settings": {
-            "category": "tab1",
+            "category": "tab2",
             "image": "shopify://shop_images/audiocards-04.png",
             "tag": "Step 03",
             "title": "Playback & Re-Record",
