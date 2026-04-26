@@ -261,6 +261,7 @@
         "moment_rJpHqw": {
           "type": "moment",
           "settings": {
+            "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
             "handle": "@the_miller_family"
           }
         },
