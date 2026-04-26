@@ -151,13 +151,26 @@
             "link_text": "",
             "link_url": ""
           }
+        },
+        "step_DbxCBA": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/NO_FILE.png",
+            "tag": "Step 04",
+            "title": "Video Compatibility Issue",
+            "description": "Troubled by 'no file' or ‘video not supported’ errors? Our converter is designed to resolve these issues and enhance your Visual Book experience.",
+            "link_text": "Use Converter",
+            "link_url": "https://thevisualbook-converter.com/"
+          }
         }
       },
       "block_order": [
         "step_k4bq3t",
         "step_nHf9h3",
         "step_4cEeKJ",
-        "step_J9dMVy"
+        "step_J9dMVy",
+        "step_DbxCBA"
       ],
       "name": "How It Works",
       "settings": {
