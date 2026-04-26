@@ -152,6 +152,18 @@
             "link_url": ""
           }
         },
+        "step_PCbNbp": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/Untitled_design-24.png",
+            "tag": "Step 02",
+            "title": "Effortless Media Management",
+            "description": "Sort photos and videos into respective folders, ensure they meet format and resolution. You can add, delete, or modify your content as you wish.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_DbxCBA": {
           "type": "step",
           "settings": {
@@ -170,6 +182,7 @@
         "step_nHf9h3",
         "step_4cEeKJ",
         "step_J9dMVy",
+        "step_PCbNbp",
         "step_DbxCBA"
       ],
       "name": "How It Works",
