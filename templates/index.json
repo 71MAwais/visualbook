@@ -275,6 +275,7 @@
         "moment_amAFeR": {
           "type": "moment",
           "settings": {
+            "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
             "handle": "@joshua_memories"
           }
         }
