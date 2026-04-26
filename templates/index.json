@@ -168,6 +168,7 @@
           "type": "step",
           "settings": {
             "category": "tab2",
+            "image": "shopify://shop_images/audiocards-06.png",
             "tag": "Step 02",
             "title": "Record",
             "description": "Click the record button again.\n\nYou'll hear two beep sounds, indicating that the recording has stopped.",
