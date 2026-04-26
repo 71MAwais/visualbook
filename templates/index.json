@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_jTePgD": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/YOUmag-logo-black.png",
+            "text": "Vogue"
+          }
+        },
         "brand_F6PGXG": {
           "type": "brand",
           "settings": {
@@ -60,6 +67,7 @@
         }
       },
       "block_order": [
+        "brand_jTePgD",
         "brand_F6PGXG",
         "brand_3NBHiY",
         "brand_6i9XRF",
