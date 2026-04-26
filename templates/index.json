@@ -22,6 +22,18 @@
     },
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
+      "blocks": {
+        "brand_P68Efp": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/9B423DB5-2921-49AE-A34E-82C05D536E84.png",
+            "text": "Reader Digest"
+          }
+        }
+      },
+      "block_order": [
+        "brand_P68Efp"
+      ],
       "name": "As Seen In",
       "settings": {
         "heading": "As Seen",
