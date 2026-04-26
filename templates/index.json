@@ -14,48 +14,19 @@
       "name": "Visual Hero",
       "settings": {
         "video_url": "",
+        "image": "shopify://shop_images/jbj_1770873066698d60ea60a8e5452.png",
         "heading": "The Signature\nCollection",
-        "subheading": "A new window onto time. Your digital life, beautifully bound and ready to be experienced.",
         "button_label": "SHOP NOW",
         "button_link": "shopify://collections/all"
       }
     },
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
-      "blocks": {
-        "logo_4Rat9F": {
-          "type": "logo",
-          "settings": {
-            "logo_svg": ""
-          }
-        },
-        "logo_nYPKWb": {
-          "type": "logo",
-          "settings": {
-            "logo_svg": ""
-          }
-        },
-        "logo_WmzWzg": {
-          "type": "logo",
-          "settings": {
-            "logo_svg": ""
-          }
-        },
-        "logo_GpXfKN": {
-          "type": "logo",
-          "settings": {
-            "logo_svg": ""
-          }
-        }
-      },
-      "block_order": [
-        "logo_4Rat9F",
-        "logo_nYPKWb",
-        "logo_WmzWzg",
-        "logo_GpXfKN"
-      ],
       "name": "As Seen In",
-      "settings": {}
+      "settings": {
+        "heading": "As Seen",
+        "bg_color": "#fcfbf9"
+      }
     },
     "visual_shop_M9JUhD": {
       "type": "visual-shop",
