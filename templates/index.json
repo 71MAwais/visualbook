@@ -104,6 +104,18 @@
     "visual_howitworks_MP9k9D": {
       "type": "visual-howitworks",
       "blocks": {
+        "step_4cEeKJ": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/Untitled_design-24.png",
+            "tag": "Step 02",
+            "title": "Effortless Media Management",
+            "description": "Sort photos and videos into respective folders, ensure they meet format and resolution. You can add, delete, or modify your content as you wish.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_J9dMVy": {
           "type": "step",
           "settings": {
@@ -118,6 +130,7 @@
         }
       },
       "block_order": [
+        "step_4cEeKJ",
         "step_J9dMVy"
       ],
       "name": "How It Works",
