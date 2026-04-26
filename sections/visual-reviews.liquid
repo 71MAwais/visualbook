@@ -9,13 +9,13 @@
         font-family: 'Playfair Display', serif;
     }
 
-    /* Showcase Center Focus Effects */
+    /* Carousel Center Focus Effects (Matched to Shop) */
     .review-card {
         transition: all 500ms cubic-bezier(0.25, 1, 0.5, 1);
         transform-origin: center center;
-        opacity: 0.35;
-        transform: scale(0.85);
-        will-change: transform, opacity;
+        opacity: 0.5;
+        transform: scale(0.9);
+        cursor: pointer;
     }
     .review-card.active-card {
         opacity: 1;
@@ -30,9 +30,6 @@
         -webkit-user-select: none;
         user-select: none;
         scroll-behavior: smooth;
-        scroll-snap-type: x mandatory;
-        /* Native Mobile Swiping */
-        touch-action: pan-y;
         -webkit-overflow-scrolling: touch;
     }
     #reviews-track.dragging {
@@ -40,7 +37,7 @@
         scroll-behavior: auto !important; 
         scroll-snap-type: none !important; 
     }
-
+    
     /* Hide standard scrollbar */
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -53,9 +50,25 @@
         overflow: hidden;
     }
 
-    /* Mobile active state for arrows */
+    /* Rock-Solid Navigation Arrows */
+    .review-arrow {
+        transform: translate3d(0, -50%, 0); /* Hardware acceleration prevents 1px bouncing */
+        -webkit-tap-highlight-color: transparent; /* Removes default blue tap flash on mobile */
+        touch-action: manipulation; /* Improves mobile tap responsiveness */
+    }
+
+    /* Only apply hover effects on desktop (devices with a real mouse) */
+    @media (hover: hover) and (pointer: fine) {
+        .review-arrow:hover {
+            color: #0c0a09;
+            border-color: #0c0a09;
+            background-color: #ffffff;
+        }
+    }
+
+    /* Active press state for all devices */
     .review-arrow:active {
-        transform: translateY(-50%) scale(0.95);
+        transform: translate3d(0, -50%, 0) scale(0.92);
     }
 </style>
 
@@ -80,127 +93,154 @@
         <div class="absolute top-0 left-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         <div class="absolute top-0 right-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         
-        <button aria-label="Previous Review" id="review-prev" class="review-arrow absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 hover:text-stone-950 hover:border-stone-950 hover:bg-white transition-all duration-300">
+        <button aria-label="Previous Review" id="review-prev" class="review-arrow absolute left-2 md:left-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 transition-transform duration-200">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <button aria-label="Next Review" id="review-next" class="review-arrow absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 hover:text-stone-950 hover:border-stone-950 hover:bg-white transition-all duration-300">
+        <button aria-label="Next Review" id="review-next" class="review-arrow absolute right-2 md:right-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 transition-transform duration-200">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
-        <div id="reviews-track" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab items-stretch py-6 relative">
-            <div id="review-start-spacer" class="shrink-0"></div>
-            
-            <div id="review-card-container" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full">
-                
-                {% capture review_cards %}
-                    {% for block in section.blocks %}
-                        <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]" data-real-index="{{ forloop.index0 }}">
-                            
-                            <div>
-                                <div class="flex items-center gap-1 mb-3">
-                                    {% for i in (1..5) %}
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#F5C04F{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                    {% endfor %}
-                                </div>
-                                <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h4>
-                                <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">{{ block.settings.text }}</p>
-                            </div>
-                            
-                            <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
-                                <div class="flex flex-col">
-                                    <span class="text-[13px] font-bold text-stone-950 tracking-wide">{{ block.settings.author }}</span>
-                                    {% if block.settings.verified %}
-                                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
-                                    {% endif %}
-                                </div>
-                                {% if block.settings.verified %}
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                                {% endif %}
-                            </div>
-                            
-                        </div>
-                    {% else %}
-                        {% for i in (1..3) %}
-                            <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]" data-real-index="{{ forloop.index0 }}">
-                                <div>
-                                    <div class="flex items-center gap-1 mb-3">
-                                        {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#F5C04F" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
-                                    </div>
-                                    <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h4>
-                                    <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">Add a review in the Shopify customizer.</p>
-                                </div>
-                                <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center">
-                                    <div class="flex flex-col">
-                                        <span class="text-[13px] font-bold text-stone-950 tracking-wide">Customer Name</span>
-                                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
-                                    </div>
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                {% endcapture %}
-
-                {{ review_cards }}
-                {{ review_cards }}
-                {{ review_cards }}
-                {{ review_cards }}
-                {{ review_cards }}
-
-            </div>
-            <div id="review-end-spacer" class="shrink-0"></div>
+        <div id="reviews-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-6 relative">
+            <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
+            <div id="review-card-container" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full"></div>
+            <div id="end-spacer" class="shrink-0 w-[50vw]"></div>
         </div>
     </div>
 
 </section>
 
+<div id="reviews-data" class="hidden">
+    {% for block in section.blocks %}
+        <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
+            <div>
+                <div class="flex items-center gap-1 mb-3">
+                    {% for i in (1..5) %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#F5C04F{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endfor %}
+                </div>
+                <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h4>
+                <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">{{ block.settings.text }}</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
+                <div class="flex flex-col">
+                    <span class="text-[13px] font-bold text-stone-950 tracking-wide">{{ block.settings.author }}</span>
+                    {% if block.settings.verified %}
+                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                    {% endif %}
+                </div>
+                {% if block.settings.verified %}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        {% for i in (1..3) %}
+            <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
+                <div>
+                    <div class="flex items-center gap-1 mb-3">
+                        {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#F5C04F" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
+                    </div>
+                    <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h4>
+                    <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">Add a review in the Shopify customizer.</p>
+                </div>
+                <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-[13px] font-bold text-stone-950 tracking-wide">Customer Name</span>
+                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                    </div>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const track = document.getElementById('reviews-track');
-    const container = document.getElementById('review-card-container');
+    const scrollContainer = document.getElementById('reviews-track');
+    const cardContainer = document.getElementById('review-card-container');
     const prevBtn = document.getElementById('review-prev');
     const nextBtn = document.getElementById('review-next');
+    const dataCards = Array.from(document.getElementById('reviews-data').children);
     
-    if (!track || !container) return;
+    let totalOriginal = dataCards.length;
+    let isJumping = false;
+    let isTouching = false; // MOBILE FIX: Track if finger is on screen
+    let scrollTimeout = null;
+    
+    if (totalOriginal === 0) return;
 
-    const cards = Array.from(container.querySelectorAll('.review-card'));
-    if (cards.length === 0) return;
+    // Loop 3 times to recreate infinite scrolling logic
+    for (let i = 0; i < 3; i++) {
+        dataCards.forEach((cardTemplate, idx) => {
+            const clone = cardTemplate.cloneNode(true);
+            clone.dataset.index = (i * totalOriginal) + idx;
+            clone.dataset.realIndex = idx;
+            clone.addEventListener('click', () => scrollToCard(parseInt(clone.dataset.index)));
+            cardContainer.appendChild(clone);
+        });
+    }
 
     function adjustSpacers() {
-        if(cards.length === 0) return;
-        const cardWidth = cards[0].offsetWidth;
-        const trackWidth = track.clientWidth;
-        const space = (trackWidth / 2) - (cardWidth / 2);
-        document.getElementById('review-start-spacer').style.width = `${space}px`;
-        document.getElementById('review-end-spacer').style.width = `${space}px`;
+        if (!cardContainer.children.length) return;
+        const cardWidth = cardContainer.children[0].offsetWidth || 340;
+        const containerWidth = scrollContainer.clientWidth;
+        const space = (containerWidth / 2) - (cardWidth / 2);
+        document.getElementById('start-spacer').style.width = `${space}px`;
+        document.getElementById('end-spacer').style.width = `${space}px`;
     }
 
-    function scrollToCard(index, smooth = true) {
+    window.addEventListener('resize', () => {
+        adjustSpacers();
+        const activeCard = document.querySelector('.review-card.active-card');
+        if (activeCard) {
+            jumpToIndexSilently(parseInt(activeCard.dataset.index));
+        }
+    });
+
+    function scrollToCard(index) {
+        const cards = Array.from(cardContainer.children);
         if (!cards[index]) return;
         const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
-        const scrollPos = cardCenter - (track.clientWidth / 2);
-        
-        track.style.scrollBehavior = smooth ? 'smooth' : 'auto';
-        track.scrollLeft = scrollPos;
+        const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
+        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
     }
 
-    let totalUniqueCards = {{ section.blocks.size }};
-    if(totalUniqueCards === 0) totalUniqueCards = 3; 
-    let currentIndex = totalUniqueCards * 2; 
-
-    let scrollTimeout;
-    let isJumping = false;
+    function jumpToIndexSilently(index) {
+        isJumping = true;
+        scrollContainer.style.scrollBehavior = 'auto';
+        scrollContainer.style.scrollSnapType = 'none'; // Prevent browsers fighting JS
+        
+        const cards = Array.from(cardContainer.children);
+        if (cards[index]) {
+            const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
+            const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
+            scrollContainer.scrollLeft = scrollPos;
+            
+            cards.forEach(c => c.classList.remove('active-card'));
+            cards[index].classList.add('active-card');
+        }
+        
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                scrollContainer.style.scrollSnapType = 'x mandatory';
+                scrollContainer.style.scrollBehavior = 'smooth';
+                isJumping = false;
+            });
+        });
+    }
 
     function handleScroll() {
-        if (isJumping) return;
+        if (isJumping || totalOriginal === 0) return;
+        const cards = Array.from(cardContainer.children);
+        const containerCenter = scrollContainer.scrollLeft + (scrollContainer.clientWidth / 2);
         
-        const trackCenter = track.scrollLeft + (track.clientWidth / 2);
         let minDiff = Infinity;
         let closestIndex = 0;
 
         cards.forEach((card, i) => {
             const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-            const diff = Math.abs(trackCenter - cardCenter);
+            const diff = Math.abs(containerCenter - cardCenter);
             if (diff < minDiff) {
                 minDiff = diff;
                 closestIndex = i;
@@ -208,65 +248,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
-        currentIndex = closestIndex;
 
-        // INFINITE LOOP FIX: Temporarily disable snap to prevent browser fighting JS
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            if (closestIndex <= totalUniqueCards || closestIndex >= cards.length - totalUniqueCards - 1) {
-                isJumping = true;
-                const safeIndex = (closestIndex % totalUniqueCards) + (totalUniqueCards * 2);
-                
-                track.style.scrollBehavior = 'auto';
-                track.style.scrollSnapType = 'none'; // Critical fix
-                
-                const cardCenter = cards[safeIndex].offsetLeft + (cards[safeIndex].offsetWidth / 2);
-                track.scrollLeft = cardCenter - (track.clientWidth / 2);
-                
-                cards.forEach(c => c.classList.remove('active-card'));
-                cards[safeIndex].classList.add('active-card');
-                
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        track.style.scrollSnapType = 'x mandatory';
-                        track.style.scrollBehavior = 'smooth';
-                        isJumping = false;
-                    });
-                });
+            // CRITICAL MOBILE FIX: Do not loop/teleport if the user is still actively touching/swiping
+            if (isTouching) return;
+
+            if (closestIndex < totalOriginal || closestIndex >= totalOriginal * 2) {
+                const safeIndex = (closestIndex % totalOriginal) + totalOriginal;
+                jumpToIndexSilently(safeIndex);
             }
-        }, 150);
+        }, 100);
     }
 
-    if (prevBtn) prevBtn.addEventListener('click', () => scrollToCard(currentIndex - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => scrollToCard(currentIndex + 1));
+    // MOBILE TOUCH LISTENERS
+    scrollContainer.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
+    scrollContainer.addEventListener('touchend', () => { 
+        isTouching = false; 
+        handleScroll(); // Evaluate if a jump is needed once finger leaves screen
+    }, { passive: true });
+    scrollContainer.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
 
-    let isDown = false, startX, scrollLeft;
-    track.addEventListener('mousedown', (e) => {
-        isDown = true;
-        track.classList.add('dragging');
-        startX = e.pageX - track.offsetLeft;
-        scrollLeft = track.scrollLeft;
+    scrollContainer.addEventListener('scroll', handleScroll);
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        const active = document.querySelector('.review-card.active-card');
+        if (active) scrollToCard(parseInt(active.dataset.index) - 1);
     });
-    track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
-    track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
-    track.addEventListener('mousemove', (e) => {
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        const active = document.querySelector('.review-card.active-card');
+        if (active) scrollToCard(parseInt(active.dataset.index) + 1);
+    });
+
+    // DESKTOP Drag to scroll
+    let isDown = false, startX, scrollLeft;
+    scrollContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        scrollContainer.classList.add('dragging');
+        startX = e.pageX - scrollContainer.offsetLeft;
+        scrollLeft = scrollContainer.scrollLeft;
+    });
+    scrollContainer.addEventListener('mouseleave', () => { isDown = false; scrollContainer.classList.remove('dragging'); handleScroll(); });
+    scrollContainer.addEventListener('mouseup', () => { isDown = false; scrollContainer.classList.remove('dragging'); handleScroll(); });
+    scrollContainer.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
-        const x = e.pageX - track.offsetLeft;
-        track.scrollLeft = scrollLeft - (x - startX) * 2;
+        const x = e.pageX - scrollContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        scrollContainer.scrollLeft = scrollLeft - walk;
     });
 
-    track.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', () => {
-        adjustSpacers();
-        scrollToCard(currentIndex, false);
-    });
-
+    // Initialize layout and jump to middle set
     adjustSpacers();
-    setTimeout(() => {
-        scrollToCard(currentIndex, false);
-        handleScroll();
-    }, 100);
+    requestAnimationFrame(() => {
+        jumpToIndexSilently(totalOriginal);
+    });
 });
 </script>
 

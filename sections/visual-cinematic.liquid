@@ -19,7 +19,7 @@
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch; /* Smooth inertia on iOS */
-        touch-action: pan-y; /* Allows page to scroll up/down while swiping left/right */
+        /* Removed touch-action: pan-y; to restore native horizontal swiping */
         pointer-events: auto;
     }
 
@@ -145,6 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Infinite Scroll Setup ---
     const totalOriginal = dataItems.length;
+    let cineTimeout = null;
+    let isJumping = false;
+    let isTouching = false; // MOBILE FIX
+
     if (totalOriginal > 0) {
         // Clone for infinite loop
         for (let i = 0; i < 3; i++) {
@@ -166,19 +170,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // Bulletproof Instant Jump Logic
         const instantJump = (pos) => {
+            isJumping = true;
             cineGallery.style.scrollBehavior = 'auto';
+            cineGallery.style.scrollSnapType = 'none'; // Prevent browser fighting
             cineGallery.scrollLeft = pos;
+            
             requestAnimationFrame(() => {
-                cineGallery.style.scrollBehavior = 'smooth';
+                requestAnimationFrame(() => {
+                    cineGallery.style.scrollSnapType = 'x mandatory';
+                    cineGallery.style.scrollBehavior = 'smooth';
+                    isJumping = false;
+                });
             });
         };
 
-        let cineTimeout;
-        let isJumping = false;
-
-        // The native scroll event fires while the user swipes, enabling native snap.
-        cineGallery.addEventListener('scroll', () => {
+        const handleScroll = () => {
             if (isJumping) return;
             const w = cineGallery.clientWidth;
             if (w === 0) return;
@@ -188,14 +196,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             clearTimeout(cineTimeout);
             cineTimeout = setTimeout(() => {
+                // MOBILE FIX: Do not teleport while finger is on screen
+                if (isTouching) return;
+
                 // If user reached ends, jump back to center set silently
                 if(idx < totalOriginal || idx >= totalOriginal * 2) {
-                    isJumping = true;
                     instantJump(((idx % totalOriginal) + totalOriginal) * w);
-                    setTimeout(() => isJumping = false, 100);
                 }
             }, 150);
+        };
+
+        // Event Listeners for Loop Logic
+        cineGallery.addEventListener('scroll', handleScroll, { passive: true });
+
+        // MOBILE TOUCH TRACKERS
+        cineGallery.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
+        cineGallery.addEventListener('touchend', () => { 
+            isTouching = false; 
+            handleScroll(); // Evaluate for jump upon release
         }, { passive: true });
+        cineGallery.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
 
         // Init position in center safely
         setTimeout(() => {
@@ -207,16 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const cPrev = document.getElementById(`cinematic-prev-${sectionId}`);
         const cNext = document.getElementById(`cinematic-next-${sectionId}`);
         if(cPrev) cPrev.addEventListener('click', () => {
-            if (!isFullScreen) return; // Prevent clicking if not full screen
-            cineGallery.scrollLeft -= cineGallery.clientWidth;
+            if (!isFullScreen) return;
+            cineGallery.scrollTo({ left: cineGallery.scrollLeft - cineGallery.clientWidth, behavior: 'smooth' });
         });
         if(cNext) cNext.addEventListener('click', () => {
-            if (!isFullScreen) return; // Prevent clicking if not full screen
-            cineGallery.scrollLeft += cineGallery.clientWidth;
+            if (!isFullScreen) return;
+            cineGallery.scrollTo({ left: cineGallery.scrollLeft + cineGallery.clientWidth, behavior: 'smooth' });
         });
 
         // --- 4. STRICT MOUSE DRAG LOGIC (Desktop Only) ---
-        // JS Touch events are explicitly removed so mobile browsers use pure, flawless native scroll snapping.
         let isDownCine = false;
         let startXCine;
         let scrollLeftCine;
@@ -251,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 left: targetIndex * cineGallery.clientWidth,
                 behavior: 'smooth'
             });
+            handleScroll(); // Check if we need to loop
         };
 
         const moveDragCine = (e) => {
@@ -261,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cineGallery.scrollLeft = scrollLeftCine - walk;
         };
 
-        // We only attach these to Mouse events. Touch devices rely entirely on native CSS logic.
+        // Attached to Mouse events only. Touch devices rely entirely on native CSS snap logic.
         cineGallery.addEventListener('mousedown', startDragCine);
         cineGallery.addEventListener('mouseleave', stopDragCine);
         cineGallery.addEventListener('mouseup', stopDragCine);
