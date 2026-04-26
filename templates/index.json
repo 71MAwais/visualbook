@@ -167,10 +167,10 @@
         "step_hmMrji": {
           "type": "step",
           "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
+            "category": "tab2",
+            "tag": "Step 02",
+            "title": "Record",
+            "description": "Click the record button again.\n\nYou'll hear two beep sounds, indicating that the recording has stopped.",
             "link_text": "",
             "link_url": ""
           }
