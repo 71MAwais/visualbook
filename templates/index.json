@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_3NBHiY": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/logo-wedding-chicks_801a0503-faed-4f71-8fa6-cf74ce692c8a.png",
+            "text": ""
+          }
+        },
         "brand_6i9XRF": {
           "type": "brand",
           "settings": {
@@ -46,6 +53,7 @@
         }
       },
       "block_order": [
+        "brand_3NBHiY",
         "brand_6i9XRF",
         "brand_wPDc8a",
         "brand_P68Efp"
