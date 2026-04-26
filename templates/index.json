@@ -104,6 +104,18 @@
     "visual_howitworks_MP9k9D": {
       "type": "visual-howitworks",
       "blocks": {
+        "step_Wd4LXj": {
+          "type": "step",
+          "settings": {
+            "category": "tab2",
+            "image": "shopify://shop_images/audiocards-03.png",
+            "tag": "Step 01",
+            "title": "Start Recording",
+            "description": "Click the record button on your audio card. You'll hear a beep sound, indicating that the recording is about to begin.\n\nSpeak or play the audio you want to capture. The audio card will store the recorded data in its memory.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_J9dMVy": {
           "type": "step",
           "settings": {
@@ -154,6 +166,7 @@
         }
       },
       "block_order": [
+        "step_Wd4LXj",
         "step_J9dMVy",
         "step_PCbNbp",
         "step_DeUzHc",
