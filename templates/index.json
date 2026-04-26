@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_wPDc8a": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/D0D3B99B-C80A-428A-9348-3014E97666BC.png",
+            "text": ""
+          }
+        },
         "brand_P68Efp": {
           "type": "brand",
           "settings": {
@@ -32,6 +39,7 @@
         }
       },
       "block_order": [
+        "brand_wPDc8a",
         "brand_P68Efp"
       ],
       "name": "As Seen In",
