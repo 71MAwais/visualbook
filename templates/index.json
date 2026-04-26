@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_jecakh": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/839689AF-71E5-46A2-9272-A811CE17323A.jpg",
+            "text": "Vogue"
+          }
+        },
         "brand_jTePgD": {
           "type": "brand",
           "settings": {
@@ -67,6 +74,7 @@
         }
       },
       "block_order": [
+        "brand_jecakh",
         "brand_jTePgD",
         "brand_F6PGXG",
         "brand_3NBHiY",
