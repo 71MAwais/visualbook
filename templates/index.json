@@ -104,42 +104,6 @@
     "visual_howitworks_MP9k9D": {
       "type": "visual-howitworks",
       "blocks": {
-        "step_k4bq3t": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/NO_FILE.png",
-            "tag": "Step 04",
-            "title": "Video Compatibility Issue",
-            "description": "Troubled by 'no file' or ‘video not supported’ errors? Our converter is designed to resolve these issues and enhance your Visual Book experience.",
-            "link_text": "Use Converter",
-            "link_url": "https://thevisualbook-converter.com/"
-          }
-        },
-        "step_nHf9h3": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
-            "tag": "Step 03",
-            "title": "Gift-Ready Book",
-            "description": "Benefit from our complimentary service, optional pre-loading service by media experts, ensuring your Book arrives ready to showcase your memories, all presented in our gift box.",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_4cEeKJ": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/Untitled_design-24.png",
-            "tag": "Step 02",
-            "title": "Effortless Media Management",
-            "description": "Sort photos and videos into respective folders, ensure they meet format and resolution. You can add, delete, or modify your content as you wish.",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
         "step_J9dMVy": {
           "type": "step",
           "settings": {
@@ -164,6 +128,18 @@
             "link_url": ""
           }
         },
+        "step_DeUzHc": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
+            "tag": "Step 03",
+            "title": "Gift-Ready Book",
+            "description": "Benefit from our complimentary service, optional pre-loading service by media experts, ensuring your Book arrives ready to showcase your memories, all presented in our gift box.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_DbxCBA": {
           "type": "step",
           "settings": {
@@ -178,11 +154,9 @@
         }
       },
       "block_order": [
-        "step_k4bq3t",
-        "step_nHf9h3",
-        "step_4cEeKJ",
         "step_J9dMVy",
         "step_PCbNbp",
+        "step_DeUzHc",
         "step_DbxCBA"
       ],
       "name": "How It Works",
