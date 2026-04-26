@@ -108,6 +108,7 @@
           "type": "step",
           "settings": {
             "category": "tab1",
+            "image": "shopify://shop_images/NO_FILE.png",
             "tag": "Step 04",
             "title": "Video Compatibility Issue",
             "description": "Troubled by 'no file' or ‘video not supported’ errors? Our converter is designed to resolve these issues and enhance your Visual Book experience.",
