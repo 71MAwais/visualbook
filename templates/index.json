@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_F6PGXG": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/WED2B_Wedding_Suppliers-05.png",
+            "text": ""
+          }
+        },
         "brand_3NBHiY": {
           "type": "brand",
           "settings": {
@@ -53,6 +60,7 @@
         }
       },
       "block_order": [
+        "brand_F6PGXG",
         "brand_3NBHiY",
         "brand_6i9XRF",
         "brand_wPDc8a",
