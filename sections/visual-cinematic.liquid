@@ -1,33 +1,50 @@
 {% comment %} sections/visual-cinematic.liquid {% endcomment %}
-
 <style>
-    #cinematic-section-{{ section.id }} {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    #cinematic-section-{{ section.id }} .font-serif {
-        font-family: 'Playfair Display', serif;
-    }
+    #cinematic-section-{{ section.id }} { font-family: 'Plus Jakarta Sans', sans-serif; }
+    #cinematic-section-{{ section.id }} .font-serif { font-family: 'Playfair Display', serif; }
+    
+    /* Play/Pause state transitions */
+    .video-loaded { opacity: 1 !important; }
+    .control-btn svg { transition: transform 0.2s ease; }
+    .control-btn:active svg { transform: scale(0.9); }
     
     /* Hide standard scrollbar */
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Allow vertical scrolling on mobile while touching the slider */
-    .touch-pan-y {
-        touch-action: pan-y;
+
+    /* CRITICAL MOBILE SCROLL FIX */
+    #cinematic-gallery-{{ section.id }} {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch; /* Smooth inertia on iOS */
+        touch-action: pan-y; /* Allows page to scroll up/down while swiping left/right */
+        pointer-events: auto;
     }
-    
+
+    .cine-item {
+        width: 100vw;
+        height: 100dvh;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     /* Hardware acceleration for the zoom effect */
-    .cine-zoom-layer {
+    .cine-zoom-container {
         will-change: transform, border-radius;
-        transform: translateZ(0); 
+        transform: translateZ(0);
     }
 </style>
 
-<section id="cinematic-section-{{ section.id }}" class="w-full h-[150vh] md:h-[200vh] relative bg-[#FAFAFA]" aria-label="Features Showcase">
+<section id="cinematic-section-{{ section.id }}" class="w-full h-[200vh] relative bg-[#FAFAFA]" aria-label="Features Showcase">
     <div class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden">
         
-        <div id="cinematic-bg-{{ section.id }}" class="cine-zoom-layer relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-300 ease-out" style="transform: scale(0.85); border-radius: 32px;">
+        <div id="cinematic-bg-{{ section.id }}" class="cine-zoom-container relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-300 ease-out" style="transform: scale(0.85); border-radius: 32px;">
             
             <div id="cinematic-ui-{{ section.id }}" class="absolute left-4 md:left-10 top-0 bottom-0 z-50 flex flex-col items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300" aria-hidden="true">
                 <span class="font-sans text-[8px] md:text-[9px] tracking-[0.3em] uppercase text-white/40 mb-6" style="writing-mode: vertical-rl; transform: rotate(180deg);">Open Book</span>
@@ -38,20 +55,19 @@
             </div>
 
             <div id="cinematic-indicators-ui-{{ section.id }}" class="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-50 pointer-events-none opacity-0 transition-opacity duration-300" aria-hidden="true">
-                <div class="flex items-center gap-2 md:gap-3" id="cinematic-dots-{{ section.id }}">
-                    </div>
+                <div class="flex items-center gap-2 md:gap-3" id="cinematic-dots-{{ section.id }}"></div>
                 <span class="font-sans text-[8px] md:text-[9px] tracking-[0.3em] uppercase text-white/40 mt-4">Explore Features</span>
             </div>
 
-            <div id="cinematic-gallery-{{ section.id }}" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar relative z-10 cursor-grab touch-pan-y">
+            <div id="cinematic-gallery-{{ section.id }}" class="hide-scrollbar relative z-10 cursor-grab active:cursor-grabbing">
                 </div>
 
-            <div id="cinematic-arrows-ui-{{ section.id }}" class="absolute right-6 md:right-12 bottom-12 md:bottom-16 flex gap-3 md:gap-4 z-50 opacity-0 transition-opacity duration-300">
-                <button id="cinematic-prev-{{ section.id }}" aria-label="Previous Feature" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-white hover:text-black transition-all backdrop-blur-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <div id="cinematic-arrows-ui-{{ section.id }}" class="absolute right-6 md:right-12 bottom-12 md:bottom-16 flex gap-3 md:gap-4 z-50 opacity-0 transition-opacity duration-300 pointer-events-auto">
+                <button id="cinematic-prev-{{ section.id }}" aria-label="Previous" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-white hover:text-black transition-all backdrop-blur-md">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
-                <button id="cinematic-next-{{ section.id }}" aria-label="Next Feature" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-white hover:text-black transition-all backdrop-blur-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <button id="cinematic-next-{{ section.id }}" aria-label="Next" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-white hover:text-black transition-all backdrop-blur-md">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
             </div>
             
@@ -61,19 +77,19 @@
 
 <div id="cinematic-data-{{ section.id }}" class="hidden">
     {% for block in section.blocks %}
-        <div class="cinematic-item-template w-full h-full shrink-0 snap-center relative flex items-center justify-center" data-icon="{{ block.settings.icon | escape }}">
-            <div class="absolute inset-0 w-full h-full pointer-events-none">
-                <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.title | escape }}" class="w-full h-full object-cover opacity-[0.40] grayscale-[50%] scale-105" draggable="false" loading="lazy"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
+        <div class="cine-item" data-icon="{{ block.settings.icon | escape }}">
+            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ block.settings.title | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%]" draggable="false" loading="lazy"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-transparent to-transparent"></div>
             </div>
-            <div class="relative z-10 w-full max-w-[1300px] px-16 md:px-32 lg:px-48 flex flex-col justify-center h-full pt-12 pointer-events-none transition-opacity duration-700">
+            <div class="relative z-10 w-full max-w-[1300px] px-8 md:px-32 lg:px-48 flex flex-col justify-center h-full pt-12 pointer-events-none transition-opacity duration-700">
                 <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl flex items-center justify-center text-white mb-6 md:mb-10 shadow-2xl">
-                    <i data-lucide="{{ block.settings.icon | default: 'aperture' }}" class="w-6 h-6 stroke-[1.25]"></i>
+                    <i data-lucide="{{ block.settings.icon }}" class="w-6 h-6 stroke-[1.25]"></i>
                 </div>
                 <div class="flex flex-col gap-2 mb-4 md:mb-6">
                     <span class="font-sans text-[16px] md:text-[20px] text-[#B8906B] font-medium tracking-widest">{{ block.settings.number }}</span>
-                    <h3 class="font-serif text-[42px] sm:text-[48px] md:text-[72px] lg:text-[84px] text-white leading-[1.05] tracking-tight max-w-2xl drop-shadow-md">{{ block.settings.title }}</h3>
+                    <h3 class="font-serif text-[34px] sm:text-[48px] md:text-[72px] lg:text-[84px] text-white leading-[1.1] tracking-tight max-w-2xl drop-shadow-md">{{ block.settings.title }}</h3>
                 </div>
                 <p class="font-sans text-[15px] md:text-[18px] text-white/60 font-light max-w-lg leading-relaxed">{{ block.settings.subtitle }}</p>
             </div>
@@ -83,8 +99,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const sectionId = "{{ section.id }}";
-    
+    const sectionId = '{{ section.id }}';
     const cineSection = document.getElementById(`cinematic-section-${sectionId}`);
     const cineBg = document.getElementById(`cinematic-bg-${sectionId}`);
     const cineUi = document.getElementById(`cinematic-ui-${sectionId}`);
@@ -92,154 +107,168 @@ document.addEventListener('DOMContentLoaded', () => {
     const cineArr = document.getElementById(`cinematic-arrows-ui-${sectionId}`);
     const cineVProg = document.getElementById(`cinematic-vertical-progress-${sectionId}`);
     const cineGallery = document.getElementById(`cinematic-gallery-${sectionId}`);
-    const hiddenData = Array.from(document.getElementById(`cinematic-data-${sectionId}`).children);
+    const dataItems = Array.from(document.getElementById(`cinematic-data-${sectionId}`).children);
     
     if (!cineSection || !cineBg || !cineGallery) return;
 
-    // --- 1. Expand/Collapse Scroll Parallax ---
+    // STATE LOCK: Track if the section is fully expanded
+    let isFullScreen = false;
+
+    // --- 1. Zoom Scroll Logic & Strict Mobile Lock ---
     window.addEventListener('scroll', () => {
         const rect = cineSection.getBoundingClientRect();
         const wh = window.innerHeight;
-        
         let progress = 0;
         if(rect.top <= 0) progress = Math.min(1, Math.max(0, -rect.top / (rect.height - wh)));
 
         if (rect.top <= 0 && rect.bottom >= wh) {
-            // Expanded State
+            // FULL SCREEN: Unlock touch and interactions
+            isFullScreen = true;
+            cineGallery.style.pointerEvents = 'auto';
+            cineGallery.style.overflowX = 'auto';
+
             cineBg.style.transform = `scale(1)`;
             cineBg.style.borderRadius = `0px`;
-            if(cineUi) cineUi.style.opacity = 1;
-            if(cineInd) cineInd.style.opacity = 1;
-            if(cineArr) cineArr.style.opacity = 1;
+            [cineUi, cineInd, cineArr].forEach(el => { if(el) el.style.opacity = 1; });
             if(cineVProg) cineVProg.style.transform = `scaleY(${progress})`;
         } else {
-            // Collapsed State
+            // NOT FULL SCREEN: Lock touch and interactions entirely
+            isFullScreen = false;
+            cineGallery.style.pointerEvents = 'none';
+            cineGallery.style.overflowX = 'hidden';
+
             cineBg.style.transform = `scale(0.85)`;
             cineBg.style.borderRadius = `32px`;
-            if(cineUi) cineUi.style.opacity = 0;
-            if(cineInd) cineInd.style.opacity = 0;
-            if(cineArr) cineArr.style.opacity = 0;
+            [cineUi, cineInd, cineArr].forEach(el => { if(el) el.style.opacity = 0; });
         }
-    }, {passive: true});
+    }, { passive: true });
 
-    // --- 2. Infinite Looping Gallery Logic ---
-    if (hiddenData.length > 0) {
-        const totalOriginal = hiddenData.length;
-        
-        // Clone items for infinite looping (3x)
+    // --- 2. Infinite Scroll Setup ---
+    const totalOriginal = dataItems.length;
+    if (totalOriginal > 0) {
+        // Clone for infinite loop
         for (let i = 0; i < 3; i++) {
-            hiddenData.forEach(item => {
+            dataItems.forEach(item => {
                 const clone = item.cloneNode(true);
-                clone.classList.remove('cinematic-item-template');
                 cineGallery.appendChild(clone);
             });
         }
-        
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
-        // Update Dots
         const dotsContainer = document.getElementById(`cinematic-dots-${sectionId}`);
-        const updateCineDots = (idx) => {
+        const updateDots = (idx) => {
             if(!dotsContainer) return;
             dotsContainer.innerHTML = '';
             for (let i = 0; i < totalOriginal; i++) {
-                const isCurrent = i === idx;
                 const dot = document.createElement('div');
-                dot.className = `h-[2px] rounded-full transition-all duration-500 ease-out ${isCurrent ? 'w-8 md:w-10 bg-[#B8906B] shadow-[0_0_10px_rgba(184,144,107,0.8)]' : 'w-3 md:w-4 bg-white/30'}`;
+                dot.className = `h-[2px] transition-all duration-500 ${i === idx % totalOriginal ? 'w-8 bg-[#B8906B]' : 'w-3 bg-white/30'}`;
                 dotsContainer.appendChild(dot);
             }
         };
 
-        function instantJumpTo(container, targetLeft) {
-            container.style.scrollBehavior = 'auto';
-            container.scrollLeft = targetLeft;
-            setTimeout(() => container.style.scrollBehavior = 'smooth', 50); 
-        }
+        const instantJump = (pos) => {
+            cineGallery.style.scrollBehavior = 'auto';
+            cineGallery.scrollLeft = pos;
+            requestAnimationFrame(() => {
+                cineGallery.style.scrollBehavior = 'smooth';
+            });
+        };
 
-        function smoothScrollTo(container, targetLeft) {
-            container.style.scrollBehavior = 'smooth';
-            container.scrollLeft = targetLeft;
-        }
-
-        // Infinite Scroll Logic
         let cineTimeout;
         let isJumping = false;
-        
+
+        // The native scroll event fires while the user swipes, enabling native snap.
         cineGallery.addEventListener('scroll', () => {
-            if(isJumping) return;
+            if (isJumping) return;
+            const w = cineGallery.clientWidth;
+            if (w === 0) return;
             
-            const cardWidth = cineGallery.clientWidth;
-            if(cardWidth === 0) return;
-            
-            const scrollPosition = cineGallery.scrollLeft;
-            const currentIndex = Math.round(scrollPosition / cardWidth);
-            updateCineDots(currentIndex % totalOriginal);
+            const idx = Math.round(cineGallery.scrollLeft / w);
+            updateDots(idx % totalOriginal);
 
             clearTimeout(cineTimeout);
             cineTimeout = setTimeout(() => {
-                if(currentIndex < totalOriginal || currentIndex >= totalOriginal * 2) {
+                // If user reached ends, jump back to center set silently
+                if(idx < totalOriginal || idx >= totalOriginal * 2) {
                     isJumping = true;
-                    const targetIndex = (currentIndex % totalOriginal) + totalOriginal;
-                    instantJumpTo(cineGallery, targetIndex * cardWidth);
-                    setTimeout(() => { isJumping = false; }, 100);
+                    instantJump(((idx % totalOriginal) + totalOriginal) * w);
+                    setTimeout(() => isJumping = false, 100);
                 }
             }, 150);
-        }, {passive: true});
+        }, { passive: true });
 
-        // Initialize Carousel Position in the middle of the loop
+        // Init position in center safely
         setTimeout(() => {
-            instantJumpTo(cineGallery, cineGallery.clientWidth * totalOriginal);
-            updateCineDots(0);
+            instantJump(cineGallery.clientWidth * totalOriginal);
+            updateDots(0);
         }, 100);
 
-        // Arrows Control
+        // --- 3. Controls (Arrows) ---
         const cPrev = document.getElementById(`cinematic-prev-${sectionId}`);
         const cNext = document.getElementById(`cinematic-next-${sectionId}`);
         if(cPrev) cPrev.addEventListener('click', () => {
-            const current = Math.round(cineGallery.scrollLeft / cineGallery.clientWidth);
-            smoothScrollTo(cineGallery, (current - 1) * cineGallery.clientWidth);
+            if (!isFullScreen) return; // Prevent clicking if not full screen
+            cineGallery.scrollLeft -= cineGallery.clientWidth;
         });
         if(cNext) cNext.addEventListener('click', () => {
-            const current = Math.round(cineGallery.scrollLeft / cineGallery.clientWidth);
-            smoothScrollTo(cineGallery, (current + 1) * cineGallery.clientWidth);
+            if (!isFullScreen) return; // Prevent clicking if not full screen
+            cineGallery.scrollLeft += cineGallery.clientWidth;
         });
-        
-        // Desktop Drag-to-Scroll
-        let isDownCine = false, startXCine, scrollLeftCine;
-        cineGallery.addEventListener('mousedown', (e) => {
+
+        // --- 4. STRICT MOUSE DRAG LOGIC (Desktop Only) ---
+        // JS Touch events are explicitly removed so mobile browsers use pure, flawless native scroll snapping.
+        let isDownCine = false;
+        let startXCine;
+        let scrollLeftCine;
+        let startIndexCine;
+
+        const startDragCine = (e) => {
+            if (!isFullScreen) return; 
             isDownCine = true;
-            cineGallery.classList.add('cursor-grabbing');
-            cineGallery.classList.remove('snap-x', 'snap-mandatory'); 
-            startXCine = e.pageX - cineGallery.offsetLeft;
+            cineGallery.classList.add('dragging');
+            cineGallery.style.scrollSnapType = 'none'; // Temporarily disable snapping during mouse drag
+            startXCine = e.pageX;
             scrollLeftCine = cineGallery.scrollLeft;
-        });
-        cineGallery.addEventListener('mouseleave', () => {
-            isDownCine = false;
-            cineGallery.classList.remove('cursor-grabbing');
-            cineGallery.classList.add('snap-x', 'snap-mandatory');
-        });
-        cineGallery.addEventListener('mouseup', () => {
-            isDownCine = false;
-            cineGallery.classList.remove('cursor-grabbing');
-            cineGallery.classList.add('snap-x', 'snap-mandatory');
-        });
-        cineGallery.addEventListener('mousemove', (e) => {
+            startIndexCine = Math.round(scrollLeftCine / cineGallery.clientWidth);
+        };
+
+        const stopDragCine = (e) => {
             if (!isDownCine) return;
-            e.preventDefault();
+            isDownCine = false;
+            cineGallery.classList.remove('dragging');
+            cineGallery.style.scrollSnapType = 'x mandatory'; // Re-enable snapping
+
+            // Force a full card move or snap back if the drag was short
+            const endX = e.pageX || startXCine;
+            const walk = startXCine - endX;
+            const threshold = 100; // Drag 100px to switch cards, otherwise snap back
+            
+            let targetIndex = startIndexCine;
+            if (walk > threshold) targetIndex = startIndexCine + 1;
+            else if (walk < -threshold) targetIndex = startIndexCine - 1;
+
+            cineGallery.scrollTo({
+                left: targetIndex * cineGallery.clientWidth,
+                behavior: 'smooth'
+            });
+        };
+
+        const moveDragCine = (e) => {
+            if (!isDownCine || !isFullScreen) return;
+            e.preventDefault(); 
             const x = e.pageX - cineGallery.offsetLeft;
-            const walk = (x - startXCine) * 1.5;
+            const walk = (x - startXCine) * 1.5; 
             cineGallery.scrollLeft = scrollLeftCine - walk;
-        });
-        
-        // Fix jumping on resize
-        window.addEventListener('resize', () => {
-            const current = Math.round(cineGallery.scrollLeft / cineGallery.clientWidth);
-            instantJumpTo(cineGallery, current * cineGallery.clientWidth);
-        });
+        };
+
+        // We only attach these to Mouse events. Touch devices rely entirely on native CSS logic.
+        cineGallery.addEventListener('mousedown', startDragCine);
+        cineGallery.addEventListener('mouseleave', stopDragCine);
+        cineGallery.addEventListener('mouseup', stopDragCine);
+        cineGallery.addEventListener('mousemove', moveDragCine);
     }
 });
 </script>
-
 {% schema %}
 {
   "name": "Cinematic Showcase",
