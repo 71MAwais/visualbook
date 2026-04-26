@@ -23,6 +23,13 @@
     "visual_as_seen_4HFbER": {
       "type": "visual-as-seen",
       "blocks": {
+        "brand_6i9XRF": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/roud-member-of-style-me-prettys-prestigious-invitation-only-style-me-pretty-logo-11563199600svd1wb3xqa.png",
+            "text": ""
+          }
+        },
         "brand_wPDc8a": {
           "type": "brand",
           "settings": {
@@ -39,6 +46,7 @@
         }
       },
       "block_order": [
+        "brand_6i9XRF",
         "brand_wPDc8a",
         "brand_P68Efp"
       ],
