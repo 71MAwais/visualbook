@@ -103,6 +103,23 @@
     },
     "visual_howitworks_MP9k9D": {
       "type": "visual-howitworks",
+      "blocks": {
+        "step_J9dMVy": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "image": "shopify://shop_images/saturday_icons_how_it_works_vb-07.png",
+            "tag": "Step 01",
+            "title": "Connect To Your Computer",
+            "description": "To setup your Classic Visual Book connect it to your computer using the USB cable.",
+            "link_text": "",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_J9dMVy"
+      ],
       "name": "How It Works",
       "settings": {
         "title": "How It Works",
