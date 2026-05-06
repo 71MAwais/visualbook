@@ -3,33 +3,33 @@
     .luxury-fast { transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
 </style>
 
-<footer id="contact-{{ section.id }}" class="bg-[#111111] pt-16 pb-8 border-t border-black/10 mt-10">
+<footer id="contact-{{ section.id }}" class="bg-[#111111] pt-10 pb-8 border-t border-white/5">
     <div class="max-w-[1600px] mx-auto px-5 md:px-8">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
             
             <div>
                 <span class="font-serif text-2xl text-white font-semibold">{{ section.settings.brand_name }}</span>
-                <span class="block text-[9px] uppercase tracking-[0.25em] text-white/30 mt-0.5">{{ section.settings.city }}</span>
-                <p class="text-sm text-white/40 leading-relaxed mt-4 max-w-xs">{{ section.settings.brand_description }}</p>
+                <span class="block text-[9px] uppercase tracking-[0.25em] text-white/70 mt-0.5">{{ section.settings.city }}</span>
+                <p class="text-sm text-white/80 leading-relaxed mt-4 max-w-xs">{{ section.settings.brand_description }}</p>
             </div>
             
             <div>
-                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold mb-4">{{ section.settings.menu_title }}</h4>
+                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/90 font-semibold mb-4">{{ section.settings.menu_title }}</h4>
                 <nav class="flex flex-col gap-3">
                     {% if section.settings.footer_menu != blank %}
                         {% for link in linklists[section.settings.footer_menu].links %}
-                            <a href="{{ link.url }}" class="text-sm text-white/40 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                            <a href="{{ link.url }}" class="text-sm text-white/80 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="#" class="text-sm text-white/40 hover:text-[#B8906B] luxury-fast">Please select a menu in theme settings</a>
+                        <a href="#" class="text-sm text-white/80 hover:text-[#B8906B] luxury-fast">Please select a menu in theme settings</a>
                     {% endif %}
                 </nav>
             </div>
             
             <div>
-                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-semibold mb-4">{{ section.settings.newsletter_title }}</h4>
-                <p class="text-sm text-white/40 mb-4">{{ section.settings.newsletter_text }}</p>
+                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/90 font-semibold mb-4">{{ section.settings.newsletter_title }}</h4>
+                <p class="text-sm text-white/80 mb-4">{{ section.settings.newsletter_text }}</p>
                 
                 {% form 'customer', class: 'flex relative' %}
                     <input type="hidden" name="contact[tags]" value="newsletter">
@@ -41,11 +41,12 @@
                             id="Email-{{ section.id }}" 
                             value="{% if customer %}{{ customer.email }}{% endif %}"
                             placeholder="Your email" 
-                            class="flex-1 bg-white/5 border border-white/10 text-white text-sm px-4 py-3 rounded-l-sm outline-none focus:border-[#B8906B] luxury-fast placeholder:text-white/20" 
+                            aria-label="Email Address"
+                            class="flex-1 bg-white/5 border border-white/10 text-white text-sm px-4 py-3 rounded-l-sm outline-none focus:border-[#B8906B] luxury-fast placeholder:text-white/60" 
                             required
                         >
-                        <button type="submit" class="bg-[#B8906B] text-white px-5 py-3 rounded-r-sm hover:bg-[#8A6A4E] luxury-fast" aria-label="Subscribe">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        <button type="submit" class="bg-[#B8906B] text-white px-5 py-3 rounded-r-sm hover:bg-[#8A6A4E] luxury-fast focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="Subscribe">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                         </button>
                     </div>
                     
@@ -60,17 +61,17 @@
             
         </div>
         
-        <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p class="text-[11px] text-white/25">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+        <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-[11px] text-white/60">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
             
             <div class="flex items-center gap-6">
                 {% if section.settings.legal_menu != blank %}
                     {% for link in linklists[section.settings.legal_menu].links %}
-                        <a href="{{ link.url }}" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                        <a href="{{ link.url }}" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
                     {% endfor %}
                 {% else %}
-                    <a href="#" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">Privacy Policy</a>
-                    <a href="#" class="text-[11px] text-white/25 hover:text-[#B8906B] luxury-fast">Terms of Service</a>
+                    <a href="#" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">Privacy Policy</a>
+                    <a href="#" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">Terms of Service</a>
                 {% endif %}
             </div>
         </div>
