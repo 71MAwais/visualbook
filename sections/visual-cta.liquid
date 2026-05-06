@@ -1,14 +1,14 @@
 {% comment %} sections/visual-cta.liquid {% endcomment %}
 <style>
     .cta-glow {
-        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 70%);
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
     }
     .luxury-fast { 
-        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
 </style>
 
-<section class="relative py-24 md:py-36 bg-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+<section class="relative py-24 md:py-36 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
     <div class="cta-glow absolute inset-0 pointer-events-none"></div>
     
     <div class="relative z-10 text-center px-5">

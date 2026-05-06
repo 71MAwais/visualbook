@@ -2,7 +2,7 @@
 
 <style>
     .transition-luxury { 
-        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .hiw-tab-active {
         color: #0c0a09 !important; /* stone-950 */
@@ -34,7 +34,7 @@
     }
 </style>
 
-<section id="visual-howitworks-{{ section.id }}" class="w-full bg-[#FCFBF9] py-6 md:py-10 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50" aria-labelledby="hiw-title-main">
+<section id="visual-howitworks-{{ section.id }}" class="w-full bg-[#FCFBF9] py-16 md:py-24 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50" aria-labelledby="hiw-title-main">
     
     {%- comment -%} NATIVE DOM RENDER FOR SEO CRAWLERS {%- endcomment -%}
     <div class="sr-only-seo">
@@ -114,7 +114,6 @@
     if (!section) return;
 
     const hiwData = { tab1: [], tab2: [] };
-
     {% for block in section.blocks %}
         hiwData["{{ block.settings.category }}"].push({
             img: "{{ block.settings.image | image_url: width: 1000 }}",
@@ -135,7 +134,6 @@
     const progressEl = section.querySelector('.hiw-progress');
     const progressBar = progressEl.parentElement;
     const formatNum = (num) => (num < 10 ? `0${num}` : num);
-    
     if (hiwImg && titleEl) {
         let hiwTab = 'tab1';
         let hiwStep = 0;
@@ -160,15 +158,12 @@
             hiwNext.disabled = true;
 
             const current = data[hiwStep];
-            
             // Anim Out
             hiwImg.style.opacity = 0;
             hiwImg.style.transform = 'scale(1.05)';
-            
             titleEl.style.opacity = 0; titleEl.style.transform = 'translateY(10px)';
             descEl.style.opacity = 0; descEl.style.transform = 'translateY(10px)';
             linkEl.style.opacity = 0; linkEl.style.transform = 'translateY(10px)';
-            
             setTimeout(() => {
                 // Update Content
                 hiwImg.src = current.img;
@@ -203,7 +198,6 @@
                 setTimeout(() => { titleEl.style.opacity = 1; titleEl.style.transform = 'translateY(0)'; }, 50);
                 setTimeout(() => { descEl.style.opacity = 1; descEl.style.transform = 'translateY(0)'; }, 150);
                 setTimeout(() => { linkEl.style.opacity = 1; linkEl.style.transform = 'translateY(0)'; }, 250);
-
                 // Re-evaluate button states
                 hiwPrev.disabled = hiwStep === 0;
                 hiwNext.disabled = hiwStep === data.length - 1;
@@ -211,7 +205,6 @@
                 isAnimating = false;
             }, 300);
         };
-
         section.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 if (isAnimating) return;
@@ -234,23 +227,20 @@
                 updateHiwUI();
             });
         });
-
         hiwPrev.addEventListener('click', () => { 
             if(hiwStep > 0 && !isAnimating) { hiwStep--; updateHiwUI(); } 
         });
-        
         hiwNext.addEventListener('click', () => { 
             if(hiwStep < hiwData[hiwTab].length - 1 && !isAnimating) { hiwStep++; updateHiwUI(); } 
         });
-
         const hiwContainer = section.querySelector('.hiw-container-wrapper');
         if (hiwContainer) {
             let hiwTouchStartX = 0;
             let hiwTouchEndX = 0;
-            hiwContainer.addEventListener('touchstart', (e) => hiwTouchStartX = e.changedTouches[0].screenX, {passive: true});
+            hiwContainer.addEventListener('touchstart', (e) => hiwTouchStartX = e.changedTouches.screenX, {passive: true});
             hiwContainer.addEventListener('touchend', (e) => {
                 if (isAnimating) return;
-                hiwTouchEndX = e.changedTouches[0].screenX;
+                hiwTouchEndX = e.changedTouches.screenX;
                 const deltaX = hiwTouchStartX - hiwTouchEndX;
                 if (deltaX > 50) { 
                     if(hiwStep < hiwData[hiwTab].length - 1) { hiwStep++; updateHiwUI(); } 
