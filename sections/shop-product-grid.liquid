@@ -1,0 +1,274 @@
+<section id="shop-grid-{{ section.id }}" class="bg-[#FAFAFA] pb-24">
+  <div class="flex justify-center mb-16 border-b border-gray-200 max-w-md mx-auto">
+    <button 
+      class="shop-tab-btn pb-4 px-6 text-sm tracking-widest uppercase transition-all duration-300 relative text-black font-medium"
+      data-target="visual-books"
+    >
+      Video Book
+      <span class="tab-indicator absolute bottom-0 left-0 w-full h-0.5 bg-black"></span>
+    </button>
+    <button 
+      class="shop-tab-btn pb-4 px-6 text-sm tracking-widest uppercase transition-all duration-300 relative text-gray-400 hover:text-gray-600"
+      data-target="audio-cards"
+    >
+      Audio Cards
+      <span class="tab-indicator absolute bottom-0 left-0 w-full h-0.5 bg-black hidden"></span>
+    </button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+      
+      {% assign video_collection = section.settings.video_collection %}
+      {% for product in video_collection.products limit: section.settings.max_products %}
+        <div class="shop-product-card group cursor-pointer flex flex-col items-center" data-category="visual-books">
+          
+          <div class="relative w-full aspect-[4/5] bg-[#F7F6F2] mb-6 flex items-center justify-center p-6 sm:p-10 transition-transform duration-500 group-hover:bg-[#f0eee9]">
+            <button class="absolute left-4 w-8 h-8 rounded-full bg-white/80 shadow-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-white text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button class="absolute right-4 w-8 h-8 rounded-full bg-white/80 shadow-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-white text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <div class="relative w-full max-w-[280px] aspect-[4/3] bg-[#EBE7E0] shadow-sm flex flex-col items-center justify-center p-4 border-r border-b border-[#dfdbd3]">
+              <div class="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-black/5 to-transparent"></div>
+              
+              <p class="text-[10px] tracking-widest text-gray-600 uppercase mb-3 font-serif text-center">{{ product.title }}</p>
+              
+              <div class="w-full bg-black p-1 shadow-inner relative overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}" class="w-full h-auto aspect-video object-cover opacity-90 group-hover:opacity-100 transition-opacity" loading="lazy">
+                {% else %}
+                  <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop" class="w-full h-auto aspect-video object-cover opacity-90 group-hover:opacity-100 transition-opacity" loading="lazy">
+                {% endif %}
+                
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 text-white ml-0.5"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                  </div>
+                </div>
+                <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-1">
+                  <div class="w-1 h-1 rounded-full bg-white/50"></div>
+                  <div class="w-1 h-1 rounded-full bg-white/50"></div>
+                  <div class="w-1 h-1 rounded-full bg-white/50"></div>
+                  <div class="w-1 h-1 rounded-full bg-white/50"></div>
+                  <div class="w-1 h-1 rounded-full bg-white/50"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center w-full">
+            <div class="flex justify-center space-x-1 mb-3">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3 class="text-lg font-serif text-gray-900 mb-2">{{ product.title }}</h3>
+            <p class="text-sm text-gray-500 mb-6 font-light">{{ product.price | money }}</p>
+            
+            <form method="post" action="/cart/add" class="w-full sm:w-auto">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+              <button type="button" class="quick-add-btn w-full sm:w-auto px-12 py-3 text-xs tracking-widest uppercase border transition-all duration-300 flex items-center justify-center mx-auto space-x-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white">
+                <span>Quick Add</span>
+                <span class="added-state hidden items-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 mr-2"><path d="M20 6 9 17l-5-5"/></svg>
+                  Added to Bag
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      {% else %}
+        {% for i in (1..3) %}
+          <div class="shop-product-card group flex flex-col items-center" data-category="visual-books">
+            <div class="relative w-full aspect-[4/5] bg-[#F7F6F2] mb-6 flex items-center justify-center p-6 sm:p-10">
+              <p class="text-gray-400 text-sm">Select a Video Book Collection</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+
+      {% assign audio_collection = section.settings.audio_collection %}
+      {% for product in audio_collection.products limit: section.settings.max_products %}
+        <div class="shop-product-card group cursor-pointer flex flex-col items-center" data-category="audio-cards" style="display:none;">
+          
+          <div class="relative w-full aspect-[4/5] bg-[#F7F6F2] mb-6 flex items-center justify-center p-6 sm:p-10 transition-transform duration-500 group-hover:bg-[#f0eee9]">
+            
+            {% assign theme_class = 'bg-white' %}
+            {% assign text_class = 'text-gray-800' %}
+            {% assign border_class = 'border-gray-300' %}
+            {% assign icon_class = 'text-gray-600' %}
+            {% assign dot_class = 'bg-gray-300' %}
+            
+            {% if product.tags contains 'theme:warm' %}
+              {% assign theme_class = 'bg-[#EFE9E1]' %}
+            {% elsif product.tags contains 'theme:dark' %}
+              {% assign theme_class = 'bg-[#2A2A2A] text-white' %}
+              {% assign text_class = 'text-gray-200' %}
+              {% assign border_class = 'border-gray-600' %}
+              {% assign icon_class = 'text-gray-300' %}
+              {% assign dot_class = 'bg-gray-600' %}
+            {% endif %}
+
+            <div class="relative w-full max-w-[220px] aspect-[3/4] shadow-sm flex flex-col items-center justify-between p-8 border-r-2 border-b-2 border-black/5 {{ theme_class }}">
+              <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/5 to-transparent"></div>
+              
+              <div class="mt-8">
+                <p class="text-xs tracking-[0.2em] text-center font-serif leading-relaxed {{ text_class }}">{{ product.title }}</p>
+              </div>
+
+              <div class="w-full flex flex-col items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-full border flex items-center justify-center group-hover:scale-105 transition-transform {{ border_class }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 {{ icon_class }}"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </div>
+                <div class="flex space-x-1.5">
+                  <div class="w-1.5 h-1.5 rounded-full {{ dot_class }}"></div>
+                  <div class="w-1.5 h-1.5 rounded-full {{ dot_class }}"></div>
+                  <div class="w-1.5 h-1.5 rounded-full {{ dot_class }}"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center w-full">
+            <div class="flex justify-center space-x-1 mb-3">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-[#C5A880]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            
+            <h3 class="text-lg font-serif text-gray-900 mb-2">{{ product.title }}</h3>
+            <p class="text-sm text-gray-500 mb-6 font-light">{{ product.price | money }}</p>
+            
+            <form method="post" action="/cart/add" class="w-full sm:w-auto">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+              <button type="button" class="quick-add-btn w-full sm:w-auto px-12 py-3 text-xs tracking-widest uppercase border transition-all duration-300 flex items-center justify-center mx-auto space-x-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white">
+                <span>Quick Add</span>
+                <span class="added-state hidden items-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 mr-2"><path d="M20 6 9 17l-5-5"/></svg>
+                  Added to Bag
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Tab Switching Logic
+  const tabs = document.querySelectorAll('.shop-tab-btn');
+  const products = document.querySelectorAll('.shop-product-card');
+
+  function filterProducts(category) {
+    products.forEach(product => {
+      if (product.dataset.category === category) {
+        product.style.display = 'flex';
+      } else {
+        product.style.display = 'none';
+      }
+    });
+  }
+
+  // Initial Filter
+  filterProducts('visual-books');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Reset all tabs
+      tabs.forEach(t => {
+        t.classList.remove('text-black', 'font-medium');
+        t.classList.add('text-gray-400');
+        t.querySelector('.tab-indicator').classList.add('hidden');
+      });
+
+      // Set active tab
+      tab.classList.add('text-black', 'font-medium');
+      tab.classList.remove('text-gray-400');
+      tab.querySelector('.tab-indicator').classList.remove('hidden');
+
+      // Filter products
+      filterProducts(tab.dataset.target);
+    });
+  });
+
+  // Fake Quick Add Logic (Visual match for React state)
+  const quickAddBtns = document.querySelectorAll('.quick-add-btn');
+  quickAddBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const originalText = this.querySelector('span:not(.added-state)');
+      const addedText = this.querySelector('.added-state');
+      
+      // Visual switch
+      this.classList.add('bg-black', 'text-white', 'border-black');
+      this.classList.remove('text-gray-900', 'hover:bg-gray-900', 'hover:text-white');
+      originalText.classList.add('hidden');
+      addedText.classList.remove('hidden');
+      addedText.style.display = 'flex';
+
+      // Submit form in background
+      const form = this.closest('form');
+      if(form) {
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          body: new FormData(form)
+        }).then(res => res.json()).catch(error => console.error('Error:', error));
+      }
+
+      // Reset after 2s
+      setTimeout(() => {
+        this.classList.remove('bg-black', 'text-white', 'border-black');
+        this.classList.add('text-gray-900', 'hover:bg-gray-900', 'hover:text-white');
+        originalText.classList.remove('hidden');
+        addedText.classList.add('hidden');
+        addedText.style.display = 'none';
+      }, 2000);
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Shop Grid & Tabs",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "video_collection",
+      "label": "Video Books Collection"
+    },
+    {
+      "type": "collection",
+      "id": "audio_collection",
+      "label": "Audio Cards Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Maximum products per tab",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Grid & Tabs"
+    }
+  ]
+}
+{% endschema %}

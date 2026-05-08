@@ -1,0 +1,78 @@
+<section id="shop-experience-{{ section.id }}" class="border-t border-gray-100 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div class="text-center mb-16">
+      <p class="text-xs tracking-[0.2em] text-[#C5A880] font-medium uppercase mb-4">{{ section.settings.badge }}</p>
+      <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.heading }}</h2>
+      <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
+        {{ section.settings.subheading }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+      
+      <div class="flex flex-col items-center group">
+        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </div>
+        <h4 class="font-serif text-lg mb-3 text-gray-900">Instant Playback</h4>
+        <p class="text-sm text-gray-500 font-light leading-relaxed">Magnetic sensors automatically play your crystal-clear HD videos the moment the book is opened.</p>
+      </div>
+
+      <div class="flex flex-col items-center group">
+        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+        </div>
+        <h4 class="font-serif text-lg mb-3 text-gray-900">Easy Curation</h4>
+        <p class="text-sm text-gray-500 font-light leading-relaxed">Connect via the provided USB to effortlessly drag and drop your photos and videos—no software required.</p>
+      </div>
+
+      <div class="flex flex-col items-center group">
+        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><path d="M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1"/><path d="m11 7-3 5h4l-3 5"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        </div>
+        <h4 class="font-serif text-lg mb-3 text-gray-900">Rechargeable</h4>
+        <p class="text-sm text-gray-500 font-light leading-relaxed">The built-in battery provides hours of continuous playback, easily rechargeable via USB for endless viewing.</p>
+      </div>
+
+      <div class="flex flex-col items-center group">
+        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <h4 class="font-serif text-lg mb-3 text-gray-900">Gift Ready</h4>
+        <p class="text-sm text-gray-500 font-light leading-relaxed">Presented in a beautiful luxury box with an optional pre-loading service to create the ultimate personalized gift.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop Experience",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "The Experience"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed for Forever"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Experience"
+    }
+  ]
+}
+{% endschema %}
