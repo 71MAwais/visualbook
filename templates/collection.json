@@ -1,7 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
       "type": "main-collection-banner",
+      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": false,
@@ -10,9 +20,11 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
@@ -23,14 +35,91 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "shop_hero_D9yQUk": {
+      "type": "shop-hero",
+      "name": "Shop Hero",
+      "settings": {
+        "badge": "Curated Essentials",
+        "heading": "Shop the Collection",
+        "subheading": "Timeless pieces crafted with intention, designed to elevate everyday moments and preserve your most cherished memories."
+      }
+    },
+    "shop_product_grid_HT3twG": {
+      "type": "shop-product-grid",
+      "name": "Shop Grid & Tabs",
+      "settings": {
+        "video_collection": "classic-visual-books",
+        "audio_collection": "audio-greetings-card",
+        "max_products": 12
+      }
+    },
+    "shop_experience_aiRhTK": {
+      "type": "shop-experience",
+      "name": "Shop Experience",
+      "settings": {
+        "badge": "The Experience",
+        "heading": "Designed for Forever",
+        "subheading": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+      }
+    },
+    "visual_instore_iU4FHD": {
+      "type": "visual-instore",
+      "blocks": {
+        "store_ijJRzG": {
+          "type": "store",
+          "settings": {
+            "store_name": "Selfridges & Co"
+          }
+        },
+        "store_7x8Txk": {
+          "type": "store",
+          "settings": {
+            "store_name": "la Rinascente"
+          }
+        },
+        "store_nc3ET9": {
+          "type": "store",
+          "settings": {
+            "store_name": "KaDeWe"
+          }
+        },
+        "store_rymneJ": {
+          "type": "store",
+          "settings": {
+            "store_name": "Le Bon Marché"
+          }
+        },
+        "store_c4pcGx": {
+          "type": "store",
+          "settings": {
+            "store_name": "Harrods"
+          }
+        }
+      },
+      "block_order": [
+        "store_ijJRzG",
+        "store_7x8Txk",
+        "store_nc3ET9",
+        "store_rymneJ",
+        "store_c4pcGx"
+      ],
+      "name": "In-Store Marquee",
+      "settings": {
+        "title": "Available In-Store At",
+        "scroll_speed": 0.6
       }
     }
   },
   "order": [
     "banner",
-    "product-grid"
+    "product-grid",
+    "shop_hero_D9yQUk",
+    "shop_product_grid_HT3twG",
+    "shop_experience_aiRhTK",
+    "visual_instore_iU4FHD"
   ]
 }
