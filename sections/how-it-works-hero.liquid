@@ -1,0 +1,94 @@
+<section id="hero-{{ section.id }}" class="w-full relative overflow-hidden flex flex-col justify-center items-center text-center" style="background-color: {{ section.settings.bg_color }}; padding-top: 12rem; padding-bottom: 6rem;">
+  <div class="max-w-4xl mx-auto w-full relative z-10 px-6">
+    <span class="reveal block text-[10px] font-semibold tracking-[0.3em] uppercase mb-6" style="color: {{ section.settings.accent_color }};">
+      {{ section.settings.badge }}
+    </span>
+    
+    <h1 class="reveal delay-100 font-serif text-5xl md:text-7xl font-medium leading-[1.1] tracking-tight mb-8" style="color: {{ section.settings.heading_color }};">
+      {{ section.settings.heading }}
+    </h1>
+    
+    <p class="reveal delay-200 text-lg font-light max-w-2xl mx-auto leading-relaxed" style="color: {{ section.settings.text_color }};">
+      {{ section.settings.subheading }}
+    </p>
+  </div>
+</section>
+
+<style>
+  #hero-{{ section.id }} .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  #hero-{{ section.id }} .reveal.active { opacity: 1; transform: translateY(0); }
+  #hero-{{ section.id }} .delay-100 { transition-delay: 100ms; }
+  #hero-{{ section.id }} .delay-200 { transition-delay: 200ms; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const revealElements = document.querySelectorAll('#hero-{{ section.id }} .reveal');
+    const observerOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    revealElements.forEach(el => revealObserver.observe(el));
+  });
+</script>
+
+{% schema %}
+{
+  "name": "How It Works - Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "Discover the Process"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Use HTML like <i class='italic font-light'>Works</i> for italics.",
+      "default": "How It <i class='italic font-light'>Works</i>"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Three exquisite ways to preserve your most treasured moments. Simple to set up, elegant to display, and meticulously designed to endure."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c4b09e"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#737373"
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works - Hero"
+    }
+  ]
+}
+{% endschema %}

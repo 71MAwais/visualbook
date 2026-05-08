@@ -1,0 +1,302 @@
+{% comment %} sections/how-it-works-premium-grid.liquid {% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --bg-color: {{ section.settings.bg_color }};
+    --accent-color: {{ section.settings.accent_color }};
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Scroll Reveal Animations */
+  .hiw-reveal-{{ section.id }} {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(24px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hiw-reveal-{{ section.id }}.is-visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  /* Stagger delays based on block index */
+  {% for i in (1..8) %}
+  .hiw-delay-{{ i }} { transition-delay: {{ i | times: 100 }}ms; }
+  {% endfor %}
+
+  /* Step Number Pulse Animation */
+  @keyframes pulse-ring-{{ section.id }} {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+  .step-number-pulse-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--accent-color);
+    animation: pulse-ring-{{ section.id }} 2.5s ease-out infinite;
+  }
+
+  /* Card Hover Glow */
+  .glow-card-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.7s ease;
+  }
+  .glow-card-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.7s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-card-{{ section.id }}:hover {
+    border-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
+    transform: translateY(-8px);
+  }
+  .glow-card-{{ section.id }}:hover::before {
+    opacity: 1;
+  }
+  
+  /* Shimmer Text Effect */
+  @keyframes shimmer-{{ section.id }} {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .shimmer-text-{{ section.id }} {
+    background: linear-gradient(90deg, var(--accent-color), #fff, var(--accent-color));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer-{{ section.id }} 6s linear infinite;
+  }
+</style>
+
+<section class="relative py-24 md:py-32 px-6 overflow-hidden" style="background-color: var(--bg-color);">
+  
+  <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[var(--accent-color)]/5 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-[1400px] mx-auto relative z-10">
+    
+    <div class="text-center mb-16 md:mb-20">
+      {% if section.settings.badge != blank %}
+        <span class="hiw-reveal-{{ section.id }} inline-block text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-4" style="color: var(--accent-color);">
+          {{ section.settings.badge }}
+        </span>
+      {% endif %}
+      
+      <h2 class="hiw-reveal-{{ section.id }} hiw-delay-1 font-serif text-4xl md:text-6xl lg:text-7xl font-medium leading-[0.9] tracking-tighter mb-6 text-white">
+        {{ section.settings.title | replace: 'Visual Book', '<span class="shimmer-text-' | append: section.id | append: '">Visual Book</span>' }}
+      </h2>
+      
+      {% if section.settings.description != blank %}
+        <p class="hiw-reveal-{{ section.id }} hiw-delay-2 text-base md:text-lg text-stone-400 font-light max-w-2xl mx-auto leading-relaxed">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-{{ section.settings.columns }} gap-6 lg:gap-8">
+      
+      {% for block in section.blocks %}
+        <div class="hiw-reveal-{{ section.id }} hiw-delay-{{ forloop.index }} glow-card-{{ section.id }} group rounded-3xl p-6 md:p-8 flex flex-col" {{ block.shopify_attributes }}>
+          
+          <div class="relative z-10 flex-grow">
+            <div class="flex justify-between items-start mb-8">
+              <div class="relative w-14 h-14 md:w-16 md:h-16 rounded-full border border-[var(--accent-color)]/30 flex items-center justify-center group-hover:border-[var(--accent-color)]/60 transition-colors duration-500 step-number-pulse-{{ section.id }}">
+                <span class="font-serif text-xl md:text-2xl" style="color: var(--accent-color);">{{ forloop.index }}</span>
+              </div>
+              
+              {% if block.settings.icon_svg != blank %}
+                <div class="w-12 h-12 rounded-2xl bg-[var(--accent-color)]/10 flex items-center justify-center group-hover:bg-[var(--accent-color)]/20 transition-colors duration-500 text-[var(--accent-color)]">
+                  {{ block.settings.icon_svg }}
+                </div>
+              {% endif %}
+            </div>
+
+            <h3 class="font-serif text-xl md:text-2xl font-medium mb-3 text-white">{{ block.settings.title }}</h3>
+            <p class="text-sm md:text-base text-stone-400 leading-relaxed mb-6">{{ block.settings.description }}</p>
+            
+            {% if block.settings.button_label != blank %}
+              <a href="{{ block.settings.button_link }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--accent-color)]/10 border border-[var(--accent-color)]/20 rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-[var(--accent-color)]/20 transition-all duration-300 mb-6" style="color: var(--accent-color);">
+                {{ block.settings.button_label }}
+              </a>
+            {% endif %}
+          </div>
+
+          <div class="mt-auto relative z-10 rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" class="w-full h-full object-cover rounded-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-700 group-hover:scale-105 transform" loading="lazy">
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover opacity-20' }}
+            {% endif %}
+          </div>
+
+        </div>
+      {% endfor %}
+      
+    </div>
+
+    {% if section.settings.cta_label != blank %}
+      <div class="hiw-reveal-{{ section.id }} text-center mt-16 md:mt-20">
+        <a href="{{ section.settings.cta_link }}" class="inline-flex items-center gap-3 px-8 md:px-10 py-4 font-semibold rounded-full hover:scale-105 transition-all duration-300 text-sm md:text-lg" style="background-color: var(--accent-color); color: var(--bg-color);">
+          {{ section.settings.cta_label }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const elements = document.querySelectorAll('.hiw-reveal-{{ section.id }}');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, { 
+    threshold: 0.1, 
+    rootMargin: '0px 0px -50px 0px' 
+  });
+
+  elements.forEach(el => observer.observe(el));
+});
+</script>
+
+{% schema %}
+{
+  "name": "How It Works - Premium",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Gold)",
+      "default": "#c9a96e"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "Step by Step"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Classic Visual Book",
+      "info": "The words 'Visual Book' will automatically shimmer."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Your most cherished memories, beautifully displayed in a timeless format. Set up in minutes, treasured for years."
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Shop Classic Visual Book"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step Card",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon (SVG Code)",
+          "info": "Paste raw SVG code here for the small icon box.",
+          "default": "<svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M22 12h-4l-3 9L9 3l-3 9H2'></path></svg>"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Connect To Your Computer"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "To setup your Classic Visual Book, connect it to your computer using the included USB cable."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "header",
+          "content": "Optional Inner Button (e.g., Converter)"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works - Premium Grid",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Connect To Your Computer" } },
+        { "type": "step", "settings": { "title": "Effortless Media Management" } },
+        { "type": "step", "settings": { "title": "Gift-Ready Book" } },
+        { "type": "step", "settings": { "title": "Video Compatibility" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

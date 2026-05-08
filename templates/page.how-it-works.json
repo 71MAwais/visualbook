@@ -1,0 +1,132 @@
+{
+  "sections": {
+    "main_guide": {
+      "type": "page-howitwork",
+      "settings": {
+        "hero_overline": "THE GUIDE",
+        "hero_title": "How It Works",
+        "hero_text": "Discover how effortless it is to bring your stories to life, from setup to gifting.",
+        "j1_overline": "USB MEDIA TRANSFER",
+        "j1_title": "Classic Visual Book",
+        "j2_overline": "VOICE RECORDING",
+        "j2_title": "Audio Greetings Card",
+        "j3_overline": "APP CONNECTED",
+        "j3_title": "Smart Visual Book",
+        "support_overline": "SUPPORT",
+        "support_title": "Need help setting up?",
+        "support_text": "Our dedicated support team is available to ensure your Visual Book is perfectly configured for your special moments.",
+        "support_btn": "CONTACT SUPPORT"
+      },
+      "blocks": {
+        "step_c1": {
+          "type": "step",
+          "settings": {
+            "journey": "classic",
+            "step_label": "01",
+            "title": "Connect",
+            "text": "Plug the included premium USB drive directly into your computer's port. No additional software required."
+          }
+        },
+        "step_c2": {
+          "type": "step",
+          "settings": {
+            "journey": "classic",
+            "step_label": "02",
+            "title": "Transfer",
+            "text": "Drag and drop your curated photos and videos into the book's folder. Effortless media management."
+          }
+        },
+        "step_c3": {
+          "type": "step",
+          "settings": {
+            "journey": "classic",
+            "step_label": "03",
+            "title": "Gift",
+            "text": "Slide the book back into its luxury slipcase, ready to be presented and cherished for a lifetime."
+          }
+        },
+        "step_c4": {
+          "type": "step",
+          "settings": {
+            "journey": "classic",
+            "step_label": "04",
+            "title": "Format",
+            "text": "Having trouble with video compatibility?",
+            "link_text": "Use our built-in Media Converter."
+          }
+        },
+        "step_a1": {
+          "type": "step",
+          "settings": {
+            "journey": "audio",
+            "step_label": "01",
+            "title": "Record",
+            "text": "Press and hold the tactile button on the inside cover to seamlessly capture your voice message."
+          }
+        },
+        "step_a2": {
+          "type": "step",
+          "settings": {
+            "journey": "audio",
+            "step_label": "02",
+            "title": "Review",
+            "text": "Release the button and close the card. Open it again for instant, high-fidelity playback."
+          }
+        },
+        "step_a3": {
+          "type": "step",
+          "settings": {
+            "journey": "audio",
+            "step_label": "03",
+            "title": "Perfect",
+            "text": "Didn't get it right? Re-record effortlessly until it captures exactly what you want to say."
+          }
+        },
+        "step_s1": {
+          "type": "step",
+          "settings": {
+            "journey": "smart",
+            "step_label": "01",
+            "title": "Download",
+            "text": "Get the companion app from the App Store or Google Play to unlock wireless capabilities."
+          }
+        },
+        "step_s2": {
+          "type": "step",
+          "settings": {
+            "journey": "smart",
+            "step_label": "02",
+            "title": "Set Up",
+            "text": "Pair your book instantly via Bluetooth or Wi-Fi to sync your account securely."
+          }
+        },
+        "step_s3": {
+          "type": "step",
+          "settings": {
+            "journey": "smart",
+            "step_label": "03",
+            "title": "Share Instantly",
+            "text": "Upload new memories, update albums, and share moments directly to the book from anywhere in the world."
+          }
+        }
+      },
+      "block_order": [
+        "step_c1", "step_c2", "step_c3", "step_c4",
+        "step_a1", "step_a2", "step_a3",
+        "step_s1", "step_s2", "step_s3"
+      ]
+    },
+    "shop": {
+      "type": "visual-shop",
+      "settings": {
+        "subtitle": "SHOP THE COLLECTION",
+        "title": "Curated Collections",
+        "text": ""
+      }
+    }
+  },
+  "order": [
+    "main_guide",
+    "shop"
+  ]
+}

@@ -1,0 +1,156 @@
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+<style>
+  .vb-support .bg-white { background-color: #ffffff; }
+  .vb-support .bg-offWhite { background-color: #fafafa; }
+  .vb-support .text-black { color: #1a1a1a; }
+  .vb-support .text-muted { color: #737373; }
+  .vb-support .text-gold { color: #c4b09e; }
+  .vb-support .border-custom { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; }
+  .vb-support .border-b-custom { border-bottom: 1px solid #eaeaea; }
+  
+  .vb-support .faq-grid { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .vb-support .faq-grid.open { grid-template-rows: 1fr; }
+  .vb-support .faq-inner { overflow: hidden; }
+  
+  .vb-support .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  .vb-support .reveal.active { opacity: 1; transform: translateY(0); }
+  .vb-support .delay-100 { transition-delay: 100ms; }
+  .vb-support .delay-200 { transition-delay: 200ms; }
+  
+  .vb-support .btn-solid {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #1a1a1a;
+    padding: 16px 36px;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    border-radius: 2px;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  .vb-support .btn-solid:hover {
+    background-color: transparent;
+    color: #1a1a1a;
+  }
+</style>
+
+<div class="vb-support">
+  <section class="py-32 bg-white">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-20">
+        <span class="reveal block text-[10px] font-semibold tracking-[0.3em] uppercase text-gold mb-4">Support</span>
+        <h2 class="reveal delay-100 font-serif text-4xl text-black">Common Questions</h2>
+      </div>
+
+      <div class="border-custom border-l-0 border-r-0">
+        <div class="reveal faq-item border-b-custom">
+          <button class="faq-btn w-full flex items-center justify-between py-8 text-left focus:outline-none group">
+            <span class="font-serif text-xl text-black group-hover:text-gold transition-colors" onmouseover="this.style.color='#c4b09e'" onmouseout="this.style.color='#1a1a1a'">What video formats are supported?</span>
+            <span class="iconify text-muted text-xl transform transition-transform duration-300 icon-plus" data-icon="mdi:plus-light"></span>
+          </button>
+          <div class="faq-grid">
+            <div class="faq-inner">
+              <p class="text-base text-muted font-light leading-relaxed pb-8 pr-12">The Classic Visual Book exclusively supports MP4 format with H.264 encoding. For complete peace of mind, our free online converter tool instantly optimizes any video file for flawless playback on the device.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal delay-100 faq-item border-b-custom">
+          <button class="faq-btn w-full flex items-center justify-between py-8 text-left focus:outline-none group">
+            <span class="font-serif text-xl text-black group-hover:text-gold transition-colors" onmouseover="this.style.color='#c4b09e'" onmouseout="this.style.color='#1a1a1a'">How long can the Audio Card record?</span>
+            <span class="iconify text-muted text-xl transform transition-transform duration-300 icon-plus" data-icon="mdi:plus-light"></span>
+          </button>
+          <div class="faq-grid">
+            <div class="faq-inner">
+              <p class="text-base text-muted font-light leading-relaxed pb-8 pr-12">The Audio Greetings Card can capture up to 60 seconds of high-fidelity audio. You have the freedom to re-record your message infinitely—each new recording elegantly replaces the previous one.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal delay-200 faq-item border-b-custom">
+          <button class="faq-btn w-full flex items-center justify-between py-8 text-left focus:outline-none group">
+            <span class="font-serif text-xl text-black group-hover:text-gold transition-colors" onmouseover="this.style.color='#c4b09e'" onmouseout="this.style.color='#1a1a1a'">Does pre-loading delay shipping?</span>
+            <span class="iconify text-muted text-xl transform transition-transform duration-300 icon-plus" data-icon="mdi:plus-light"></span>
+          </button>
+          <div class="faq-grid">
+            <div class="faq-inner">
+              <p class="text-base text-muted font-light leading-relaxed pb-8 pr-12">Not at all. Our luxury pre-loading service is conducted in-house by our specialists on the day of dispatch. Simply upload your files at checkout and we handle the intricate details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-offWhite text-center px-6 border-custom border-l-0 border-r-0">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="reveal font-serif text-4xl text-black mb-6">Require assistance?</h2>
+      <p class="reveal delay-100 text-base text-muted font-light leading-relaxed mb-10 max-w-lg mx-auto">
+        Our dedicated concierge team is available to ensure your Visual Book is perfectly curated and configured for your special moments.
+      </p>
+      <a href="#" class="reveal delay-200 btn-solid">
+        Contact Concierge
+      </a>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Reveal script
+    const revealElements = document.querySelectorAll('.vb-support .reveal');
+    const observerOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // FAQ logic
+    const faqBtns = document.querySelectorAll('.vb-support .faq-btn');
+    faqBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const grid = item.querySelector('.faq-grid');
+        const icon = btn.querySelector('.icon-plus');
+        const isOpen = grid.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.vb-support .faq-grid').forEach(g => g.classList.remove('open'));
+        document.querySelectorAll('.vb-support .icon-plus').forEach(i => {
+          i.style.transform = 'rotate(0deg)';
+          i.style.color = '#737373';
+        });
+
+        // Toggle clicked
+        if (!isOpen) {
+          grid.classList.add('open');
+          icon.style.transform = 'rotate(45deg)';
+          icon.style.color = '#1a1a1a';
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "How It Works - Support",
+  "settings": [],
+  "presets": [
+    {
+      "name": "How It Works - Support"
+    }
+  ]
+}
+{% endschema %}
