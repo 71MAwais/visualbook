@@ -52,8 +52,10 @@
       "type": "shop-product-grid",
       "name": "Shop Grid & Tabs",
       "settings": {
-        "video_collection": "classic-visual-books",
-        "audio_collection": "audio-greetings-card",
+        "tab_1_label": "Video Books",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card",
         "max_products": 12
       }
     },
@@ -110,6 +112,7 @@
       "name": "In-Store Marquee",
       "settings": {
         "title": "Available In-Store At",
+        "bg_color": "#fcfbf9",
         "scroll_speed": 0.6
       }
     }
