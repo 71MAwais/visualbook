@@ -101,10 +101,83 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "product_hero_visual_RfgfJ9": {
+      "type": "product-hero-visual",
+      "blocks": {
+        "accordion_HgaYcf": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        },
+        "accordion_qncAw3": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        },
+        "accordion_wW7mye": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "accordion_HgaYcf",
+        "accordion_qncAw3",
+        "accordion_wW7mye"
+      ],
+      "name": "Visual Product Hero",
+      "settings": {
+        "review_text": "4.9 (128 Reviews)",
+        "show_dynamic_checkout": true,
+        "features_text": "<p>Up to 6-Hour Video Capacity.</p>",
+        "design_text": "<p>Premium linen cover.</p>",
+        "tech_text": "<p>7 or 10.1 inch IPS Display.</p>"
+      }
+    },
+    "product_cinematic_kQi6Fj": {
+      "type": "product-cinematic",
+      "blocks": {
+        "slide_yrANYb": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "badge": "The Experience",
+            "title": "Your Memories, Brought to Life.",
+            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
+          }
+        },
+        "slide_VwynJ8": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "badge": "The Experience",
+            "title": "Your Memories, Brought to Life.",
+            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
+          }
+        }
+      },
+      "block_order": [
+        "slide_yrANYb",
+        "slide_VwynJ8"
+      ],
+      "name": "Visual Cinematic Experience",
+      "settings": {
+        "heading": "Experience the Magic",
+        "subheading": "Discover how our classic visual book transforms your digital memories into a tangible experience."
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "product_hero_visual_RfgfJ9",
+    "product_cinematic_kQi6Fj"
   ]
 }

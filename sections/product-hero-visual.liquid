@@ -28,6 +28,10 @@
     @media (min-width: 640px) {
         .shopify-payment-button__button { height: 54px !important; font-size: 14px !important; }
     }
+
+    /* Accessibility Focus Utility */
+    .focus-ring { outline: none; }
+    .focus-ring:focus-visible { outline: 2px solid #1c1917; outline-offset: 2px; }
 </style>
 
 <script id="VisualMoneyFormat" type="application/json">
@@ -40,23 +44,41 @@
 <main class="max-w-[1200px] mx-auto px-[15px] md:px-8 pt-6 pb-16 md:pt-10 md:pb-20 font-sans text-stone-800 bg-[#FCFCFC] antialiased selection:bg-stone-200" id="ProductSection-{{ section.id }}">
     <div class="lg:grid lg:grid-cols-12 lg:gap-12 lg:items-start">
         
-        <div class="lg:col-span-6 flex flex-col gap-3 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] z-10">
+        <div class="lg:col-span-6 flex flex-col gap-3 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] z-10" aria-label="Product Media Gallery" role="region">
             
             <div class="relative w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:h-[70vh] group rounded-xl overflow-hidden border border-stone-100 bg-stone-50 shadow-sm">
-                <div id="main-image-carousel" class="snap-container flex w-full h-full overflow-x-auto hide-scrollbar scroll-smooth">
+                <div id="main-image-carousel" class="snap-container flex w-full h-full overflow-x-auto hide-scrollbar scroll-smooth" aria-live="polite">
                     {% for media in product.media %}
-                    <div class="snap-slide min-w-full h-full relative flex items-center justify-center shrink-0 carousel-slide" data-index="{{ forloop.index0 }}">
-                        <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" class="w-full h-full object-cover pointer-events-none no-select" draggable="false" />
+                    <div class="snap-slide min-w-full h-full relative flex items-center justify-center shrink-0 carousel-slide" data-index="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }} of {{ product.media.size }}">
+                        {%- assign image_class = "w-full h-full object-cover pointer-events-none no-select" -%}
+                        {% if forloop.first %}
+                            {{ media | image_url: width: 1200 | image_tag: 
+                                class: image_class,
+                                widths: '400, 600, 800, 1000, 1200',
+                                sizes: '(max-width: 768px) 100vw, 50vw',
+                                preload: true,
+                                fetchpriority: 'high',
+                                alt: media.alt | default: product.title | escape
+                            }}
+                        {% else %}
+                            {{ media | image_url: width: 1200 | image_tag: 
+                                class: image_class,
+                                widths: '400, 600, 800, 1000, 1200',
+                                sizes: '(max-width: 768px) 100vw, 50vw',
+                                loading: 'lazy',
+                                alt: media.alt | default: product.title | escape
+                            }}
+                        {% endif %}
                     </div>
                     {% endfor %}
                 </div>
                 
-                <button id="prev-btn" aria-label="Previous image" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm border border-stone-200/50 text-stone-800 rounded-full flex items-center justify-center shadow-md opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105 z-10 focus:outline-none">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                <button id="prev-btn" aria-label="Previous image" type="button" class="focus-ring absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm border border-stone-200/50 text-stone-800 rounded-full flex items-center justify-center shadow-md opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105 z-10">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
                 
-                <button id="next-btn" aria-label="Next image" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm border border-stone-200/50 text-stone-800 rounded-full flex items-center justify-center shadow-md opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105 z-10 focus:outline-none">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <button id="next-btn" aria-label="Next image" type="button" class="focus-ring absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm border border-stone-200/50 text-stone-800 rounded-full flex items-center justify-center shadow-md opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105 z-10">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
             </div>
 
@@ -67,20 +89,26 @@
             </div>
 
             <div class="relative w-full group/thumbs shrink-0">
-                <button id="thumb-prev" type="button" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-3 w-8 h-8 bg-white border border-stone-200 rounded-full shadow-md z-10 hidden items-center justify-center text-stone-600 hover:text-stone-900 md:group-hover/thumbs:flex focus:outline-none transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                <button id="thumb-prev" type="button" aria-label="Scroll thumbnails left" class="focus-ring absolute left-0 top-1/2 -translate-y-1/2 -ml-3 w-8 h-8 bg-white border border-stone-200 rounded-full shadow-md z-10 hidden items-center justify-center text-stone-600 hover:text-stone-900 md:group-hover/thumbs:flex transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
 
-                <div class="flex gap-2.5 overflow-x-auto hide-scrollbar w-full shrink-0 pb-2 pt-1 cursor-grab active:cursor-grabbing scroll-smooth no-select" id="thumbnails-container" role="tablist">
+                <div class="flex gap-2.5 overflow-x-auto hide-scrollbar w-full shrink-0 pb-2 pt-1 cursor-grab active:cursor-grabbing scroll-smooth no-select" id="thumbnails-container" role="tablist" aria-label="Product Thumbnails">
                     {% for media in product.media %}
-                    <button role="tab" type="button" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" class="thumbnail-btn relative rounded-lg overflow-hidden aspect-square flex-shrink-0 w-[70px] md:w-20 transition-all duration-200 {% if forloop.first %}ring-2 ring-stone-900 ring-offset-2 opacity-100{% else %}ring-1 ring-stone-200 hover:ring-stone-400 ring-offset-2 opacity-60 hover:opacity-100{% endif %} bg-stone-100 focus:outline-none cursor-pointer" data-index="{{ forloop.index0 }}">
-                        <img src="{{ media.preview_image | image_url: width: 200 }}" alt="{{ media.alt | escape }}" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" />
+                    <button role="tab" type="button" aria-label="Select image {{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="main-image-carousel" class="focus-ring thumbnail-btn relative rounded-lg overflow-hidden aspect-square flex-shrink-0 w-[70px] md:w-20 transition-all duration-200 {% if forloop.first %}ring-2 ring-stone-900 ring-offset-2 opacity-100{% else %}ring-1 ring-stone-200 hover:ring-stone-400 ring-offset-2 opacity-60 hover:opacity-100{% endif %} bg-stone-100 cursor-pointer" data-index="{{ forloop.index0 }}">
+                        {{ media.preview_image | image_url: width: 200 | image_tag: 
+                            class: 'w-full h-full object-cover pointer-events-none select-none',
+                            widths: '100, 200',
+                            sizes: '(max-width: 768px) 70px, 80px',
+                            loading: 'lazy',
+                            alt: media.alt | default: 'Thumbnail' | escape
+                        }}
                     </button>
                     {% endfor %}
                 </div>
 
-                <button id="thumb-next" type="button" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-3 w-8 h-8 bg-white border border-stone-200 rounded-full shadow-md z-10 hidden items-center justify-center text-stone-600 hover:text-stone-900 md:group-hover/thumbs:flex focus:outline-none transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <button id="thumb-next" type="button" aria-label="Scroll thumbnails right" class="focus-ring absolute right-0 top-1/2 -translate-y-1/2 -mr-3 w-8 h-8 bg-white border border-stone-200 rounded-full shadow-md z-10 hidden items-center justify-center text-stone-600 hover:text-stone-900 md:group-hover/thumbs:flex transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
             </div>
         </div>
@@ -91,7 +119,7 @@
                 <div class="flex space-x-[1px] text-amber-400" aria-hidden="true">
                     {% for i in (1..5) %}<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
                 </div>
-                <a href="#reviews" class="text-[13px] font-medium text-stone-500 hover:text-stone-900 transition-colors">
+                <a href="#reviews" class="focus-ring text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors rounded-sm">
                     {{ section.settings.review_text | default: "4.9 (128 Reviews)" }}
                 </a>
             </div>
@@ -100,36 +128,36 @@
                 {{ product.title }}
             </h1>
             
-            <p class="text-2xl font-medium text-stone-900 mb-6 price-display" data-base-price="{{ product.selected_or_first_available_variant.price }}">
+            <p class="text-2xl font-medium text-stone-900 mb-6 price-display" aria-live="polite" data-base-price="{{ product.selected_or_first_available_variant.price }}">
                 {{ product.selected_or_first_available_variant.price | money }}
             </p>
 
             <div class="mb-6 w-full relative group">
-                <div id="desc-scroll-box" class="max-h-[140px] overflow-y-auto pr-4 pb-6 custom-scrollbar overscroll-contain focus-visible:outline-none rounded-md text-[14.5px] text-stone-600 leading-relaxed font-light relative z-10">
+                <div id="desc-scroll-box" tabindex="0" aria-label="Product Description" class="focus-ring max-h-[140px] overflow-y-auto pr-4 pb-6 custom-scrollbar overscroll-contain rounded-md text-[14.5px] text-stone-700 leading-relaxed font-light relative z-10">
                     {{ product.description }}
                 </div>
-                <div id="desc-fade" class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[#FCFCFC] to-transparent pointer-events-none transition-opacity duration-300 z-20"></div>
+                <div id="desc-fade" class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[#FCFCFC] to-transparent pointer-events-none transition-opacity duration-300 z-20" aria-hidden="true"></div>
             </div>
 
             <div class="mb-8" id="product-tabs">
-                <div class="flex border-b border-stone-200 mb-4 relative overflow-x-auto hide-scrollbar whitespace-nowrap">
-                    <button type="button" class="tab-btn pb-3 mr-8 text-[13px] font-bold border-b-2 border-stone-900 text-stone-900 transition-colors focus:outline-none cursor-pointer" data-tab="features">Features</button>
-                    <button type="button" class="tab-btn pb-3 mr-8 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors focus:outline-none cursor-pointer" data-tab="design">Design & Build</button>
-                    <button type="button" class="tab-btn pb-3 pr-4 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors focus:outline-none cursor-pointer" data-tab="technical">Technical</button>
+                <div class="flex border-b border-stone-200 mb-4 relative overflow-x-auto hide-scrollbar whitespace-nowrap" role="tablist" aria-label="Product Details Tabs">
+                    <button type="button" role="tab" aria-selected="true" aria-controls="tabpanel-features" id="tab-features-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-bold border-b-2 border-stone-900 text-stone-900 transition-colors cursor-pointer" data-tab="features">Features</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-design" id="tab-design-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="design">Design & Build</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-technical" id="tab-technical-btn" class="focus-ring tab-btn pb-3 pr-4 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="technical">Technical</button>
                 </div>
                 
-                <div class="tab-content text-[13.5px] text-stone-600 leading-relaxed font-light" id="tab-features">
+                <div class="tab-content text-[13.5px] text-stone-700 leading-relaxed font-light" id="tabpanel-features" role="tabpanel" aria-labelledby="tab-features-btn" tabindex="0">
                     {{ section.settings.features_text }}
                 </div>
-                <div class="tab-content hidden text-[13.5px] text-stone-600 leading-relaxed font-light" id="tab-design">
+                <div class="tab-content hidden text-[13.5px] text-stone-700 leading-relaxed font-light" id="tabpanel-design" role="tabpanel" aria-labelledby="tab-design-btn" tabindex="0">
                     {{ section.settings.design_text }}
                 </div>
-                <div class="tab-content hidden text-[13.5px] text-stone-600 leading-relaxed font-light" id="tab-technical">
+                <div class="tab-content hidden text-[13.5px] text-stone-700 leading-relaxed font-light" id="tabpanel-technical" role="tabpanel" aria-labelledby="tab-technical-btn" tabindex="0">
                     {{ section.settings.tech_text }}
                 </div>
             </div>
 
-            <div class="h-px w-full bg-stone-200 mb-6"></div>
+            <div class="h-px w-full bg-stone-200 mb-6" aria-hidden="true"></div>
 
             {%- assign product_form_id = 'product-form-' | append: section.id -%}
             
@@ -141,48 +169,46 @@
                 {% unless product.has_only_default_variant %}
                 <div class="mb-6">
                     {% for option in product.options_with_values %}
-                    <div class="mb-5">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest">{{ option.name }}</span>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
+                    <fieldset class="mb-5 border-none p-0 m-0">
+                        <legend class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-3 w-full">{{ option.name }}</legend>
+                        <div class="flex flex-wrap gap-3" role="radiogroup" aria-label="{{ option.name }}">
                             {% for value in option.values %}
-                            <button type="button" class="size-btn flex-1 py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide focus:outline-none touch-manipulation cursor-pointer {% if option.selected_value == value %}border-stone-900 bg-stone-900 text-white shadow-md{% else %}border-stone-300 bg-white text-stone-800 hover:border-stone-500{% endif %}" data-option-position="option{{ option.position }}" data-value="{{ value | escape }}">
+                            <button type="button" role="radio" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}" class="focus-ring size-btn flex-1 py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide touch-manipulation cursor-pointer {% if option.selected_value == value %}border-stone-900 bg-stone-900 text-white shadow-md{% else %}border-stone-300 bg-white text-stone-800 hover:border-stone-500{% endif %}" data-option-position="option{{ option.position }}" data-value="{{ value | escape }}">
                                 {{ value }}
                             </button>
                             {% endfor %}
                         </div>
-                    </div>
+                    </fieldset>
                     {% endfor %}
                 </div>
                 {% endunless %}
 
                 <div class="mb-6 mt-6 relative z-40">
-                    <label class="w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer focus:outline-none">
-                        <svg class="w-6 h-6 text-stone-400 group-hover:text-stone-700 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">Upload Photos & Videos <span class="text-stone-400 font-normal">(Optional)</span></span>
-                        <span class="text-[12px] text-stone-500 font-light" id="upload-status">We'll pre-load them for you</span>
-                        <input type="file" name="properties[Media Upload]" id="media-upload" class="hidden" multiple accept="image/*,video/*">
+                    <label for="media-upload" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer" tabindex="0">
+                        <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">Upload Photos & Videos <span class="text-stone-500 font-normal">(Optional)</span></span>
+                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">We'll pre-load them for you</span>
                     </label>
+                    <input type="file" name="properties[Media Upload]" id="media-upload" class="sr-only" multiple accept="image/*,video/*" tabindex="-1">
                 </div>
 
                 <div class="mb-6 relative z-40">
-                    <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">Background Song <span class="text-stone-400 font-normal normal-case tracking-normal">(Optional)</span></label>
-                    <input type="text" name="properties[Background Song]" id="bg-song" class="w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-900 bg-white shadow-sm" placeholder="e.g. Perfect by Ed Sheeran">
+                    <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">Background Song <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
+                    <input type="text" name="properties[Background Song]" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. Perfect by Ed Sheeran">
                 </div>
 
                 <div class="mb-4 relative z-50">
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:w-[130px] h-[60px] sm:h-[54px] bg-white focus-within:ring-1 focus-within:ring-stone-900 shadow-sm overflow-hidden">
-                            <button type="button" name="minus" class="flex-1 sm:w-12 h-full text-stone-500 hover:text-stone-900 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100">-</button>
-                            <input type="number" name="quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent pointer-events-none" style="-moz-appearance: textfield;">
-                            <button type="button" name="plus" class="flex-1 sm:w-12 h-full text-stone-500 hover:text-stone-900 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100">+</button>
+                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:w-[130px] h-[60px] sm:h-[54px] bg-white focus-within:ring-2 focus-within:ring-stone-900 focus-within:ring-offset-1 shadow-sm overflow-hidden">
+                            <button type="button" name="minus" aria-label="Decrease quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
+                            <input type="number" name="quantity" id="quantity-input" aria-label="Quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
+                            <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" class="product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors focus:outline-none flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
-<span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-transform duration-300 max-w-full">
+                        <button type="submit" name="add" class="focus-ring product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                            <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-transform duration-300 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
-                                    Add to Cart — <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                    Add to Cart <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                                 {%- else -%}
                                     Sold Out
                                 {%- endif -%}
@@ -201,19 +227,19 @@
             </product-form>
 
             <div class="flex flex-col gap-3 mb-8 mt-6 relative z-30">
-                <button type="button" id="live-support-btn" class="w-full bg-white border border-stone-200 text-stone-800 h-[54px] rounded-lg hover:bg-stone-50 hover:border-stone-300 transition-all duration-200 flex items-center justify-center gap-2.5 focus:outline-none font-medium text-[14px] shadow-sm cursor-pointer">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-500"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><path d="M9 12h.01"></path><path d="M12 12h.01"></path><path d="M15 12h.01"></path></svg>
+                <button type="button" id="live-support-btn" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 h-[54px] rounded-lg hover:bg-stone-50 hover:border-stone-300 transition-all duration-200 flex items-center justify-center gap-2.5 font-medium text-[14px] shadow-sm cursor-pointer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><path d="M9 12h.01"></path><path d="M12 12h.01"></path><path d="M15 12h.01"></path></svg>
                     Contact Live Support for Help
                 </button>
 
                 <div class="grid grid-cols-2 border border-stone-200 rounded-lg divide-x divide-stone-200 bg-white shadow-sm">
-                    <button type="button" class="award-btn py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-l-lg focus:outline-none cursor-pointer">
+                    <button type="button" class="focus-ring award-btn py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-l-lg cursor-pointer">
                         <span class="text-[14px] text-stone-800 font-medium">Our Awards</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </button>
-                    <button type="button" id="discount-btn" class="py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg focus:outline-none cursor-pointer">
+                    <button type="button" id="discount-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
                         <span class="text-[14px] text-stone-800 font-medium">Get $5 / €5 Off</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-500 group-hover:text-stone-800 transition-colors"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                     </button>
                 </div>
             </div>
@@ -221,13 +247,13 @@
             <div class="divide-y divide-stone-200 border-t border-stone-200 mt-4 relative z-30" id="accordion-container">
                 {% for block in section.blocks %}
                 <div class="accordion-item" {{ block.shopify_attributes }}>
-                    <button type="button" aria-expanded="false" class="accordion-btn flex justify-between items-center w-full py-4 text-left font-semibold text-[13px] text-stone-900 uppercase tracking-widest group focus:outline-none touch-manipulation cursor-pointer">
+                    <button type="button" aria-expanded="false" aria-controls="accordion-content-{{ block.id }}" class="focus-ring accordion-btn flex justify-between items-center w-full py-4 text-left font-semibold text-[13px] text-stone-900 uppercase tracking-widest group touch-manipulation cursor-pointer rounded-sm">
                         <span>{{ block.settings.title }}</span>
-                        <span class="w-6 h-6 flex items-center justify-center rounded-full bg-stone-100 group-hover:bg-stone-200 transition-colors">
+                        <span class="w-6 h-6 flex items-center justify-center rounded-full bg-stone-100 group-hover:bg-stone-200 transition-colors" aria-hidden="true">
                             <svg class="chevron-icon w-3.5 h-3.5 text-stone-600 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </span>
                     </button>
-                    <div class="accordion-content text-[13.5px] text-stone-600 leading-relaxed overflow-hidden transition-all duration-300 max-h-0 opacity-0 font-light">
+                    <div id="accordion-content-{{ block.id }}" role="region" aria-labelledby="accordion-btn-{{ block.id }}" class="accordion-content text-[13.5px] text-stone-700 leading-relaxed overflow-hidden transition-all duration-300 max-h-0 opacity-0 font-light">
                         <div class="pb-5 pr-4">{{ block.settings.content }}</div>
                     </div>
                 </div>
@@ -239,89 +265,89 @@
 </main>
 
 <div id="all-modals">
-    <div id="support-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true">
+    <div id="support-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
-            <button id="close-modal-btn" type="button" aria-label="Close support modal" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors focus:outline-none">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-stone-900"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                 </div>
-                <h3 class="text-2xl font-serif font-medium text-stone-900 mb-2">How can we help?</h3>
-                <p class="text-[13px] text-stone-500 font-light leading-relaxed">Our concierge team is available 24/7 to assist you with your Visual Book.</p>
+                <h3 id="support-modal-title" class="text-2xl font-serif font-medium text-stone-900 mb-2">How can we help?</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed">Our concierge team is available 24/7 to assist you with your Visual Book.</p>
             </div>
 
             <div class="space-y-3">
-                <a href="mailto:{{ shop.email }}" class="w-full bg-stone-900 text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 transition-colors">
+                <a href="mailto:{{ shop.email }}" class="focus-ring w-full bg-stone-900 text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 transition-colors">
                     Email Support
                 </a>
-                <a href="/pages/contact" class="w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
+                <a href="/pages/contact" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
                     Visit Contact Page
                 </a>
             </div>
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true">
+    <div id="award-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
-            <button id="close-award-modal-btn" aria-label="Close award modal" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors focus:outline-none">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
             <div class="mb-6">
-                <div class="w-14 h-14 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-5 text-[#C5A059] shadow-sm">
+                <div class="w-14 h-14 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-5 text-[#C5A059] shadow-sm" aria-hidden="true">
                     <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                 </div>
-                <h3 class="text-2xl font-serif font-medium text-[#111111] mb-3">Award-Winning Quality</h3>
-                <p class="text-[13px] text-stone-500 font-light leading-relaxed px-2">Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.</p>
+                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-3">Award-Winning Quality</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed px-2">Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.</p>
             </div>
 
             <div class="flex justify-center border-t border-stone-100 pt-5">
-                <button class="bg-stone-50 text-stone-700 border border-stone-200 rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide flex items-center justify-center gap-2 hover:bg-stone-100 hover:border-stone-300 transition-all focus:outline-none shadow-sm pointer-events-none">
-                    <svg class="w-4 h-4 text-[#111111]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <div class="bg-stone-50 text-stone-700 border border-stone-200 rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm">
+                    <svg class="w-4 h-4 text-[#111111]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                     Ships in 24 hours
-                </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="discount-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true">
+    <div id="discount-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
         <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
-            <button id="close-discount-modal-btn" aria-label="Close discount modal" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors focus:outline-none">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]">
+                <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 </div>
-                <h3 class="text-2xl font-serif font-medium text-[#111111] mb-2">Unlock $5 / €5 Off</h3>
-                <p class="text-[13px] text-stone-500 font-light leading-relaxed">Complete any of the tasks below to automatically apply your discount at checkout.</p>
+                <h3 id="discount-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">Unlock $5 / €5 Off</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed">Complete any of the tasks below to automatically apply your discount at checkout.</p>
             </div>
 
             <div class="space-y-3">
-                <button class="w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group focus:outline-none">
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
                     <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-400 group-hover:text-pink-600 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-pink-600 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                         Follow us on Instagram
                     </div>
-                    <span class="text-[#111111] font-semibold">+</span>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
                 </button>
-                <button class="w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group focus:outline-none">
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
                     <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-400 group-hover:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                         Share with a friend
                     </div>
-                    <span class="text-[#111111] font-semibold">+</span>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
                 </button>
-                <button class="w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group focus:outline-none">
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
                      <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-400 group-hover:text-[#111111] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-[#111111] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                         Join our Newsletter
                     </div>
-                    <span class="text-[#111111] font-semibold">+</span>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
                 </button>
             </div>
         </div>
@@ -388,9 +414,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const textSpan = mainSubmitBtn.querySelector('.btn-text');
                 if (matchedVariant.available) {
                     mainSubmitBtn.removeAttribute('disabled');
-                    textSpan.innerHTML = `Add to Cart — <span class="price-display">${formattedPrice}</span>`;
+                    mainSubmitBtn.removeAttribute('aria-disabled');
+                    textSpan.innerHTML = `Add to Cart <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
                 } else {
                     mainSubmitBtn.setAttribute('disabled', 'disabled');
+                    mainSubmitBtn.setAttribute('aria-disabled', 'true');
                     textSpan.textContent = 'Sold Out';
                 }
             }
@@ -420,12 +448,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(b === this) {
                     b.classList.remove('border-stone-300', 'bg-white', 'text-stone-800', 'hover:border-stone-500');
                     b.classList.add('border-stone-900', 'bg-stone-900', 'text-white', 'shadow-md');
+                    b.setAttribute('aria-checked', 'true');
                 } else {
                     b.classList.remove('border-stone-900', 'bg-stone-900', 'text-white', 'shadow-md');
                     b.classList.add('border-stone-300', 'bg-white', 'text-stone-800', 'hover:border-stone-500');
+                    b.setAttribute('aria-checked', 'false');
                 }
             });
             updateVariantUI();
+        });
+        
+        // Keyboard access for radio buttons
+        btn.addEventListener('keydown', function(e) {
+             if (e.key === ' ' || e.key === 'Enter') {
+                 e.preventDefault();
+                 this.click();
+             }
         });
     });
 
@@ -439,9 +477,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const labelUpload = document.querySelector('label[for="media-upload"]');
     const fileInput = document.getElementById('media-upload');
     const uploadStatus = document.getElementById('upload-status');
-    if(fileInput && uploadStatus) {
+    
+    // Keyboard accessibility for file upload label
+    if(labelUpload && fileInput) {
+        labelUpload.addEventListener('keydown', (e) => {
+             if (e.key === ' ' || e.key === 'Enter') {
+                 e.preventDefault();
+                 fileInput.click();
+             }
+        });
+        
         fileInput.addEventListener('change', function() {
             if(this.files && this.files.length > 0) {
                 uploadStatus.textContent = `${this.files.length} file(s) selected`;
@@ -453,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// --- 2. AJAX Add to Cart & Animation (Mobile Safe) ---
+// --- 2. AJAX Add to Cart & Animation ---
     const mainForm = document.querySelector('form[data-type="add-to-cart-form"]');
     if (mainForm) {
         mainForm.addEventListener('submit', function(e) {
@@ -462,13 +510,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; 
             }
 
-            // FIXED: Prevent clicking again while waiting for standard form submission to complete with large file payloads
-            const fileInput = document.getElementById('media-upload');
             if (fileInput && fileInput.files.length > 0) {
                 const btn = this.querySelector('.product-form__submit');
                 const textSpan = btn?.querySelector('.btn-text');
                 if(textSpan) textSpan.textContent = 'Uploading & Adding...';
-                if(btn) btn.style.pointerEvents = 'none'; // Lock the button!
+                if(btn) btn.style.pointerEvents = 'none'; 
                 return; 
             }
 
@@ -541,16 +587,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. Description Box Fade Logic ---
+    // --- 3. Description Box Fade Logic (Debounced to fix "Forced Reflow") ---
     const descScrollBox = document.getElementById('desc-scroll-box');
     const descFade = document.getElementById('desc-fade');
+    let isTicking = false;
     
     if (descScrollBox && descFade) {
         const checkScroll = () => {
-            if (descScrollBox.scrollHeight - descScrollBox.scrollTop <= descScrollBox.clientHeight + 2) {
-                descFade.style.opacity = '0';
-            } else {
-                descFade.style.opacity = '1';
+            if (!isTicking) {
+                window.requestAnimationFrame(() => {
+                    if (descScrollBox.scrollHeight - descScrollBox.scrollTop <= descScrollBox.clientHeight + 2) {
+                        descFade.style.opacity = '0';
+                    } else {
+                        descFade.style.opacity = '1';
+                    }
+                    isTicking = false;
+                });
+                isTicking = true;
             }
         };
         checkScroll();
@@ -562,7 +615,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.carousel-slide');
     const thumbnails = document.querySelectorAll('.thumbnail-btn');
     const sliderProgress = document.getElementById('slider-progress');
-    const totalSlides = slides.length;
     let currentIndex = 0;
 
     const observer = new IntersectionObserver((entries) => {
@@ -605,6 +657,14 @@ document.addEventListener('DOMContentLoaded', () => {
         thumb.addEventListener('click', () => {
             const width = carousel.offsetWidth;
             carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+        });
+        // Keyboard support for thumbnails
+        thumb.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const width = carousel.offsetWidth;
+                carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+            }
         });
     });
 
@@ -649,12 +709,28 @@ document.addEventListener('DOMContentLoaded', () => {
             tabBtns.forEach(b => {
                 b.classList.remove('border-stone-900', 'text-stone-900', 'font-bold');
                 b.classList.add('border-transparent', 'text-stone-500', 'font-medium');
+                b.setAttribute('aria-selected', 'false');
             });
             btn.classList.add('border-stone-900', 'text-stone-900', 'font-bold');
             btn.classList.remove('border-transparent', 'text-stone-500', 'font-medium');
+            btn.setAttribute('aria-selected', 'true');
 
             tabContents.forEach(c => c.classList.add('hidden'));
-            document.getElementById(`tab-${btn.getAttribute('data-tab')}`).classList.remove('hidden');
+            document.getElementById(`tabpanel-${btn.getAttribute('data-tab')}`).classList.remove('hidden');
+        });
+        
+        // Keyboard support for tabs
+        btn.addEventListener('keydown', (e) => {
+            let index = Array.from(tabBtns).indexOf(e.target);
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                tabBtns[(index + 1) % tabBtns.length].focus();
+                tabBtns[(index + 1) % tabBtns.length].click();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                tabBtns[(index - 1 + tabBtns.length) % tabBtns.length].focus();
+                tabBtns[(index - 1 + tabBtns.length) % tabBtns.length].click();
+            }
         });
     });
 
@@ -682,13 +758,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 8. Base Modal Logic ---
-    function openModalEl(modalEl, contentEl) {
+    // --- 8. Accessible Modal Logic ---
+    let lastActiveElement = null;
+
+    function openModalEl(modalEl, contentEl, triggerEl) {
+        lastActiveElement = triggerEl || document.activeElement;
         modalEl.classList.remove('hidden');
         modalEl.classList.add('flex');
+        
+        // Focus trap elements
+        const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        modalEl.addEventListener('keydown', function(e) {
+            let isTabPressed = e.key === 'Tab';
+            if (!isTabPressed) { return; }
+            if (e.shiftKey) { 
+                if (document.activeElement === firstFocusable) {
+                    lastFocusable.focus();
+                    e.preventDefault();
+                }
+            } else { 
+                if (document.activeElement === lastFocusable) {
+                    firstFocusable.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
         setTimeout(() => {
             modalEl.classList.remove('opacity-0');
             contentEl.classList.remove('scale-95', 'opacity-0');
+            if(firstFocusable) firstFocusable.focus();
         }, 10);
     }
 
@@ -698,6 +800,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             modalEl.classList.add('hidden');
             modalEl.classList.remove('flex');
+            if (lastActiveElement) lastActiveElement.focus();
         }, 300);
     }
 
@@ -716,7 +819,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Support Modal
     const supportModal = document.getElementById('support-modal');
     const supportContent = document.getElementById('support-modal-content');
-    document.getElementById('live-support-btn')?.addEventListener('click', () => openModalEl(supportModal, supportContent));
+    const supportTrigger = document.getElementById('live-support-btn');
+    if(supportTrigger) supportTrigger.addEventListener('click', function() { openModalEl(supportModal, supportContent, this); });
     document.getElementById('close-modal-btn')?.addEventListener('click', () => closeModalEl(supportModal, supportContent));
     supportModal?.addEventListener('click', (e) => { if(e.target === supportModal) closeModalEl(supportModal, supportContent); });
 
@@ -724,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const awardBtns = document.querySelectorAll('.award-btn');
     const awardModal = document.getElementById('award-modal');
     const awardContent = document.getElementById('award-modal-content');
-    awardBtns.forEach(btn => btn.addEventListener('click', () => openModalEl(awardModal, awardContent)));
+    awardBtns.forEach(btn => btn.addEventListener('click', function() { openModalEl(awardModal, awardContent, this); }));
     document.getElementById('close-award-modal-btn')?.addEventListener('click', () => closeModalEl(awardModal, awardContent));
     awardModal?.addEventListener('click', (e) => { if(e.target === awardModal) closeModalEl(awardModal, awardContent); });
 
@@ -732,7 +836,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const discountBtn = document.getElementById('discount-btn');
     const discountModal = document.getElementById('discount-modal');
     const discountContent = document.getElementById('discount-modal-content');
-    if(discountBtn) discountBtn.addEventListener('click', () => openModalEl(discountModal, discountContent));
+    if(discountBtn) discountBtn.addEventListener('click', function() { openModalEl(discountModal, discountContent, this); });
     document.getElementById('close-discount-modal-btn')?.addEventListener('click', () => closeModalEl(discountModal, discountContent));
     discountModal?.addEventListener('click', (e) => { if(e.target === discountModal) closeModalEl(discountModal, discountContent); });
     

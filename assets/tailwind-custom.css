@@ -2320,6 +2320,11 @@
       color: var(--color-stone-400);
     }
   }
+  .placeholder-stone-500 {
+    &::placeholder {
+      color: var(--color-stone-500);
+    }
+  }
   .opacity-0 {
     opacity: 0%;
   }
@@ -2724,9 +2729,21 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
+  .focus-within\:ring-2 {
+    &:focus-within {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
   .focus-within\:ring-stone-900 {
     &:focus-within {
       --tw-ring-color: var(--color-stone-900);
+    }
+  }
+  .focus-within\:ring-offset-1 {
+    &:focus-within {
+      --tw-ring-offset-width: 1px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
     }
   }
   .hover\:scale-105 {
