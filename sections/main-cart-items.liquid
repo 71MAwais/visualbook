@@ -138,17 +138,13 @@
           {%- endfor -%}
         </div>
 
-        <!-- Optional: Order Note -->
-        <div class="mt-10">
-          <details class="group">
-            <summary class="flex items-center gap-2 text-[13px] font-bold tracking-widest uppercase text-[#111111] cursor-pointer hover:text-[#C5A059] transition-colors list-none">
-              <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-              Add an order note or gift message
-            </summary>
-            <div class="pt-4">
-              <textarea name="note" class="w-full max-w-lg border border-stone-200 p-4 text-[14px] focus:outline-none focus:border-[#C5A059] transition-colors resize-none rounded-sm bg-stone-50/30" rows="4" placeholder="Special instructions for your order...">{{ cart.note }}</textarea>
-            </div>
-          </details>
+        <!-- Order Special Instructions -->
+        <div class="mt-12 border-t border-stone-200 pt-8">
+          <label for="CartSpecialInstructions" class="flex items-center gap-2 text-[13px] font-bold tracking-widest uppercase text-[#111111] mb-4">
+            <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            Order Special Instructions
+          </label>
+          <textarea id="CartSpecialInstructions" name="note" class="w-full max-w-xl border border-stone-200 p-4 text-[14px] focus:outline-none focus:border-[#C5A059] transition-colors resize-none rounded-sm bg-stone-50/30" rows="4" placeholder="How can we make this order special for you? Add gift notes or special requests here...">{{ cart.note }}</textarea>
         </div>
 
       </div>
@@ -267,6 +263,17 @@ class FullPageCartManager {
 document.addEventListener('DOMContentLoaded', () => {
   window.fullPageCart = new FullPageCartManager();
 });
+
+// Save note on blur automatically so it doesn't get lost
+document.addEventListener('blur', function(e) {
+  if (e.target && e.target.id === 'CartSpecialInstructions') {
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: e.target.value })
+    });
+  }
+}, true);
 </script>
 
 {% schema %}
