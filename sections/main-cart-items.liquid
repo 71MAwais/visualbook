@@ -11,25 +11,15 @@
     }
   }
 
-  /* Custom Scrollbar & Utilities */
   .focus-ring:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
   
-  /* Hide number input arrows */
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none; margin: 0;
   }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
+  input[type="number"] { -moz-appearance: textfield; }
 
-  /* Cart Loading State */
-  .cart-page-loading {
-    opacity: 0.5;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
+  .cart-page-loading { opacity: 0.5; pointer-events: none; transition: opacity 0.3s ease; }
 {%- endstyle -%}
 
 <div id="MainCartContainer" class="max-w-[1400px] mx-auto px-6 lg:px-12 font-sans antialiased section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}" data-section-id="{{ section.id }}">
@@ -42,7 +32,6 @@
   </div>
 
   {%- if cart.item_count == 0 -%}
-    <!-- EMPTY STATE -->
     <div class="flex flex-col items-center justify-center py-20 bg-stone-50/50 border border-stone-100 rounded-sm">
       <svg class="w-12 h-12 text-stone-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
       <h2 class="font-serif text-2xl text-[#111111] mb-3">{{ 'sections.cart.empty' | t }}</h2>
@@ -53,25 +42,20 @@
     </div>
 
   {%- else -%}
-    <!-- CART WITH ITEMS -->
     <form action="{{ routes.cart_url }}" method="post" id="FullCartForm" class="lg:grid lg:grid-cols-12 lg:gap-12 xl:gap-16 items-start transition-opacity duration-300">
       
-      <!-- LEFT COLUMN: CART ITEMS -->
       <div class="lg:col-span-7 xl:col-span-8">
         
-        <!-- Desktop Table Header -->
         <div class="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-stone-200 text-[11px] font-bold tracking-[0.15em] uppercase text-stone-400">
           <div class="col-span-6">{{ 'sections.cart.headings.product' | t }}</div>
           <div class="col-span-3 text-center">{{ 'sections.cart.headings.quantity' | t }}</div>
           <div class="col-span-3 text-right">{{ 'sections.cart.headings.total' | t }}</div>
         </div>
 
-        <!-- Items Loop -->
         <div class="flex flex-col">
           {%- for item in cart.items -%}
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 py-8 border-b border-stone-100 items-center relative group">
               
-              <!-- Product Image & Mobile Remove -->
               <div class="col-span-1 md:col-span-6 flex gap-6 items-center">
                 <a href="{{ item.url }}" class="focus-ring block shrink-0 w-[100px] md:w-[120px] aspect-[4/5] bg-stone-50 p-2 rounded-sm overflow-hidden">
                   {% if item.image %}
@@ -94,7 +78,7 @@
                     </p>
                   {%- endunless -%}
 
-                  <!-- CUSTOM PROPERTIES RENDERED HERE -->
+                  <!-- CUSTOM PROPERTIES (SONG LINK) RENDERED HERE -->
                   {%- if item.properties.size > 0 -%}
                     <div class="mt-2 mb-3 text-[12px] text-stone-500 font-light bg-stone-50/50 p-3 rounded-sm border border-stone-100">
                       {%- for property in item.properties -%}
@@ -111,13 +95,11 @@
                   </div>
                 </div>
 
-                <!-- Mobile Remove Button (Absolute top right on small screens) -->
                 <button type="button" class="md:hidden absolute top-8 right-0 text-stone-400 hover:text-red-500 p-2" onclick="window.fullPageCart.updateQuantity('{{ item.key }}', 0)" aria-label="Remove {{ item.title }}">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
               </div>
 
-              <!-- Quantity Selector -->
               <div class="col-span-1 md:col-span-3 flex justify-between md:justify-center items-center mt-4 md:mt-0">
                 <span class="md:hidden text-[12px] uppercase tracking-widest font-bold text-stone-400">Quantity</span>
                 <div class="flex items-center border border-stone-200 rounded-sm bg-white h-11 w-[110px]">
@@ -131,7 +113,6 @@
                 </div>
               </div>
 
-              <!-- Total Price & Desktop Remove -->
               <div class="hidden md:flex col-span-3 justify-end items-center gap-6">
                 <div class="text-right">
                   {%- if item.original_line_price != item.final_line_price -%}
@@ -148,6 +129,14 @@
 
             </div>
           {%- endfor -%}
+        </div>
+
+        <div class="mt-12 border-t border-stone-200 pt-8">
+          <label for="CartSpecialInstructions" class="flex items-center gap-2 text-[13px] font-bold tracking-widest uppercase text-[#111111] mb-4">
+            <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            Order Special Instructions
+          </label>
+          <textarea id="CartSpecialInstructions" name="note" class="w-full max-w-xl border border-stone-200 p-4 text-[14px] focus:outline-none focus:border-[#C5A059] transition-colors resize-none rounded-sm bg-stone-50/30" rows="4" placeholder="How can we make this order special for you? Add gift notes or special requests here...">{{ cart.note }}</textarea>
         </div>
 
       </div>
@@ -254,7 +243,6 @@ class FullPageCartManager {
 
     } catch (error) {
       console.error('Cart update failed:', error);
-      // Fallback: reload page if AJAX fails
       window.location.reload();
     } finally {
       if(this.form) this.form.classList.remove('cart-page-loading');
@@ -266,6 +254,17 @@ class FullPageCartManager {
 document.addEventListener('DOMContentLoaded', () => {
   window.fullPageCart = new FullPageCartManager();
 });
+
+// Save note on blur automatically so it doesn't get lost
+document.addEventListener('blur', function(e) {
+  if (e.target && e.target.id === 'CartSpecialInstructions') {
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: e.target.value })
+    });
+  }
+}, true);
 </script>
 
 {% schema %}
