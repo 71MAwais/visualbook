@@ -1,0 +1,164 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "disabled": true,
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "occasion_bento_grid_QEh3iR": {
+      "type": "occasion-bento-grid",
+      "blocks": {
+        "occasion_CPcekW": {
+          "type": "occasion",
+          "settings": {
+            "title": "Weddings",
+            "description": "",
+            "button_label": "Explore Collection",
+            "link": "",
+            "size": "small"
+          }
+        },
+        "occasion_i388Um": {
+          "type": "occasion",
+          "settings": {
+            "title": "Weddings",
+            "description": "",
+            "button_label": "Explore Collection",
+            "link": "",
+            "size": "small"
+          }
+        },
+        "occasion_JRgTrt": {
+          "type": "occasion",
+          "settings": {
+            "title": "Weddings",
+            "description": "",
+            "button_label": "Explore Collection",
+            "link": "",
+            "size": "small"
+          }
+        },
+        "occasion_F6cFnG": {
+          "type": "occasion",
+          "settings": {
+            "title": "Weddings",
+            "description": "",
+            "button_label": "Explore Collection",
+            "link": "",
+            "size": "small"
+          }
+        }
+      },
+      "block_order": [
+        "occasion_CPcekW",
+        "occasion_i388Um",
+        "occasion_JRgTrt",
+        "occasion_F6cFnG"
+      ],
+      "name": "Occasion Bento Grid",
+      "settings": {
+        "subheading": "Milestones & Memories",
+        "heading": "Shop by Occasion",
+        "description": "Whether it's the day you said 'I do' or welcoming a new life, explore curated collections designed to tell your unique story."
+      }
+    },
+    "shop_experience_aiRhTK": {
+      "type": "shop-experience",
+      "name": "Shop Experience",
+      "settings": {
+        "badge": "The Experience",
+        "heading": "Designed for Forever",
+        "subheading": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+      }
+    },
+    "visual_instore_iU4FHD": {
+      "type": "visual-instore",
+      "blocks": {
+        "store_ijJRzG": {
+          "type": "store",
+          "settings": {
+            "store_name": "Selfridges & Co"
+          }
+        },
+        "store_7x8Txk": {
+          "type": "store",
+          "settings": {
+            "store_name": "la Rinascente"
+          }
+        },
+        "store_nc3ET9": {
+          "type": "store",
+          "settings": {
+            "store_name": "KaDeWe"
+          }
+        },
+        "store_rymneJ": {
+          "type": "store",
+          "settings": {
+            "store_name": "Le Bon Marché"
+          }
+        },
+        "store_c4pcGx": {
+          "type": "store",
+          "settings": {
+            "store_name": "Harrods"
+          }
+        }
+      },
+      "block_order": [
+        "store_ijJRzG",
+        "store_7x8Txk",
+        "store_nc3ET9",
+        "store_rymneJ",
+        "store_c4pcGx"
+      ],
+      "name": "In-Store Marquee",
+      "settings": {
+        "title": "Available In-Store At",
+        "bg_color": "#fcfbf9",
+        "scroll_speed": 0.6
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid",
+    "occasion_bento_grid_QEh3iR",
+    "shop_experience_aiRhTK",
+    "visual_instore_iU4FHD"
+  ]
+}

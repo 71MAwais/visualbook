@@ -1,0 +1,191 @@
+<div class="custom-corporate-section bg-white" id="page-custom-corporate-{{ section.id }}">
+  
+  <div class="relative w-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-center items-center text-center py-24 px-4 overflow-hidden">
+    {% if section.settings.bg_image != blank %}
+      {{ section.settings.bg_image | image_url: width: 2000 | image_tag: class: 'absolute inset-0 w-full h-full object-cover z-0', alt: section.settings.title, loading: 'lazy' }}
+    {% else %}
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600" class="absolute inset-0 w-full h-full object-cover z-0" alt="Corporate Hero Placeholder" loading="lazy">
+    {% endif %}
+    
+    <div class="absolute inset-0 bg-black/30 z-10"></div>
+    
+    <div class="relative z-20 max-w-3xl mx-auto flex flex-col items-center">
+      {% if section.settings.subheading != blank %}
+        <p class="text-[10px] md:text-xs tracking-[0.25em] text-white/90 uppercase mb-4 md:mb-6 font-medium">
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h1 class="font-serif text-4xl md:text-6xl text-white mb-6 md:mb-8 font-normal tracking-wide">
+          {{ section.settings.title }}
+        </h1>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="text-sm md:text-base text-white/90 leading-relaxed mb-10 max-w-2xl font-light">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+      
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="inline-block border border-white text-white px-10 py-4 text-[10px] md:text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-colors duration-300 font-medium">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-32">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 text-center">
+      {% for block in section.blocks %}
+        <div class="flex flex-col items-center" {{ block.shopify_attributes }}>
+          
+          {% if block.settings.show_icon %}
+          <div class="w-14 h-14 bg-[#F9F8F6] rounded-full flex items-center justify-center mb-6">
+            {% if block.settings.custom_image != blank %}
+              {{ block.settings.custom_image | image_url: width: 64 | image_tag: class: 'w-6 h-6 object-contain', alt: block.settings.feature_title }}
+            {% else %}
+              <i data-lucide="{{ block.settings.icon_name }}" class="w-5 h-5 text-[#C4A478]" stroke-width="1.5"></i>
+            {% endif %}
+          </div>
+          {% endif %}
+          
+          {% if block.settings.feature_title != blank %}
+            <h3 class="font-serif text-lg md:text-xl text-black mb-4 tracking-wide">
+              {{ block.settings.feature_title }}
+            </h3>
+          {% endif %}
+          
+          {% if block.settings.feature_text != blank %}
+            <p class="text-xs md:text-sm text-gray-500 leading-loose max-w-[280px] mx-auto font-light">
+              {{ block.settings.feature_text }}
+            </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom & Corporate",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "BESPOKE SOLUTIONS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Elevate Your Brand"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Create unforgettable impressions with fully customized visual books for your corporate events, high-end client gifts, or portfolio presentations."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "REQUEST A QUOTE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Box",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Icon/Image",
+          "info": "Overrides the Lucide icon if selected."
+        },
+        {
+          "type": "text",
+          "id": "icon_name",
+          "label": "Lucide Icon Name",
+          "default": "palette",
+          "info": "Used if no custom image is selected. (e.g., 'palette', 'video', 'boxes')"
+        },
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Feature Title",
+          "default": "Custom Branding"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_text",
+          "label": "Feature Text",
+          "default": "Foil stamping, custom linen colors, and full-color print options to match your exact brand guidelines."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom & Corporate",
+      "category": "Content",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "palette",
+            "feature_title": "Custom Branding",
+            "feature_text": "Foil stamping, custom linen colors, and full-color print options to match your exact brand guidelines."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "video",
+            "feature_title": "Pre-Loaded Content",
+            "feature_text": "We handle the technical side, pre-loading your promotional videos, presentations, or welcome messages."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "boxes",
+            "feature_title": "Volume Ordering",
+            "feature_text": "Dedicated account management and tiered pricing for bulk orders starting at just 10 units."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

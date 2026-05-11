@@ -1,0 +1,194 @@
+<div class="bg-white py-16 md:py-24" id="section-{{ section.id }}">
+  
+  {% if section.settings.heading != blank or section.settings.subheading != blank %}
+    <div class="text-center px-4 mb-12 md:mb-16">
+      {% if section.settings.subheading != blank %}
+        <p class="text-xs tracking-[0.2em] text-[#C4A478] uppercase mb-4">{{ section.settings.subheading }}</p>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-[#111111] mb-6">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+      
+      {% for block in section.blocks %}
+        {%- liquid
+          assign grid_class = 'md:col-span-1 md:row-span-1 h-[300px]'
+          assign overlay_gradient = 'bg-gradient-to-t from-black/80 via-black/10 to-transparent'
+          assign content_wrapper_class = 'bottom-6 left-6 md:bottom-8 md:left-8 pr-6'
+          assign title_class = 'text-2xl mb-3'
+          assign button_text_class = 'text-[10px]'
+
+          if block.settings.size == 'large'
+            assign grid_class = 'md:col-span-2 md:row-span-2 h-[450px] md:h-[624px]'
+            assign overlay_gradient = 'bg-gradient-to-t from-black/80 via-black/20 to-transparent'
+            assign content_wrapper_class = 'bottom-8 left-8 md:bottom-12 md:left-12 pr-8'
+            assign title_class = 'text-3xl md:text-5xl mb-4'
+            assign button_text_class = 'text-xs'
+          elsif block.settings.size == 'wide'
+            assign grid_class = 'md:col-span-2 md:row-span-1 h-[300px]'
+            assign overlay_gradient = 'bg-gradient-to-t from-black/80 via-black/20 to-transparent md:bg-gradient-to-r md:from-black/90 md:via-black/40'
+            assign content_wrapper_class = 'bottom-6 left-6 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:left-12 pr-8'
+            assign title_class = 'text-3xl mb-3'
+            assign button_text_class = 'text-[10px]'
+          endif
+        -%}
+
+        <a href="{{ block.settings.link | default: '#' }}" class="group relative overflow-hidden bg-[#111111] {{ grid_class }} block w-full" {{ block.shopify_attributes }}>
+          
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100', alt: block.settings.title, loading: 'lazy' }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-1000' }}
+          {% endif %}
+          
+          <div class="absolute inset-0 {{ overlay_gradient }} transition-opacity duration-500"></div>
+          
+          <div class="absolute {{ content_wrapper_class }} z-10 flex flex-col items-start">
+            <h3 class="font-serif text-white {{ title_class }}">{{ block.settings.title }}</h3>
+            
+            {% if block.settings.description != blank %}
+              <p class="text-white/90 font-light text-sm leading-relaxed hidden md:block {% if block.settings.size == 'wide' %}text-xs mb-5 max-w-xs{% else %}mb-8 max-w-sm{% endif %}">
+                {{ block.settings.description }}
+              </p>
+            {% endif %}
+
+            <span class="inline-flex items-center tracking-widest uppercase text-white border-b border-white/70 pb-1 group-hover:border-[#C4A478] group-hover:text-[#C4A478] transition-all duration-300 {{ button_text_class }}">
+              {{ block.settings.button_label }} 
+              <i data-lucide="arrow-right" class="w-3 h-3 ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+            </span>
+          </div>
+        </a>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Occasion Bento Grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Milestones & Memories"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Occasion"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Whether it's the day you said 'I do' or welcoming a new life, explore curated collections designed to tell your unique story."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "occasion",
+      "name": "Occasion Block",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Weddings"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description (Optional)",
+          "info": "Best used on Large or Wide block sizes."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Explore Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Block Size",
+          "options": [
+            { "value": "small", "label": "Small (1x1)" },
+            { "value": "large", "label": "Large (2x2)" },
+            { "value": "wide", "label": "Wide (2x1)" }
+          ],
+          "default": "small"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Occasion Bento Grid",
+      "blocks": [
+        {
+          "type": "occasion",
+          "settings": {
+            "size": "large",
+            "title": "Weddings",
+            "description": "Preserve the magic of your special day in a premium linen-bound video book that plays the moment it opens."
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "size": "small",
+            "title": "Anniversaries",
+            "button_label": "Shop Collection"
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "size": "small",
+            "title": "Birthdays",
+            "button_label": "Shop Collection"
+          }
+        },
+        {
+          "type": "occasion",
+          "settings": {
+            "size": "wide",
+            "title": "Family & Baby",
+            "description": "From their first steps to everyday magic, keep family memories close at hand."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,117 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 bg-white">
+  <div class="space-y-16 md:space-y-24">
+    {% for block in section.blocks %}
+      {% assign is_even = forloop.index | modulo: 2 %}
+      
+      <div class="flex flex-col {% if is_even == 0 %}md:flex-row-reverse{% else %}md:flex-row{% endif %} items-center gap-8 md:gap-16" {{ block.shopify_attributes }}>
+        
+        <div class="w-full md:w-1/2 bg-[#F8F7F4] p-8 md:p-16 flex items-center justify-center aspect-square overflow-hidden">
+          {% if block.settings.image != blank %}
+             <img src="{{ block.settings.image | image_url: width: 1000 }}" 
+                  alt="{{ block.settings.title | escape }}" 
+                  class="w-full h-full object-contain" 
+                  loading="lazy">
+          {% else %}
+             {{ 'collection-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-10 mix-blend-multiply' }}
+          {% endif %}
+        </div>
+        
+        <div class="w-full md:w-1/2 text-center md:text-left flex flex-col justify-center">
+          <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl text-[#111111] mb-4 leading-tight">
+            {{ block.settings.title }}
+          </h2>
+          
+          <p class="text-[#666666] text-sm md:text-base mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
+            {{ block.settings.description }}
+          </p>
+          
+          <div class="flex items-center justify-center md:justify-start space-x-4 mb-8">
+            {% if block.settings.compare_at_price != blank %}
+              <span class="text-[#999999] text-lg line-through">{{ block.settings.compare_at_price }}</span>
+            {% endif %}
+            <span class="text-2xl font-medium text-[#111111]">{{ block.settings.price }}</span>
+          </div>
+          
+          <div>
+            <a href="{{ block.settings.link }}" class="inline-block bg-[#111111] text-white px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-gray-800 transition-colors w-full md:w-auto text-center">
+              {{ block.settings.button_label }}
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gift Bundles",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Gift Bundle",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Bundle Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Bundle Title",
+          "default": "The Ultimate Wedding Bundle"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Includes the Classic Visual Book in White Linen, an Audio Guestbook Telephone, and a customized premium presentation box."
+        },
+        {
+          "type": "text",
+          "id": "compare_at_price",
+          "label": "Original Price (Optional)",
+          "default": "450,00 €"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Sale Price",
+          "default": "395,00 €"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "VIEW BUNDLE DETAILS"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Bundles List",
+      "blocks": [
+        {
+          "type": "bundle",
+          "settings": {
+            "title": "The Ultimate Wedding Bundle",
+            "description": "Includes the Classic Visual Book in White Linen, an Audio Guestbook Telephone, and a customized premium presentation box.",
+            "compare_at_price": "450,00 €",
+            "price": "395,00 €",
+            "button_label": "VIEW BUNDLE DETAILS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

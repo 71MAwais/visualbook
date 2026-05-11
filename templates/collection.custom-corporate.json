@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "disabled": true,
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "corporate_landing_WedwAM": {
+      "type": "corporate-landing",
+      "blocks": {
+        "feature_7V8EPf": {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "palette",
+            "feature_title": "Custom Branding",
+            "feature_text": "Foil stamping, custom linen colors, and full-color print options to match your exact brand guidelines."
+          }
+        },
+        "feature_MkTRjK": {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "video",
+            "feature_title": "Pre-Loaded Content",
+            "feature_text": "We handle the technical side, pre-loading your promotional videos, presentations, or welcome messages."
+          }
+        },
+        "feature_hVaknj": {
+          "type": "feature",
+          "settings": {
+            "show_icon": true,
+            "icon_name": "boxes",
+            "feature_title": "Volume Ordering",
+            "feature_text": "Dedicated account management and tiered pricing for bulk orders starting at just 10 units."
+          }
+        }
+      },
+      "block_order": [
+        "feature_7V8EPf",
+        "feature_MkTRjK",
+        "feature_hVaknj"
+      ],
+      "name": "Custom Corporate Hero",
+      "settings": {
+        "bg_image": "shopify://shop_images/j_1770874530698d66a2c9b515233.png",
+        "subheading": "Bespoke Solutions",
+        "title": "Elevate Your Brand",
+        "description": "Create unforgettable impressions with fully customized visual books for your corporate events, high-end client gifts, or portfolio presentations.",
+        "button_label": "Request a Quote",
+        "button_link": ""
+      }
+    },
+    "shop_experience_aiRhTK": {
+      "type": "shop-experience",
+      "name": "Shop Experience",
+      "settings": {
+        "badge": "The Experience",
+        "heading": "Designed for Forever",
+        "subheading": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+      }
+    },
+    "visual_instore_iU4FHD": {
+      "type": "visual-instore",
+      "blocks": {
+        "store_ijJRzG": {
+          "type": "store",
+          "settings": {
+            "store_name": "Selfridges & Co"
+          }
+        },
+        "store_7x8Txk": {
+          "type": "store",
+          "settings": {
+            "store_name": "la Rinascente"
+          }
+        },
+        "store_nc3ET9": {
+          "type": "store",
+          "settings": {
+            "store_name": "KaDeWe"
+          }
+        },
+        "store_rymneJ": {
+          "type": "store",
+          "settings": {
+            "store_name": "Le Bon Marché"
+          }
+        },
+        "store_c4pcGx": {
+          "type": "store",
+          "settings": {
+            "store_name": "Harrods"
+          }
+        }
+      },
+      "block_order": [
+        "store_ijJRzG",
+        "store_7x8Txk",
+        "store_nc3ET9",
+        "store_rymneJ",
+        "store_c4pcGx"
+      ],
+      "name": "In-Store Marquee",
+      "settings": {
+        "title": "Available In-Store At",
+        "bg_color": "#fafafa",
+        "scroll_speed": 0.6
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid",
+    "corporate_landing_WedwAM",
+    "shop_experience_aiRhTK",
+    "visual_instore_iU4FHD"
+  ]
+}
