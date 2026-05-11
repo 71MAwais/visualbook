@@ -1,0 +1,42 @@
+<section class="visual-help max-w-3xl mx-auto py-20 px-4 sm:px-6">
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-serif text-gray-900">{{ section.settings.title }}</h2>
+    <p class="mt-4 text-gray-600">{{ section.settings.subtitle }}</p>
+  </div>
+  <div class="space-y-4">
+    {% for block in section.blocks %}
+      <details class="group border-b border-gray-200 pb-4 [&_summary::-webkit-details-marker]:hidden">
+        <summary class="flex justify-between items-center font-medium cursor-pointer list-none text-lg py-3 text-gray-900 hover:text-gray-600">
+          <span>{{ block.settings.question }}</span>
+          <span class="transition duration-300 group-open:-rotate-180">
+            <svg fill="none" height="20" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="20"><path d="M19 9l-7 7-7-7"></path></svg>
+          </span>
+        </summary>
+        <div class="text-gray-600 mt-2 mb-4 leading-relaxed pr-8">
+          {{ block.settings.answer }}
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Visual Help FAQ",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "How can we help?" },
+    { "type": "text", "id": "subtitle", "label": "Subheading", "default": "Find answers to our most frequently asked questions." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How do I upload a video?" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Visual Help FAQ" }]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<section class="visual-blog-grid py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+  <div class="flex justify-between items-end mb-12">
+    <h2 class="text-4xl font-serif text-gray-900">{{ section.settings.title }}</h2>
+    {% if section.settings.show_view_all %}
+      <a href="{{ blogs[section.settings.blog].url }}" class="text-sm font-medium uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500">View All</a>
+    {% endif %}
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    {% assign blog = blogs[section.settings.blog] %}
+    {% for article in blog.articles limit: section.settings.post_limit %}
+      <article class="flex flex-col h-full group">
+        <a href="{{ article.url }}" class="block mb-6 overflow-hidden aspect-[4/3] bg-gray-100">
+          {% if article.image %}
+            <img src="{{ article.image | img_url: '800x600', crop: 'center' }}" alt="{{ article.title }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'w-full h-full text-gray-300' }}
+          {% endif %}
+        </a>
+        <p class="text-xs text-gray-500 mb-3 uppercase tracking-widest">{{ article.published_at | date: "%B %d, %Y" }}</p>
+        <h3 class="text-2xl font-serif mb-3 text-gray-900 group-hover:text-gray-600 transition">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h3>
+        <p class="text-gray-600 mb-5 line-clamp-3">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+        <a href="{{ article.url }}" class="mt-auto text-sm font-bold uppercase tracking-widest underline decoration-1 underline-offset-4 hover:text-gray-500">Read More</a>
+      </article>
+    {% else %}
+      <p class="text-gray-500">No articles found. Please select a blog in the theme editor.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Visual Blog Grid",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Latest News" },
+    { "type": "blog", "id": "blog", "label": "Select Blog" },
+    { "type": "range", "id": "post_limit", "min": 3, "max": 12, "step": 3, "label": "Number of posts to show", "default": 3 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' link", "default": true }
+  ],
+  "presets": [{ "name": "Visual Blog Grid" }]
+}
+{% endschema %}

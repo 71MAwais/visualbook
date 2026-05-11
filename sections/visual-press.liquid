@@ -1,0 +1,39 @@
+<section class="visual-press bg-[#fafafa] py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-4xl font-serif text-center mb-16 text-gray-900">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for block in section.blocks %}
+        <div class="flex flex-col justify-between p-8 bg-white border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
+          <p class="mb-8 text-gray-700 text-lg italic leading-relaxed">"{{ block.settings.quote }}"</p>
+          <div>
+            <p class="font-bold uppercase tracking-widest text-xs mb-3">{{ block.settings.publication }}</p>
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" target="_blank" class="text-xs uppercase border-b border-black pb-1 hover:text-gray-500">Read Article</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Visual Press",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "In The Press" }
+  ],
+  "blocks": [
+    {
+      "type": "press_mention",
+      "name": "Press Mention",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "publication", "label": "Publication Name" },
+        { "type": "url", "id": "link", "label": "Article Link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Visual Press" }]
+}
+{% endschema %}
