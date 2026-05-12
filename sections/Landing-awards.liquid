@@ -1,0 +1,147 @@
+{% comment %} sections/visual-credentials.liquid {% endcomment %}
+
+<section class="py-12 md:py-16 bg-[#FAFAFA] relative overflow-hidden" id="credentials-{{ section.id }}">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#B8906B]/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-[1200px] mx-auto px-5 md:px-8 text-center relative z-10">
+        
+        {% if section.settings.subtitle != blank %}
+            <p class="font-sans text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#B8906B] font-semibold mb-2">{{ section.settings.subtitle }}</p>
+        {% endif %}
+        
+        {% if section.settings.title != blank %}
+            <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-10 text-[#050505] leading-tight max-w-3xl mx-auto">
+                {{ section.settings.title }}
+            </h2>
+        {% endif %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {% for block in section.blocks %}
+                <div class="group relative p-6 md:p-8 border border-black/5 rounded-2xl bg-white shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-500 flex flex-col items-center text-center" {{ block.shopify_attributes }}>
+                    
+                    <div class="w-14 h-14 mb-4 rounded-full bg-gradient-to-br from-[#B8906B]/10 to-transparent flex items-center justify-center group-hover:scale-110 transition-transform duration-500 p-2.5">
+                        
+                        {%- comment -%} LOGIC: Image > Custom SVG > Pregenerated Fallback {%- endcomment -%}
+                        {% if block.settings.image != blank %}
+                            <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.title | escape }}" class="w-full h-full object-contain mix-blend-multiply" loading="lazy">
+                        {% elsif block.settings.custom_svg != blank %}
+                            <div class="w-full h-full text-[#B8906B] [&>svg]:w-full [&>svg]:h-full">
+                                {{ block.settings.custom_svg }}
+                            </div>
+                        {% else %}
+                            <div class="w-full h-full text-[#B8906B]">
+                                {% case block.settings.fallback_icon %}
+                                    {% when 'crown' %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                                    {% when 'award' %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                                    {% when 'shopping-bag' %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                                    {% when 'shield' %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                                {% endcase %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    
+                    <h3 class="font-serif text-lg md:text-xl mb-2 text-[#050505]">{{ block.settings.title }}</h3>
+                    <p class="text-[9px] uppercase tracking-[0.2em] text-[#B8906B] font-bold mb-3">{{ block.settings.subtitle }}</p>
+                    <p class="text-[13px] text-[#050505]/60 font-light leading-relaxed">{{ block.settings.text }}</p>
+                    
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "Credentials & Trust",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Born in London, Loved Worldwide" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "A Global Standard in Luxury Memory Preservation" }
+  ],
+  "blocks": [
+    {
+      "type": "credential",
+      "name": "Trust Pillar",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge/Logo Image",
+          "info": "Upload the actual award logo, IPO seal, or retailer logo. (PNG with transparent background recommended)"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Code",
+          "info": "Paste custom SVG code here if you prefer vector graphics over an image."
+        },
+        {
+          "type": "select",
+          "id": "fallback_icon",
+          "label": "Fallback Icon",
+          "info": "This pre-generated icon will show if no image or custom SVG is provided.",
+          "options": [
+            { "value": "crown", "label": "Crown (Original/Pioneer)" },
+            { "value": "award", "label": "Award Ribbon" },
+            { "value": "shopping-bag", "label": "Shopping Bag (Retail)" },
+            { "value": "shield", "label": "Shield (Quality/Safety)" }
+          ],
+          "default": "award"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "The Original UK Pioneer" },
+        { "type": "text", "id": "subtitle", "label": "Badge Text", "default": "UK IPO Certified Design" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "As the creators of the UK's first luxury video album, our exclusive design is officially registered and protected by the UK Intellectual Property Office, setting the standard for quality worldwide." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Credentials & Trust",
+      "blocks": [
+        { 
+          "type": "credential",
+          "settings": {
+            "fallback_icon": "crown",
+            "title": "The Original UK Pioneer",
+            "subtitle": "UK IPO Certified Design",
+            "text": "As the creators of the UK's first luxury video album, our exclusive design is officially registered and protected by the UK Intellectual Property Office, setting the standard for quality worldwide."
+          }
+        },
+        { 
+          "type": "credential",
+          "settings": {
+            "fallback_icon": "award",
+            "title": "Internationally Awarded",
+            "subtitle": "Global Excellence",
+            "text": "Crowned 'Best Luxury Wedding Memory Preservation' globally, and recognised by industry leaders for our commitment to artisan craftsmanship and technological innovation."
+          }
+        },
+        { 
+          "type": "credential",
+          "settings": {
+            "fallback_icon": "shopping-bag",
+            "title": "Global Retail Presence",
+            "subtitle": "Trusted by the Best",
+            "text": "Featured as the 'Star of the Show' in the world's most prestigious luxury department stores, from Selfridges in London to KaDeWe in Berlin and La Rinascente in Italy."
+          }
+        },
+        { 
+          "type": "credential",
+          "settings": {
+            "fallback_icon": "shield",
+            "title": "Unrivalled Quality",
+            "subtitle": "Sustainably & Safely Crafted",
+            "text": "Engineered to rigorous international CE, RoHS, and UKCA standards, ensuring your most cherished memories are preserved flawlessly and safely for a lifetime."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

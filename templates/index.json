@@ -9,78 +9,58 @@
  */
 {
   "sections": {
-    "visual_hero_TEieYW": {
-      "type": "visual-hero",
+    "landing_hero_eEAx9G": {
+      "type": "landing-hero",
       "name": "Visual Hero",
       "settings": {
         "video_url": "https://cdn.shopify.com/videos/c/o/v/d752982d797342b4bbd4b869883a22e3.mov",
-        "image": "shopify://shop_images/jbj_1770873066698d60ea60a8e5452.png",
-        "heading": "The Signature\nCollection",
-        "button_label": "SHOP NOW",
-        "button_link": "shopify://collections/all"
+        "image": "shopify://shop_images/photo_0300_6779b2a9-9803-4a44-a806-1da0b824ab0e.jpg",
+        "heading": "Your Memories,\nBrought to Life.",
+        "subheading": "The timeless elegance of a physical photo book, elevated with a stunning HD video display. No internet or setup required.",
+        "button_label": "Explore",
+        "button_link": ""
       }
     },
-    "visual_as_seen_4HFbER": {
-      "type": "visual-as-seen",
+    "landing_as_seen_dFngCU": {
+      "type": "Landing-as-seen",
       "blocks": {
-        "brand_jecakh": {
+        "brand_VzyznY": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/839689AF-71E5-46A2-9272-A811CE17323A.jpg",
             "text": "Vogue"
           }
         },
-        "brand_jTePgD": {
+        "brand_HfcC4z": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/YOUmag-logo-black.png",
-            "text": "Vogue"
+            "text": "Soho House"
           }
         },
-        "brand_F6PGXG": {
+        "brand_JfHikg": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/Unknown-3_41fb0f32-63fc-4371-a3c3-06e373d354c7.png",
-            "text": ""
+            "text": "wed2b"
           }
         },
-        "brand_3NBHiY": {
+        "brand_JdT8Pt": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/logo-wedding-chicks_801a0503-faed-4f71-8fa6-cf74ce692c8a.png",
-            "text": ""
+            "text": "Wedding Chicks"
           }
         },
-        "brand_6i9XRF": {
+        "brand_MLjryL": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/roud-member-of-style-me-prettys-prestigious-invitation-only-style-me-pretty-logo-11563199600svd1wb3xqa.png",
-            "text": ""
-          }
-        },
-        "brand_wPDc8a": {
-          "type": "brand",
-          "settings": {
-            "logo": "shopify://shop_images/D0D3B99B-C80A-428A-9348-3014E97666BC.png",
-            "text": ""
-          }
-        },
-        "brand_P68Efp": {
-          "type": "brand",
-          "settings": {
-            "logo": "shopify://shop_images/9B423DB5-2921-49AE-A34E-82C05D536E84.png",
-            "text": "Reader Digest"
+            "text": "Reader's Digest"
           }
         }
       },
       "block_order": [
-        "brand_jecakh",
-        "brand_jTePgD",
-        "brand_F6PGXG",
-        "brand_3NBHiY",
-        "brand_6i9XRF",
-        "brand_wPDc8a",
-        "brand_P68Efp"
+        "brand_VzyznY",
+        "brand_HfcC4z",
+        "brand_JfHikg",
+        "brand_JdT8Pt",
+        "brand_MLjryL"
       ],
       "name": "As Seen In",
       "settings": {
@@ -88,8 +68,47 @@
         "bg_color": "#fcfbf9"
       }
     },
-    "visual_shop_M9JUhD": {
-      "type": "visual-shop",
+    "landing_cinematic_dVzXyi": {
+      "type": "Landing-cinematic",
+      "blocks": {
+        "feature_9hwL6R": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        },
+        "feature_PPtiUm": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        },
+        "feature_caKKNV": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        }
+      },
+      "block_order": [
+        "feature_9hwL6R",
+        "feature_PPtiUm",
+        "feature_caKKNV"
+      ],
+      "name": "Cinematic Showcase",
+      "settings": {}
+    },
+    "landing_shop_GjN9FK": {
+      "type": "Landing-shop",
       "name": "Shop Carousel",
       "settings": {
         "subtitle": "Curated Essentials",
@@ -101,190 +120,133 @@
         "collection_2": "audio-greetings-card"
       }
     },
-    "visual_howitworks_MP9k9D": {
-      "type": "visual-howitworks",
+    "landing_feature_grid_hG6MFa": {
+      "type": "Landing-feature-grid",
+      "name": "Landing Feature Grid",
+      "settings": {
+        "bg_color": "#FCFCFC",
+        "text_color": "#000000",
+        "font_family": "inter_n4",
+        "text_1": "Signature Box",
+        "text_2": "Memory Preservation",
+        "text_3": "Fast Delivery",
+        "text_4": "Exceptional Craft",
+        "text_5": "Eco-Friendly",
+        "show_separator": true
+      }
+    },
+    "landing_howitworks_UpQWib": {
+      "type": "Landing-howitworks",
       "blocks": {
-        "step_J9dMVy": {
+        "step_JFbAGH": {
           "type": "step",
           "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/saturday_icons_how_it_works_vb-07.png",
+            "category": "tab2",
             "tag": "Step 01",
             "title": "Connect To Your Computer",
-            "description": "To setup your Classic Visual Book connect it to your computer using the USB cable.",
+            "description": "",
             "link_text": "",
             "link_url": ""
           }
         },
-        "step_PCbNbp": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/Untitled_design-24.png",
-            "tag": "Step 02",
-            "title": "Effortless Media Management",
-            "description": "Sort photos and videos into respective folders, ensure they meet format and resolution. You can add, delete, or modify your content as you wish.",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_DeUzHc": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
-            "tag": "Step 03",
-            "title": "Gift-Ready Book",
-            "description": "Benefit from our complimentary service, optional pre-loading service by media experts, ensuring your Book arrives ready to showcase your memories, all presented in our gift box.",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_DbxCBA": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "image": "shopify://shop_images/NO_FILE.png",
-            "tag": "Step 04",
-            "title": "Video Compatibility Issue",
-            "description": "Troubled by 'no file' or ‘video not supported’ errors? Our converter is designed to resolve these issues and enhance your Visual Book experience.",
-            "link_text": "Use Converter",
-            "link_url": "https://thevisualbook-converter.com/"
-          }
-        },
-        "step_Wd4LXj": {
+        "step_a6m4ew": {
           "type": "step",
           "settings": {
             "category": "tab2",
-            "image": "shopify://shop_images/audiocards-03.png",
             "tag": "Step 01",
-            "title": "Start Recording",
-            "description": "Click the record button on your audio card. You'll hear a beep sound, indicating that the recording is about to begin.\n\nSpeak or play the audio you want to capture. The audio card will store the recorded data in its memory.",
+            "title": "Connect To Your Computer",
+            "description": "",
             "link_text": "",
             "link_url": ""
           }
         },
-        "step_hmMrji": {
+        "step_nb4X37": {
           "type": "step",
           "settings": {
-            "category": "tab2",
-            "image": "shopify://shop_images/audiocards-06.png",
-            "tag": "Step 02",
-            "title": "Record",
-            "description": "Click the record button again.\n\nYou'll hear two beep sounds, indicating that the recording has stopped.",
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Connect To Your Computer",
+            "description": "",
             "link_text": "",
             "link_url": ""
           }
         },
-        "step_neNwHb": {
+        "step_nMNJmb": {
           "type": "step",
           "settings": {
-            "category": "tab2",
-            "image": "shopify://shop_images/audiocards-04.png",
-            "tag": "Step 03",
-            "title": "Playback & Re-Record",
-            "description": "If you want to listen to your recording, click the play button on your audio card.\n\nIf you want to re-record, simply follow the same steps again.\n\nNote: The previous recording will automatically be deleted and replaced with the new recording.",
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Connect To Your Computer",
+            "description": "",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_NXTrdf": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Connect To Your Computer",
+            "description": "",
             "link_text": "",
             "link_url": ""
           }
         }
       },
       "block_order": [
-        "step_J9dMVy",
-        "step_PCbNbp",
-        "step_DeUzHc",
-        "step_DbxCBA",
-        "step_Wd4LXj",
-        "step_hmMrji",
-        "step_neNwHb"
+        "step_JFbAGH",
+        "step_a6m4ew",
+        "step_nb4X37",
+        "step_nMNJmb",
+        "step_NXTrdf"
       ],
       "name": "How It Works",
       "settings": {
         "title": "How It Works",
+        "description": "Discover how easy it is to bring your memories to life.",
         "tab_1_label": "Classic Visual Book",
         "tab_2_label": "Audio Greetings Card"
       }
     },
-    "visual_cinematic_RUjyVt": {
-      "type": "visual-cinematic",
+    "landing_realmoments_bcmqda": {
+      "type": "Landing-realmoments",
       "blocks": {
-        "feature_TmbUh4": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "image": "shopify://shop_images/bba_1770874373698d6605d0ff16842.png",
-            "icon": "aperture"
-          }
-        },
-        "feature_qn4e4w": {
-          "type": "feature",
-          "settings": {
-            "number": "02",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "image": "shopify://shop_images/photo_0027_706320ff-8c2c-4cc9-b2d7-23be85358b92.jpg",
-            "icon": "aperture"
-          }
-        },
-        "feature_FCPTLY": {
-          "type": "feature",
-          "settings": {
-            "number": "03",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "image": "shopify://shop_images/photo_0126.jpg",
-            "icon": "aperture"
-          }
-        }
-      },
-      "block_order": [
-        "feature_TmbUh4",
-        "feature_qn4e4w",
-        "feature_FCPTLY"
-      ],
-      "name": "Cinematic Showcase",
-      "settings": {}
-    },
-    "visual_realmoments_JjaeYa": {
-      "type": "visual-realmoments",
-      "blocks": {
-        "moment_JRgb9p": {
-          "type": "moment",
-          "settings": {
-            "video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
-            "image": "shopify://shop_images/5065017721114_ALT5.jpg",
-            "handle": "@sarah_weddings"
-          }
-        },
-        "moment_rJpHqw": {
-          "type": "moment",
-          "settings": {
-            "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
-            "handle": "@the_miller_family"
-          }
-        },
-        "moment_HFGVKb": {
-          "type": "moment",
-          "settings": {
-            "video": "shopify://files/videos/video.mp4",
-            "handle": "@emma.gifting"
-          }
-        },
-        "moment_amAFeR": {
+        "moment_brxXrH": {
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
-            "handle": "@joshua_memories"
+            "handle": "@the_visual_book"
+          }
+        },
+        "moment_yGJxpQ": {
+          "type": "moment",
+          "settings": {
+            "video": "shopify://files/videos/video.mp4",
+            "handle": "@the_visual_book"
+          }
+        },
+        "moment_Wx6JTN": {
+          "type": "moment",
+          "settings": {
+            "video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
+            "handle": "@the_visual_book"
+          }
+        },
+        "moment_9RcEkx": {
+          "type": "moment",
+          "settings": {
+            "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
+            "image": "shopify://shop_images/j_1770874208698d6560805bd8569.png",
+            "handle": "@the_visual_book"
           }
         }
       },
       "block_order": [
-        "moment_JRgb9p",
-        "moment_rJpHqw",
-        "moment_HFGVKb",
-        "moment_amAFeR"
+        "moment_brxXrH",
+        "moment_yGJxpQ",
+        "moment_Wx6JTN",
+        "moment_9RcEkx"
       ],
       "name": "Real Moments",
       "settings": {
@@ -292,44 +254,55 @@
         "title": "Real Moments"
       }
     },
-    "visual_reviews_qWJwhY": {
+    "visual_reviews_AedeeH": {
       "type": "visual-reviews",
       "blocks": {
-        "review_DeXrYe": {
+        "review_XhAk6j": {
           "type": "review",
           "settings": {
             "stars": 5,
             "title": "Absolutely Beautiful",
             "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Verified Customer",
+            "author": "Sarah M.",
             "verified": true
           }
         },
-        "review_VXjFGQ": {
+        "review_a46mnX": {
           "type": "review",
           "settings": {
             "stars": 5,
             "title": "Absolutely Beautiful",
             "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Verified Customer",
+            "author": "Sarah M.",
             "verified": true
           }
         },
-        "review_txm7Hz": {
+        "review_hc9T4J": {
           "type": "review",
           "settings": {
             "stars": 5,
             "title": "Absolutely Beautiful",
             "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Verified Customer",
+            "author": "Sarah M.",
+            "verified": true
+          }
+        },
+        "review_CfcdDK": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Absolutely Beautiful",
+            "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
+            "author": "Sarah M.",
             "verified": true
           }
         }
       },
       "block_order": [
-        "review_DeXrYe",
-        "review_VXjFGQ",
-        "review_txm7Hz"
+        "review_XhAk6j",
+        "review_a46mnX",
+        "review_hc9T4J",
+        "review_CfcdDK"
       ],
       "name": "Reviews",
       "settings": {
@@ -339,79 +312,103 @@
         "rating_text": "4.9 / 5 — 2,400+ Reviews"
       }
     },
-    "visual_credentials_6EQEWk": {
-      "type": "visual-credentials",
+    "landing_awards_CaYXPk": {
+      "type": "Landing-awards",
       "blocks": {
-        "credential_rgph7V": {
+        "credential_iXEhHW": {
           "type": "credential",
           "settings": {
-            "icon": "award",
-            "title": "2023 Winner",
-            "subtitle": "Best Luxury Wedding Memory Preservation",
-            "text": "Recognised by the Luxury Wedding Awards for our unparalleled commitment to preserving life's most precious moments with artisan craftsmanship."
+            "custom_svg": "",
+            "fallback_icon": "crown",
+            "title": "The Original UK Pioneer",
+            "subtitle": "UK IPO Certified Design",
+            "text": "As the creators of the UK's first luxury video album, our exclusive design is officially registered and protected by the UK Intellectual Property Office, setting the standard for quality worldwide."
           }
         },
-        "credential_PAE6AB": {
+        "credential_xaUrGe": {
           "type": "credential",
           "settings": {
-            "icon": "shield-check",
-            "title": "Intellectual Property",
-            "subtitle": "UK IPO Certified — Registered Design",
-            "text": "Our unique Visual Book design is registered and protected under the UK Intellectual Property Office, guaranteeing the authenticity and originality of every piece."
+            "custom_svg": "",
+            "fallback_icon": "award",
+            "title": "Internationally Awarded",
+            "subtitle": "Global Excellence",
+            "text": "Crowned 'Best Luxury Wedding Memory Preservation' globally, and recognised by industry leaders for our commitment to artisan craftsmanship and technological innovation."
+          }
+        },
+        "credential_ngwfTT": {
+          "type": "credential",
+          "settings": {
+            "custom_svg": "",
+            "fallback_icon": "shopping-bag",
+            "title": "Global Retail Presence",
+            "subtitle": "Trusted by the Best",
+            "text": "Featured as the 'Star of the Show' in the world's most prestigious luxury department stores, from Selfridges in London to KaDeWe in Berlin and La Rinascente in Italy."
+          }
+        },
+        "credential_nW8MpX": {
+          "type": "credential",
+          "settings": {
+            "custom_svg": "",
+            "fallback_icon": "shield",
+            "title": "Unrivalled Quality",
+            "subtitle": "Sustainably & Safely Crafted",
+            "text": "Engineered to rigorous international CE, RoHS, and UKCA standards, ensuring your most cherished memories are preserved flawlessly and safely for a lifetime."
           }
         }
       },
       "block_order": [
-        "credential_rgph7V",
-        "credential_PAE6AB"
+        "credential_iXEhHW",
+        "credential_xaUrGe",
+        "credential_ngwfTT",
+        "credential_nW8MpX"
       ],
-      "name": "Credentials",
+      "name": "Credentials & Trust",
       "settings": {
-        "subtitle": "Recognised Excellence",
-        "title": "Award Winning & Exclusive"
+        "subtitle": "Born in London, Loved Worldwide",
+        "title": "A Global Standard in Luxury Memory Preservation"
       }
     },
-    "visual_founder_6xenEK": {
-      "type": "visual-founder",
+    "landing_founder_zTBkD3": {
+      "type": "Landing-founder",
       "name": "Founder Story",
       "settings": {
-        "main_image": "shopify://shop_images/DSC3638.jpg",
-        "sub_image": "shopify://shop_images/photo_0218.jpg",
         "subtitle": "Our Story",
         "title": "Born from Loss,\nDesigned for Forever",
         "story_html": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>",
-        "founder_name": "AISHA IMAN",
+        "button_link": "",
+        "button_label": "Read Full Story",
+        "founder_name": "Adanna Okafor",
         "founder_title": "Founder & CEO"
       }
     },
-    "visual_instore_Y6gda7": {
-      "type": "visual-instore",
+    "landing_instore_eFePrb": {
+      "type": "Landing-instore",
       "blocks": {
-        "store_3xCRqL": {
+        "store_jXqCN8": {
           "type": "store",
           "settings": {
             "store_name": "Selfridges & Co"
           }
         },
-        "store_hDDP77": {
+        "store_GFHfit": {
           "type": "store",
           "settings": {
             "store_name": "la Rinascente"
           }
         },
-        "store_KJLeKw": {
+        "store_jUBEX6": {
           "type": "store",
           "settings": {
             "store_name": "KaDeWe"
           }
         },
-        "store_MTpW8m": {
+        "store_NrDaLt": {
           "type": "store",
           "settings": {
             "store_name": "Le Bon Marché"
           }
         },
-        "store_93Gi3c": {
+        "store_xBPzhG": {
           "type": "store",
           "settings": {
             "store_name": "Harrods"
@@ -419,43 +416,44 @@
         }
       },
       "block_order": [
-        "store_3xCRqL",
-        "store_hDDP77",
-        "store_KJLeKw",
-        "store_MTpW8m",
-        "store_93Gi3c"
+        "store_jXqCN8",
+        "store_GFHfit",
+        "store_jUBEX6",
+        "store_NrDaLt",
+        "store_xBPzhG"
       ],
       "name": "In-Store Marquee",
       "settings": {
         "title": "Available In-Store At",
+        "bg_color": "#fcfbf9",
         "scroll_speed": 1
       }
     },
-    "visual_faq_cEL3Qt": {
-      "type": "visual-faq",
+    "landing_faq_k4pJCa": {
+      "type": "Landing-faq",
       "blocks": {
-        "faq_3QTrQF": {
+        "faq_r9JLp7": {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
             "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
           }
         },
-        "faq_w8q9TR": {
+        "faq_DQ3mRb": {
           "type": "faq",
           "settings": {
             "question": "Can I change the videos after I receive the book?",
             "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
           }
         },
-        "faq_qFaWxm": {
+        "faq_jtR68e": {
           "type": "faq",
           "settings": {
             "question": "How long does the battery last?",
             "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
           }
         },
-        "faq_GBAVXg": {
+        "faq_FpTzqV": {
           "type": "faq",
           "settings": {
             "question": "Is there a limit to how many videos I can upload?",
@@ -464,10 +462,10 @@
         }
       },
       "block_order": [
-        "faq_3QTrQF",
-        "faq_w8q9TR",
-        "faq_qFaWxm",
-        "faq_GBAVXg"
+        "faq_r9JLp7",
+        "faq_DQ3mRb",
+        "faq_jtR68e",
+        "faq_FpTzqV"
       ],
       "name": "FAQ Accordion",
       "settings": {
@@ -475,29 +473,30 @@
         "title": "Common Questions"
       }
     },
-    "visual_cta_epGfFq": {
-      "type": "visual-cta",
+    "landing_cta_pF9D7X": {
+      "type": "Landing-cta",
       "name": "Call to Action",
       "settings": {
         "subtitle": "Begin Your Story",
         "title": "Ready to preserve\nwhat matters most?",
         "button_label": "Shop The Collection",
-        "button_link": "shopify://collections/all"
+        "button_link": ""
       }
     }
   },
   "order": [
-    "visual_hero_TEieYW",
-    "visual_as_seen_4HFbER",
-    "visual_shop_M9JUhD",
-    "visual_howitworks_MP9k9D",
-    "visual_cinematic_RUjyVt",
-    "visual_realmoments_JjaeYa",
-    "visual_reviews_qWJwhY",
-    "visual_credentials_6EQEWk",
-    "visual_founder_6xenEK",
-    "visual_instore_Y6gda7",
-    "visual_faq_cEL3Qt",
-    "visual_cta_epGfFq"
+    "landing_hero_eEAx9G",
+    "landing_as_seen_dFngCU",
+    "landing_cinematic_dVzXyi",
+    "landing_shop_GjN9FK",
+    "landing_feature_grid_hG6MFa",
+    "landing_howitworks_UpQWib",
+    "landing_realmoments_bcmqda",
+    "visual_reviews_AedeeH",
+    "landing_awards_CaYXPk",
+    "landing_founder_zTBkD3",
+    "landing_instore_eFePrb",
+    "landing_faq_k4pJCa",
+    "landing_cta_pF9D7X"
   ]
 }

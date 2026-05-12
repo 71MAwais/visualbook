@@ -79,7 +79,11 @@
     {% for block in section.blocks %}
         <div class="cine-item" data-icon="{{ block.settings.icon | escape }}">
             <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ block.settings.title | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%]" draggable="false" loading="lazy"/>
+                {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ block.settings.title | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%]" draggable="false" loading="lazy"/>
+                {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%] bg-[#222]' }}
+                {% endif %}
                 <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/30 to-transparent"></div>
                 <div class="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-transparent to-transparent"></div>
             </div>

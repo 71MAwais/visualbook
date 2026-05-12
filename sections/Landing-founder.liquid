@@ -14,43 +14,87 @@
     .story-content p:last-child {
         margin-bottom: 0;
     }
+
+    /* Read More / Line Clamp Logic */
+    .story-text-clip {
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Trims text to 4 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .read-more-link {
+        display: inline-block;
+        color: #B8906B;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-weight: 700;
+        margin-top: 12px;
+        border-bottom: 1px solid #B8906B;
+        padding-bottom: 2px;
+        transition: opacity 0.3s ease;
+        text-decoration: none;
+    }
+    .read-more-link:hover {
+        opacity: 0.7;
+    }
 </style>
 
-<section id="story-{{ section.id }}" class="py-16 md:py-24 bg-[#FAFAFA] overflow-hidden">
-    <div class="max-w-[1600px] mx-auto px-5 md:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+<section id="story-{{ section.id }}" class="py-10 md:py-16 bg-[#FAFAFA] overflow-hidden">
+    <div class="max-w-[1400px] mx-auto px-5 md:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             
-            <div class="relative max-w-[400px] md:max-w-full mx-auto w-full" id="founderImages-{{ section.id }}">
+            {%- comment -%} CAPPED WIDTH: max-w-[320px] on mobile, 420px on desktop to prevent excessive height {%- endcomment -%}
+            {% if section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="relative max-w-[320px] md:max-w-[360px] lg:max-w-[420px] mx-auto w-full group/img block cursor-pointer" id="founderImages-{{ section.id }}">
+            {% else %}
+            <div class="relative max-w-[320px] md:max-w-[360px] lg:max-w-[420px] mx-auto w-full" id="founderImages-{{ section.id }}">
+            {% endif %}
                 
-                <div class="overflow-hidden rounded-sm shadow-2xl relative w-full aspect-[3/4] bg-[#111]">
+                {%- comment -%} SHORTER ASPECT RATIO: aspect-[4/5] instead of [3/4] {%- endcomment -%}
+                <div class="overflow-hidden rounded-sm shadow-2xl relative w-full aspect-[4/5] bg-[#111]">
                     {% if section.settings.main_image != blank %}
-                        <img id="founder-main-img-{{ section.id }}" src="{{ section.settings.main_image | img_url: '1000x' }}" alt="{{ section.settings.founder_name | escape }}" class="w-full h-full grayscale hover:grayscale-0 luxury-transition object-cover absolute inset-0">
+                        <img id="founder-main-img-{{ section.id }}" src="{{ section.settings.main_image | image_url: width: 800 }}" alt="{{ section.settings.founder_name | escape }}" class="w-full h-full grayscale hover:grayscale-0 luxury-transition object-cover absolute inset-0" loading="lazy">
                     {% else %}
                         <div id="founder-main-img-{{ section.id }}" class="w-full h-full bg-stone-200 flex items-center justify-center text-stone-400 font-sans text-xs tracking-widest uppercase absolute inset-0">Main Portrait</div>
                     {% endif %}
                 </div>
 
-                <div class="absolute -bottom-6 right-2 md:-bottom-10 md:-right-10 w-[40%] max-w-[160px] md:w-48 overflow-hidden rounded-sm shadow-xl border-4 border-[#FAFAFA] aspect-[3/4] bg-white z-10" style="transform:rotate(6deg)">
+                <div class="absolute -bottom-4 -right-2 md:-bottom-8 md:-right-6 w-[45%] max-w-[140px] md:w-40 overflow-hidden rounded-sm shadow-xl border-4 border-[#FAFAFA] aspect-[4/5] bg-white z-10" style="transform:rotate(6deg)">
                     <div id="founder-sub-img-{{ section.id }}" class="w-full h-full relative">
                         {% if section.settings.sub_image != blank %}
-                            <img src="{{ section.settings.sub_image | img_url: '600x' }}" alt="Childhood memory" class="w-full h-full object-cover sepia hover:sepia-0 luxury-transition absolute inset-0">
+                            <img src="{{ section.settings.sub_image | image_url: width: 400 }}" alt="Childhood memory" class="w-full h-full object-cover sepia hover:sepia-0 luxury-transition absolute inset-0" loading="lazy">
                         {% else %}
                             <div class="w-full h-full bg-stone-300 flex items-center justify-center text-stone-500 font-sans text-[8px] tracking-widest uppercase absolute inset-0 text-center px-2">Memory Photo</div>
                         {% endif %}
                     </div>
                 </div>
 
+            {% if section.settings.button_link != blank %}
+            </a>
+            {% else %}
             </div>
+            {% endif %}
 
-            <div class="mt-12 lg:mt-0 text-center lg:text-left">
-                <p class="font-script text-[#B8906B] text-[28px] md:text-[36px] mb-2">{{ section.settings.subtitle }}</p>
-                <h2 class="font-serif text-[32px] md:text-[48px] font-medium tracking-tight mb-6 md:mb-8 text-stone-950 leading-[1.1]">{{ section.settings.title | newline_to_br }}</h2>
+            <div class="mt-8 lg:mt-0 text-center lg:text-left">
+                <p class="font-script text-[#B8906B] text-[28px] md:text-[36px] mb-1">{{ section.settings.subtitle }}</p>
                 
-                <div class="story-content text-[15px] md:text-[17px] text-stone-500 font-light leading-[1.8] font-sans mx-auto lg:mx-0 max-w-2xl">
-                    {{ section.settings.story_html }}
+                <h2 class="font-serif text-[32px] md:text-[42px] font-medium tracking-tight mb-4 text-stone-950 leading-[1.1]">{{ section.settings.title | newline_to_br }}</h2>
+                
+                <div class="story-content-wrapper">
+                    <div id="story-text-{{ section.id }}" class="story-content story-text-clip text-[15px] md:text-[16px] text-stone-500 font-light leading-[1.7] font-sans mx-auto lg:mx-0 max-w-2xl">
+                        {{ section.settings.story_html }}
+                    </div>
+                    
+                    {% if section.settings.button_link != blank %}
+                        <a href="{{ section.settings.button_link }}" class="read-more-link" aria-label="Read full founder story">
+                            {{ section.settings.button_label }}
+                        </a>
+                    {% endif %}
                 </div>
                 
-                <div class="mt-10 md:mt-12">
+                <div class="mt-6 md:mt-8">
                     <p class="font-script text-[28px] md:text-[34px] text-[#B8906B]">{{ section.settings.founder_name }}</p>
                     <p class="text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-stone-400 font-bold mt-1">{{ section.settings.founder_title }}</p>
                 </div>
@@ -72,10 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const applyParallax = () => {
             if (fSection) {
                 const rect = fSection.getBoundingClientRect();
-                // Check if section is in viewport
                 if(rect.top < window.innerHeight && rect.bottom > 0) {
                     const progress = 1 - (rect.bottom / (window.innerHeight + rect.height));
-                    // Subtle vertical shift based on scroll progress
                     fMain.style.transform = `translateY(${-5 + (progress * 10)}%)`; 
                     if(fSub) {
                         fSub.style.transform = `translateY(${10 - (progress * 25)}%)`; 
@@ -85,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         window.addEventListener('scroll', applyParallax, { passive: true });
-        applyParallax(); // Initial call
+        applyParallax(); 
     }
 });
 </script>
@@ -108,6 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>" 
     },
     
+    { "type": "header", "content": "Navigation (Read More)" },
+    { "type": "url", "id": "button_link", "label": "Link to About/Story Page", "info": "If added, the 'Read More' text and the images will link to this page." },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "Read Full Story" },
+
     { "type": "header", "content": "Signature" },
     { "type": "text", "id": "founder_name", "label": "Founder Name", "default": "Adanna Okafor" },
     { "type": "text", "id": "founder_title", "label": "Founder Title", "default": "Founder & CEO" }

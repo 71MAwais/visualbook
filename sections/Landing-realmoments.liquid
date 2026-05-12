@@ -49,7 +49,7 @@
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Rock-Solid Navigation Arrows ne */
+    /* Rock-Solid Navigation Arrows */
     .moment-arrow {
         transform: translate3d(0, -50%, 0);
         -webkit-tap-highlight-color: transparent;
@@ -73,11 +73,11 @@
     }
 </style>
 
-<section id="real-moments-{{ section.id }}" class="w-full bg-[#050505] py-10 md:py-16 flex flex-col items-center select-none overflow-hidden">
+<section id="real-moments-{{ section.id }}" class="w-full bg-[#050505] py-6 md:py-10 flex flex-col items-center select-none overflow-hidden" aria-labelledby="moments-title">
 
-    <div class="w-full text-center pb-8 md:pb-12 px-5 flex-shrink-0 z-10">
-        <p class="font-script text-[#B8906B] text-[24px] md:text-[30px] mb-2 leading-none">{{ section.settings.subtitle }}</p>
-        <h2 class="font-serif text-[36px] md:text-[52px] text-white tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
+    <div class="w-full text-center pb-4 md:pb-8 px-5 flex-shrink-0 z-10">
+        <p class="font-script text-[#B8906B] text-[24px] md:text-[30px] mb-1.5 leading-none">{{ section.settings.subtitle }}</p>
+        <h2 id="moments-title" class="font-serif text-[36px] md:text-[52px] text-white tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
     </div>
 
     <div class="w-full relative group/carousel max-w-[1800px] mx-auto flex items-center px-4 md:px-12">
@@ -90,7 +90,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
-        <div id="moments-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-10 relative">
+        <div id="moments-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-6 relative">
             <div id="moments-start-spacer" class="shrink-0 w-[50vw]"></div>
             <div id="moments-card-container" class="flex gap-4 md:gap-8 items-center shrink-0"></div>
             <div id="moments-end-spacer" class="shrink-0 w-[50vw]"></div>
@@ -98,21 +98,28 @@
     </div>
 </section>
 
-<div id="moments-data" class="hidden">
+{%- comment -%} 🚀 TEMPLATE: Fast Loading Native Video {%- endcomment -%}
+<template id="moments-data">
     {% for block in section.blocks %}
         <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-[#111] snap-center relative overflow-hidden rounded-[4px] cursor-pointer group">
             
             {% if block.settings.video != blank %}
-                <video preload="none" loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+                
+                {% if block.settings.video.preview_image %}
+                    <img src="{{ block.settings.video.preview_image | image_url: width: 600, format: 'webp' }}" class="moment-thumb absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-10 pointer-events-none opacity-80" loading="lazy" alt="{{ block.settings.title | escape }}">
+                {% endif %}
+
+                <video preload="none" loop muted playsinline webkit-playsinline class="moment-video absolute inset-0 w-full h-full object-cover z-0">
                     {% for source in block.settings.video.sources %}
                         <source src="{{ source.url }}" type="{{ source.mime_type }}">
                     {% endfor %}
                 </video>
+
             {% elsif block.settings.image != blank %}
-                <img src="{{ block.settings.image | img_url: '1000x' }}" alt="{{ block.settings.handle }}" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                <img src="{{ block.settings.image | image_url: width: 600, format: 'webp' }}" alt="{{ block.settings.handle }}" class="absolute inset-0 w-full h-full object-cover z-0 opacity-80" loading="lazy">
             {% endif %}
             
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-70 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-70 pointer-events-none z-10"></div>
             
             <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                 <div class="play-pause-indicator w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
@@ -122,7 +129,7 @@
             </div>
 
             {% if block.settings.handle != blank %}
-                <div class="absolute bottom-6 left-6 text-white text-[13px] font-sans font-bold tracking-widest uppercase z-10 pointer-events-none">
+                <div class="absolute bottom-6 left-6 text-white text-[13px] font-sans font-bold tracking-widest uppercase z-20 pointer-events-none drop-shadow-md">
                     {{ block.settings.handle }}
                 </div>
             {% endif %}
@@ -141,22 +148,31 @@
             </div>
         {% endfor %}
     {% endfor %}
-</div>
+</template>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const section = document.getElementById('real-moments-{{ section.id }}');
+    if (!section) return;
+
     const track = document.getElementById('moments-track');
     const container = document.getElementById('moments-card-container');
     const prevBtn = document.getElementById('moments-prev');
     const nextBtn = document.getElementById('moments-next');
-    const dataCards = Array.from(document.getElementById('moments-data').children);
+    const template = document.getElementById('moments-data');
+    const dataCards = Array.from(template.content.children);
     
     let totalUnique = dataCards.length;
     let isJumping = false;
-    let isTouching = false;
     let isVisible = false;
+    let areVideosLoaded = false;
     let scrollTimeout = null;
+    let lastActiveIndex = -1;
+    let lastVisibleState = false; 
+    let isDown = false;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let isDraggingCard = false;
     
     if (totalUnique === 0) return;
 
@@ -172,9 +188,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cards = Array.from(container.children);
 
+    // Centralized UI Updater (Prevents DOM desyncs)
+    function setVideoUI(card, state) {
+        const playSvg = card.querySelector('.play-svg');
+        const pauseSvg = card.querySelector('.pause-svg');
+        if (state === 'playing') {
+            card.classList.add('is-playing');
+            if(playSvg) playSvg.classList.add('hidden');
+            if(pauseSvg) pauseSvg.classList.remove('hidden');
+        } else {
+            card.classList.remove('is-playing');
+            if(playSvg) playSvg.classList.remove('hidden');
+            if(pauseSvg) pauseSvg.classList.add('hidden');
+        }
+    }
+
+    // Initialize Event Listeners on Videos
+    cards.forEach((card) => {
+        const video = card.querySelector('video');
+        const thumb = card.querySelector('.moment-thumb');
+
+        if (video && thumb) {
+            video.addEventListener('playing', () => {
+                thumb.style.opacity = '0';
+            });
+        }
+    });
+
     function adjustSpacers() {
         if (!cards.length) return;
-        const cardWidth = cards[0].offsetWidth || 320;
+        const cardWidth = cards?.offsetWidth || 320;
         const space = (track.clientWidth / 2) - (cardWidth / 2);
         document.getElementById('moments-start-spacer').style.width = `${space}px`;
         document.getElementById('moments-end-spacer').style.width = `${space}px`;
@@ -190,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function jumpToIndexSilently(index) {
         isJumping = true;
         track.style.scrollBehavior = 'auto';
-        track.style.scrollSnapType = 'none'; // Prevent browser fighting
+        track.style.scrollSnapType = 'none';
 
         if (cards[index]) {
             const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
@@ -211,25 +254,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateVideoStates(activeIndex) {
+        if (!areVideosLoaded) return; 
+
+        if (activeIndex === lastActiveIndex && isVisible === lastVisibleState) return;
+        lastActiveIndex = activeIndex;
+        lastVisibleState = isVisible;
+
         cards.forEach((card, i) => {
             const isActive = i === activeIndex;
             const video = card.querySelector('video');
-            const playSvg = card.querySelector('.play-svg');
-            const pauseSvg = card.querySelector('.pause-svg');
+            const thumb = card.querySelector('.moment-thumb');
 
             if (video) {
                 if (isActive && isVisible) {
                     if (!card.classList.contains('manual-pause')) {
-                        video.play().catch(() => {});
-                        card.classList.add('is-playing');
-                        if(playSvg) playSvg.classList.add('hidden');
-                        if(pauseSvg) pauseSvg.classList.remove('hidden');
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                setVideoUI(card, 'playing');
+                            }).catch(() => {
+                                setVideoUI(card, 'paused');
+                            });
+                        }
                     }
                 } else {
-                    video.pause();
-                    card.classList.remove('is-playing');
-                    if(playSvg) playSvg.classList.remove('hidden');
-                    if(pauseSvg) pauseSvg.classList.add('hidden');
+                    if (!video.paused) {
+                        video.pause();
+                        video.currentTime = 0; 
+                    }
+                    setVideoUI(card, 'paused');
+                    card.classList.remove('manual-pause'); 
+                    if (thumb) thumb.style.opacity = '0.8'; 
                 }
             }
         });
@@ -251,13 +306,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
+        cards.forEach((card, i) => {
+            const isClosest = (i === closestIndex);
+            card.classList.toggle('active-card', isClosest);
+            
+            if (!isClosest) {
+                card.classList.remove('manual-pause'); 
+                const video = card.querySelector('video');
+                if (video && !video.paused) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+                setVideoUI(card, 'paused');
+                const thumb = card.querySelector('.moment-thumb');
+                if (thumb) thumb.style.opacity = '0.8';
+            }
+        });
 
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            // Mobile Swiping Check
-            if (isTouching) return;
-
             if (closestIndex < totalUnique || closestIndex >= totalUnique * 2) {
                 const safeIndex = (closestIndex % totalUnique) + totalUnique;
                 jumpToIndexSilently(safeIndex);
@@ -265,12 +332,29 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 updateVideoStates(closestIndex);
             }
-        }, 100);
+        }, 150); 
     }
 
-    // Bind Play/Pause Click Events
+    // 🚀 NEW: Rock-Solid Click & Tap Handler
     cards.forEach((card, idx) => {
-        card.addEventListener('click', () => {
+        // 1. Log exact touch/mouse start position
+        card.addEventListener('pointerdown', (e) => {
+            pointerStartX = e.clientX;
+            pointerStartY = e.clientY;
+            isDraggingCard = false;
+        });
+
+        // 2. If moved more than 5px, it's a drag, not a click
+        card.addEventListener('pointermove', (e) => {
+            if (Math.abs(e.clientX - pointerStartX) > 5 || Math.abs(e.clientY - pointerStartY) > 5) {
+                isDraggingCard = true;
+            }
+        });
+
+        // 3. Process the click
+        card.addEventListener('click', (e) => {
+            if (isDraggingCard) return; // Prevent accidental pauses while swiping
+
             if (!card.classList.contains('active-card')) {
                 card.classList.remove('manual-pause');
                 scrollToCard(idx);
@@ -278,23 +362,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const video = card.querySelector('video');
-            if (!video) return;
-            
-            const playSvg = card.querySelector('.play-svg');
-            const pauseSvg = card.querySelector('.pause-svg');
+            if (!video || !areVideosLoaded) return;
 
             if (video.paused) {
-                video.play().catch(()=>{});
-                card.classList.add('is-playing');
-                card.classList.remove('manual-pause');
-                if(playSvg) playSvg.classList.add('hidden');
-                if(pauseSvg) pauseSvg.classList.remove('hidden');
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setVideoUI(card, 'playing');
+                        card.classList.remove('manual-pause');
+                    }).catch(()=>{});
+                }
             } else {
                 video.pause();
-                card.classList.remove('is-playing');
+                setVideoUI(card, 'paused');
                 card.classList.add('manual-pause');
-                if(playSvg) playSvg.classList.remove('hidden');
-                if(pauseSvg) pauseSvg.classList.add('hidden');
             }
         });
     });
@@ -313,24 +394,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mobile Touch Listeners
-    track.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
-    track.addEventListener('touchend', () => { 
-        isTouching = false; 
-        handleScroll(); 
-    }, { passive: true });
-    track.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
-
-    // Desktop Drag to scroll
-    let isDown = false, startX, scrollLeft;
+    // Desktop Drag to scroll visual state
+    let startX, scrollLeft;
     track.addEventListener('mousedown', (e) => {
         isDown = true;
         track.classList.add('dragging');
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
     });
-    track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); handleScroll(); });
-    track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); handleScroll(); });
+    track.addEventListener('mouseleave', () => { if(isDown) { isDown = false; track.classList.remove('dragging'); handleScroll(); }});
+    track.addEventListener('mouseup', () => { if(isDown) { isDown = false; track.classList.remove('dragging'); handleScroll(); }});
     track.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
@@ -339,15 +412,49 @@ document.addEventListener('DOMContentLoaded', () => {
         track.scrollLeft = scrollLeft - walk;
     });
 
-    // Auto-Pause when section leaves viewport
-    const obs = new IntersectionObserver((entries) => {
-        isVisible = entries[0].isIntersecting;
-        const active = track.querySelector('.moment-card.active-card');
-        if (active) updateVideoStates(parseInt(active.dataset.index));
-    }, { threshold: 0.2 });
-    if (section) obs.observe(section);
+    // 🚀 NATIVE LAZY LOAD OBSERVER
+    const lazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !areVideosLoaded) {
+                areVideosLoaded = true;
 
-    track.addEventListener('scroll', handleScroll);
+                const allVideos = section.querySelectorAll('video');
+
+                allVideos.forEach((vid) => {
+                    vid.preload = "metadata";
+                    vid.load();
+                });
+
+                const active = track.querySelector('.moment-card.active-card');
+                if (active) {
+                    updateVideoStates(parseInt(active.dataset.index));
+                }
+            }
+        });
+    }, {
+        rootMargin: '200px 0px',
+        threshold: 0
+    });
+
+    if (section) lazyObserver.observe(section);
+
+    // Auto Pause Observer
+    const visibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            isVisible = entry.isIntersecting;
+
+            const active = track.querySelector('.moment-card.active-card');
+            if (active) {
+                updateVideoStates(parseInt(active.dataset.index));
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    if (section) visibilityObserver.observe(section);
+
+    track.addEventListener('scroll', handleScroll, { passive: true });
     
     window.addEventListener('resize', () => {
         adjustSpacers();
@@ -357,10 +464,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize layout
     adjustSpacers();
-    requestAnimationFrame(() => {
-        jumpToIndexSilently(totalUnique); // Center on the middle clone set
-        updateVideoStates(totalUnique);
-    });
+    jumpToIndexSilently(totalUnique); 
+    
+    setTimeout(() => {
+        const active = track.querySelector('.moment-card.active-card');
+        if (active) {
+            updateVideoStates(parseInt(active.dataset.index));
+        }
+    }, 250);
 });
 </script>
 

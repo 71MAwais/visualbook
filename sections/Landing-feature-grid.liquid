@@ -1,0 +1,258 @@
+{% comment %}
+  Landing Feature Grid - optimized for luxury branding.
+  Precise replication of the 5-icon feature grid with hover transitions.
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .landing-features {
+    background-color: {{ section.settings.bg_color }};
+    padding: 6rem 0; /* py-24 [cite: 1835] */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none; /* [cite: 1835] */
+  }
+
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} .landing-features {
+      padding: 8rem 0; /* md:py-32 [cite: 1835] */
+    }
+  }
+
+  .feature-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5rem; /* gap-14 [cite: 1836] */
+    max-width: 64rem; /* max-w-5xl [cite: 1836] */
+    padding: 0 1.5rem; /* px-6 [cite: 1836] */
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .feature-container {
+      gap: 5rem; /* md:gap-20 [cite: 1836] */
+    }
+  }
+
+  .feature-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 2.5rem; /* gap-10 [cite: 1838, 1847] */
+  }
+
+  @media (min-width: 640px) {
+    .feature-row {
+      gap: 6rem; /* sm:gap-24 [cite: 1838, 1847] */
+    }
+  }
+
+  @media (min-width: 768px) {
+    .feature-row {
+      gap: 10rem; /* md:gap-40 [cite: 1838, 1847] */
+    }
+  }
+
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem; /* gap-5 [cite: 1825] */
+    width: 140px; /* [cite: 1825] */
+    text-align: center;
+    cursor: default;
+  }
+
+  @media (min-width: 768px) {
+    .feature-item {
+      width: 200px; /* md:w-200px [cite: 1825] */
+    }
+  }
+
+  .feature-icon {
+    color: {{ section.settings.text_color }};
+    transition: transform 0.5s ease; /* [cite: 1826] */
+  }
+
+  .feature-item:hover .feature-icon {
+    transform: translateY(-4px); /* group-hover:-translate-y-1 [cite: 1826] */
+  }
+
+  .feature-text {
+    font-family: {{ section.settings.font_family.family }}, sans-serif;
+    font-size: 9px; /* [cite: 1828] */
+    letter-spacing: 0.2em; /* [cite: 1828] */
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    font-weight: 500; /* font-medium [cite: 1828] */
+    line-height: 1.6; /* leading-relaxed [cite: 1828] */
+  }
+
+  @media (min-width: 768px) {
+    .feature-text {
+      font-size: 10px; /* md:text-10px [cite: 1828] */
+      letter-spacing: 0.25em; /* md:tracking-0.25em [cite: 1828] */
+    }
+  }
+
+  .feature-separator {
+    width: 60%; /* [cite: 1855] */
+    max-width: 28rem; /* max-w-md [cite: 1855] */
+    height: 1px;
+    background-color: #e5e7eb; /* bg-gray-200 [cite: 1855] */
+    margin-top: 6rem; /* mt-24 [cite: 1855] */
+  }
+</style>
+
+<section class="landing-features">
+  <div class="feature-container">
+    {% comment %} Top Row: Signature Box & Memory Preservation [cite: 1837] {% endcomment %}
+    <div class="feature-row">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+            <rect x="2" y="7" width="20" height="5"></rect>
+            <line x1="12" y1="22" x2="12" y2="7"></line>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+          </svg>
+        </div>
+        <span class="feature-text">{{ section.settings.text_1 }}</span>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 20v-1a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v1" />
+            <circle cx="4" cy="12" r="3" />
+            <rect x="9" y="8" width="14" height="9" rx="1" />
+            <path d="M13 21h6" />
+            <path d="M16 17v4" />
+            <polygon points="14.5,10.5 17.5,12.5 14.5,14.5" />
+          </svg>
+        </div>
+        <span class="feature-text">{{ section.settings.text_2 }}</span>
+      </div>
+    </div>
+
+    {% comment %} Middle Row: Fast Delivery [cite: 1842] {% endcomment %}
+    <div class="feature-row">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+            <polyline points="3.29 7 12 12 20.71 7"></polyline>
+            <line x1="12" y1="22" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <span class="feature-text">{{ section.settings.text_3 }}</span>
+      </div>
+    </div>
+
+    {% comment %} Bottom Row: Exceptional Craft & Eco-Friendly [cite: 1846] {% endcomment %}
+    <div class="feature-row">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 11L12 5L17 11L12 21L7 11z" />
+            <path d="M4 11h16" />
+            <path d="M7 11L12 5" />
+            <path d="M17 11L12 5" />
+            <path d="M12 11v10" />
+            <path d="M4 6L2.5 4.5M2.5 7.5L4 6l1.5 1.5M4 6l-1.5 1.5" />
+          </svg>
+        </div>
+        <span class="feature-text">{{ section.settings.text_4 }}</span>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C10.3 14.52 12 11.97 13 9"></path>
+          </svg>
+        </div>
+        <span class="feature-text">{{ section.settings.text_5 }}</span>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_separator %}
+    <div class="feature-separator"></div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Landing Feature Grid",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FCFCFC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text/Icon Color",
+      "default": "#000000"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "inter_n4"
+    },
+    {
+      "type": "header",
+      "content": "Feature Labels"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Feature 1",
+      "default": "Signature Box"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Feature 2",
+      "default": "Memory Preservation"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Feature 3",
+      "default": "Fast Delivery"
+    },
+    {
+      "type": "text",
+      "id": "text_4",
+      "label": "Feature 4",
+      "default": "Exceptional Craft"
+    },
+    {
+      "type": "text",
+      "id": "text_5",
+      "label": "Feature 5",
+      "default": "Eco-Friendly"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_separator",
+      "label": "Show Bottom Separator Line",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Landing Feature Grid"
+    }
+  ]
+}
+{% endschema %}

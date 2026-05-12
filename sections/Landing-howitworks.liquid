@@ -1,0 +1,364 @@
+{% comment %} sections/visual-howitworks.liquid {% endcomment %}
+
+<style>
+    /* Premium font overrides */
+    #visual-howitworks-{{ section.id }} { font-family: 'Plus Jakarta Sans', sans-serif; }
+    #visual-howitworks-{{ section.id }} .font-serif { font-family: 'Playfair Display', serif; }
+
+    .hiw-tab-active {
+        color: #0c0a09 !important;
+        font-weight: 700 !important;
+    }
+
+    /* Native Scroll Slider Utilities */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .hiw-slider { scroll-behavior: smooth; }
+    .hiw-slider.dragging {
+        cursor: grabbing !important;
+        scroll-behavior: auto !important;
+        scroll-snap-type: none !important;
+    }
+    .hiw-slider.dragging .hiw-slide {
+        pointer-events: none;
+    }
+</style>
+
+<section id="visual-howitworks-{{ section.id }}" class="w-full bg-[#FCFBF9] py-10 md:py-14 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50" aria-labelledby="hiw-title-main">
+
+    <div class="w-full max-w-[1200px] px-5 md:px-8 flex flex-col items-center">
+        
+        {%- comment -%} HEADER & DESCRIPTION {%- endcomment -%}
+        <div class="text-center mb-6 md:mb-8">
+            <h2 id="hiw-title-main" class="font-serif text-[28px] md:text-[36px] text-stone-950 tracking-tight leading-none">{{ section.settings.title }}</h2>
+            {% if section.settings.description != blank %}
+                <p class="mt-3 text-stone-600 text-[13px] md:text-[15px] font-sans font-normal max-w-lg mx-auto leading-relaxed">{{ section.settings.description }}</p>
+            {% endif %}
+        </div>
+        
+        {%- comment -%} TABS {%- endcomment -%}
+        <div class="flex gap-6 md:gap-12 border-b border-stone-300 w-full max-w-[600px] justify-center mb-8 md:mb-10" role="tablist">
+            <button role="tab" aria-selected="true" class="tab-btn active hiw-tab-active pb-2.5 text-[10px] md:text-[11px] font-sans tracking-[0.25em] uppercase transition-all duration-300 relative text-stone-500 hover:text-stone-950 focus:outline-none" data-target="tab1">
+                {{ section.settings.tab_1_label }} 
+                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-stone-950 origin-left transition-transform duration-500 scale-x-100"></div>
+            </button>
+            <button role="tab" aria-selected="false" class="tab-btn pb-2.5 text-[10px] md:text-[11px] font-sans tracking-[0.25em] uppercase transition-all duration-300 relative text-stone-500 hover:text-stone-950 focus:outline-none" data-target="tab2">
+                {{ section.settings.tab_2_label }} 
+                <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-stone-950 origin-left transition-transform duration-500 scale-x-0"></div>
+            </button>
+        </div>
+        
+        {%- comment -%} NATIVE SCROLL SLIDERS W/ SIDE ARROWS {%- endcomment -%}
+        <div class="w-full max-w-[1000px] mx-auto relative group">
+            
+            <div id="hiw-slider-tab1" class="hiw-slider flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full items-center gap-8 md:gap-16 transition-opacity duration-300 cursor-grab active:cursor-grabbing">
+                {%- assign tab1_count = 0 -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.settings.category == 'tab1' -%}
+                        {%- assign tab1_count = tab1_count | plus: 1 -%}
+                        <div class="hiw-slide select-none flex-shrink-0 w-full snap-center grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                            <div class="relative w-full aspect-[4/3] md:aspect-[16/11] bg-stone-200 overflow-hidden rounded-md shadow-sm border border-stone-200/50 pointer-events-none">
+                                {% if block.settings.image %}
+                                    <img src="{{ block.settings.image | image_url: width: 800 }}" {% if tab1_count == 1 %}fetchpriority="high"{% else %}loading="lazy"{% endif %} class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
+                                {% endif %}
+                                <div class="absolute inset-0 bg-stone-900/5 mix-blend-overlay"></div>
+                                <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-stone-950 shadow-sm rounded-sm">
+                                    <span>{{ block.settings.tag | default: "Step 01" }}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center h-full pointer-events-none">
+                                <div class="min-h-[100px] md:min-h-[120px] flex flex-col justify-center pr-2 md:pr-4">
+                                    <h3 class="font-serif text-[24px] md:text-[28px] text-stone-950 leading-[1.1] mb-2 md:mb-3 tracking-tight">{{ block.settings.title }}</h3>
+                                    <p class="font-sans text-[13px] md:text-[14px] text-stone-600 font-normal leading-relaxed">{{ block.settings.description }}</p>
+                                    {% if block.settings.link_text != blank %}
+                                        <a href="{{ block.settings.link_url | default: '#' }}" class="pointer-events-auto mt-4 font-sans text-[10px] font-bold tracking-widest text-stone-950 border-b border-stone-950 pb-0.5 hover:opacity-50 self-start uppercase">
+                                            {{ block.settings.link_text }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+                {%- if tab1_count == 0 -%}<div class="w-full text-center py-10 text-stone-500 font-sans text-sm">No steps added yet.</div>{%- endif -%}
+            </div>
+
+            <div id="hiw-slider-tab2" class="hiw-slider flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full items-center gap-8 md:gap-16 transition-opacity duration-300 hidden opacity-0 cursor-grab active:cursor-grabbing">
+                {%- assign tab2_count = 0 -%}
+                {%- for block in section.blocks -%}
+                    {%- if block.settings.category == 'tab2' -%}
+                        {%- assign tab2_count = tab2_count | plus: 1 -%}
+                        <div class="hiw-slide select-none flex-shrink-0 w-full snap-center grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                            <div class="relative w-full aspect-[4/3] md:aspect-[16/11] bg-stone-200 overflow-hidden rounded-md shadow-sm border border-stone-200/50 pointer-events-none">
+                                {% if block.settings.image %}
+                                    <img src="{{ block.settings.image | image_url: width: 800 }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
+                                {% endif %}
+                                <div class="absolute inset-0 bg-stone-900/5 mix-blend-overlay"></div>
+                                <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-stone-950 shadow-sm rounded-sm">
+                                    <span>{{ block.settings.tag | default: "Step 01" }}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center h-full pointer-events-none">
+                                <div class="min-h-[100px] md:min-h-[120px] flex flex-col justify-center pr-2 md:pr-4">
+                                    <h3 class="font-serif text-[24px] md:text-[28px] text-stone-950 leading-[1.1] mb-2 md:mb-3 tracking-tight">{{ block.settings.title }}</h3>
+                                    <p class="font-sans text-[13px] md:text-[14px] text-stone-600 font-normal leading-relaxed">{{ block.settings.description }}</p>
+                                    {% if block.settings.link_text != blank %}
+                                        <a href="{{ block.settings.link_url | default: '#' }}" class="pointer-events-auto mt-4 font-sans text-[10px] font-bold tracking-widest text-stone-950 border-b border-stone-950 pb-0.5 hover:opacity-50 self-start uppercase">
+                                            {{ block.settings.link_text }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {%- endif -%}
+                {%- endfor -%}
+                {%- if tab2_count == 0 -%}<div class="w-full text-center py-10 text-stone-500 font-sans text-sm">No steps added yet.</div>{%- endif -%}
+            </div>
+
+            {%- comment -%} SIDE ARROWS {%- endcomment -%}
+            <button id="hiw-prev" aria-label="Previous Instruction Step" class="absolute left-2 md:-left-5 lg:-left-12 top-[35%] md:top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/95 backdrop-blur shadow-md border border-stone-200 flex items-center justify-center text-stone-600 hover:text-stone-950 transition-all disabled:opacity-0 disabled:pointer-events-none focus:outline-none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button id="hiw-next" aria-label="Next Instruction Step" class="absolute right-2 md:-right-5 lg:-right-12 top-[35%] md:top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/95 backdrop-blur shadow-md border border-stone-200 flex items-center justify-center text-stone-600 hover:text-stone-950 transition-all disabled:opacity-0 disabled:pointer-events-none focus:outline-none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+        </div>
+        
+        {%- comment -%} UNIFIED PROGRESS BAR (ARIA FIXED) {%- endcomment -%}
+        <div class="w-full max-w-[1000px] flex items-center mt-6 md:mt-8 pointer-events-auto px-4 md:px-0">
+            <div class="flex items-baseline gap-1 shrink-0 w-12" aria-hidden="true">
+                <span id="hiw-current" class="font-serif text-[24px] md:text-[28px] text-stone-950 font-medium leading-none">01</span>
+                <span id="hiw-total" class="font-sans text-[10px] md:text-[11px] text-stone-500 font-bold tracking-tighter">/00</span>
+            </div>
+            
+            <div id="hiw-progress-container" class="flex-1 mx-4 md:mx-6 h-[1.5px] bg-stone-300 relative overflow-hidden" role="progressbar" aria-label="Carousel Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="hiw-progress" class="absolute top-0 left-0 h-full bg-[#B8906B] transition-all duration-300 ease-out origin-left" style="width: 0%;"></div>
+            </div>
+
+            <div class="shrink-0 w-12"></div> </div>
+        
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('visual-howitworks-{{ section.id }}');
+    if (!section) return;
+
+    const tab1Slider = section.querySelector('#hiw-slider-tab1');
+    const tab2Slider = section.querySelector('#hiw-slider-tab2');
+    const currentEl = section.querySelector('#hiw-current');
+    const totalEl = section.querySelector('#hiw-total');
+    const progressEl = section.querySelector('#hiw-progress');
+    const progressContainer = section.querySelector('#hiw-progress-container');
+    const prevBtn = section.querySelector('#hiw-prev');
+    const nextBtn = section.querySelector('#hiw-next');
+    const tabBtns = section.querySelectorAll('.tab-btn');
+
+    let activeSlider = tab1Slider;
+    let isAnimatingTab = false;
+
+    const formatNum = (num) => (num < 10 ? `0${num}` : num);
+
+    function getCurrentStep(slider) {
+        const slides = Array.from(slider.querySelectorAll('.hiw-slide'));
+        if (slides.length === 0) return 0;
+        
+        const scrollCenter = slider.scrollLeft + (slider.clientWidth / 2);
+        let step = 0, minDiff = Infinity;
+        slides.forEach((slide, i) => {
+            const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+            const diff = Math.abs(scrollCenter - slideCenter);
+            if (diff < minDiff) { minDiff = diff; step = i; }
+        });
+        return step;
+    }
+
+    // Dynamic UI Progress Calculation & ARIA value updates
+    function updateUI(slider) {
+        const slides = Array.from(slider.querySelectorAll('.hiw-slide'));
+        if (slides.length === 0) {
+            currentEl.textContent = '00';
+            totalEl.textContent = '/00';
+            progressEl.style.width = '0%';
+            progressContainer.setAttribute('aria-valuenow', '0');
+            prevBtn.disabled = true; nextBtn.disabled = true;
+            return;
+        }
+
+        const currentStep = getCurrentStep(slider);
+        const percent = Math.round(((currentStep + 1) / slides.length) * 100);
+        
+        currentEl.textContent = formatNum(currentStep + 1);
+        totalEl.textContent = `/${formatNum(slides.length)}`;
+        progressEl.style.width = `${percent}%`;
+        progressContainer.setAttribute('aria-valuenow', percent);
+        
+        prevBtn.disabled = currentStep === 0;
+        nextBtn.disabled = currentStep === slides.length - 1;
+    }
+
+    updateUI(activeSlider);
+
+    function scrollActiveToOffset(offset) {
+        activeSlider.scrollTo({ left: offset, behavior: 'smooth' });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        const slides = Array.from(activeSlider.querySelectorAll('.hiw-slide'));
+        const currentStep = getCurrentStep(activeSlider);
+        if (currentStep > 0 && slides[currentStep - 1]) scrollActiveToOffset(slides[currentStep - 1].offsetLeft);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const slides = Array.from(activeSlider.querySelectorAll('.hiw-slide'));
+        const currentStep = getCurrentStep(activeSlider);
+        if (currentStep < slides.length - 1 && slides[currentStep + 1]) scrollActiveToOffset(slides[currentStep + 1].offsetLeft);
+    });
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (isAnimatingTab || btn.classList.contains('hiw-tab-active')) return;
+            isAnimatingTab = true;
+
+            tabBtns.forEach(b => {
+                b.classList.remove('hiw-tab-active');
+                b.setAttribute('aria-selected', 'false');
+                b.querySelector('.tab-active-line').classList.replace('scale-x-100', 'scale-x-0');
+            });
+            btn.classList.add('hiw-tab-active');
+            btn.setAttribute('aria-selected', 'true');
+            btn.querySelector('.tab-active-line').classList.replace('scale-x-0', 'scale-x-100');
+
+            const newSlider = btn.dataset.target === 'tab1' ? tab1Slider : tab2Slider;
+            
+            activeSlider.classList.add('opacity-0');
+            setTimeout(() => {
+                activeSlider.classList.add('hidden');
+                activeSlider = newSlider;
+                activeSlider.classList.remove('hidden');
+                void activeSlider.offsetWidth; 
+                activeSlider.classList.remove('opacity-0');
+                updateUI(activeSlider);
+                isAnimatingTab = false;
+            }, 300);
+        });
+    });
+
+    [tab1Slider, tab2Slider].forEach(slider => {
+        if (!slider) return;
+
+        slider.addEventListener('scroll', () => {
+            if (activeSlider === slider) updateUI(slider);
+        }, { passive: true });
+
+        let isDown = false, startX, scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            isDown = true;
+            slider.classList.add('dragging');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        const stopDrag = () => { 
+            if (!isDown) return;
+            isDown = false; 
+            slider.classList.remove('dragging'); 
+        };
+
+        slider.addEventListener('mouseleave', stopDrag);
+        slider.addEventListener('mouseup', stopDrag);
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    });
+});
+</script>
+
+{% schema %}
+{
+  "name": "How It Works",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "How It Works" },
+    { "type": "textarea", "id": "description", "label": "Short Description", "default": "Discover how easy it is to bring your memories to life." },
+    { "type": "text", "id": "tab_1_label", "label": "Tab 1 Name", "default": "Visual Book" },
+    { "type": "text", "id": "tab_2_label", "label": "Tab 2 Name", "default": "Audio Greetings Card" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Instruction Step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Assign to Tab",
+          "options": [
+            { "value": "tab1", "label": "Tab 1 (Visual Book)" },
+            { "value": "tab2", "label": "Tab 2 (Audio Card)" }
+          ],
+          "default": "tab1"
+        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "tag", "label": "Tag", "default": "Step 01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Connect To Your Computer" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "link_text", "label": "Link Text (Optional)" },
+        { "type": "url", "id": "link_url", "label": "Link URL" }
+      ]
+    }
+  ],
+  "presets": [
+    { 
+      "name": "How It Works",
+      "blocks": [
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab1", "tag": "Step 01", "title": "Connect To Your Computer", "description": "Simply plug the Visual Book into your computer using the provided USB-C cable. It will instantly appear as a standard external drive." 
+          } 
+        },
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab1", "tag": "Step 02", "title": "Drag & Drop Memories", "description": "Open the video folder and effortlessly drag and drop your favorite memories (MP4, MOV). You can delete or swap them out anytime." 
+          } 
+        },
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab1", "tag": "Step 03", "title": "Unplug & Play", "description": "Eject the device, open the cover, and watch your videos come to life instantly on the stunning HD screen. No internet or setup required." 
+          } 
+        },
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab2", "tag": "Step 01", "title": "Press & Hold Record", "description": "Open the greetings card and locate the discreet record button on the inside. Press and hold it down until you hear a single beep." 
+          } 
+        },
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab2", "tag": "Step 02", "title": "Speak Your Message", "description": "Speak clearly into the built-in microphone to record your heartfelt audio message. You can record up to 60 seconds of high-quality audio." 
+          } 
+        },
+        { 
+          "type": "step", 
+          "settings": { 
+            "category": "tab2", "tag": "Step 03", "title": "Release & Gift", "description": "Release the button to save your recording (you'll hear a double beep). Write your message, close the card, and it's ready to surprise someone special!" 
+          } 
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
