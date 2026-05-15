@@ -31,13 +31,16 @@
 <section id="visual-hero-{{ section.id }}" class="w-full relative h-[75vh] lg:h-[85vh] overflow-hidden bg-[#050505]" aria-labelledby="hero-heading-{{ section.id }}">
     
     {% comment %} PRIORITY 1: Thumbnail eager loads immediately for PageSpeed {% endcomment %}
-    {% if section.settings.image != blank %}
+    {% {% if section.settings.image != blank %}
         <div id="heroPlaceholder-{{ section.id }}" class="absolute inset-0 w-full h-full z-10 transition-opacity duration-700 pointer-events-none">
-            <img src="{{ section.settings.image | img_url: 'master' }}" 
-                 alt="{{ section.settings.heading | escape }}" 
-                 class="w-full h-full object-cover" 
-                 fetchpriority="high"
-                 loading="eager">
+            {{ section.settings.image | image_url: width: 2000 | image_tag: 
+                 alt: section.settings.heading, 
+                 class: 'w-full h-full object-cover', 
+                 fetchpriority: 'high', 
+                 loading: 'eager',
+                 sizes: '100vw',
+                 widths: '375, 550, 750, 1100, 1500, 2000'
+            }}
         </div>
     {% endif %}
 
