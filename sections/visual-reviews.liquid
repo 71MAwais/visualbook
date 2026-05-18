@@ -11,11 +11,12 @@
 
     /* Carousel Center Focus Effects (Matched to Shop) */
     .review-card {
-        transition: all 500ms cubic-bezier(0.25, 1, 0.5, 1);
+        transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
         opacity: 0.5;
         transform: scale(0.9);
         cursor: pointer;
+        will-change: transform, opacity;
     }
     .review-card.active-card {
         opacity: 1;
@@ -29,8 +30,9 @@
     #reviews-track {
         -webkit-user-select: none;
         user-select: none;
-        scroll-behavior: smooth;
+        /* Removed scroll-behavior: smooth; to prevent infinite loop JS conflicts */
         -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
     }
     #reviews-track.dragging {
         cursor: grabbing;
@@ -53,11 +55,9 @@
     /* Rock-Solid Navigation Arrows */
     .review-arrow {
         transform: translate3d(0, -50%, 0);
-        /* Hardware acceleration prevents 1px bouncing */
         -webkit-tap-highlight-color: transparent;
-        /* Removes default blue tap flash on mobile */
         touch-action: manipulation;
-        /* Improves mobile tap responsiveness */
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     /* Only apply hover effects on desktop (devices with a real mouse) */
@@ -66,6 +66,7 @@
             color: #0c0a09;
             border-color: #0c0a09;
             background-color: #ffffff;
+            transform: translate3d(0, -50%, 0) scale(1.05);
         }
     }
 
@@ -96,14 +97,14 @@
         <div class="absolute top-0 left-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         <div class="absolute top-0 right-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
         
-        <button aria-label="Previous Review" id="review-prev" class="review-arrow absolute left-2 md:left-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 transition-transform duration-200">
+        <button aria-label="Previous Review" id="review-prev" class="review-arrow absolute left-2 md:left-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <button aria-label="Next Review" id="review-next" class="review-arrow absolute right-2 md:right-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400 transition-transform duration-200">
+        <button aria-label="Next Review" id="review-next" class="review-arrow absolute right-2 md:right-6 top-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-400">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
-        <div id="reviews-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-6 relative">
+        <div id="reviews-track" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab items-center py-6 relative">
             <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
             <div id="review-card-container" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full"></div>
             <div id="end-spacer" class="shrink-0 w-[50vw]"></div>
@@ -168,8 +169,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let totalOriginal = dataCards.length;
     let isJumping = false;
-    let isTouching = false; // MOBILE FIX: Track if finger is on screen
+    let isTouching = false; 
     let scrollTimeout = null;
+    
+    // --- SMART AUTO SCROLL LOGIC ---
+    let autoScrollTimer = null;
+    let isInteracting = false;
+    let isDown = false;
+    const AUTO_SCROLL_DELAY = {{ section.settings.autoplay_speed | default: 3 }} * 1000;
+
+    function queueNextAutoScroll() {
+        clearTimeout(autoScrollTimer);
+        // Do not auto scroll if user is interacting, jumping, dragging, or if disabled
+        if (isInteracting || totalOriginal === 0 || isJumping || isDown || isTouching || AUTO_SCROLL_DELAY === 0) return;
+        
+        autoScrollTimer = setTimeout(() => {
+            if (isInteracting || isJumping || isDown || isTouching) return;
+            const active = document.querySelector('.review-card.active-card');
+            if (active) {
+                scrollToCard(parseInt(active.dataset.index) + 1);
+            }
+        }, AUTO_SCROLL_DELAY);
+    }
+    // ----------------------------
+
     if (totalOriginal === 0) return;
 
     // Loop 3 times to recreate infinite scrolling logic
@@ -178,7 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const clone = cardTemplate.cloneNode(true);
             clone.dataset.index = (i * totalOriginal) + idx;
             clone.dataset.realIndex = idx;
-            clone.addEventListener('click', () => scrollToCard(parseInt(clone.dataset.index)));
+            clone.addEventListener('click', () => {
+                scrollToCard(parseInt(clone.dataset.index));
+                queueNextAutoScroll(); // Reset timer on manual click
+            });
             cardContainer.appendChild(clone);
         });
     }
@@ -199,20 +225,23 @@ document.addEventListener('DOMContentLoaded', () => {
             jumpToIndexSilently(parseInt(activeCard.dataset.index));
         }
     });
+
     function scrollToCard(index) {
         const cards = Array.from(cardContainer.children);
         if (!cards[index]) return;
         const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
         const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
-        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' }); // Explicit smooth scroll
     }
 
     function jumpToIndexSilently(index) {
         isJumping = true;
-        scrollContainer.style.scrollBehavior = 'auto';
-        scrollContainer.style.scrollSnapType = 'none'; // Prevent browsers fighting JS
+        
+        scrollContainer.style.scrollSnapType = 'none'; // Prevent browser from fighting JS
         
         const cards = Array.from(cardContainer.children);
+        cards.forEach(c => c.style.transition = 'none'); // Disable scale animation temporarily
+
         if (cards[index]) {
             const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
             const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
@@ -222,12 +251,16 @@ document.addEventListener('DOMContentLoaded', () => {
             cards[index].classList.add('active-card');
         }
         
+        void scrollContainer.offsetWidth; // Force layout repaint instantly
+        
         requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                scrollContainer.style.scrollSnapType = 'x mandatory';
-                scrollContainer.style.scrollBehavior = 'smooth';
-                isJumping = false;
-            });
+            cards.forEach(c => c.style.transition = '');
+            scrollContainer.style.scrollSnapType = 'x mandatory';
+            
+            setTimeout(() => { 
+                isJumping = false; 
+                queueNextAutoScroll();
+            }, 50);
         });
     }
 
@@ -251,43 +284,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            // CRITICAL MOBILE FIX: Do not loop/teleport if the user is still actively touching/swiping
-            if (isTouching) return;
+            if (isTouching || isDown) return;
 
             if (closestIndex < totalOriginal || closestIndex >= totalOriginal * 2) {
                 const safeIndex = (closestIndex % totalOriginal) + totalOriginal;
                 jumpToIndexSilently(safeIndex);
+            } else {
+                queueNextAutoScroll(); // Queue next slide if sitting safely in the middle set
             }
-        }, 100);
+        }, 250); // Generous debounce ensures smooth scroll is entirely finished
     }
 
+    // --- PAUSE AUTO SCROLL ON INTERACTION ---
+    scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
+    scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown && !isTouching) queueNextAutoScroll(); });
+    
     // MOBILE TOUCH LISTENERS
-    scrollContainer.addEventListener('touchstart', () => { isTouching = true; }, { passive: true });
+    scrollContainer.addEventListener('touchstart', () => { 
+        isTouching = true; 
+        isInteracting = true;
+        clearTimeout(autoScrollTimer); 
+    }, { passive: true });
     scrollContainer.addEventListener('touchend', () => { 
         isTouching = false; 
-        handleScroll(); // Evaluate if a jump is needed once finger leaves screen
+        isInteracting = false;
+        handleScroll(); 
     }, { passive: true });
-    scrollContainer.addEventListener('touchcancel', () => { isTouching = false; }, { passive: true });
+    scrollContainer.addEventListener('touchcancel', () => { 
+        isTouching = false; 
+        isInteracting = false;
+    }, { passive: true });
 
-    scrollContainer.addEventListener('scroll', handleScroll);
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+
     if (prevBtn) prevBtn.addEventListener('click', () => {
+        clearTimeout(autoScrollTimer);
         const active = document.querySelector('.review-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) - 1);
     });
     if (nextBtn) nextBtn.addEventListener('click', () => {
+        clearTimeout(autoScrollTimer);
         const active = document.querySelector('.review-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) + 1);
     });
+
     // DESKTOP Drag to scroll
-    let isDown = false, startX, scrollLeft;
+    let startX, scrollLeft;
     scrollContainer.addEventListener('mousedown', (e) => {
         isDown = true;
+        isInteracting = true;
+        clearTimeout(autoScrollTimer);
         scrollContainer.classList.add('dragging');
         startX = e.pageX - scrollContainer.offsetLeft;
         scrollLeft = scrollContainer.scrollLeft;
     });
-    scrollContainer.addEventListener('mouseleave', () => { isDown = false; scrollContainer.classList.remove('dragging'); handleScroll(); });
-    scrollContainer.addEventListener('mouseup', () => { isDown = false; scrollContainer.classList.remove('dragging'); handleScroll(); });
+    scrollContainer.addEventListener('mouseleave', () => { 
+        if(isDown) {
+            isDown = false; 
+            isInteracting = false;
+            scrollContainer.classList.remove('dragging'); 
+            handleScroll(); 
+        }
+    });
+    scrollContainer.addEventListener('mouseup', () => { 
+        if(isDown) {
+            isDown = false; 
+            isInteracting = false;
+            scrollContainer.classList.remove('dragging'); 
+            handleScroll(); 
+        }
+    });
     scrollContainer.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
@@ -295,10 +361,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const walk = (x - startX) * 2;
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
-    // Initialize layout and jump to middle set
+
+    // Initialize layout and jump to middle set safely
     adjustSpacers();
+    
+    isJumping = true;
+    scrollContainer.style.scrollSnapType = 'none';
+    const cards = Array.from(cardContainer.children);
+    const initialPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
+    scrollContainer.scrollLeft = initialPos;
+    cards[totalOriginal].classList.add('active-card');
+    
     requestAnimationFrame(() => {
-        jumpToIndexSilently(totalOriginal);
+        scrollContainer.style.scrollSnapType = 'x mandatory';
+        isJumping = false;
+        queueNextAutoScroll();
     });
 });
 </script>
@@ -310,7 +387,17 @@ document.addEventListener('DOMContentLoaded', () => {
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Testimonials" },
     { "type": "text", "id": "title", "label": "Heading", "default": "From our Customers" },
     { "type": "checkbox", "id": "show_rating", "label": "Show Aggregate Rating", "default": true },
-    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9 / 5 — 2,400+ Reviews" }
+    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9 / 5 — 2,400+ Reviews" },
+    { 
+      "type": "range", 
+      "id": "autoplay_speed", 
+      "min": 0, 
+      "max": 10, 
+      "step": 1, 
+      "unit": "sec", 
+      "label": "Auto-scroll Delay (0 to disable)", 
+      "default": 3 
+    }
   ],
   "blocks": [
     {

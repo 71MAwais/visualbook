@@ -28,11 +28,11 @@
     }
 </style>
 
-<section id="visual-hero-{{ section.id }}" class="w-full relative h-[75vh] lg:h-[85vh] overflow-hidden bg-[#050505]" aria-labelledby="hero-heading-{{ section.id }}">
+<section id="visual-hero-{{ section.id }}" class="w-full relative h-[80vh] min-h-[550px] lg:h-[85vh] lg:min-h-[700px] overflow-hidden bg-[#050505]" aria-labelledby="hero-heading-{{ section.id }}">
     
     {% comment %} PRIORITY 1: Thumbnail eager loads immediately for PageSpeed {% endcomment %}
-    {% {% if section.settings.image != blank %}
-        <div id="heroPlaceholder-{{ section.id }}" class="absolute inset-0 w-full h-full z-10 transition-opacity duration-700 pointer-events-none">
+    {% if section.settings.image != blank %}
+        <div id="heroPlaceholder-{{ section.id }}" class="absolute inset-0 w-full h-full z-10 transition-opacity duration-1000 ease-in-out pointer-events-none">
             {{ section.settings.image | image_url: width: 2000 | image_tag: 
                  alt: section.settings.heading, 
                  class: 'w-full h-full object-cover', 
@@ -59,26 +59,27 @@
     {% comment %} Text & Overlay Wrapper {% endcomment %}
     <div id="heroOverlay-{{ section.id }}" class="absolute inset-0 z-20 transition-opacity duration-500 ease-in-out flex flex-col justify-end">
         <div class="absolute inset-0 bg-black/20 pointer-events-none"></div>
-        <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none"></div>
         
-        <div class="relative z-30 px-6 md:px-12 lg:px-16 pb-12 md:pb-16 w-full pointer-events-none">
+        <div class="relative z-30 px-6 md:px-12 lg:px-16 pb-16 md:pb-24 w-full pointer-events-none">
             <div class="flex flex-col items-center text-center md:items-start md:text-left max-w-2xl mx-auto md:mx-0 pointer-events-auto">
                 {% if section.settings.heading != blank %}
-                    <h1 id="hero-heading-{{ section.id }}" class="font-serif text-white text-[32px] md:text-[48px] lg:text-[56px] tracking-tight mb-4 leading-[1.1]">
+                    <h1 id="hero-heading-{{ section.id }}" class="font-serif text-white text-[36px] sm:text-[42px] md:text-[52px] lg:text-[64px] tracking-tight mb-4 md:mb-5 leading-[1.05] drop-shadow-md">
                         {{ section.settings.heading | newline_to_br }}
                     </h1>
                 {% endif %}
                 
                 {% if section.settings.subheading != blank %}
-                    <p class="font-sans text-white/90 text-[15px] md:text-[17px] leading-relaxed mb-8 shadow-sm">
+                    <p class="font-sans text-white/90 text-[14px] sm:text-[15px] md:text-[17px] font-light leading-relaxed max-w-lg mb-8 md:mb-10 shadow-sm">
                         {{ section.settings.subheading | escape }}
                     </p>
                 {% endif %}
                 
-                {% if section.settings.button_link != blank and section.settings.button_label != blank %}
-                    <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white">
-                        {{ section.settings.button_label }}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2 transition-transform group-hover:translate-x-1"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                {% comment %} Always show button if label exists, defaults to '#' if link is forgotten {% endcomment %}
+                {% if section.settings.button_label != blank %}
+                    <a href="{{ section.settings.button_link | default: '#' }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-8 py-3.5 md:px-10 md:py-4 text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white shadow-xl">
+                        <span>{{ section.settings.button_label }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2 md:ml-3 transition-transform duration-300 group-hover:translate-x-1"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
                     </a>
                 {% endif %}
             </div>
@@ -89,13 +90,14 @@
         {% comment %} Center Play/Pause Control {% endcomment %}
         <div class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
             <button id="centerPlayBtn-{{ section.id }}" 
-                    class="glass-btn pointer-events-auto w-20 h-20 rounded-full flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-white/50 opacity-0" 
-                    aria-label="Pause Video">
-                <div class="icon-play ml-1 hidden">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    class="glass-btn pointer-events-auto w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-white/50 opacity-0" 
+                    aria-label="Play Video">
+                
+                <div class="icon-play ml-1">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" class="md:w-8 md:h-8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 </div>
-                <div class="icon-pause">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                <div class="icon-pause hidden">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="md:w-7 md:h-7"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                 </div>
             </button>
         </div>
@@ -103,14 +105,14 @@
         {% comment %} Bottom Right Volume/Mute Control {% endcomment %}
         <div class="absolute bottom-6 right-6 md:bottom-10 md:right-10 z-50 pointer-events-auto">
             <button id="muteBtn-{{ section.id }}" 
-                    class="glass-btn w-12 h-12 rounded-full flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-white/50" 
+                    class="glass-btn w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-white/50" 
                     aria-label="Toggle Volume">
                 
                 <div class="icon-muted">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:w-5 md:h-5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
                 </div>
                 <div class="icon-unmuted hidden">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:w-5 md:h-5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                 </div>
             </button>
         </div>
@@ -128,53 +130,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!video || !section) return;
 
-    // SVG Icon Toggler
+    let playTimeout;
+
     function toggleIcon(parent, hideSelector, showSelector) {
         if(!parent) return;
         parent.querySelector(hideSelector).classList.add('hidden');
         parent.querySelector(showSelector).classList.remove('hidden');
     }
 
-    // Hide thumbnail smoothly when video is ready
-    video.addEventListener('canplay', () => {
-        video.classList.add('video-loaded');
-        if(placeholder) placeholder.style.opacity = '0';
-    });
-
-    // Play/Pause UI State Manager
     function updatePlayState() {
         if (video.paused) {
-            overlay.classList.remove('fade-out'); // Show text
+            overlay.classList.remove('fade-out'); 
             toggleIcon(centerPlayBtn, '.icon-pause', '.icon-play');
             centerPlayBtn.style.opacity = '1';
             centerPlayBtn.setAttribute('aria-label', 'Play Video');
         } else {
-            overlay.classList.add('fade-out'); // Hide text for cinematic view
+            overlay.classList.add('fade-out'); 
             toggleIcon(centerPlayBtn, '.icon-play', '.icon-pause');
             centerPlayBtn.setAttribute('aria-label', 'Pause Video');
             
-            // Fade out pause button during playback
             setTimeout(() => { if(!video.paused) centerPlayBtn.style.opacity = '0'; }, 1000);
+
+            video.classList.add('video-loaded');
+            if(placeholder) placeholder.style.opacity = '0';
         }
     }
 
-    // Show center controls on hover
     section.addEventListener('mouseenter', () => centerPlayBtn.style.opacity = '1');
     section.addEventListener('mousemove', () => centerPlayBtn.style.opacity = '1');
     section.addEventListener('mouseleave', () => {
         if (!video.paused) centerPlayBtn.style.opacity = '0';
     });
 
-    // Play/Pause Click Handler
     if (centerPlayBtn) {
         centerPlayBtn.addEventListener('click', () => {
-            video.paused ? video.play() : video.pause();
+            if (video.paused) {
+                clearTimeout(playTimeout);
+                video.play();
+            } else {
+                video.pause();
+            }
         });
     }
     video.addEventListener('play', updatePlayState);
     video.addEventListener('pause', updatePlayState);
 
-    // Explicit Volume / Mute Handler
     if (muteBtn) {
         muteBtn.addEventListener('click', () => {
             video.muted = !video.muted;
@@ -188,30 +188,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 🚀 400px Stateful/Stateless Observer
     const observerOptions = {
         root: null,
-        rootMargin: '400px 0px', // Triggers exactly 400px before the section is visible
+        rootMargin: '400px 0px',
         threshold: 0
     };
 
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // WITHIN 400px -> STATEFUL: Load and play video
                 const source = video.querySelector('source');
                 if (source && source.dataset.src && !source.src) {
                     source.src = source.dataset.src;
-                    video.load(); // Fetch video data only now
+                    video.load(); 
                 }
-                if (video.paused) {
-                    let playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(e => { console.log("Autoplay blocked by browser policy"); });
+
+                clearTimeout(playTimeout); 
+
+                playTimeout = setTimeout(() => {
+                    if (video.paused) {
+                        let playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => { console.log("Autoplay blocked by browser policy"); });
+                        }
                     }
-                }
+                }, 3500);
+
             } else {
-                // OUTSIDE 400px -> STATELESS: Pause video and save resources
+                clearTimeout(playTimeout);
                 if (!video.paused) {
                     video.pause();
                 }
@@ -255,12 +259,13 @@ document.addEventListener('DOMContentLoaded', () => {
       "type": "text", 
       "id": "button_label", 
       "label": "Button Label", 
-      "default": "Explore" 
+      "default": "Shop the Collection" 
     },
     { 
       "type": "url", 
       "id": "button_link", 
-      "label": "Button Link" 
+      "label": "Button Link",
+      "default": "/"
     }
   ],
   "presets": [{ "name": "Visual Hero" }]

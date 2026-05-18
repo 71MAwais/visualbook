@@ -14,11 +14,9 @@
     #shop-scroll {
         -webkit-user-select: none;
         user-select: none;
-        scroll-behavior: smooth;
     }
     #shop-scroll.dragging {
         cursor: grabbing;
-        scroll-behavior: auto !important; 
         scroll-snap-type: none !important; 
     }
     .toast {
@@ -186,7 +184,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let isJumping = false;
     let scrollTimeout = null;
     
+    // --- SMART AUTO SCROLL LOGIC ---
+    let autoScrollTimer = null;
+    let isInteracting = false;
+    const AUTO_SCROLL_DELAY = 3000;
+
+    function queueNextAutoScroll() {
+        clearTimeout(autoScrollTimer);
+        if (isInteracting || totalOriginal === 0 || isJumping || isDown) return;
+        
+        autoScrollTimer = setTimeout(() => {
+            if (isInteracting || isJumping || isDown) return;
+            const active = document.querySelector('.product-card.active-card');
+            if (active) {
+                scrollToCard(parseInt(active.dataset.index) + 1);
+            }
+        }, AUTO_SCROLL_DELAY);
+    }
+    // ----------------------------
+    
     function renderTab(tabIndex) {
+        clearTimeout(autoScrollTimer);
         const sourceTemplate = tabIndex === 1 ? tpl1 : tpl2;
         const originalCards = Array.from(sourceTemplate.content.children);
         totalOriginal = originalCards.length;
@@ -209,14 +227,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 clone.addEventListener('click', (e) => {
                     if (e.target.closest('a') || e.target.closest('button')) return;
-                    scrollToCard(parseInt(clone.dataset.index));
+                    const index = parseInt(clone.dataset.index);
+                    const active = document.querySelector('.product-card.active-card');
+                    if (active && parseInt(active.dataset.index) === index) return;
+                    scrollToCard(index);
                 });
                 cardContainer.appendChild(clone);
             });
         }
         
         adjustSpacers();
-        requestAnimationFrame(() => jumpToIndexSilently(totalOriginal)); 
+        // Setup initial position instantly
+        isJumping = true;
+        scrollContainer.style.scrollSnapType = 'none';
+        const cards = Array.from(cardContainer.children);
+        const scrollPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
+        scrollContainer.scrollLeft = scrollPos;
+        cards[totalOriginal].classList.add('active-card');
+        updateUI(0);
+        
+        requestAnimationFrame(() => {
+            scrollContainer.style.scrollSnapType = '';
+            isJumping = false;
+            queueNextAutoScroll();
+        });
     }
 
     function adjustSpacers() {
@@ -230,7 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         adjustSpacers();
         const activeCard = document.querySelector('.product-card.active-card');
-        if (activeCard) jumpToIndexSilently(parseInt(activeCard.dataset.index));
+        if (activeCard) {
+            const index = parseInt(activeCard.dataset.index);
+            const cards = Array.from(cardContainer.children);
+            const scrollPos = cards[index].offsetLeft + (cards[index].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
+            scrollContainer.scrollLeft = scrollPos;
+        }
     });
 
     function scrollToCard(index) {
@@ -240,10 +279,18 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
     }
 
+    // THE MAGIC HAPPENS HERE:
     function jumpToIndexSilently(index) {
         isJumping = true;
-        scrollContainer.style.scrollBehavior = 'auto';
+        
+        // 1. Disable snap to prevent the browser from animating the instant jump
+        scrollContainer.style.scrollSnapType = 'none';
+        
         const cards = Array.from(cardContainer.children);
+        
+        // 2. Disable CSS transitions so the newly active card doesn't visually "grow" from 0.85 scale
+        cards.forEach(c => c.style.transition = 'none');
+        
         if (cards[index]) {
             const scrollPos = cards[index].offsetLeft + (cards[index].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
             scrollContainer.scrollLeft = scrollPos;
@@ -252,9 +299,20 @@ document.addEventListener('DOMContentLoaded', () => {
             cards[index].classList.add('active-card');
             updateUI(parseInt(cards[index].dataset.realIndex));
         }
+        
+        // 3. Force the browser to register the layout changes instantly before turning transitions back on
+        void scrollContainer.offsetWidth; 
+        
         requestAnimationFrame(() => {
-            scrollContainer.style.scrollBehavior = 'smooth';
-            isJumping = false;
+            // 4. Turn transitions and snap back on
+            cards.forEach(c => c.style.transition = '');
+            scrollContainer.style.scrollSnapType = '';
+            
+            // Allow a tiny buffer before allowing new auto-scroll queues
+            setTimeout(() => {
+                isJumping = false;
+                queueNextAutoScroll();
+            }, 50);
         });
     }
 
@@ -287,17 +345,27 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTimeout = setTimeout(() => {
             if (closestIndex < totalOriginal || closestIndex >= totalOriginal * 2) {
                 jumpToIndexSilently((closestIndex % totalOriginal) + totalOriginal);
+            } else {
+                queueNextAutoScroll();
             }
-        }, 100);
+        }, 250); // Increased from 150 to 250 to ensure native smooth scroll is 100% finished before jumping
     }
 
     scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
 
+    // --- PAUSE AUTO SCROLL ON INTERACTION ---
+    scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
+    scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown) queueNextAutoScroll(); });
+    scrollContainer.addEventListener('touchstart', () => { isInteracting = true; clearTimeout(autoScrollTimer); }, { passive: true });
+    scrollContainer.addEventListener('touchend', () => { isInteracting = false; queueNextAutoScroll(); });
+
     if (prevBtn) prevBtn.addEventListener('click', () => {
+        clearTimeout(autoScrollTimer);
         const active = document.querySelector('.product-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) - 1);
     });
     if (nextBtn) nextBtn.addEventListener('click', () => {
+        clearTimeout(autoScrollTimer);
         const active = document.querySelector('.product-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) + 1);
     });
@@ -322,11 +390,20 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollContainer.addEventListener('mousedown', (e) => {
         if (e.target.closest('button') || e.target.closest('a')) return;
         isDown = true;
+        isInteracting = true;
+        clearTimeout(autoScrollTimer); 
         scrollContainer.classList.add('dragging');
         startX = e.pageX - scrollContainer.offsetLeft;
         scrollLeft = scrollContainer.scrollLeft;
     });
-    const stopDrag = () => { if(isDown) { isDown = false; scrollContainer.classList.remove('dragging'); handleScroll(); }};
+    const stopDrag = () => { 
+        if(isDown) { 
+            isDown = false; 
+            isInteracting = false;
+            scrollContainer.classList.remove('dragging'); 
+            handleScroll(); // Triggers the debounce which ultimately queues the next auto-scroll
+        }
+    };
     scrollContainer.addEventListener('mouseleave', stopDrag);
     scrollContainer.addEventListener('mouseup', stopDrag);
     scrollContainer.addEventListener('mousemove', (e) => {

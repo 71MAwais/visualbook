@@ -1,29 +1,36 @@
 {% comment %} sections/visual-cta.liquid {% endcomment %}
 <style>
+    #cta-{{ section.id }} {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    #cta-{{ section.id }} .font-serif {
+        font-family: 'Playfair Display', serif;
+    }
     .cta-glow {
         background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
     }
-    .luxury-fast { 
-        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    }
 </style>
 
-<section class="relative py-24 md:py-36 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
-    <div class="cta-glow absolute inset-0 pointer-events-none"></div>
+<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+    <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
     
-    <div class="relative z-10 text-center px-5">
+    <div class="relative z-10 text-center px-5 flex flex-col items-center">
         {% if section.settings.subtitle != blank %}
-            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-4">{{ section.settings.subtitle }}</p>
+            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-4">
+                {{ section.settings.subtitle }}
+            </p>
         {% endif %}
         
         {% if section.settings.title != blank %}
-            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-8">{{ section.settings.title | newline_to_br }}</h2>
+            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] font-medium tracking-tight text-white mb-10 leading-[1.1] drop-shadow-md">
+                {{ section.settings.title | newline_to_br }}
+            </h2>
         {% endif %}
         
         {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-            <a href="{{ section.settings.button_link }}" class="inline-flex items-center gap-3 bg-white text-[#050505] text-[11px] uppercase tracking-[0.18em] font-semibold px-8 py-4 rounded-sm hover:bg-[#B8906B] hover:text-white group luxury-fast">
+            <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white shadow-xl">
                 <span>{{ section.settings.button_label }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 luxury-fast">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
                 </svg>
             </a>
