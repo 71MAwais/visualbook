@@ -103,24 +103,6 @@
             "icon": "aperture"
           }
         },
-        "feature_a4iHjR": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
-        },
-        "feature_Y4fEXE": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
-        },
         "feature_UbLfdb": {
           "type": "feature",
           "settings": {
@@ -152,8 +134,6 @@
       "block_order": [
         "feature_9hwL6R",
         "feature_e4pbBn",
-        "feature_a4iHjR",
-        "feature_Y4fEXE",
         "feature_UbLfdb",
         "feature_PPtiUm",
         "feature_caKKNV"
