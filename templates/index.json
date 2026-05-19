@@ -160,8 +160,8 @@
       ],
       "name": "Cinematic Showcase",
       "settings": {
-        "subtitle": "The Experience",
-        "heading": "Immersive Memories",
+        "subtitle": "",
+        "heading": "",
         "instruction_text": "Swipe or Drag to Explore",
         "autoplay_speed": 4
       }
