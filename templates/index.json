@@ -68,10 +68,60 @@
         "bg_color": "#fcfbf9"
       }
     },
+    "landing_shop_GjN9FK": {
+      "type": "Landing-shop",
+      "name": "Shop Carousel",
+      "settings": {
+        "subtitle": "Curated Essentials",
+        "title": "Shop the Collection",
+        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
+    },
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
       "blocks": {
         "feature_9hwL6R": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        },
+        "feature_e4pbBn": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
+            "icon": "aperture"
+          }
+        },
+        "feature_a4iHjR": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        },
+        "feature_Y4fEXE": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "icon": "aperture"
+          }
+        },
+        "feature_UbLfdb": {
           "type": "feature",
           "settings": {
             "number": "01",
@@ -101,31 +151,28 @@
       },
       "block_order": [
         "feature_9hwL6R",
+        "feature_e4pbBn",
+        "feature_a4iHjR",
+        "feature_Y4fEXE",
+        "feature_UbLfdb",
         "feature_PPtiUm",
         "feature_caKKNV"
       ],
       "name": "Cinematic Showcase",
-      "settings": {}
-    },
-    "landing_shop_GjN9FK": {
-      "type": "Landing-shop",
-      "name": "Shop Carousel",
       "settings": {
-        "subtitle": "Curated Essentials",
-        "title": "Shop the Collection",
-        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
-        "tab_1_label": "Video Book",
-        "collection_1": "classic-visual-books",
-        "tab_2_label": "Audio Cards",
-        "collection_2": "audio-greetings-card"
+        "subtitle": "The Experience",
+        "heading": "Immersive Memories",
+        "instruction_text": "Swipe or Drag to Explore",
+        "autoplay_speed": 4
       }
     },
     "landing_feature_grid_hG6MFa": {
       "type": "Landing-feature-grid",
       "name": "Landing Feature Grid",
       "settings": {
-        "bg_color": "#FCFCFC",
+        "bg_color": "#fcfcfc",
         "text_color": "#000000",
+        "accent_color": "#b8906b",
         "font_family": "inter_n4",
         "text_1": "Signature Box",
         "text_2": "Memory Preservation",
@@ -250,6 +297,8 @@
       ],
       "name": "Real Moments",
       "settings": {
+        "bg_color": "#14110f",
+        "text_color": "#ffffff",
         "subtitle": "Community",
         "title": "Real Moments"
       }
@@ -309,7 +358,8 @@
         "subtitle": "Testimonials",
         "title": "From our Customers",
         "show_rating": true,
-        "rating_text": "4.9 / 5 — 2,400+ Reviews"
+        "rating_text": "4.9 / 5 — 2,400+ Reviews",
+        "autoplay_speed": 3
       }
     },
     "landing_awards_CaYXPk": {
@@ -487,8 +537,8 @@
   "order": [
     "landing_hero_eEAx9G",
     "landing_as_seen_dFngCU",
-    "landing_cinematic_dVzXyi",
     "landing_shop_GjN9FK",
+    "landing_cinematic_dVzXyi",
     "landing_feature_grid_hG6MFa",
     "landing_howitworks_UpQWib",
     "landing_realmoments_bcmqda",
