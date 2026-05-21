@@ -175,58 +175,10 @@
             "link_text": "",
             "link_url": ""
           }
-        },
-        "step_a6m4ew": {
-          "type": "step",
-          "settings": {
-            "category": "tab2",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_nb4X37": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_nMNJmb": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_NXTrdf": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
         }
       },
       "block_order": [
-        "step_JFbAGH",
-        "step_a6m4ew",
-        "step_nb4X37",
-        "step_nMNJmb",
-        "step_NXTrdf"
+        "step_JFbAGH"
       ],
       "name": "How It Works",
       "settings": {
