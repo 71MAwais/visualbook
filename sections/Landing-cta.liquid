@@ -2,6 +2,9 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
+        /* Enforcing the dark gradient here ensures it won't fail if Tailwind drops the class */
+        background-color: #1A1A1A;
+        background-image: linear-gradient(to bottom, #1A1A1A, #050505);
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
@@ -11,7 +14,7 @@
     }
 </style>
 
-<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+<section class="relative py-24 md:py-40 overflow-hidden" id="cta-{{ section.id }}">
     <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center">
