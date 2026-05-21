@@ -83,12 +83,44 @@
     },
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
+      "blocks": {
+        "book_pDKQFm": {
+          "type": "book",
+          "settings": {
+            "book_video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
+            "tag": "birthday",
+            "title": "The Big Day"
+          }
+        },
+        "book_44VYXB": {
+          "type": "book",
+          "settings": {
+            "book_video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
+            "tag": "wedding",
+            "title": "The Big Day"
+          }
+        },
+        "book_PNieEH": {
+          "type": "book",
+          "settings": {
+            "book_video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
+            "tag": "Weddings",
+            "title": "The Big Day"
+          }
+        }
+      },
+      "block_order": [
+        "book_pDKQFm",
+        "book_44VYXB",
+        "book_PNieEH"
+      ],
       "name": "Cinematic Showcase",
       "settings": {
         "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
         "subtitle": "Experince",
         "heading": "",
         "text": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion.",
+        "showcase_heading": "A Story For Every Occasion",
         "button_label": "Discover The Book",
         "button_link": "shopify://pages/all-products"
       }
