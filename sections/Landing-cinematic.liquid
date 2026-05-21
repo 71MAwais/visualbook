@@ -1,204 +1,535 @@
-{% comment %} sections/single-immersive-video.liquid {% endcomment %}
+{% comment %} sections/cinematic-experience.liquid {% endcomment %}
 <style>
-    #immersive-section-{{ section.id }} { 
+    #cinematic-grid-{{ section.id }} { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
     }
-    #immersive-section-{{ section.id }} .font-serif { 
+    #cinematic-grid-{{ section.id }} .font-serif { 
         font-family: 'Playfair Display', serif; 
     }
-    
-    /* Hardware acceleration for the zoom effect */
-    .immersive-zoom-container {
-        will-change: transform, border-radius; 
-        transform: translateZ(0);
+
+    /* Custom Scrollbar for Modal content */
+    .modal-scroll::-webkit-scrollbar { width: 4px; md:width: 6px; }
+    .modal-scroll::-webkit-scrollbar-track { background: transparent; }
+    .modal-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+    /* Tab active state transitions */
+    .cine-tab-btn.active {
+        color: #B8906B;
+        border-bottom-color: #B8906B;
+    }
+    .cine-tab-content {
+        display: none;
+        animation: fadeIn 0.4s ease forwards;
+    }
+    .cine-tab-content.active {
+        display: flex; 
     }
 
-    /* Interactive Exit Button */
-    .immersive-exit-btn {
-        transition: all 0.3s ease; 
-        cursor: pointer;
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-    .immersive-exit-btn:hover {
-        color: #B8906B !important; 
-        transform: translateY(5px); 
+    
+    /* Lock body scroll when modal is open on mobile */
+    body.modal-open {
+        overflow: hidden;
     }
 </style>
 
-<section id="immersive-section-{{ section.id }}" class="w-full h-[150vh] relative bg-[#FAFAFA]" aria-label="Immersive Video Showcase">
+<section id="cinematic-grid-{{ section.id }}" class="w-full py-16 md:py-24 bg-[#FAFAFA] relative px-4 md:px-6">
     
-    {% comment %} Sticky wrapper - z-index changes dynamically to cover header {% endcomment %}
-    <div id="immersive-sticky-{{ section.id }}" class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden z-40 transition-all duration-300">
-        
-        {% comment %} The Zooming Container {% endcomment %}
-        <div id="immersive-bg-{{ section.id }}" class="immersive-zoom-container relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-700 ease-in-out" style="transform: scale(0.85); border-radius: 32px;">
-            
-            {% comment %} Background Video / Image Fallback {% endcomment %}
-            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                {% if section.settings.background_video != blank %}
-                    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-70', draggable: false }}
-                {% elsif section.settings.image != blank %}
-                    <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-70" draggable="false" loading="lazy"/>
-                {% else %}
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-70 bg-[#222]' }}
-                {% endif %}
-               
-                {% comment %} Overlays for text legibility {% endcomment %}
-                <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
-            </div>
-            
-            {% comment %} Text Content (Fades in on full screen) {% endcomment %}
-            <div id="immersive-content-{{ section.id }}" class="relative z-10 w-full max-w-4xl px-8 md:px-12 flex flex-col items-center justify-center text-center opacity-0 transition-opacity duration-1000 delay-300 pointer-events-none">
-                
-                {% if section.settings.subtitle != blank %}
-                    <span class="font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">
-                        {{ section.settings.subtitle }}
-                    </span>
-                {% endif %}
-                
-                {% if section.settings.heading != blank %}
-                    <h2 class="font-serif text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-white leading-[1.05] tracking-tight mb-6 drop-shadow-xl">
-                        {{ section.settings.heading }}
-                    </h2>
-                {% endif %}
-                
-                {% if section.settings.text != blank %}
-                    <p class="font-sans text-[16px] md:text-[20px] text-white/80 font-light max-w-2xl leading-relaxed mb-10">
-                        {{ section.settings.text }}
-                    </p>
-                {% endif %}
-
-                {% if section.settings.button_label != blank %}
-                    <a href="{{ section.settings.button_link }}" class="pointer-events-auto inline-flex items-center justify-center px-10 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
-                        {{ section.settings.button_label }}
-                    </a>
-                {% endif %}
-            </div>
-
-            {% comment %} Continue Scrolling Indicator {% endcomment %}
-            <div id="immersive-scroll-indicator-{{ section.id }}" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 opacity-0 transition-opacity duration-700 delay-500 flex flex-col items-center gap-2 pointer-events-auto">
-                <button id="immersive-exit-down-{{ section.id }}" aria-label="Continue Scrolling" class="immersive-exit-btn font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-white/60 flex flex-col items-center gap-3 focus:outline-none">
-                    <span>Keep Scrolling</span>
-                    <svg class="w-4 h-4 animate-bounce text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                </button>
-            </div>
-            
+    {% comment %} SECTION HEADER {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+        <div class="max-w-4xl mx-auto text-center mb-12 md:mb-16">
+            {% if section.settings.heading != blank %}
+                <h2 class="font-serif text-[32px] md:text-[42px] lg:text-[48px] text-[#111] leading-tight mb-4">
+                    {{ section.settings.heading | escape }}
+                </h2>
+            {% endif %}
+            {% if section.settings.subheading != blank %}
+                <p class="font-sans text-[15px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mx-auto">
+                    {{ section.settings.subheading | escape }}
+                </p>
+            {% endif %}
         </div>
+    {% endif %}
+
+    {% comment %} THE LIGHT & ELEGANT GRID {% endcomment %}
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center">
+        {% for block in section.blocks limit: 6 %}
+            {%- assign title = block.settings.title | escape -%}
+            
+            <button type="button" 
+                 class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
+                 data-modal-target="cine-modal-{{ block.id }}" 
+                 aria-label="Experience the unboxing: {{ title }}"
+                 {{ block.shopify_attributes }}>
+                
+                {% comment %} Top Media Area (Thumbnail & Play Button) {% endcomment %}
+                <div class="relative w-full aspect-video md:aspect-[4/3] bg-gray-50 overflow-hidden shrink-0">
+                    
+                    {% comment %} Thumbnail Image {% endcomment %}
+                    {% if block.settings.cover_image != blank %}
+                        {{ block.settings.cover_image | image_url: width: 800 | image_tag: 
+                            class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700',
+                            loading: 'lazy',
+                            alt: title 
+                        }}
+                    {% else %}
+                        {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-50' }}
+                    {% endif %}
+
+                    {% comment %} Subtle darkening overlay to make white play button pop {% endcomment %}
+                    <div class="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
+
+                    {% comment %} Floating Play Button {% endcomment %}
+                    <div class="absolute inset-0 flex items-center justify-center z-20">
+                        <div class="w-14 h-14 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:bg-[#B8906B] group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5 text-[#B8906B] group-hover:text-white ml-0.5 transition-colors duration-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+
+                    {% comment %} Duration Pill {% endcomment %}
+                    {% if block.settings.video_duration != blank %}
+                        <div class="absolute bottom-3 right-3 z-20">
+                            <span class="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded tracking-wider shadow-sm">
+                                <svg class="w-2.5 h-2.5 text-[#B8906B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                {{ block.settings.video_duration | escape }}
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% comment %} Bottom Text Area {% endcomment %}
+                <div class="p-6 md:p-8 flex flex-col grow bg-white">
+                    {% if block.settings.tag != blank %}
+                        <span class="inline-block text-[#B8906B] text-[10px] uppercase tracking-widest font-bold mb-3">
+                            {{ block.settings.tag | escape }}
+                        </span>
+                    {% endif %}
+                    
+                    <h3 class="font-serif text-[24px] md:text-[26px] text-gray-900 leading-tight group-hover:text-[#B8906B] transition-colors duration-300">
+                        {{ title }}
+                    </h3>
+                    
+                    {% if block.settings.description != blank %}
+                        <p class="text-gray-500 font-sans text-[14px] mt-3 line-clamp-2 leading-relaxed">
+                            {{ block.settings.description | escape }}
+                        </p>
+                    {% endif %}
+                </div>
+            </button>
+        {% endfor %}
     </div>
+
 </section>
 
+{% comment %} MODALS (Generated for each block) - Kept Dark for Cinematic Viewing {% endcomment %}
+{% for block in section.blocks limit: 6 %}
+    <div id="cine-modal-{{ block.id }}" 
+         class="cine-modal fixed inset-0 z-50 hidden items-center justify-center p-0 sm:p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300"
+         role="dialog" 
+         aria-modal="true" 
+         aria-labelledby="modal-title-{{ block.id }}">
+        
+        <div class="relative w-full h-full sm:h-auto max-w-6xl sm:max-h-[90vh] bg-[#0A0A0A] sm:border border-white/10 sm:rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300 cine-modal-inner">
+            
+            {% comment %} Close Button {% endcomment %}
+            <button type="button" 
+                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/60 backdrop-blur hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Close modal">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
+            <div class="w-full md:w-1/2 aspect-square md:aspect-auto bg-black relative flex items-center justify-center group/video shrink-0">
+                
+                {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
+                <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full relative">
+                    {% if block.settings.video != blank %}
+                        <video id="video-{{ block.id }}" class="w-full h-full object-contain bg-black" controls playsinline preload="metadata">
+                            {% for source in block.settings.video.sources %}
+                                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                            {% endfor %}
+                            Your browser does not support the video tag.
+                        </video>
+
+                        {% comment %} Timestamps / Chapters Overlay {% endcomment %}
+                        {% if block.settings.chapter_1_label != blank or block.settings.chapter_2_label != blank or block.settings.chapter_3_label != blank %}
+                            <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10 md:hidden"></div>
+                            <div class="absolute bottom-12 md:bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-2 z-20 opacity-100 md:opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                {% if block.settings.chapter_1_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_1_label | escape }}
+                                    </button>
+                                {% endif %}
+                                {% if block.settings.chapter_2_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_2_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_2_label | escape }}
+                                    </button>
+                                {% endif %}
+                                {% if block.settings.chapter_3_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_3_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_3_label | escape }}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-white/50 text-sm absolute inset-0">No video uploaded</div>
+                    {% endif %}
+                </div>
+
+                {% comment %} TAB 2 CONTENT: FEATURES IMAGE {% endcomment %}
+                <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-6 md:p-12 flex-col justify-center">
+                    {% if block.settings.cover_image != blank %}
+                        {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
+                    {% endif %}
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_2_title | escape }}</h5>
+                        <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
+                            {{ block.settings.tab_2_text }}
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} TAB 3 CONTENT: MEMORY / PURPOSE {% endcomment %}
+                <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-6 md:p-12 flex-col justify-center">
+                    {% if block.settings.cover_image != blank %}
+                        {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
+                    {% endif %}
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_3_title | escape }}</h5>
+                        <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
+                            {{ block.settings.tab_3_text }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
+            <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll flex-1 overflow-y-auto z-10">
+                <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#B8906B] font-bold mb-2">{{ block.settings.tag | escape }}</span>
+                <h3 id="modal-title-{{ block.id }}" class="font-serif text-[28px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-8 md:mb-10">{{ block.settings.title | escape }}</h3>
+
+                {% comment %} The 3 Tabs Buttons {% endcomment %}
+                <div class="flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap modal-scroll" role="tablist">
+                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                        {{ block.settings.tab_1_title | escape }}
+                    </button>
+                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                        {{ block.settings.tab_2_title | escape }}
+                    </button>
+                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                        {{ block.settings.tab_3_title | escape }}
+                    </button>
+                </div>
+
+                {% comment %} Dynamic Text area below tabs {% endcomment %}
+                <div class="mt-auto pt-6 md:pt-8 pb-4 sm:pb-0">
+                    <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8906B] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
+                        {{ block.settings.button_label | default: "Create Your Book" | escape }}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endfor %}
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const sectionId = '{{ section.id }}';
-    const section = document.getElementById(`immersive-section-${sectionId}`);
-    const stickyWrapper = document.getElementById(`immersive-sticky-${sectionId}`);
-    const bgContainer = document.getElementById(`immersive-bg-${sectionId}`);
-    const content = document.getElementById(`immersive-content-${sectionId}`);
-    const scrollIndicator = document.getElementById(`immersive-scroll-indicator-${sectionId}`);
-    const exitBtn = document.getElementById(`immersive-exit-down-${sectionId}`);
-    
-    if (!section || !bgContainer) return;
+document.addEventListener('DOMContentLoaded', function() {
+    const sectionContainer = document.getElementById('cinematic-grid-{{ section.id }}');
+    if (!sectionContainer) return;
 
-    let isFullScreen = false;
+    const modalTriggers = document.querySelectorAll('.cine-modal-trigger');
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-modal-target');
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            const modalBox = modal.querySelector('.cine-modal-inner');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                if (modalBox) {
+                    modalBox.classList.remove('scale-95');
+                    modalBox.classList.add('scale-100');
+                }
+            }, 10);
 
-    // Smooth scroll down button
-    if(exitBtn) {
-        exitBtn.addEventListener('click', () => {
-            window.scrollTo({ top: section.offsetTop + section.offsetHeight, behavior: 'smooth' });
-        });
-    }
-
-    // Scroll Logic for Zoom & Z-index overlay
-    window.addEventListener('scroll', () => {
-        const rect = section.getBoundingClientRect();
-        const wh = window.innerHeight;
-
-        // When the sticky container is fixed at the top of the viewport
-        if (rect.top <= 0 && rect.bottom >= wh) {
-            if (!isFullScreen) {
-                isFullScreen = true;
-                
-                // Expand to full screen
-                bgContainer.style.transform = `scale(1)`;
-                bgContainer.style.borderRadius = `0px`;
-                
-                // Elevate z-index to 9999 to cover site headers
-                stickyWrapper.style.zIndex = '9999';
-                
-                // Fade in content
-                if(content) content.style.opacity = '1';
-                if(content) content.style.pointerEvents = 'auto';
-                if(scrollIndicator) scrollIndicator.style.opacity = '1';
+            const blockId = modalId.replace('cine-modal-', '');
+            const video = document.getElementById(`video-${blockId}`);
+            if (video) {
+                video.currentTime = 0;
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => console.warn("Browser auto-play rules delayed execution.", error));
+                }
             }
-        } else {
-            // Shrink back down when scrolling away
-            if (isFullScreen) {
-                isFullScreen = false;
-                
-                bgContainer.style.transform = `scale(0.85)`;
-                bgContainer.style.borderRadius = `32px`;
-                
-                // Drop z-index back down so header reappears
-                stickyWrapper.style.zIndex = '40';
-                
-                // Fade out content
-                if(content) content.style.opacity = '0';
-                if(content) content.style.pointerEvents = 'none';
-                if(scrollIndicator) scrollIndicator.style.opacity = '0';
+
+            document.body.classList.add('modal-open');
+        });
+    });
+
+    const closeButtons = document.querySelectorAll('.cine-modal-close');
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const modal = this.closest('.cine-modal');
+            if (!modal) return;
+
+            const modalBox = modal.querySelector('.cine-modal-inner');
+            
+            modal.classList.add('opacity-0');
+            if (modalBox) {
+                modalBox.classList.remove('scale-100');
+                modalBox.classList.add('scale-95');
+            }
+
+            const blockId = modal.id.replace('cine-modal-', '');
+            const video = document.getElementById(`video-${blockId}`);
+            if (video) video.pause();
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                switchCineTab(blockId, '1', modal);
+            }, 300);
+
+            document.body.classList.remove('modal-open');
+        });
+    });
+
+    const tabButtons = document.querySelectorAll('.cine-tab-btn');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const blockId = this.getAttribute('data-block');
+            const tabNumber = this.getAttribute('data-tab');
+            const modal = this.closest('.cine-modal');
+            switchCineTab(blockId, tabNumber, modal);
+        });
+    });
+
+    function switchCineTab(blockId, tabNumber, modalContext) {
+        if (!modalContext) return;
+        
+        const allBtns = modalContext.querySelectorAll('.cine-tab-btn');
+        const allContents = modalContext.querySelectorAll('.cine-tab-content');
+        
+        allBtns.forEach(b => b.classList.remove('active'));
+        allContents.forEach(c => c.classList.remove('active'));
+
+        const activeBtn = modalContext.querySelector(`.cine-tab-btn[data-tab="${tabNumber}"]`);
+        const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
+        
+        if (activeBtn) activeBtn.classList.add('active');
+        if (activeContent) activeContent.classList.add('active');
+
+        const video = document.getElementById(`video-${blockId}`);
+        if (video) {
+            if (tabNumber !== '1') {
+                video.pause();
+            } else {
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => console.warn("Interface activation requested user trigger.", error));
+                }
             }
         }
-    }, { passive: true });
+    }
+
+    const chapterBtns = document.querySelectorAll('.chapter-btn');
+    chapterBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            const blockId = this.getAttribute('data-block');
+            const time = parseInt(this.getAttribute('data-time'), 10);
+            const video = document.getElementById(`video-${blockId}`);
+            
+            if (video && !isNaN(time)) {
+                video.currentTime = time;
+                video.play();
+            }
+        });
+    });
 });
 </script>
 
 {% schema %}
 {
-  "name": "Immersive Video Hero",
+  "name": "The Unboxing Experience",
+  "max_blocks": 6,
   "settings": [
     {
-      "type": "video",
-      "id": "background_video",
-      "label": "Background Video",
-      "info": "Use a high-quality, looping MP4. This will cover the entire screen."
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Fallback Image",
-      "info": "Displays if the video fails to load."
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "The Experience"
+      "type": "header",
+      "content": "Section Titles"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Relive The Magic"
+      "default": "Experience the Unboxing"
     },
     {
       "type": "textarea",
-      "id": "text",
-      "label": "Body Text",
-      "default": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion."
-    },
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "See what it feels like to hold your memories in your hands for the first time."
+    }
+  ],
+  "blocks": [
     {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button Label",
-      "default": "Discover The Book"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
+      "type": "experience",
+      "name": "Experience Video",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Card Details"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Category Tag",
+          "default": "Linen"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Classic Linen"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "The timeless, heirloom-quality videobook wrapped in artisan linen."
+        },
+        {
+          "type": "text",
+          "id": "video_duration",
+          "label": "Video Duration Badge",
+          "placeholder": "e.g. 01:45"
+        },
+        {
+          "type": "image_picker",
+          "id": "cover_image",
+          "label": "Video Thumbnail",
+          "info": "Displays on the grid card and maps to Tabs 2 and 3 in the modal."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "The Video",
+          "info": "Plays natively inside Tab 1 content slots."
+        },
+        {
+          "type": "header",
+          "content": "Tab Configurations",
+          "info": "Customize the content inside the modal for this specific video."
+        },
+        {
+          "type": "text",
+          "id": "tab_1_title",
+          "label": "Tab 1 Name",
+          "default": "The Video"
+        },
+        {
+          "type": "text",
+          "id": "tab_2_title",
+          "label": "Tab 2 Name",
+          "default": "Features"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_2_text",
+          "label": "Tab 2 Content",
+          "default": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>"
+        },
+        {
+          "type": "text",
+          "id": "tab_3_title",
+          "label": "Tab 3 Name",
+          "default": "The Purpose"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_3_text",
+          "label": "Tab 3 Content",
+          "default": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Call To Action"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Create Your Book"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Video Chapters (Optional)",
+          "info": "Add buttons over the video that skip to specific timestamps. Leave blank to hide."
+        },
+        {
+          "type": "text",
+          "id": "chapter_1_label",
+          "label": "Chapter 1 Label",
+          "placeholder": "e.g., The Box"
+        },
+        {
+          "type": "number",
+          "id": "chapter_1_time",
+          "label": "Chapter 1 Timestamp (Seconds)",
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "chapter_2_label",
+          "label": "Chapter 2 Label",
+          "placeholder": "e.g., Opening"
+        },
+        {
+          "type": "number",
+          "id": "chapter_2_time",
+          "label": "Chapter 2 Timestamp (Seconds)",
+          "default": 15
+        },
+        {
+          "type": "text",
+          "id": "chapter_3_label",
+          "label": "Chapter 3 Label",
+          "placeholder": "e.g., The Screen"
+        },
+        {
+          "type": "number",
+          "id": "chapter_3_time",
+          "label": "Chapter 3 Timestamp (Seconds)",
+          "default": 30
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Immersive Video Hero"
+      "name": "The Unboxing Experience",
+      "blocks": [
+        { "type": "experience" },
+        { "type": "experience" },
+        { "type": "experience" }
+      ]
     }
   ]
 }
