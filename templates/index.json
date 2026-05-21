@@ -165,68 +165,92 @@
     "landing_howitworks_UpQWib": {
       "type": "Landing-howitworks",
       "blocks": {
-        "step_JFbAGH": {
+        "step_HDeR3p": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Connect To Your Computer",
+            "description": "Easily set up your Classic Visual Book by plugging it directly into your Mac or PC using the provided USB cable.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_4NH9zG": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Manage Photos and Videos",
+            "description": "Drag and drop your media into the designated folders. You can add, delete, or organize your memories anytime. Just ensure your files match our recommended formats and resolutions for the best display quality.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_3KR4xq": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 03",
+            "title": "Ready to Gift Out of the Box",
+            "description": "Take advantage of our complimentary media pre-loading service. Our experts will prepare your video book so it arrives beautifully packaged in a premium gift box, ready to play the moment it's opened.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_XkjHdX": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 04",
+            "title": "Fix Video Format Issues Fast",
+            "description": "Seeing a 'no file' or 'format not supported' error? Use our free video converter tool to quickly optimize your files for seamless, high-quality playback on your Visual Book.",
+            "link_text": "Use Converter",
+            "link_url": "shopify://pages/how-it-works"
+          }
+        },
+        "step_jnJQdn": {
           "type": "step",
           "settings": {
             "category": "tab2",
             "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
+            "title": "Start Your Recording",
+            "description": "Press the record button on your greeting card. A single beep will signal that recording has started. Speak your personal message or play your favorite audio, and the card will save it instantly.",
             "link_text": "",
             "link_url": ""
           }
         },
-        "step_a6m4ew": {
+        "step_hxibjE": {
           "type": "step",
           "settings": {
             "category": "tab2",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
+            "tag": "Step 02",
+            "title": "Stop Recording",
+            "description": "Press the record button one more time when you are finished. You will hear two beeps confirming your custom audio message has been saved successfully.",
             "link_text": "",
             "link_url": ""
           }
         },
-        "step_nb4X37": {
+        "step_yazEn7": {
           "type": "step",
           "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_nMNJmb": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
-            "link_text": "",
-            "link_url": ""
-          }
-        },
-        "step_NXTrdf": {
-          "type": "step",
-          "settings": {
-            "category": "tab1",
-            "tag": "Step 01",
-            "title": "Connect To Your Computer",
-            "description": "",
+            "category": "tab2",
+            "tag": "Step 03",
+            "title": "Play or Re-Record",
+            "description": "Press the play button to listen to your message. Not quite right? Just repeat the recording steps. Your new audio will automatically overwrite and replace the previous one.",
             "link_text": "",
             "link_url": ""
           }
         }
       },
       "block_order": [
-        "step_JFbAGH",
-        "step_a6m4ew",
-        "step_nb4X37",
-        "step_nMNJmb",
-        "step_NXTrdf"
+        "step_HDeR3p",
+        "step_4NH9zG",
+        "step_3KR4xq",
+        "step_XkjHdX",
+        "step_jnJQdn",
+        "step_hxibjE",
+        "step_yazEn7"
       ],
       "name": "How It Works",
       "settings": {
@@ -510,7 +534,7 @@
         "subtitle": "Begin Your Story",
         "title": "Ready to preserve\nwhat matters most?",
         "button_label": "Shop The Collection",
-        "button_link": ""
+        "button_link": "shopify://collections/all"
       }
     }
   },
