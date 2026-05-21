@@ -1,4 +1,4 @@
-{% comment %} sections/immersive-sequence.liquid {% endcomment %}
+{% comment %} sections/single-immersive-video.liquid {% endcomment %}
 <style>
     #immersive-section-{{ section.id }} { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -7,15 +7,11 @@
         font-family: 'Playfair Display', serif; 
     }
     
-    /* Hardware acceleration */
-    .will-change-transform {
-        will-change: transform, opacity, border-radius; 
+    /* Hardware acceleration for the zoom effect */
+    .immersive-zoom-container {
+        will-change: transform, border-radius; 
         transform: translateZ(0);
     }
-
-    /* Hide standard scrollbar for the showcase */
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     /* Interactive Exit Button */
     .immersive-exit-btn {
@@ -28,75 +24,65 @@
     }
 </style>
 
-{% comment %} The outer container is 250vh to create a long scrolling timeline {% endcomment %}
-<section id="immersive-section-{{ section.id }}" class="w-full h-[250vh] relative bg-[#FAFAFA]" aria-label="Immersive Video Showcase">
+<section id="immersive-section-{{ section.id }}" class="w-full h-[150vh] relative bg-[#FAFAFA]" aria-label="Immersive Video Showcase">
     
+    {% comment %} Sticky wrapper - z-index changes dynamically to cover header {% endcomment %}
     <div id="immersive-sticky-{{ section.id }}" class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden z-40 transition-all duration-300">
         
-        {% comment %} LAYER 1: The Zooming Background {% endcomment %}
-        <div id="immersive-bg-{{ section.id }}" class="will-change-transform absolute inset-0 bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center" style="transform: scale(0.85); border-radius: 32px;">
+        {% comment %} The Zooming Container {% endcomment %}
+        <div id="immersive-bg-{{ section.id }}" class="immersive-zoom-container relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-700 ease-in-out" style="transform: scale(0.85); border-radius: 32px;">
+            
+            {% comment %} Background Video / Image Fallback {% endcomment %}
             <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
                 {% if section.settings.background_video != blank %}
-                    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-80', draggable: false }}
+                    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-70', draggable: false }}
                 {% elsif section.settings.image != blank %}
-                    <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false" loading="lazy"/>
+                    <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-70" draggable="false" loading="lazy"/>
                 {% else %}
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 bg-[#222]' }}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-70 bg-[#222]' }}
                 {% endif %}
-                
-                {% comment %} Dynamic dimming overlay that darkens during Phase 2 {% endcomment %}
-                <div id="immersive-overlay-{{ section.id }}" class="absolute inset-0 bg-[#050505] opacity-20 transition-opacity duration-500"></div>
+               
+                {% comment %} Overlays for text legibility {% endcomment %}
                 <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
             </div>
-        </div>
             
-        {% comment %} LAYER 2: Intro Text (Phase 1) {% endcomment %}
-        <div id="immersive-content-{{ section.id }}" class="will-change-transform absolute inset-0 z-10 w-full h-full flex flex-col items-center justify-center text-center px-8 md:px-12 opacity-0 pointer-events-none">
-            {% if section.settings.subtitle != blank %}
-                <span class="font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">{{ section.settings.subtitle }}</span>
-            {% endif %}
-            
-            {% if section.settings.heading != blank %}
-                <h2 class="font-serif text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-white leading-[1.05] tracking-tight mb-6 drop-shadow-xl">{{ section.settings.heading }}</h2>
-            {% endif %}
-            
-            {% if section.settings.text != blank %}
-                <p class="font-sans text-[16px] md:text-[20px] text-white/80 font-light max-w-2xl leading-relaxed mb-10">{{ section.settings.text }}</p>
-            {% endif %}
-        </div>
+            {% comment %} Text Content (Fades in on full screen) {% endcomment %}
+            <div id="immersive-content-{{ section.id }}" class="relative z-10 w-full max-w-4xl px-8 md:px-12 flex flex-col items-center justify-center text-center opacity-0 transition-opacity duration-1000 delay-300 pointer-events-none">
+                
+                {% if section.settings.subtitle != blank %}
+                    <span class="font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+                        {{ section.settings.subtitle }}
+                    </span>
+                {% endif %}
+                
+                {% if section.settings.heading != blank %}
+                    <h2 class="font-serif text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-white leading-[1.05] tracking-tight mb-6 drop-shadow-xl">
+                        {{ section.settings.heading }}
+                    </h2>
+                {% endif %}
+                
+                {% if section.settings.text != blank %}
+                    <p class="font-sans text-[16px] md:text-[20px] text-white/80 font-light max-w-2xl leading-relaxed mb-10">
+                        {{ section.settings.text }}
+                    </p>
+                {% endif %}
 
-        {% comment %} LAYER 3: The Book Showcase (Phase 2) {% endcomment %}
-        <div id="immersive-showcase-{{ section.id }}" class="will-change-transform absolute inset-0 z-20 w-full h-full flex flex-col items-center justify-center pt-10 opacity-0 pointer-events-none">
-            <h3 class="font-serif text-[28px] md:text-[42px] text-white tracking-tight mb-10 drop-shadow-lg text-center px-6">{{ section.settings.showcase_heading }}</h3>
-            
-            <div class="w-full max-w-[1400px] flex gap-6 md:gap-10 overflow-x-auto hide-scrollbar px-6 md:px-20 snap-x snap-mandatory">
-                {% for block in section.blocks %}
-                    <div class="flex-none w-[280px] md:w-[400px] aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl snap-center group border border-white/10" {{ block.shopify_attributes }}>
-                        {% if block.settings.book_video != blank %}
-                            {{ block.settings.book_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700', draggable: false }}
-                        {% elsif block.settings.book_image != blank %}
-                            <img src="{{ block.settings.book_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
-                        {% else %}
-                             {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover bg-[#222]' }}
-                        {% endif %}
-                        
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"></div>
-                        
-                        <div class="absolute bottom-6 left-6 right-6">
-                            <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white mb-2">{{ block.settings.tag }}</span>
-                            <h4 class="text-white font-serif text-[24px] leading-tight">{{ block.settings.title }}</h4>
-                        </div>
-                    </div>
-                {% endfor %}
+                {% if section.settings.button_label != blank %}
+                    <a href="{{ section.settings.button_link }}" class="pointer-events-auto inline-flex items-center justify-center px-10 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
+                        {{ section.settings.button_label }}
+                    </a>
+                {% endif %}
             </div>
 
-            {% if section.settings.button_label != blank %}
-                <a href="{{ section.settings.button_link }}" class="pointer-events-auto mt-12 inline-flex items-center justify-center px-10 py-4 bg-[#B8906B] text-white font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300 rounded-full">
-                    {{ section.settings.button_label }}
-                </a>
-            {% endif %}
+            {% comment %} Continue Scrolling Indicator {% endcomment %}
+            <div id="immersive-scroll-indicator-{{ section.id }}" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 opacity-0 transition-opacity duration-700 delay-500 flex flex-col items-center gap-2 pointer-events-auto">
+                <button id="immersive-exit-down-{{ section.id }}" aria-label="Continue Scrolling" class="immersive-exit-btn font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-white/60 flex flex-col items-center gap-3 focus:outline-none">
+                    <span>Keep Scrolling</span>
+                    <svg class="w-4 h-4 animate-bounce text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </button>
+            </div>
+            
         </div>
-        
     </div>
 </section>
 
@@ -106,74 +92,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const section = document.getElementById(`immersive-section-${sectionId}`);
     const stickyWrapper = document.getElementById(`immersive-sticky-${sectionId}`);
     const bgContainer = document.getElementById(`immersive-bg-${sectionId}`);
-    const bgOverlay = document.getElementById(`immersive-overlay-${sectionId}`);
     const content = document.getElementById(`immersive-content-${sectionId}`);
-    const showcase = document.getElementById(`immersive-showcase-${sectionId}`);
+    const scrollIndicator = document.getElementById(`immersive-scroll-indicator-${sectionId}`);
+    const exitBtn = document.getElementById(`immersive-exit-down-${sectionId}`);
     
-    if (!section) return;
+    if (!section || !bgContainer) return;
 
-    let isStickyActive = false;
+    let isFullScreen = false;
 
+    // Smooth scroll down button
+    if(exitBtn) {
+        exitBtn.addEventListener('click', () => {
+            window.scrollTo({ top: section.offsetTop + section.offsetHeight, behavior: 'smooth' });
+        });
+    }
+
+    // Scroll Logic for Zoom & Z-index overlay
     window.addEventListener('scroll', () => {
         const rect = section.getBoundingClientRect();
         const wh = window.innerHeight;
-        const totalScrollableHeight = rect.height - wh;
-        
-        // Calculate progress from 0.0 to 1.0 while inside the section
-        let rawProgress = -rect.top / totalScrollableHeight;
-        let progress = Math.min(Math.max(rawProgress, 0), 1);
 
+        // When the sticky container is fixed at the top of the viewport
         if (rect.top <= 0 && rect.bottom >= wh) {
-            if (!isStickyActive) {
-                isStickyActive = true;
-                stickyWrapper.style.zIndex = '9999';
-            }
-
-            // --- ANIMATION TIMELINE --- //
-            
-            // Phase 0: Zoom in (0% to 25% scroll)
-            let zoomProgress = Math.min(progress / 0.25, 1);
-            let currentScale = 0.85 + (0.15 * zoomProgress);
-            let currentRadius = 32 - (32 * zoomProgress);
-            bgContainer.style.transform = `scale(${currentScale})`;
-            bgContainer.style.borderRadius = `${currentRadius}px`;
-
-            // Phase 1: Intro Text Fades In & Out (20% to 60% scroll)
-            if (progress > 0.2 && progress < 0.6) {
-                let textFadeIn = Math.min((progress - 0.2) / 0.1, 1);
-                let textFadeOut = 1 - Math.max((progress - 0.4) / 0.2, 0);
-                content.style.opacity = Math.min(textFadeIn, textFadeOut);
-                content.style.transform = `translateY(${(1 - textFadeOut) * -30}px)`; // Slides up slightly as it fades out
-            } else {
-                content.style.opacity = 0;
-            }
-
-            // Phase 2: Showcase Grid Fades In (60% to 100% scroll)
-            if (progress >= 0.5) {
-                let showcaseFadeIn = Math.min((progress - 0.5) / 0.2, 1);
-                showcase.style.opacity = showcaseFadeIn;
-                showcase.style.pointerEvents = 'auto';
-                showcase.style.transform = `translateY(${(1 - showcaseFadeIn) * 40}px)`; // Slides up into place
+            if (!isFullScreen) {
+                isFullScreen = true;
                 
-                // Darken the background video slightly to make the showcase pop
-                bgOverlay.style.opacity = 0.4 + (0.4 * showcaseFadeIn); 
-            } else {
-                showcase.style.opacity = 0;
-                showcase.style.pointerEvents = 'none';
-                bgOverlay.style.opacity = 0.2;
+                // Expand to full screen
+                bgContainer.style.transform = `scale(1)`;
+                bgContainer.style.borderRadius = `0px`;
+                
+                // Elevate z-index to 9999 to cover site headers
+                stickyWrapper.style.zIndex = '9999';
+                
+                // Fade in content
+                if(content) content.style.opacity = '1';
+                if(content) content.style.pointerEvents = 'auto';
+                if(scrollIndicator) scrollIndicator.style.opacity = '1';
             }
-
         } else {
-            // Reset if scrolled out
-            if (isStickyActive) {
-                isStickyActive = false;
+            // Shrink back down when scrolling away
+            if (isFullScreen) {
+                isFullScreen = false;
+                
+                bgContainer.style.transform = `scale(0.85)`;
+                bgContainer.style.borderRadius = `32px`;
+                
+                // Drop z-index back down so header reappears
                 stickyWrapper.style.zIndex = '40';
-                if (rect.top > 0) {
-                    bgContainer.style.transform = `scale(0.85)`;
-                    bgContainer.style.borderRadius = `32px`;
-                    content.style.opacity = 0;
-                    showcase.style.opacity = 0;
-                }
+                
+                // Fade out content
+                if(content) content.style.opacity = '0';
+                if(content) content.style.pointerEvents = 'none';
+                if(scrollIndicator) scrollIndicator.style.opacity = '0';
             }
         }
     }, { passive: true });
@@ -182,22 +152,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 {% schema %}
 {
-  "name": "Immersive Sequence",
+  "name": "Immersive Video Hero",
   "settings": [
-    {
-      "type": "header",
-      "content": "Phase 1: The Opening Hero"
-    },
     {
       "type": "video",
       "id": "background_video",
       "label": "Background Video",
-      "info": "This scales up to cover the screen."
+      "info": "Use a high-quality, looping MP4. This will cover the entire screen."
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Fallback Background Image"
+      "label": "Fallback Image",
+      "info": "Displays if the video fails to load."
     },
     {
       "type": "text",
@@ -215,23 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
       "type": "textarea",
       "id": "text",
       "label": "Body Text",
-      "default": "Open the cover and instantly transport back to your most cherished moments."
-    },
-    {
-      "type": "header",
-      "content": "Phase 2: The Showcase"
-    },
-    {
-      "type": "text",
-      "id": "showcase_heading",
-      "label": "Showcase Heading",
-      "default": "A Story For Every Occasion"
+      "default": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion."
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Button Label",
-      "default": "Shop The Collection"
+      "default": "Discover The Book"
     },
     {
       "type": "url",
@@ -239,45 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
       "label": "Button Link"
     }
   ],
-  "blocks": [
-    {
-      "type": "book",
-      "name": "Showcase Book",
-      "settings": [
-        {
-          "type": "video",
-          "id": "book_video",
-          "label": "Book Video (Overrides Image)",
-          "info": "Upload a vertical/portrait video of the book open and playing."
-        },
-        {
-          "type": "image_picker",
-          "id": "book_image",
-          "label": "Book Image"
-        },
-        {
-          "type": "text",
-          "id": "tag",
-          "label": "Category Tag",
-          "default": "Weddings"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "The Big Day"
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Immersive Sequence",
-      "blocks": [
-        { "type": "book" },
-        { "type": "book" },
-        { "type": "book" }
-      ]
+      "name": "Immersive Video Hero"
     }
   ]
 }
