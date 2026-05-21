@@ -55,7 +55,7 @@
             {%- assign title = block.settings.title | escape -%}
             
             <button type="button" 
-                 class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 bg-[#111] text-left block w-full cine-modal-trigger" 
+                 class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer bg-[#111] text-left block w-full cine-modal-trigger transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(184,144,107,0.4)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA]" 
                  data-modal-target="cine-modal-{{ block.id }}" 
                  aria-label="Experience the unboxing: {{ title }}"
                  {{ block.shopify_attributes }}>
@@ -63,29 +63,41 @@
                 {% comment %} Thumbnail Image {% endcomment %}
                 {% if block.settings.cover_image != blank %}
                     {{ block.settings.cover_image | image_url: width: 800 | image_tag: 
-                        class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-50',
+                        class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-60',
                         loading: 'lazy',
                         alt: title 
                     }}
                 {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity' }}
+                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-60 transition-opacity' }}
                 {% endif %}
 
-                {% comment %} Overlays & Play Button {% endcomment %}
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none transition-opacity duration-500"></div>
+                {% comment %} Duration Pill (Top Right) {% endcomment %}
+                {% if block.settings.video_duration != blank %}
+                    <div class="absolute top-4 right-4 z-20 pointer-events-none">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md rounded-md text-[11px] font-bold tracking-wider text-white border border-white/10 shadow-sm">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            {{ block.settings.video_duration | escape }}
+                        </span>
+                    </div>
+                {% endif %}
+
+                {% comment %} Overlays: Global Dim + Bottom Text Protection {% endcomment %}
+                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500 pointer-events-none z-10"></div>
+                <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none z-10"></div>
                 
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] group-hover:scale-110 transition-all duration-300 shadow-lg">
-                        <svg class="w-7 h-7 text-white ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                {% comment %} Frosted Glass Play Button {% endcomment %}
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                    <div class="w-16 h-16 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/30 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] group-hover:scale-110 transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+                        <svg class="w-6 h-6 text-white ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                 </div>
 
                 {% comment %} Card Text {% endcomment %}
-                <div class="absolute bottom-6 left-6 right-6 pointer-events-none transform group-hover:-translate-y-2 transition-transform duration-500">
-                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white mb-3 border border-white/10 shadow-sm">
+                <div class="absolute bottom-6 left-6 right-6 pointer-events-none transform group-hover:-translate-y-2 transition-transform duration-500 z-20">
+                    <span class="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-[#B8906B] font-bold mb-3 border border-white/10 shadow-sm">
                         {{ block.settings.tag | escape }}
                     </span>
-                    <h3 class="text-white font-serif text-[28px] leading-tight drop-shadow-md">{{ title }}</h3>
+                    <h3 class="text-white font-serif text-[26px] md:text-[28px] leading-tight drop-shadow-lg">{{ title }}</h3>
                 </div>
             </button>
         {% endfor %}
@@ -96,7 +108,7 @@
 {% comment %} MODALS (Generated for each block) {% endcomment %}
 {% for block in section.blocks limit: 6 %}
     <div id="cine-modal-{{ block.id }}" 
-         class="cine-modal fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300"
+         class="cine-modal fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300"
          role="dialog" 
          aria-modal="true" 
          aria-labelledby="modal-title-{{ block.id }}">
@@ -106,7 +118,7 @@
             
             {% comment %} Close Button {% endcomment %}
             <button type="button" 
-                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110"
+                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
                     aria-label="Close modal">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
@@ -179,26 +191,26 @@
             </div>
 
             {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
-            <div class="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll overflow-y-auto">
+            <div class="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll overflow-y-auto z-10">
                 <span class="text-[11px] uppercase tracking-[0.2em] text-[#B8906B] font-bold mb-2">{{ block.settings.tag | escape }}</span>
                 <h3 id="modal-title-{{ block.id }}" class="font-serif text-[36px] md:text-[48px] text-white leading-tight mb-10">{{ block.settings.title | escape }}</h3>
 
                 {% comment %} The 3 Tabs Buttons {% endcomment %}
                 <div class="flex gap-6 border-b border-white/10 mb-8" role="tablist">
-                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors" role="tab">
+                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none" role="tab">
                         {{ section.settings.tab_1_title | escape }}
                     </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors" role="tab">
+                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none" role="tab">
                         {{ section.settings.tab_2_title | escape }}
                     </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors" role="tab">
+                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none" role="tab">
                         {{ section.settings.tab_3_title | escape }}
                     </button>
                 </div>
 
                 {% comment %} Dynamic Text area below tabs {% endcomment %}
                 <div class="mt-auto pt-8">
-                    <a href="{{ section.settings.button_link }}" class="inline-flex w-full items-center justify-center px-8 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
+                    <a href="{{ section.settings.button_link }}" class="inline-flex w-full items-center justify-center px-8 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8906B] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
                         {{ section.settings.button_label | default: "Create Your Book" | escape }}
                     </a>
                 </div>
@@ -213,8 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionContainer = document.getElementById('cinematic-grid-{{ section.id }}');
     if (!sectionContainer) return;
 
-    // 1. OPEN MODAL LOGIC
-    const modalTriggers = document.querySelectorAll('[data-modal-target]');
+    const modalTriggers = document.querySelectorAll('.cine-modal-trigger');
     modalTriggers.forEach(trigger => {
         trigger.addEventListener('click', function() {
             const modalId = this.getAttribute('data-modal-target');
@@ -248,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 2. CLOSE MODAL LOGIC
     const closeButtons = document.querySelectorAll('.cine-modal-close');
     closeButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -277,7 +287,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 3. TAB SWITCHING LOGIC
     const tabButtons = document.querySelectorAll('.cine-tab-btn');
     tabButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -316,11 +325,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 4. TIMESTAMPS / CHAPTER LOGIC
     const chapterBtns = document.querySelectorAll('.chapter-btn');
     chapterBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent modal from doing anything weird
+            e.stopPropagation(); 
             const blockId = this.getAttribute('data-block');
             const time = parseInt(this.getAttribute('data-time'), 10);
             const video = document.getElementById(`video-${blockId}`);
@@ -424,9 +432,16 @@ document.addEventListener('DOMContentLoaded', function() {
           "default": "The Big Day"
         },
         {
+          "type": "text",
+          "id": "video_duration",
+          "label": "Video Duration Badge",
+          "placeholder": "e.g. 01:45",
+          "info": "Displays a small timestamp pill on the top right of the grid card."
+        },
+        {
           "type": "image_picker",
           "id": "cover_image",
-          "label": "Grid Cover Image",
+          "label": "Video Thumbnail / Cover",
           "info": "Displays on the grid and maps inside modal backgrounds."
         },
         {
@@ -450,8 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
           "type": "number",
           "id": "chapter_1_time",
           "label": "Chapter 1 Timestamp (Seconds)",
-          "default": 0,
-          "info": "Enter the time in seconds (e.g., 5)"
+          "default": 0
         },
         {
           "type": "text",
