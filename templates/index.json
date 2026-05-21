@@ -94,15 +94,6 @@
             "icon": "aperture"
           }
         },
-        "feature_YFfzED": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
-        },
         "feature_e4pbBn": {
           "type": "feature",
           "settings": {
@@ -112,42 +103,11 @@
             "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
             "icon": "aperture"
           }
-        },
-        "feature_UbLfdb": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
-        },
-        "feature_PPtiUm": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
-        },
-        "feature_caKKNV": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "icon": "aperture"
-          }
         }
       },
       "block_order": [
         "feature_9hwL6R",
-        "feature_YFfzED",
-        "feature_e4pbBn",
-        "feature_UbLfdb",
-        "feature_PPtiUm",
-        "feature_caKKNV"
+        "feature_e4pbBn"
       ],
       "name": "Cinematic Showcase",
       "settings": {
