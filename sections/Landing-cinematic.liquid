@@ -18,14 +18,21 @@
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     /* Interactive Exit Button */
-    .cinematic-reviews-exit-btn {
+    .cine-exit-btn {
         transition: all 0.3s ease; 
         cursor: pointer;
     }
-    .cinematic-reviews-exit-btn:hover {
+    .cine-exit-btn:hover {
         color: #B8906B !important; 
-        transform: translateY(5px); 
+        transform: rotate(180deg) translateY(-5px); 
     }
+    
+    /* Bouncing Scroll Animation */
+    @keyframes subtle-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(5px); }
+    }
+    .animate-subtle-bounce { animation: subtle-bounce 2s ease-in-out infinite; }
 </style>
 
 {% comment %} The outer container is 250vh to create a long scrolling timeline {% endcomment %}
@@ -97,6 +104,32 @@
             {% endif %}
         </div>
         
+        {% comment %} LAYER 4: Navigation UI (Left Sidebar & Bottom Indicator) {% endcomment %}
+        <div id="cinematic-reviews-ui-{{ section.id }}" class="absolute inset-0 pointer-events-none z-30 opacity-0 transition-opacity duration-500">
+            
+            {% comment %} Left Sidebar: Vertical Progress & Skip Button {% endcomment %}
+            <div class="absolute left-4 md:left-10 top-0 bottom-0 flex flex-col items-center justify-center">
+                <button id="cinematic-exit-up-{{ section.id }}" aria-label="Exit Up" class="cine-exit-btn pointer-events-auto font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2 focus:outline-none" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+                    Exit Up
+                </button>
+                
+                <div class="relative w-[1px] h-[100px] md:h-[180px] bg-white/10 my-6 overflow-hidden">
+                    <div id="cinematic-reviews-progress-{{ section.id }}" class="absolute top-0 left-0 w-full h-full bg-white origin-top shadow-[0_0_10px_rgba(255,255,255,0.8)]" style="transform: scaleY(0);"></div>
+                </div>
+                
+                <button id="cinematic-exit-down-{{ section.id }}" aria-label="Skip Down" class="cine-exit-btn pointer-events-auto font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2 focus:outline-none" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+                    Skip Down
+                </button>
+            </div>
+
+            {% comment %} Bottom Indicator: Scroll Instruction {% endcomment %}
+            <div id="cinematic-reviews-instruction-{{ section.id }}" class="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/70 transition-opacity duration-500">
+                <span class="font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase drop-shadow-md">Scroll to Explore</span>
+                <svg class="w-4 h-4 animate-subtle-bounce text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </div>
+            
+        </div>
+        
     </div>
 </section>
 
@@ -110,7 +143,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = document.getElementById(`cinematic-reviews-content-${sectionId}`);
     const showcase = document.getElementById(`cinematic-reviews-showcase-${sectionId}`);
     
+    // UI Elements
+    const uiLayer = document.getElementById(`cinematic-reviews-ui-${sectionId}`);
+    const progressBar = document.getElementById(`cinematic-reviews-progress-${sectionId}`);
+    const instruction = document.getElementById(`cinematic-reviews-instruction-${sectionId}`);
+    const btnExitUp = document.getElementById(`cinematic-exit-up-${sectionId}`);
+    const btnExitDown = document.getElementById(`cinematic-exit-down-${sectionId}`);
+    
     if (!section) return;
+
+    // Exit Button Logic
+    if(btnExitUp) {
+        btnExitUp.addEventListener('click', () => {
+            window.scrollTo({ top: section.offsetTop - (window.innerHeight * 0.2), behavior: 'smooth' });
+        });
+    }
+    if(btnExitDown) {
+        btnExitDown.addEventListener('click', () => {
+            window.scrollTo({ top: section.offsetTop + section.offsetHeight, behavior: 'smooth' });
+        });
+    }
 
     let isStickyActive = false;
 
@@ -127,6 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isStickyActive) {
                 isStickyActive = true;
                 stickyWrapper.style.zIndex = '9999';
+                if(uiLayer) uiLayer.style.opacity = '1';
+            }
+
+            // Update Vertical Progress Bar
+            if(progressBar) {
+                progressBar.style.transform = `scaleY(${progress})`;
             }
 
             // --- ANIMATION TIMELINE --- //
@@ -157,10 +215,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Darken the background video slightly to make the showcase pop
                 bgOverlay.style.opacity = 0.4 + (0.4 * showcaseFadeIn); 
+                
+                // Fade out the "Scroll to Explore" text so it doesn't block the books
+                if(instruction) instruction.style.opacity = 1 - showcaseFadeIn;
             } else {
                 showcase.style.opacity = 0;
                 showcase.style.pointerEvents = 'none';
                 bgOverlay.style.opacity = 0.2;
+                if(instruction) instruction.style.opacity = 1;
             }
 
         } else {
@@ -168,6 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isStickyActive) {
                 isStickyActive = false;
                 stickyWrapper.style.zIndex = '40';
+                if(uiLayer) uiLayer.style.opacity = '0';
+                
                 if (rect.top > 0) {
                     bgContainer.style.transform = `scale(0.85)`;
                     bgContainer.style.borderRadius = `32px`;
