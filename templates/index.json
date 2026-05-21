@@ -186,11 +186,35 @@
             "link_text": "",
             "link_url": ""
           }
+        },
+        "step_3KR4xq": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 03",
+            "title": "Ready to Gift Out of the Box",
+            "description": "Take advantage of our complimentary media pre-loading service. Our experts will prepare your video book so it arrives beautifully packaged in a premium gift box, ready to play the moment it's opened.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_XkjHdX": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 04",
+            "title": "Fix Video Format Issues Fast",
+            "description": "Seeing a 'no file' or 'format not supported' error? Use our free video converter tool to quickly optimize your files for seamless, high-quality playback on your Visual Book.",
+            "link_text": "",
+            "link_url": ""
+          }
         }
       },
       "block_order": [
         "step_HDeR3p",
-        "step_4NH9zG"
+        "step_4NH9zG",
+        "step_3KR4xq",
+        "step_XkjHdX"
       ],
       "name": "How It Works",
       "settings": {
