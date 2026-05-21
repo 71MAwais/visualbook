@@ -1,112 +1,84 @@
-{% comment %} sections/visual-cinematic.liquid {% endcomment %}
+{% comment %} sections/single-immersive-video.liquid {% endcomment %}
 <style>
-    #cinematic-section-{{ section.id }} { font-family: 'Plus Jakarta Sans', sans-serif; }
-    #cinematic-section-{{ section.id }} .font-serif { font-family: 'Playfair Display', serif; }
-    
-    /* Play/Pause state transitions */
-    .video-loaded { opacity: 1 !important; }
-    .control-btn svg { transition: transform 0.2s ease; }
-    .control-btn:active svg { transform: scale(0.9); }
-    
-    /* Hide standard scrollbar */
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* CRITICAL MOBILE SCROLL FIX */
-    #cinematic-gallery-{{ section.id }} {
-        display: flex; overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch; 
-        pointer-events: auto;
+    #immersive-section-{{ section.id }} { 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
     }
-
-    .cine-item {
-        width: 100vw;
-        height: 100dvh;
-        flex-shrink: 0; scroll-snap-align: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    #immersive-section-{{ section.id }} .font-serif { 
+        font-family: 'Playfair Display', serif; 
     }
-
+    
     /* Hardware acceleration for the zoom effect */
-    .cine-zoom-container {
-        will-change: transform, border-radius; transform: translateZ(0);
-    }
-    
-    /* Interactive Exit Buttons */
-    .cine-exit-btn {
-        transition: all 0.3s ease; cursor: pointer;
-    }
-    .cine-exit-btn:hover {
-        color: #B8906B !important; transform: rotate(180deg) translateY(-5px); 
+    .immersive-zoom-container {
+        will-change: transform, border-radius; 
+        transform: translateZ(0);
     }
 
-    /* Customer Instruction Animations */
-    @keyframes nudge-left {
-        0%, 100% { transform: translateX(0); }
-        50% { transform: translateX(-4px); }
+    /* Interactive Exit Button */
+    .immersive-exit-btn {
+        transition: all 0.3s ease; 
+        cursor: pointer;
     }
-    @keyframes nudge-right {
-        0%, 100% { transform: translateX(0); }
-        50% { transform: translateX(4px); }
+    .immersive-exit-btn:hover {
+        color: #B8906B !important; 
+        transform: translateY(5px); 
     }
-    .animate-nudge-left { animation: nudge-left 2s ease-in-out infinite; }
-    .animate-nudge-right { animation: nudge-right 2s ease-in-out infinite; }
 </style>
 
-<section id="cinematic-section-{{ section.id }}" class="w-full h-[200vh] relative bg-[#FAFAFA]" aria-label="Features Showcase">
-    <div class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden">
+<section id="immersive-section-{{ section.id }}" class="w-full h-[150vh] relative bg-[#FAFAFA]" aria-label="Immersive Video Showcase">
+    
+    {% comment %} Sticky wrapper - z-index changes dynamically to cover header {% endcomment %}
+    <div id="immersive-sticky-{{ section.id }}" class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden z-40 transition-all duration-300">
         
-        <div id="cinematic-bg-{{ section.id }}" class="cine-zoom-container relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-300 ease-out" style="transform: scale(0.85); border-radius: 32px;">
+        {% comment %} The Zooming Container {% endcomment %}
+        <div id="immersive-bg-{{ section.id }}" class="immersive-zoom-container relative w-full h-full bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center transition-all duration-700 ease-in-out" style="transform: scale(0.85); border-radius: 32px;">
             
-            {% comment %} 1. TOP HEADING {% endcomment %}
-            <div id="cinematic-heading-{{ section.id }}" class="absolute top-10 md:top-14 left-0 w-full text-center z-50 opacity-0 transition-opacity duration-500 pointer-events-none">
-                <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-[#B8906B] font-bold mb-2">{{ section.settings.subtitle }}</p>
-                <h2 class="font-serif text-[32px] md:text-[44px] lg:text-[52px] text-white tracking-tight drop-shadow-lg leading-none">{{ section.settings.heading }}</h2>
+            {% comment %} Background Video / Image Fallback {% endcomment %}
+            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                {% if section.settings.background_video != blank %}
+                    {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-70', draggable: false }}
+                {% elsif section.settings.image != blank %}
+                    <img src="{{ section.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.heading | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-70" draggable="false" loading="lazy"/>
+                {% else %}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-70 bg-[#222]' }}
+                {% endif %}
+               
+                {% comment %} Overlays for text legibility {% endcomment %}
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
+            </div>
+            
+            {% comment %} Text Content (Fades in on full screen) {% endcomment %}
+            <div id="immersive-content-{{ section.id }}" class="relative z-10 w-full max-w-4xl px-8 md:px-12 flex flex-col items-center justify-center text-center opacity-0 transition-opacity duration-1000 delay-300 pointer-events-none">
+                
+                {% if section.settings.subtitle != blank %}
+                    <span class="font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+                        {{ section.settings.subtitle }}
+                    </span>
+                {% endif %}
+                
+                {% if section.settings.heading != blank %}
+                    <h2 class="font-serif text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-white leading-[1.05] tracking-tight mb-6 drop-shadow-xl">
+                        {{ section.settings.heading }}
+                    </h2>
+                {% endif %}
+                
+                {% if section.settings.text != blank %}
+                    <p class="font-sans text-[16px] md:text-[20px] text-white/80 font-light max-w-2xl leading-relaxed mb-10">
+                        {{ section.settings.text }}
+                    </p>
+                {% endif %}
+
+                {% if section.settings.button_label != blank %}
+                    <a href="{{ section.settings.button_link }}" class="pointer-events-auto inline-flex items-center justify-center px-10 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
+                        {{ section.settings.button_label }}
+                    </a>
+                {% endif %}
             </div>
 
-            {% comment %} 2. LEFT SIDEBAR: EXIT UP & SKIP DOWN BUTTONS {% endcomment %}
-            <div id="cinematic-ui-{{ section.id }}" class="absolute left-4 md:left-10 top-0 bottom-0 z-50 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300">
-                
-                <button id="cinematic-exit-up-{{ section.id }}" aria-label="Exit Up" class="cine-exit-btn pointer-events-auto font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2 focus:outline-none" style="writing-mode: vertical-rl; transform: rotate(180deg);">
-                    Exit Up
-                </button>
-                
-                <div class="relative w-[1px] h-[100px] md:h-[180px] bg-white/10 my-6 overflow-hidden pointer-events-none">
-                    <div id="cinematic-vertical-progress-{{ section.id }}" class="absolute top-0 left-0 w-full h-full bg-white origin-top shadow-[0_0_10px_rgba(255,255,255,0.8)]" style="transform: scaleY(0);"></div>
-                </div>
-                
-                <button id="cinematic-exit-down-{{ section.id }}" aria-label="Skip Down" class="cine-exit-btn pointer-events-auto font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2 focus:outline-none" style="writing-mode: vertical-rl; transform: rotate(180deg);">
-                    Skip Down
-                </button>
-                
-            </div>
-
-            {% comment %} 3. BOTTOM INDICATORS & CUSTOMER INSTRUCTION {% endcomment %}
-            <div id="cinematic-indicators-ui-{{ section.id }}" class="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-50 pointer-events-none opacity-0 transition-opacity duration-300">
-                <div class="flex items-center gap-2 md:gap-3" id="cinematic-dots-{{ section.id }}"></div>
-                
-                {% comment %} VISUAL CUE FOR CUSTOMER {% endcomment %}
-                <div id="cinematic-instruction-{{ section.id }}" class="flex items-center gap-3 mt-5 text-white/70 transition-opacity duration-500">
-                    <svg class="w-3 h-3 md:w-4 md:h-4 animate-nudge-left text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                    <span class="font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase drop-shadow-md">{{ section.settings.instruction_text | default: "Swipe or Drag to Explore" }}</span>
-                    <svg class="w-3 h-3 md:w-4 md:h-4 animate-nudge-right text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                </div>
-            </div>
-
-            {% comment %} 4. MAIN GALLERY TRACK {% endcomment %}
-            <div id="cinematic-gallery-{{ section.id }}" class="hide-scrollbar relative z-10 cursor-grab active:cursor-grabbing"></div>
-
-            {% comment %} 5. RIGHT ARROWS {% endcomment %}
-            <div id="cinematic-arrows-ui-{{ section.id }}" class="absolute right-6 md:right-12 bottom-12 md:bottom-16 flex gap-3 md:gap-4 z-50 opacity-0 transition-opacity duration-300 pointer-events-auto">
-                <button id="cinematic-prev-{{ section.id }}" aria-label="Previous" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-[#B8906B] hover:border-[#B8906B] transition-all backdrop-blur-md">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
-                </button>
-                <button id="cinematic-next-{{ section.id }}" aria-label="Next" class="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center text-white bg-[#111]/40 hover:bg-[#B8906B] hover:border-[#B8906B] transition-all backdrop-blur-md">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
+            {% comment %} Continue Scrolling Indicator {% endcomment %}
+            <div id="immersive-scroll-indicator-{{ section.id }}" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 opacity-0 transition-opacity duration-700 delay-500 flex flex-col items-center gap-2 pointer-events-auto">
+                <button id="immersive-exit-down-{{ section.id }}" aria-label="Continue Scrolling" class="immersive-exit-btn font-sans text-[10px] font-bold tracking-[0.2em] uppercase text-white/60 flex flex-col items-center gap-3 focus:outline-none">
+                    <span>Keep Scrolling</span>
+                    <svg class="w-4 h-4 animate-bounce text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
                 </button>
             </div>
             
@@ -114,283 +86,86 @@
     </div>
 </section>
 
-{% comment %} DATA TEMPLATE {% endcomment %}
-<div id="cinematic-data-{{ section.id }}" class="hidden">
-    {% for block in section.blocks %}
-        <div class="cine-item" data-icon="{{ block.settings.icon | escape }}" {{ block.shopify_attributes }}>
-            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                {% comment %} Updated to support Video first, then fallback to Image {% endcomment %}
-                {% if block.settings.background_video != blank %}
-                    {{ block.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-[0.55] grayscale-[20%]', draggable: false }}
-                {% elsif block.settings.image != blank %}
-                    <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ block.settings.title | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-[0.55] grayscale-[20%]" draggable="false" loading="lazy"/>
-                {% else %}
-                    {{ 'image' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%] bg-[#222]' }}
-                {% endif %}
-               
-                <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/40 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-transparent to-transparent"></div>
-            </div>
-            
-            <div class="relative z-10 w-full max-w-[1300px] px-8 md:px-32 lg:px-48 flex flex-col justify-center h-full pt-16 pointer-events-none transition-opacity duration-700">
-                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl flex items-center justify-center text-white mb-6 md:mb-10 shadow-2xl">
-                    <i data-lucide="{{ block.settings.icon }}" class="w-6 h-6 stroke-[1.25]"></i>
-                </div>
-                <div class="flex flex-col gap-2 mb-4 md:mb-6">
-                    <span class="font-sans text-[16px] md:text-[20px] text-[#B8906B] font-medium tracking-widest">{{ block.settings.number }}</span>
-                    <h3 class="font-serif text-[34px] sm:text-[48px] md:text-[72px] lg:text-[84px] text-white leading-[1.1] tracking-tight max-w-2xl drop-shadow-md">{{ block.settings.title }}</h3>
-                </div>
-                <p class="font-sans text-[15px] md:text-[18px] text-white/70 font-light max-w-lg leading-relaxed">{{ block.settings.subtitle }}</p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const sectionId = '{{ section.id }}';
-    const cineSection = document.getElementById(`cinematic-section-${sectionId}`);
-    const cineBg = document.getElementById(`cinematic-bg-${sectionId}`);
-    const cineUi = document.getElementById(`cinematic-ui-${sectionId}`);
-    const cineHeading = document.getElementById(`cinematic-heading-${sectionId}`);
-    const cineInd = document.getElementById(`cinematic-indicators-ui-${sectionId}`);
-    const cineArr = document.getElementById(`cinematic-arrows-ui-${sectionId}`);
-    const cineVProg = document.getElementById(`cinematic-vertical-progress-${sectionId}`);
-    const cineGallery = document.getElementById(`cinematic-gallery-${sectionId}`);
-    const cineInstruction = document.getElementById(`cinematic-instruction-${sectionId}`);
-    const dataItems = Array.from(document.getElementById(`cinematic-data-${sectionId}`).children);
+    const section = document.getElementById(`immersive-section-${sectionId}`);
+    const stickyWrapper = document.getElementById(`immersive-sticky-${sectionId}`);
+    const bgContainer = document.getElementById(`immersive-bg-${sectionId}`);
+    const content = document.getElementById(`immersive-content-${sectionId}`);
+    const scrollIndicator = document.getElementById(`immersive-scroll-indicator-${sectionId}`);
+    const exitBtn = document.getElementById(`immersive-exit-down-${sectionId}`);
     
-    const btnExitUp = document.getElementById(`cinematic-exit-up-${sectionId}`);
-    const btnExitDown = document.getElementById(`cinematic-exit-down-${sectionId}`);
-    
-    if (!cineSection || !cineBg || !cineGallery) return;
+    if (!section || !bgContainer) return;
 
-    // STATE LOCKS
     let isFullScreen = false;
-    let autoSlideTimer = null;
-    let hasInteracted = false; // Tracks if user has manually swiped
-    const AUTO_SLIDE_DELAY = {{ section.settings.autoplay_speed | default: 4 }} * 1000;
 
-    // --- 1. Exit Buttons Logic ---
-    if(btnExitUp) {
-        btnExitUp.addEventListener('click', () => {
-            window.scrollTo({ top: cineSection.offsetTop - (window.innerHeight * 0.2), behavior: 'smooth' });
-        });
-    }
-    if(btnExitDown) {
-        btnExitDown.addEventListener('click', () => {
-            window.scrollTo({ top: cineSection.offsetTop + cineSection.offsetHeight, behavior: 'smooth' });
+    // Smooth scroll down button
+    if(exitBtn) {
+        exitBtn.addEventListener('click', () => {
+            window.scrollTo({ top: section.offsetTop + section.offsetHeight, behavior: 'smooth' });
         });
     }
 
-    // --- 2. Zoom Scroll Logic & Strict Mobile Lock ---
+    // Scroll Logic for Zoom & Z-index overlay
     window.addEventListener('scroll', () => {
-        const rect = cineSection.getBoundingClientRect();
+        const rect = section.getBoundingClientRect();
         const wh = window.innerHeight;
-        let progress = 0;
-        if(rect.top <= 0) progress = Math.min(1, Math.max(0, -rect.top / (rect.height - wh)));
 
+        // When the sticky container is fixed at the top of the viewport
         if (rect.top <= 0 && rect.bottom >= wh) {
-            // FULL SCREEN: Unlock interactions & Start Auto-Slider
             if (!isFullScreen) {
                 isFullScreen = true;
-                cineGallery.style.pointerEvents = 'auto';
-                cineGallery.style.overflowX = 'auto';
-
-                cineBg.style.transform = `scale(1)`;
-                cineBg.style.borderRadius = `0px`;
-                [cineUi, cineInd, cineArr, cineHeading].forEach(el => { if(el) el.style.opacity = 1; });
                 
-                queueNextAutoScroll(); 
+                // Expand to full screen
+                bgContainer.style.transform = `scale(1)`;
+                bgContainer.style.borderRadius = `0px`;
+                
+                // Elevate z-index to 9999 to cover site headers
+                stickyWrapper.style.zIndex = '9999';
+                
+                // Fade in content
+                if(content) content.style.opacity = '1';
+                if(content) content.style.pointerEvents = 'auto';
+                if(scrollIndicator) scrollIndicator.style.opacity = '1';
             }
-            if(cineVProg) cineVProg.style.transform = `scaleY(${progress})`;
         } else {
-            // NOT FULL SCREEN: Lock interactions & Pause Auto-Slider
+            // Shrink back down when scrolling away
             if (isFullScreen) {
                 isFullScreen = false;
-                cineGallery.style.pointerEvents = 'none';
-                cineGallery.style.overflowX = 'hidden';
-
-                cineBg.style.transform = `scale(0.85)`;
-                cineBg.style.borderRadius = `32px`;
-                [cineUi, cineInd, cineArr, cineHeading].forEach(el => { if(el) el.style.opacity = 0; });
                 
-                clearTimeout(autoSlideTimer);
+                bgContainer.style.transform = `scale(0.85)`;
+                bgContainer.style.borderRadius = `32px`;
+                
+                // Drop z-index back down so header reappears
+                stickyWrapper.style.zIndex = '40';
+                
+                // Fade out content
+                if(content) content.style.opacity = '0';
+                if(content) content.style.pointerEvents = 'none';
+                if(scrollIndicator) scrollIndicator.style.opacity = '0';
             }
         }
     }, { passive: true });
-
-    // --- 3. Infinite Scroll Setup & Auto-Slider Logic ---
-    const totalOriginal = dataItems.length;
-    let cineTimeout = null;
-    let isJumping = false;
-    let isTouching = false;
-
-    function queueNextAutoScroll() {
-        clearTimeout(autoSlideTimer);
-        if (!isFullScreen || isTouching || isJumping || isDownCine || totalOriginal === 0 || AUTO_SLIDE_DELAY === 0) return;
-        autoSlideTimer = setTimeout(() => {
-            if (!isFullScreen || isTouching || isJumping || isDownCine) return;
-            cineGallery.scrollTo({ left: cineGallery.scrollLeft + cineGallery.clientWidth, behavior: 'smooth' });
-        }, AUTO_SLIDE_DELAY);
-    }
-
-    if (totalOriginal > 0) {
-        // Clone for infinite loop
-        for (let i = 0; i < 3; i++) {
-            dataItems.forEach(item => {
-                const clone = item.cloneNode(true);
-                cineGallery.appendChild(clone);
-            });
-        }
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-
-        const dotsContainer = document.getElementById(`cinematic-dots-${sectionId}`);
-        const updateDots = (idx) => {
-            if(!dotsContainer) return;
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalOriginal; i++) {
-                const dot = document.createElement('div');
-                dot.className = `h-[2px] transition-all duration-500 ${i === idx % totalOriginal ? 'w-8 bg-[#B8906B]' : 'w-3 bg-white/30'}`;
-                dotsContainer.appendChild(dot);
-            }
-        };
-
-        const instantJump = (pos) => {
-            isJumping = true;
-            cineGallery.style.scrollBehavior = 'auto';
-            cineGallery.style.scrollSnapType = 'none'; 
-            cineGallery.scrollLeft = pos;
-            
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    cineGallery.style.scrollSnapType = 'x mandatory';
-                    cineGallery.style.scrollBehavior = 'smooth';
-                    isJumping = false;
-                    queueNextAutoScroll(); 
-                });
-            });
-        };
-
-        const handleScroll = () => {
-            if (isJumping) return;
-            const w = cineGallery.clientWidth;
-            if (w === 0) return;
-            
-            const idx = Math.round(cineGallery.scrollLeft / w);
-            updateDots(idx % totalOriginal);
-            
-            // Fade out the instruction text once the user successfully scrolls
-            if (hasInteracted && cineInstruction && cineInstruction.style.opacity !== '0.2') {
-                cineInstruction.style.opacity = '0.2';
-            }
-
-            clearTimeout(cineTimeout);
-            cineTimeout = setTimeout(() => {
-                if (isTouching) return;
-
-                if(idx < totalOriginal || idx >= totalOriginal * 2) {
-                    instantJump(((idx % totalOriginal) + totalOriginal) * w);
-                } else {
-                    queueNextAutoScroll(); 
-                }
-            }, 200);
-        };
-
-        cineGallery.addEventListener('scroll', handleScroll, { passive: true });
-
-        // Pause auto-slider on mobile touch
-        cineGallery.addEventListener('touchstart', () => { 
-            isTouching = true; 
-            hasInteracted = true; 
-            clearTimeout(autoSlideTimer); 
-        }, { passive: true });
-        cineGallery.addEventListener('touchend', () => { 
-            isTouching = false; 
-            handleScroll(); 
-        }, { passive: true });
-        cineGallery.addEventListener('touchcancel', () => { isTouching = false; queueNextAutoScroll(); }, { passive: true });
-
-        // Init position
-        setTimeout(() => {
-            instantJump(cineGallery.clientWidth * totalOriginal);
-            updateDots(0);
-        }, 100);
-
-        // Controls (Arrows)
-        const cPrev = document.getElementById(`cinematic-prev-${sectionId}`);
-        const cNext = document.getElementById(`cinematic-next-${sectionId}`);
-        
-        if(cPrev) cPrev.addEventListener('click', () => {
-            if (!isFullScreen) return;
-            hasInteracted = true;
-            clearTimeout(autoSlideTimer);
-            cineGallery.scrollTo({ left: cineGallery.scrollLeft - cineGallery.clientWidth, behavior: 'smooth' });
-        });
-        
-        if(cNext) cNext.addEventListener('click', () => {
-            if (!isFullScreen) return;
-            hasInteracted = true;
-            clearTimeout(autoSlideTimer);
-            cineGallery.scrollTo({ left: cineGallery.scrollLeft + cineGallery.clientWidth, behavior: 'smooth' });
-        });
-
-        // Mouse Drag Logic
-        var isDownCine = false;
-        var startXCine;
-        var scrollLeftCine;
-        var startIndexCine;
-
-        const startDragCine = (e) => {
-            if (!isFullScreen) return;
-            isDownCine = true;
-            hasInteracted = true;
-            clearTimeout(autoSlideTimer); 
-            cineGallery.classList.add('dragging');
-            cineGallery.style.scrollSnapType = 'none'; 
-            startXCine = e.pageX;
-            scrollLeftCine = cineGallery.scrollLeft;
-            startIndexCine = Math.round(scrollLeftCine / cineGallery.clientWidth);
-        };
-
-        const stopDragCine = (e) => {
-            if (!isDownCine) return;
-            isDownCine = false;
-            cineGallery.classList.remove('dragging');
-            cineGallery.style.scrollSnapType = 'x mandatory'; 
-
-            const endX = e.pageX || startXCine;
-            const walk = startXCine - endX;
-            const threshold = 100; 
-            
-            let targetIndex = startIndexCine;
-            if (walk > threshold) targetIndex = startIndexCine + 1;
-            else if (walk < -threshold) targetIndex = startIndexCine - 1;
-
-            cineGallery.scrollTo({ left: targetIndex * cineGallery.clientWidth, behavior: 'smooth' });
-            handleScroll(); 
-        };
-
-        const moveDragCine = (e) => {
-            if (!isDownCine || !isFullScreen) return;
-            e.preventDefault(); 
-            const x = e.pageX - cineGallery.offsetLeft;
-            const walk = (x - startXCine) * 1.5; 
-            cineGallery.scrollLeft = scrollLeftCine - walk;
-        };
-
-        cineGallery.addEventListener('mousedown', startDragCine);
-        cineGallery.addEventListener('mouseleave', stopDragCine);
-        cineGallery.addEventListener('mouseup', stopDragCine);
-        cineGallery.addEventListener('mousemove', moveDragCine);
-    }
 });
 </script>
 
 {% schema %}
 {
-  "name": "Cinematic Showcase",
+  "name": "Immersive Video Hero",
   "settings": [
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background Video",
+      "info": "Use a high-quality, looping MP4. This will cover the entire screen."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback Image",
+      "info": "Displays if the video fails to load."
+    },
     {
       "type": "text",
       "id": "subtitle",
@@ -401,48 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Immersive Memories"
+      "default": "Relive The Magic"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body Text",
+      "default": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion."
     },
     {
       "type": "text",
-      "id": "instruction_text",
-      "label": "Customer Instruction Text",
-      "default": "Swipe or Drag to Explore",
-      "info": "Tells the customer how to interact with the section."
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Discover The Book"
     },
     {
-      "type": "range",
-      "id": "autoplay_speed",
-      "min": 0,
-      "max": 10,
-      "step": 1,
-      "unit": "sec",
-      "label": "Auto-Slide Delay (0 to disable)",
-      "default": 4
-    }
-  ],
-  "blocks": [
-    {
-      "type": "feature",
-      "name": "Feature Card",
-      "settings": [
-        { "type": "text", "id": "number", "label": "Step/Number", "default": "01" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Vivid Memory Display" },
-        { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "A stunning 8-inch retina screen that brings your personalized stories to life." },
-        { "type": "image_picker", "id": "image", "label": "Background Image" },
-        { "type": "video", "id": "background_video", "label": "Background Video", "info": "Overrides background image. Use a short, looping mp4 video." },
-        { "type": "text", "id": "icon", "label": "Lucide Icon Name", "default": "aperture", "info": "Find icons at lucide.dev/icons" }
-      ]
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
     }
   ],
   "presets": [
     {
-      "name": "Cinematic Showcase",
-      "blocks": [
-        { "type": "feature" },
-        { "type": "feature" },
-        { "type": "feature" }
-      ]
+      "name": "Immersive Video Hero"
     }
   ]
 }

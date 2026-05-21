@@ -98,6 +98,7 @@
     --radius-3xl: 1.5rem;
     --drop-shadow-md: 0 3px 3px rgb(0 0 0 / 0.12);
     --drop-shadow-lg: 0 4px 4px rgb(0 0 0 / 0.15);
+    --drop-shadow-xl: 0 9px 7px rgb(0 0 0 / 0.1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
@@ -737,6 +738,9 @@
   }
   .h-\[105px\] {
     height: 105px;
+  }
+  .h-\[150vh\] {
+    height: 150vh;
   }
   .h-\[200vh\] {
     height: 200vh;
@@ -1711,6 +1715,11 @@
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .via-\[\#050505\]\/30 {
+    --tw-gradient-via: color-mix(in oklab, #050505 30%, transparent);
+    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-via-stops);
+  }
   .via-\[\#050505\]\/40 {
     --tw-gradient-via: color-mix(in oklab, #050505 40%, transparent);
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
@@ -2095,6 +2104,9 @@
   .text-\[36px\] {
     font-size: 36px;
   }
+  .text-\[42px\] {
+    font-size: 42px;
+  }
   .leading-\[0\.9\] {
     --tw-leading: 0.9;
     line-height: 0.9;
@@ -2102,6 +2114,10 @@
   .leading-\[1\.1\] {
     --tw-leading: 1.1;
     line-height: 1.1;
+  }
+  .leading-\[1\.05\] {
+    --tw-leading: 1.05;
+    line-height: 1.05;
   }
   .leading-\[1\.7\] {
     --tw-leading: 1.7;
@@ -2514,6 +2530,11 @@
     --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .drop-shadow-xl {
+    --tw-drop-shadow-size: drop-shadow(0 9px 7px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.1)));
+    --tw-drop-shadow: drop-shadow(var(--drop-shadow-xl));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .grayscale {
     --tw-grayscale: grayscale(100%);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
@@ -2595,6 +2616,9 @@
   }
   .delay-300 {
     transition-delay: 300ms;
+  }
+  .delay-500 {
+    transition-delay: 500ms;
   }
   .duration-200 {
     --tw-duration: 200ms;
@@ -3316,6 +3340,11 @@
   .sm\:text-\[48px\] {
     @media (width >= 40rem) {
       font-size: 48px;
+    }
+  }
+  .sm\:text-\[56px\] {
+    @media (width >= 40rem) {
+      font-size: 56px;
     }
   }
   .md\:top-1\/2 {
@@ -4483,6 +4512,11 @@
   .lg\:text-\[84px\] {
     @media (width >= 64rem) {
       font-size: 84px;
+    }
+  }
+  .lg\:text-\[96px\] {
+    @media (width >= 64rem) {
+      font-size: 96px;
     }
   }
   .lg\:opacity-0 {
