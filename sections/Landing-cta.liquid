@@ -2,21 +2,24 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
+        /* Fades from dark charcoal on the left, to pure black in the middle, back to charcoal on the right */
+        background: linear-gradient(90deg, #161616 0%, #000000 50%, #161616 100%);
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
     .cta-glow {
-        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
+        /* Subtle luxury bronze glow layered perfectly over the black center */
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 65%);
     }
 </style>
 
-<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+<section class="relative py-24 md:py-40 overflow-hidden" id="cta-{{ section.id }}">
     <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center">
         {% if section.settings.subtitle != blank %}
-            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-4">
+            <p class="font-sans text-[11px] md:text-[13px] font-bold tracking-[0.25em] uppercase text-[#B8906B] mb-5 opacity-90">
                 {{ section.settings.subtitle }}
             </p>
         {% endif %}
@@ -46,7 +49,7 @@
       "type": "text",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": "Begin Your Story"
+      "default": "BEGIN YOUR STORY"
     },
     {
       "type": "textarea",
