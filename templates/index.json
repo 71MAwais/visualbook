@@ -208,13 +208,49 @@
             "link_text": "",
             "link_url": ""
           }
+        },
+        "step_jnJQdn": {
+          "type": "step",
+          "settings": {
+            "category": "tab2",
+            "tag": "Step 01",
+            "title": "Start Your Recording",
+            "description": "Press the record button on your greeting card. A single beep will signal that recording has started. Speak your personal message or play your favorite audio, and the card will save it instantly.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_hxibjE": {
+          "type": "step",
+          "settings": {
+            "category": "tab2",
+            "tag": "Step 02",
+            "title": "Stop Recording",
+            "description": "Press the record button one more time when you are finished. You will hear two beeps confirming your custom audio message has been saved successfully.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
+        "step_yazEn7": {
+          "type": "step",
+          "settings": {
+            "category": "tab2",
+            "tag": "Step 03",
+            "title": "Play or Re-Record",
+            "description": "Press the play button to listen to your message. Not quite right? Just repeat the recording steps. Your new audio will automatically overwrite and replace the previous one.",
+            "link_text": "",
+            "link_url": ""
+          }
         }
       },
       "block_order": [
         "step_HDeR3p",
         "step_4NH9zG",
         "step_3KR4xq",
-        "step_XkjHdX"
+        "step_XkjHdX",
+        "step_jnJQdn",
+        "step_hxibjE",
+        "step_yazEn7"
       ],
       "name": "How It Works",
       "settings": {
