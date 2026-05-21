@@ -85,7 +85,6 @@
       "type": "Landing-cinematic",
       "name": "Cinematic Showcase",
       "settings": {
-        "background_video": "shopify://files/videos/video.mp4",
         "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
         "subtitle": "Experince",
         "heading": "",
