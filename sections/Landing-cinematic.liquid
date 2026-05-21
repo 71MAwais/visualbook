@@ -36,66 +36,87 @@
     }
 </style>
 
-<section id="cinematic-grid-{{ section.id }}" class="w-full py-12 md:py-24 bg-[#FAFAFA] relative px-4 md:px-6">
+<section id="cinematic-grid-{{ section.id }}" class="w-full py-16 md:py-24 bg-[#FAFAFA] relative px-4 md:px-6">
     
     {% comment %} SECTION HEADER {% endcomment %}
     {% if section.settings.heading != blank or section.settings.subheading != blank %}
-        <div class="max-w-4xl mx-auto text-center mb-10 md:mb-16">
+        <div class="max-w-4xl mx-auto text-center mb-12 md:mb-16">
             {% if section.settings.heading != blank %}
-                <h2 class="font-serif text-[32px] md:text-[48px] text-[#111] leading-tight mb-4">
+                <h2 class="font-serif text-[32px] md:text-[42px] lg:text-[48px] text-[#111] leading-tight mb-4">
                     {{ section.settings.heading | escape }}
                 </h2>
             {% endif %}
             {% if section.settings.subheading != blank %}
-                <p class="font-sans text-[15px] md:text-[18px] text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                <p class="font-sans text-[15px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mx-auto">
                     {{ section.settings.subheading | escape }}
                 </p>
             {% endif %}
         </div>
     {% endif %}
 
-    {% comment %} THE DYNAMIC GRID {% endcomment %}
-    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 justify-center">
+    {% comment %} THE LIGHT & ELEGANT GRID {% endcomment %}
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center">
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
             <button type="button" 
-                 class="group relative w-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#2a2623] via-[#111111] to-[#050505] border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] rounded-xl p-6 md:p-8 text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(184,144,107,0.3)] hover:border-[#B8906B]/40 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] cine-modal-trigger overflow-hidden flex flex-col justify-between min-h-[220px] md:min-h-[240px]" 
+                 class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
                  data-modal-target="cine-modal-{{ block.id }}" 
                  aria-label="Experience the unboxing: {{ title }}"
                  {{ block.shopify_attributes }}>
                 
-                {% comment %} Top Hover Gradient Border {% endcomment %}
-                <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#B8906B] to-[#e0c4a8] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                {% comment %} Top Media Area (Thumbnail & Play Button) {% endcomment %}
+                <div class="relative w-full aspect-video md:aspect-[4/3] bg-gray-50 overflow-hidden shrink-0">
+                    
+                    {% comment %} Thumbnail Image {% endcomment %}
+                    {% if block.settings.cover_image != blank %}
+                        {{ block.settings.cover_image | image_url: width: 800 | image_tag: 
+                            class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700',
+                            loading: 'lazy',
+                            alt: title 
+                        }}
+                    {% else %}
+                        {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-50' }}
+                    {% endif %}
 
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        {% if block.settings.tag != blank %}
-                            <span class="inline-block px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase tracking-widest text-[#B8906B] font-bold border border-white/5 shadow-sm">
-                                {{ block.settings.tag | escape }}
-                            </span>
-                        {% endif %}
-                        {% if block.settings.video_duration != blank %}
-                            <span class="text-white/40 text-[11px] font-bold tracking-wider font-sans bg-black/20 px-2 py-0.5 rounded">
+                    {% comment %} Subtle darkening overlay to make white play button pop {% endcomment %}
+                    <div class="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
+
+                    {% comment %} Floating Play Button {% endcomment %}
+                    <div class="absolute inset-0 flex items-center justify-center z-20">
+                        <div class="w-14 h-14 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:bg-[#B8906B] group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5 text-[#B8906B] group-hover:text-white ml-0.5 transition-colors duration-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+
+                    {% comment %} Duration Pill {% endcomment %}
+                    {% if block.settings.video_duration != blank %}
+                        <div class="absolute bottom-3 right-3 z-20">
+                            <span class="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded tracking-wider shadow-sm">
+                                <svg class="w-2.5 h-2.5 text-[#B8906B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 {{ block.settings.video_duration | escape }}
                             </span>
-                        {% endif %}
-                    </div>
-                    <h3 class="text-white font-serif text-[22px] md:text-[24px] leading-tight group-hover:text-[#B8906B] transition-colors duration-300">
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% comment %} Bottom Text Area {% endcomment %}
+                <div class="p-6 md:p-8 flex flex-col grow bg-white">
+                    {% if block.settings.tag != blank %}
+                        <span class="inline-block text-[#B8906B] text-[10px] uppercase tracking-widest font-bold mb-3">
+                            {{ block.settings.tag | escape }}
+                        </span>
+                    {% endif %}
+                    
+                    <h3 class="font-serif text-[24px] md:text-[26px] text-gray-900 leading-tight group-hover:text-[#B8906B] transition-colors duration-300">
                         {{ title }}
                     </h3>
+                    
                     {% if block.settings.description != blank %}
-                        <p class="text-gray-400 font-sans text-[13px] mt-2 line-clamp-2 leading-relaxed">
+                        <p class="text-gray-500 font-sans text-[14px] mt-3 line-clamp-2 leading-relaxed">
                             {{ block.settings.description | escape }}
                         </p>
                     {% endif %}
-                </div>
-                
-                <div class="flex items-center gap-3 text-white/70 group-hover:text-white transition-colors mt-6 pt-4 border-t border-white/10">
-                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B8906B] transition-colors duration-300">
-                        <svg class="w-3.5 h-3.5 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                    <span class="text-[10px] md:text-[11px] uppercase tracking-widest font-bold">Watch Unboxing</span>
                 </div>
             </button>
         {% endfor %}
@@ -103,7 +124,7 @@
 
 </section>
 
-{% comment %} MODALS (Generated for each block) {% endcomment %}
+{% comment %} MODALS (Generated for each block) - Kept Dark for Cinematic Viewing {% endcomment %}
 {% for block in section.blocks limit: 6 %}
     <div id="cine-modal-{{ block.id }}" 
          class="cine-modal fixed inset-0 z-50 hidden items-center justify-center p-0 sm:p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300"
@@ -121,7 +142,6 @@
             </button>
 
             {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
-            {% comment %} NOTE: Updated to aspect-square on mobile to perfectly fit 1:1 or 4:3 videos! {% endcomment %}
             <div class="w-full md:w-1/2 aspect-square md:aspect-auto bg-black relative flex items-center justify-center group/video shrink-0">
                 
                 {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
@@ -135,12 +155,8 @@
                         </video>
 
                         {% comment %} Timestamps / Chapters Overlay {% endcomment %}
-                        {% comment %} NOTE: Removed opacity-0 on mobile so they are ALWAYS visible! {% endcomment %}
                         {% if block.settings.chapter_1_label != blank or block.settings.chapter_2_label != blank or block.settings.chapter_3_label != blank %}
-                            
-                            {% comment %} Gentle bottom gradient to ensure text is readable over the video {% endcomment %}
                             <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10 md:hidden"></div>
-
                             <div class="absolute bottom-12 md:bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-2 z-20 opacity-100 md:opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
                                 {% if block.settings.chapter_1_label != blank %}
                                     <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
@@ -444,14 +460,13 @@ document.addEventListener('DOMContentLoaded', function() {
           "type": "text",
           "id": "video_duration",
           "label": "Video Duration Badge",
-          "placeholder": "e.g. 01:45",
-          "info": "Displays a small timestamp pill on the top right of the grid card."
+          "placeholder": "e.g. 01:45"
         },
         {
           "type": "image_picker",
           "id": "cover_image",
-          "label": "Modal Background Image",
-          "info": "Fills the background of Tab 2 and Tab 3 inside the modal."
+          "label": "Video Thumbnail",
+          "info": "Displays on the grid card and maps to Tabs 2 and 3 in the modal."
         },
         {
           "type": "video",
