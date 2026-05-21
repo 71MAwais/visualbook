@@ -165,6 +165,17 @@
     "landing_howitworks_UpQWib": {
       "type": "Landing-howitworks",
       "blocks": {
+        "step_4NH9zG": {
+          "type": "step",
+          "settings": {
+            "category": "tab1",
+            "tag": "Step 01",
+            "title": "Manage Photos and Videos",
+            "description": "Drag and drop your media into the designated folders. You can add, delete, or organize your memories anytime. Just ensure your files match our recommended formats and resolutions for the best display quality.",
+            "link_text": "",
+            "link_url": ""
+          }
+        },
         "step_JFbAGH": {
           "type": "step",
           "settings": {
@@ -178,6 +189,7 @@
         }
       },
       "block_order": [
+        "step_4NH9zG",
         "step_JFbAGH"
       ],
       "name": "How It Works",
