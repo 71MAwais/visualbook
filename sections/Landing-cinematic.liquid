@@ -187,22 +187,22 @@
                         {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
                     {% endif %}
                     <div class="relative z-10 w-full max-w-md mx-auto">
-                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ section.settings.tab_2_title | escape }}</h5>
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_2_title | escape }}</h5>
                         <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
-                            {{ section.settings.tab_2_text }}
+                            {{ block.settings.tab_2_text }}
                         </div>
                     </div>
                 </div>
 
-                {% comment %} TAB 3 CONTENT: CRAFTSMANSHIP {% endcomment %}
+                {% comment %} TAB 3 CONTENT: MEMORY / PURPOSE {% endcomment %}
                 <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-6 md:p-12 flex-col justify-center">
                     {% if block.settings.cover_image != blank %}
                         {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
                     {% endif %}
                     <div class="relative z-10 w-full max-w-md mx-auto">
-                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ section.settings.tab_3_title | escape }}</h5>
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_3_title | escape }}</h5>
                         <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
-                            {{ section.settings.tab_3_text }}
+                            {{ block.settings.tab_3_text }}
                         </div>
                     </div>
                 </div>
@@ -217,20 +217,20 @@
                 {% comment %} The 3 Tabs Buttons {% endcomment %}
                 <div class="flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap modal-scroll" role="tablist">
                     <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
-                        {{ section.settings.tab_1_title | escape }}
+                        {{ block.settings.tab_1_title | escape }}
                     </button>
                     <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
-                        {{ section.settings.tab_2_title | escape }}
+                        {{ block.settings.tab_2_title | escape }}
                     </button>
                     <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
-                        {{ section.settings.tab_3_title | escape }}
+                        {{ block.settings.tab_3_title | escape }}
                     </button>
                 </div>
 
                 {% comment %} Dynamic Text area below tabs {% endcomment %}
                 <div class="mt-auto pt-6 md:pt-8 pb-4 sm:pb-0">
-                    <a href="{{ section.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8906B] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
-                        {{ section.settings.button_label | default: "Create Your Book" | escape }}
+                    <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8906B] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
+                        {{ block.settings.button_label | default: "Create Your Book" | escape }}
                     </a>
                 </div>
             </div>
@@ -381,56 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "subheading",
       "label": "Subheading",
       "default": "See what it feels like to hold your memories in your hands for the first time."
-    },
-    {
-      "type": "header",
-      "content": "Global Tabs Configuration",
-      "info": "Tab 1 automatically renders the video file assigned to each individual block."
-    },
-    {
-      "type": "text",
-      "id": "tab_1_title",
-      "label": "Tab 1 Name",
-      "default": "The Video"
-    },
-    {
-      "type": "text",
-      "id": "tab_2_title",
-      "label": "Tab 2 Name",
-      "default": "Features"
-    },
-    {
-      "type": "richtext",
-      "id": "tab_2_text",
-      "label": "Tab 2 Content",
-      "default": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>"
-    },
-    {
-      "type": "text",
-      "id": "tab_3_title",
-      "label": "Tab 3 Name",
-      "default": "Craftsmanship"
-    },
-    {
-      "type": "richtext",
-      "id": "tab_3_text",
-      "label": "Tab 3 Content",
-      "default": "<p>Bound in premium artisan linen, designed to last lifetimes and be passed down as a true modern heirloom.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Call To Action"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button Label",
-      "default": "Create Your Book"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
     }
   ],
   "blocks": [
@@ -438,6 +388,10 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "experience",
       "name": "Experience Video",
       "settings": [
+        {
+          "type": "header",
+          "content": "Card Details"
+        },
         {
           "type": "text",
           "id": "tag",
@@ -473,6 +427,56 @@ document.addEventListener('DOMContentLoaded', function() {
           "id": "video",
           "label": "The Video",
           "info": "Plays natively inside Tab 1 content slots."
+        },
+        {
+          "type": "header",
+          "content": "Tab Configurations",
+          "info": "Customize the content inside the modal for this specific video."
+        },
+        {
+          "type": "text",
+          "id": "tab_1_title",
+          "label": "Tab 1 Name",
+          "default": "The Video"
+        },
+        {
+          "type": "text",
+          "id": "tab_2_title",
+          "label": "Tab 2 Name",
+          "default": "Features"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_2_text",
+          "label": "Tab 2 Content",
+          "default": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>"
+        },
+        {
+          "type": "text",
+          "id": "tab_3_title",
+          "label": "Tab 3 Name",
+          "default": "The Purpose"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_3_text",
+          "label": "Tab 3 Content",
+          "default": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Call To Action"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Create Your Book"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
         },
         {
           "type": "header",
