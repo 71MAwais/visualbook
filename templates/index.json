@@ -90,6 +90,16 @@
             "number": "01",
             "title": "Vivid Memory Display",
             "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
+            "background_video": "shopify://files/videos/video.mp4",
+            "icon": "aperture"
+          }
+        },
+        "feature_YFfzED": {
+          "type": "feature",
+          "settings": {
+            "number": "01",
+            "title": "Vivid Memory Display",
+            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
             "icon": "aperture"
           }
         },
@@ -133,6 +143,7 @@
       },
       "block_order": [
         "feature_9hwL6R",
+        "feature_YFfzED",
         "feature_e4pbBn",
         "feature_UbLfdb",
         "feature_PPtiUm",
@@ -140,7 +151,7 @@
       ],
       "name": "Cinematic Showcase",
       "settings": {
-        "subtitle": "",
+        "subtitle": "Experince",
         "heading": "",
         "instruction_text": "Swipe or Drag to Explore",
         "autoplay_speed": 4
