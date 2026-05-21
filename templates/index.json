@@ -84,6 +84,22 @@
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
       "blocks": {
+        "memory_iq8mEX": {
+          "type": "memory",
+          "settings": {
+            "tag": "birthday",
+            "title": "The Big Day",
+            "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov"
+          }
+        },
+        "memory_3pQmTb": {
+          "type": "memory",
+          "settings": {
+            "tag": "Wedding",
+            "title": "The Big Day",
+            "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov"
+          }
+        },
         "memory_AA7gpA": {
           "type": "memory",
           "settings": {
@@ -94,6 +110,8 @@
         }
       },
       "block_order": [
+        "memory_iq8mEX",
+        "memory_3pQmTb",
         "memory_AA7gpA"
       ],
       "name": "Cinematic Showcase",
