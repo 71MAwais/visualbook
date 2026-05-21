@@ -116,8 +116,11 @@
       ],
       "name": "Cinematic Showcase",
       "settings": {
+        "background_video": "shopify://files/videos/video.mp4",
         "subtitle": "Experince",
         "heading": "",
+        "text": "Open the cover and instantly transport back to your most cherished moments.",
+        "grid_heading": "A Story For Every Occasion",
         "tab_1_title": "The Video",
         "tab_2_title": "Features",
         "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
