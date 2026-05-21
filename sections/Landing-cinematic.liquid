@@ -121,7 +121,8 @@
             </button>
 
             {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
-            <div class="w-full md:w-1/2 aspect-video md:aspect-auto bg-black relative flex items-center justify-center group/video shrink-0">
+            {% comment %} NOTE: Updated to aspect-square on mobile to perfectly fit 1:1 or 4:3 videos! {% endcomment %}
+            <div class="w-full md:w-1/2 aspect-square md:aspect-auto bg-black relative flex items-center justify-center group/video shrink-0">
                 
                 {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
                 <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full relative">
@@ -134,8 +135,13 @@
                         </video>
 
                         {% comment %} Timestamps / Chapters Overlay {% endcomment %}
+                        {% comment %} NOTE: Removed opacity-0 on mobile so they are ALWAYS visible! {% endcomment %}
                         {% if block.settings.chapter_1_label != blank or block.settings.chapter_2_label != blank or block.settings.chapter_3_label != blank %}
-                            <div class="absolute bottom-12 md:bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-2 z-20 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            
+                            {% comment %} Gentle bottom gradient to ensure text is readable over the video {% endcomment %}
+                            <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10 md:hidden"></div>
+
+                            <div class="absolute bottom-12 md:bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-2 z-20 opacity-100 md:opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
                                 {% if block.settings.chapter_1_label != blank %}
                                     <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
                                         {{ block.settings.chapter_1_label | escape }}

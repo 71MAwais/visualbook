@@ -276,6 +276,9 @@
   .visible {
     visibility: visible;
   }
+  .visible\! {
+    visibility: visible !important;
+  }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -749,6 +752,9 @@
   }
   .h-16 {
     height: calc(var(--spacing) * 16);
+  }
+  .h-32 {
+    height: calc(var(--spacing) * 32);
   }
   .h-40 {
     height: calc(var(--spacing) * 40);
@@ -4823,6 +4829,11 @@
   .md\:text-\[90px\] {
     @media (width >= 48rem) {
       font-size: 90px;
+    }
+  }
+  .md\:opacity-0 {
+    @media (width >= 48rem) {
+      opacity: 0%;
     }
   }
   .md\:group-hover\:opacity-100 {
