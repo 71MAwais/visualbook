@@ -100,7 +100,7 @@
     </div>
 </section>
 
-{% comment %} MODALS (Placed safely outside sticky container to overlay absolutely everything) {% endcomment %}
+{% comment %} MODALS {% endcomment %}
 {% for block in section.blocks limit: 6 %}
     <div id="cine-modal-{{ block.id }}" class="fixed inset-0 z- hidden items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300" style="font-family: 'Plus Jakarta Sans', sans-serif;">
         
@@ -186,7 +186,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // SCROLL ANIMATION LOGIC
     const sectionId = '{{ section.id }}';
     const section = document.getElementById(`cinematic-scroll-${sectionId}`);
     const stickyWrapper = document.getElementById(`cinematic-sticky-${sectionId}`);
@@ -205,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let rawProgress = -rect.top / totalScrollableHeight;
         let progress = Math.min(Math.max(rawProgress, 0), 1);
 
-        // HIDE THE HEADER LOGIC: Push z-index above global headers when fully inside the scroll section
         if (rect.top <= 0 && rect.bottom >= wh) {
             stickyWrapper.style.zIndex = '999999'; 
 
@@ -237,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } else {
-            // UNHIDE HEADER: Drop z-index back to normal when scrolled out
             stickyWrapper.style.zIndex = '40'; 
             
             if (rect.top > 0) {
@@ -250,65 +247,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 });
 
-// RAW HTML5 MODAL VIDEO LOGIC
 function openCineModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
-    
+
+    const modalBox = modal.firstElementChild;
+
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-    
-    // Animate in
+
     setTimeout(() => {
         modal.classList.remove('opacity-0');
-        modal.querySelector('.relative').classList.remove('scale-95');
-        modal.querySelector('.relative').classList.add('scale-100');
+        modalBox.classList.remove('scale-95');
+        modalBox.classList.add('scale-100');
     }, 10);
-    
-    // Play video safely using raw HTML5 element
+
     const blockId = modalId.replace('cine-modal-', '');
     const video = document.getElementById(`video-${blockId}`);
-    
+
     if (video) {
-        video.currentTime = 0; // reset video to start
-        let playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.warn("Auto-play blocked by browser. User must click play manually.", error);
-            });
-        }
+        video.currentTime = 0;
+        video.play().catch(() => {});
     }
-    
+
     document.body.style.overflow = 'hidden';
 }
 
 function closeCineModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
-    
+
+    const modalBox = modal.firstElementChild;
+
     modal.classList.add('opacity-0');
-    modal.querySelector('.relative').classList.remove('scale-100');
-    modal.querySelector('.relative').classList.add('scale-95');
-    
-    // Pause video
+    modalBox.classList.remove('scale-100');
+    modalBox.classList.add('scale-95');
+
     const blockId = modalId.replace('cine-modal-', '');
     const video = document.getElementById(`video-${blockId}`);
+
     if (video) {
         video.pause();
     }
-    
-    // Hide modal after animation finishes
+
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
-        switchCineTab(blockId, 1); // Reset to tab 1
+        switchCineTab(blockId, 1);
     }, 300);
-    
+
     document.body.style.overflow = '';
 }
 
 function switchCineTab(blockId, tabNumber) {
-    // Reset all tabs
     for (let i = 1; i <= 3; i++) {
         const btn = document.getElementById(`tab-btn-${i}-${blockId}`);
         const content = document.getElementById(`tab-content-${i}-${blockId}`);
@@ -316,22 +307,17 @@ function switchCineTab(blockId, tabNumber) {
         if (content) content.classList.remove('active');
     }
     
-    // Activate target tab
     const activeBtn = document.getElementById(`tab-btn-${tabNumber}-${blockId}`);
     const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
     if (activeBtn) activeBtn.classList.add('active');
     if (activeContent) activeContent.classList.add('active');
 
-    // Handle Video Playback
     const video = document.getElementById(`video-${blockId}`);
     if (video) {
         if (tabNumber !== 1) {
-            video.pause(); // Pause if they switch to features/reviews
+            video.pause(); 
         } else {
-            let playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(e => console.warn("Play interrupted", e));
-            }
+            video.play().catch(() => {});
         }
     }
 }
