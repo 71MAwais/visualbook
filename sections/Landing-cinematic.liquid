@@ -1,29 +1,26 @@
-{% comment %} sections/cinematic-grid-reviews.liquid {% endcomment %}
+{% comment %} sections/cinematic-scroll-grid.liquid {% endcomment %}
 <style>
-    #cinematic-grid-{{ section.id }} { 
+    #cinematic-scroll-{{ section.id }} { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
     }
-    #cinematic-grid-{{ section.id }} .font-serif { 
+    #cinematic-scroll-{{ section.id }} .font-serif { 
         font-family: 'Playfair Display', serif; 
     }
+    
+    .will-change-transform {
+        will-change: transform, opacity, border-radius; 
+        transform: translateZ(0);
+    }
 
-    /* Custom Scrollbar for Modal content if it gets too long */
+    /* Modal Scrollbar */
     .modal-scroll::-webkit-scrollbar { width: 6px; }
     .modal-scroll::-webkit-scrollbar-track { background: transparent; }
     .modal-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
-    /* Tab active state transitions */
-    .cine-tab-btn.active {
-        color: #B8906B;
-        border-bottom-color: #B8906B;
-    }
-    .cine-tab-content {
-        display: none;
-        animation: fadeIn 0.4s ease forwards;
-    }
-    .cine-tab-content.active {
-        display: block;
-    }
+    /* Tab active states */
+    .cine-tab-btn.active { color: #B8906B; border-bottom-color: #B8906B; }
+    .cine-tab-content { display: none; animation: fadeIn 0.4s ease forwards; }
+    .cine-tab-content.active { display: block; }
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -31,67 +28,92 @@
     }
 </style>
 
-<section id="cinematic-grid-{{ section.id }}" class="w-full py-20 md:py-32 bg-[#FAFAFA] relative">
+<section id="cinematic-scroll-{{ section.id }}" class="w-full h-[250vh] relative bg-[#FAFAFA]" aria-label="Cinematic Interactive Showcase">
     
-    {% comment %} SECTION HEADER {% endcomment %}
-    <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
-        {% if section.settings.subtitle != blank %}
-            <span class="block font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4">{{ section.settings.subtitle }}</span>
-        {% endif %}
-        {% if section.settings.heading != blank %}
-            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] text-black leading-[1.1] tracking-tight">{{ section.settings.heading }}</h2>
-        {% endif %}
-    </div>
-
-    {% comment %} THE 6-ITEM GRID {% endcomment %}
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {% for block in section.blocks limit: 6 %}
-            <div class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 bg-[#111]" 
-                 onclick="openCineModal('cine-modal-{{ block.id }}')" 
-                 {{ block.shopify_attributes }}>
-                
-                {% comment %} Thumbnail Image {% endcomment %}
-                {% if block.settings.cover_image != blank %}
-                    <img src="{{ block.settings.cover_image | image_url: width: 800 }}" alt="{{ block.settings.title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-60" loading="lazy">
+    {% comment %} Sticky container: z-index changes via JS to cover the header {% endcomment %}
+    <div id="cinematic-sticky-{{ section.id }}" class="sticky top-0 w-full h-[100dvh] flex items-center justify-center overflow-hidden z-40 transition-all duration-0">
+        
+        {% comment %} LAYER 1: The Zooming Background {% endcomment %}
+        <div id="cinematic-bg-{{ section.id }}" class="will-change-transform absolute inset-0 bg-[#050505] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] flex items-center justify-center origin-center" style="transform: scale(0.85); border-radius: 32px;">
+            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                {% if section.settings.background_video != blank %}
+                    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false">
+                        {% for source in section.settings.background_video.sources %}
+                            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                        {% endfor %}
+                    </video>
+                {% elsif section.settings.image != blank %}
+                    <img src="{{ section.settings.image | image_url: width: 2400 }}" class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false" loading="lazy"/>
                 {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity' }}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 bg-[#222]' }}
                 {% endif %}
-
-                {% comment %} Overlays & Play Button {% endcomment %}
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] transition-colors duration-300">
-                        <svg class="w-6 h-6 text-white ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                </div>
-
-                {% comment %} Card Text {% endcomment %}
-                <div class="absolute bottom-6 left-6 right-6">
-                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white mb-3">{{ block.settings.tag }}</span>
-                    <h3 class="text-white font-serif text-[28px] leading-tight">{{ block.settings.title }}</h3>
-                </div>
+                
+                <div id="cinematic-overlay-{{ section.id }}" class="absolute inset-0 bg-[#050505] opacity-20 transition-opacity duration-500"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+            
+        {% comment %} LAYER 2 (SLIDE 1): Intro Text {% endcomment %}
+        <div id="cinematic-slide-1-{{ section.id }}" class="will-change-transform absolute inset-0 z-10 w-full h-full flex flex-col items-center justify-center text-center px-8 md:px-12 opacity-0 pointer-events-none">
+            {% if section.settings.subtitle != blank %}
+                <span class="font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4 drop-shadow-md">{{ section.settings.subtitle }}</span>
+            {% endif %}
+            <h2 class="font-serif text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-white leading-[1.05] tracking-tight mb-6 drop-shadow-xl">{{ section.settings.heading }}</h2>
+            <p class="font-sans text-[16px] md:text-[20px] text-white/80 font-light max-w-2xl leading-relaxed">{{ section.settings.text }}</p>
+        </div>
 
+        {% comment %} LAYER 3 (SLIDE 2): The Interactive Grid {% endcomment %}
+        <div id="cinematic-slide-2-{{ section.id }}" class="will-change-transform absolute inset-0 z-20 w-full h-full flex flex-col items-center justify-center opacity-0 pointer-events-none px-4 md:px-8">
+            
+            <h3 class="font-serif text-[28px] md:text-[42px] text-white tracking-tight mb-8 drop-shadow-lg text-center">{{ section.settings.grid_heading }}</h3>
+            
+            <div class="w-full max-w-5xl grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                {% for block in section.blocks limit: 6 %}
+                    <div class="group relative aspect-square md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 bg-[#111]" 
+                         onclick="openCineModal('cine-modal-{{ block.id }}')" 
+                         {{ block.shopify_attributes }}>
+                        
+                        {% if block.settings.cover_image != blank %}
+                            <img src="{{ block.settings.cover_image | image_url: width: 600 }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-70 group-hover:opacity-50" loading="lazy">
+                        {% else %}
+                            {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity' }}
+                        {% endif %}
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
+                        
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] transition-colors duration-300">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 text-white ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6">
+                            <span class="inline-block px-2 py-1 md:px-3 md:py-1 bg-white/20 backdrop-blur-md rounded-full text-[8px] md:text-[10px] uppercase tracking-widest text-white mb-2">{{ block.settings.tag }}</span>
+                            <h4 class="text-white font-serif text-[18px] md:text-[24px] leading-tight">{{ block.settings.title }}</h4>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+        
+    </div>
 </section>
 
-{% comment %} MODALS (Generated for each block) {% endcomment %}
+{% comment %} MODALS (Placed safely outside sticky container to overlay absolutely everything) {% endcomment %}
 {% for block in section.blocks limit: 6 %}
-    <div id="cine-modal-{{ block.id }}" class="fixed inset-0 z- hidden items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div id="cine-modal-{{ block.id }}" class="fixed inset-0 z- hidden items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300" style="font-family: 'Plus Jakarta Sans', sans-serif;">
         
-        {% comment %} Modal Container {% endcomment %}
-        <div class="relative w-full max-w-6xl max-h-[90vh] bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300" id="cine-modal-inner-{{ block.id }}">
+        <div class="relative w-full max-w-6xl max-h-[90vh] bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300">
             
-            {% comment %} Close Button {% endcomment %}
             <button onclick="closeCineModal('cine-modal-{{ block.id }}')" class="absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
+            {% comment %} Left Side: Content Area {% endcomment %}
             <div class="w-full md:w-1/2 aspect-video md:aspect-auto bg-black relative flex items-center justify-center">
                 
-                {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
+                {% comment %} TAB 1: RAW HTML5 VIDEO {% endcomment %}
                 <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full">
                     {% if block.settings.video != blank %}
                         <video id="video-{{ block.id }}" class="w-full h-full object-contain bg-black" controls playsinline preload="metadata">
@@ -105,53 +127,52 @@
                     {% endif %}
                 </div>
 
-                {% comment %} TAB 2 CONTENT: FEATURES IMAGE {% endcomment %}
-                <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-16 flex flex-col justify-center">
-                    {% if block.settings.cover_image != blank %}
-                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-30" loading="lazy">
-                    {% endif %}
-                    <div class="relative z-10">
-                        <h4 class="font-serif text-[32px] text-white mb-6">{{ section.settings.tab_2_title }}</h4>
-                        <div class="font-sans text-[16px] text-white/80 space-y-4 leading-relaxed">
-                            {{ section.settings.tab_2_text }}
+                {% comment %} TAB 2: FEATURES & REVIEWS {% endcomment %}
+                <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 flex flex-col justify-center">
+                    {% if block.settings.cover_image != blank %}<img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy">{% endif %}
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <div class="mb-10">
+                            <h5 class="text-[#B8906B] text-[11px] font-bold uppercase tracking-widest mb-3">Core Features</h5>
+                            <ul class="text-white/80 text-[15px] space-y-2">
+                                <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Instant auto-play display</li>
+                                <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Immersive high-fidelity audio</li>
+                                <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Artisan linen craftsmanship</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-white/5 border border-white/10 rounded-xl">
+                            <div class="flex gap-1 text-[#B8906B] mb-4">
+                                {% for i in (1..5) %}<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}
+                            </div>
+                            <p class="text-white/90 text-[15px] italic mb-4">"{{ block.settings.review_text | default: 'Absolutely stunning. It brought my parents to tears.' }}"</p>
+                            <span class="text-white/50 text-[12px] font-bold uppercase tracking-widest">— {{ block.settings.author | default: 'Verified Buyer' }}</span>
                         </div>
                     </div>
                 </div>
 
-                {% comment %} TAB 3 CONTENT: CRAFTSMANSHIP {% endcomment %}
-                <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-16 flex flex-col justify-center">
-                    {% if block.settings.cover_image != blank %}
-                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-30" loading="lazy">
-                    {% endif %}
-                    <div class="relative z-10">
-                        <h4 class="font-serif text-[32px] text-white mb-6">{{ section.settings.tab_3_title }}</h4>
-                        <div class="font-sans text-[16px] text-white/80 space-y-4 leading-relaxed">
-                            {{ section.settings.tab_3_text }}
+                {% comment %} TAB 3: PRODUCT USE CASE {% endcomment %}
+                <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 flex flex-col justify-center text-center">
+                    {% if block.settings.cover_image != blank %}<img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy">{% endif %}
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-[#B8906B]/20 flex items-center justify-center text-[#B8906B] mb-6">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </div>
+                        <h4 style="font-family: 'Playfair Display', serif;" class="text-[32px] text-white mb-6">The Perfect Gift</h4>
+                        <p class="text-[16px] text-white/80 leading-relaxed">{{ block.settings.usecase_text | default: 'Pre-load your Visual Book with cherished memories before gifting it.' }}</p>
                     </div>
                 </div>
-
             </div>
 
-            {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
+            {% comment %} Right Side: Tabs Navigation {% endcomment %}
             <div class="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll overflow-y-auto">
                 <span class="text-[11px] uppercase tracking-[0.2em] text-[#B8906B] font-bold mb-2">{{ block.settings.tag }}</span>
-                <h3 class="font-serif text-[36px] md:text-[48px] text-white leading-tight mb-10">{{ block.settings.title }}</h3>
+                <h3 style="font-family: 'Playfair Display', serif;" class="text-[36px] md:text-[48px] text-white leading-tight mb-10">{{ block.settings.title }}</h3>
 
-                {% comment %} The 3 Tabs Buttons {% endcomment %}
                 <div class="flex gap-6 border-b border-white/10 mb-8">
-                    <button onclick="switchCineTab('{{ block.id }}', 1)" id="tab-btn-1-{{ block.id }}" class="cine-tab-btn active pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">
-                        {{ section.settings.tab_1_title }}
-                    </button>
-                    <button onclick="switchCineTab('{{ block.id }}', 2)" id="tab-btn-2-{{ block.id }}" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">
-                        {{ section.settings.tab_2_title }}
-                    </button>
-                    <button onclick="switchCineTab('{{ block.id }}', 3)" id="tab-btn-3-{{ block.id }}" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">
-                        {{ section.settings.tab_3_title }}
-                    </button>
+                    <button onclick="switchCineTab('{{ block.id }}', 1)" id="tab-btn-1-{{ block.id }}" class="cine-tab-btn active pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">{{ section.settings.tab_1_title }}</button>
+                    <button onclick="switchCineTab('{{ block.id }}', 2)" id="tab-btn-2-{{ block.id }}" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">{{ section.settings.tab_2_title }}</button>
+                    <button onclick="switchCineTab('{{ block.id }}', 3)" id="tab-btn-3-{{ block.id }}" class="cine-tab-btn pb-4 text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors">{{ section.settings.tab_3_title }}</button>
                 </div>
 
-                {% comment %} Dynamic Text area below tabs (optional call to action) {% endcomment %}
                 <div class="mt-auto pt-8">
                     <a href="{{ section.settings.button_link }}" class="inline-flex w-full items-center justify-center px-8 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
                         {{ section.settings.button_label | default: "Create Your Book" }}
@@ -164,125 +185,208 @@
 {% endfor %}
 
 <script>
-    // OPEN MODAL
-    function openCineModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        
-        // Show modal and trigger fade in
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        
-        // Slight delay for animation classes to apply
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            modal.querySelector('div').classList.remove('scale-95');
-            modal.querySelector('div').classList.add('scale-100');
-        }, 10);
+document.addEventListener('DOMContentLoaded', () => {
+    // SCROLL ANIMATION LOGIC
+    const sectionId = '{{ section.id }}';
+    const section = document.getElementById(`cinematic-scroll-${sectionId}`);
+    const stickyWrapper = document.getElementById(`cinematic-sticky-${sectionId}`);
+    const bgContainer = document.getElementById(`cinematic-bg-${sectionId}`);
+    const bgOverlay = document.getElementById(`cinematic-overlay-${sectionId}`);
+    const slide1 = document.getElementById(`cinematic-slide-1-${sectionId}`);
+    const slide2 = document.getElementById(`cinematic-slide-2-${sectionId}`);
+    
+    if (!section) return;
 
-        // SAFELY FIND AND PLAY THE VIDEO
-        const video = modal.querySelector('video');
-        if (video) {
-            video.currentTime = 0;
+    window.addEventListener('scroll', () => {
+        const rect = section.getBoundingClientRect();
+        const wh = window.innerHeight;
+        const totalScrollableHeight = rect.height - wh;
+        
+        let rawProgress = -rect.top / totalScrollableHeight;
+        let progress = Math.min(Math.max(rawProgress, 0), 1);
+
+        // HIDE THE HEADER LOGIC: Push z-index above global headers when fully inside the scroll section
+        if (rect.top <= 0 && rect.bottom >= wh) {
+            stickyWrapper.style.zIndex = '999999'; 
+
+            let zoomProgress = Math.min(progress / 0.3, 1);
+            let currentScale = 0.85 + (0.15 * zoomProgress);
+            let currentRadius = 32 - (32 * zoomProgress);
+            bgContainer.style.transform = `scale(${currentScale})`;
+            bgContainer.style.borderRadius = `${currentRadius}px`;
+
+            if (progress < 0.5) {
+                let textFadeIn = Math.min(progress / 0.15, 1);
+                let textFadeOut = 1 - Math.max((progress - 0.35) / 0.15, 0);
+                slide1.style.opacity = Math.min(textFadeIn, textFadeOut);
+                slide1.style.transform = `translateY(${(1 - textFadeOut) * -30}px)`; 
+            } else {
+                slide1.style.opacity = 0;
+            }
+
+            if (progress >= 0.45) {
+                let gridFadeIn = Math.min((progress - 0.45) / 0.2, 1);
+                slide2.style.opacity = gridFadeIn;
+                slide2.style.pointerEvents = 'auto'; 
+                slide2.style.transform = `translateY(${(1 - gridFadeIn) * 40}px)`;
+                bgOverlay.style.opacity = 0.4 + (0.4 * gridFadeIn); 
+            } else {
+                slide2.style.opacity = 0;
+                slide2.style.pointerEvents = 'none'; 
+                bgOverlay.style.opacity = 0.2;
+            }
+
+        } else {
+            // UNHIDE HEADER: Drop z-index back to normal when scrolled out
+            stickyWrapper.style.zIndex = '40'; 
+            
+            if (rect.top > 0) {
+                bgContainer.style.transform = `scale(0.85)`;
+                bgContainer.style.borderRadius = `32px`;
+                slide1.style.opacity = 0;
+                slide2.style.opacity = 0;
+            }
+        }
+    }, { passive: true });
+});
+
+// RAW HTML5 MODAL VIDEO LOGIC
+function openCineModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Animate in
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.querySelector('.relative').classList.remove('scale-95');
+        modal.querySelector('.relative').classList.add('scale-100');
+    }, 10);
+    
+    // Play video safely using raw HTML5 element
+    const blockId = modalId.replace('cine-modal-', '');
+    const video = document.getElementById(`video-${blockId}`);
+    
+    if (video) {
+        video.currentTime = 0; // reset video to start
+        let playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.warn("Auto-play blocked by browser. User must click play manually.", error);
+            });
+        }
+    }
+    
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCineModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    
+    modal.classList.add('opacity-0');
+    modal.querySelector('.relative').classList.remove('scale-100');
+    modal.querySelector('.relative').classList.add('scale-95');
+    
+    // Pause video
+    const blockId = modalId.replace('cine-modal-', '');
+    const video = document.getElementById(`video-${blockId}`);
+    if (video) {
+        video.pause();
+    }
+    
+    // Hide modal after animation finishes
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        switchCineTab(blockId, 1); // Reset to tab 1
+    }, 300);
+    
+    document.body.style.overflow = '';
+}
+
+function switchCineTab(blockId, tabNumber) {
+    // Reset all tabs
+    for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`tab-btn-${i}-${blockId}`);
+        const content = document.getElementById(`tab-content-${i}-${blockId}`);
+        if (btn) btn.classList.remove('active');
+        if (content) content.classList.remove('active');
+    }
+    
+    // Activate target tab
+    const activeBtn = document.getElementById(`tab-btn-${tabNumber}-${blockId}`);
+    const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    if (activeContent) activeContent.classList.add('active');
+
+    // Handle Video Playback
+    const video = document.getElementById(`video-${blockId}`);
+    if (video) {
+        if (tabNumber !== 1) {
+            video.pause(); // Pause if they switch to features/reviews
+        } else {
             let playPromise = video.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.warn("Browser blocked autoplay. User must click play.", error);
-                });
-            }
-        }
-
-        // Lock background scroll
-        document.body.style.overflow = 'hidden';
-    }
-
-    // CLOSE MODAL
-    function closeCineModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        
-        // Trigger fade out
-        modal.classList.add('opacity-0');
-        modal.querySelector('div').classList.remove('scale-100');
-        modal.querySelector('div').classList.add('scale-95');
-
-        // SAFELY PAUSE VIDEO
-        const video = modal.querySelector('video');
-        if (video) video.pause();
-
-        // Hide modal after animation
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            
-            // Reset to Tab 1 automatically on close
-            const blockId = modalId.replace('cine-modal-', '');
-            switchCineTab(blockId, 1);
-        }, 300);
-
-        // Unlock background scroll
-        document.body.style.overflow = '';
-    }
-
-    // TAB SWITCHING LOGIC
-    function switchCineTab(blockId, tabNumber) {
-        // 1. Reset all tabs for this specific modal
-        for (let i = 1; i <= 3; i++) {
-            const btn = document.getElementById(`tab-btn-${i}-${blockId}`);
-            const content = document.getElementById(`tab-content-${i}-${blockId}`);
-            if (btn) btn.classList.remove('active');
-            if (content) content.classList.remove('active');
-        }
-
-        // 2. Activate the clicked tab
-        const activeBtn = document.getElementById(`tab-btn-${tabNumber}-${blockId}`);
-        const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
-        if (activeBtn) activeBtn.classList.add('active');
-        if (activeContent) activeContent.classList.add('active');
-
-        // 3. Pause video if switching AWAY from Tab 1
-        const modal = document.getElementById(`cine-modal-${blockId}`);
-        const video = modal.querySelector('video');
-        if (video) {
-            if (tabNumber !== 1) {
-                video.pause();
-            } else {
-                let playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.warn("Browser blocked play on tab switch.", error);
-                    });
-                }
+                playPromise.catch(e => console.warn("Play interrupted", e));
             }
         }
     }
+}
 </script>
 
 {% schema %}
 {
-  "name": "Grid Reviews & Tabs",
+  "name": "Cinematic Scroll Grid",
   "max_blocks": 6,
   "settings": [
     {
       "type": "header",
-      "content": "Section Header"
+      "content": "Phase 1: Background & Intro Slide"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background Video (Main Hero)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback Image"
     },
     {
       "type": "text",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": "Real Moments"
+      "default": "The Experience"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
+      "default": "Relive The Magic"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body Text",
+      "default": "Open the cover and instantly transport back to your most cherished moments."
+    },
+    {
+      "type": "header",
+      "content": "Phase 2: The Grid Slide"
+    },
+    {
+      "type": "text",
+      "id": "grid_heading",
+      "label": "Grid Heading",
       "default": "A Story For Every Occasion"
     },
     {
       "type": "header",
-      "content": "Global Tabs Configuration",
-      "info": "Tab 1 is automatically set to play the Video uploaded in each block."
+      "content": "Global Tabs Configuration"
     },
     {
       "type": "text",
@@ -294,40 +398,24 @@
       "type": "text",
       "id": "tab_2_title",
       "label": "Tab 2 Name",
-      "default": "Features"
-    },
-    {
-      "type": "richtext",
-      "id": "tab_2_text",
-      "label": "Tab 2 Content",
-      "default": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>"
+      "default": "Features & Reviews"
     },
     {
       "type": "text",
       "id": "tab_3_title",
       "label": "Tab 3 Name",
-      "default": "Craftsmanship"
-    },
-    {
-      "type": "richtext",
-      "id": "tab_3_text",
-      "label": "Tab 3 Content",
-      "default": "<p>Bound in premium artisan linen, designed to last lifetimes and be passed down as a true modern heirloom.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Call To Action"
+      "default": "Product Use Case"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button Label",
+      "label": "Modal Button Label",
       "default": "Create Your Book"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
+      "label": "Modal Button Link"
     }
   ],
   "blocks": [
@@ -350,22 +438,40 @@
         {
           "type": "image_picker",
           "id": "cover_image",
-          "label": "Grid Cover Image",
-          "info": "Displays on the grid and as a background in Tabs 2 and 3."
+          "label": "Grid Cover Image"
         },
         {
           "type": "video",
           "id": "video",
           "label": "The Video",
-          "info": "Plays when the user clicks 'The Video' tab."
+          "info": "Plays in Tab 1."
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review Text (Tab 2)",
+          "default": "Absolutely stunning. It brought my parents to tears the moment they opened it."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Review Author (Tab 2)",
+          "default": "Verified Buyer"
+        },
+        {
+          "type": "textarea",
+          "id": "usecase_text",
+          "label": "Use Case Text (Tab 3)",
+          "default": "Pre-load your Visual Book with cherished memories before gifting it, ensuring the magic begins the very second the cover is opened."
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Grid Reviews & Tabs",
+      "name": "Cinematic Scroll Grid",
       "blocks": [
+        { "type": "memory" },
         { "type": "memory" },
         { "type": "memory" },
         { "type": "memory" }
