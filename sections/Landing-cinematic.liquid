@@ -14,8 +14,7 @@
 
     /* CRITICAL MOBILE SCROLL FIX */
     #cinematic-gallery-{{ section.id }} {
-        display: flex;
-        overflow-x: auto;
+        display: flex; overflow-x: auto;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch; 
@@ -25,8 +24,7 @@
     .cine-item {
         width: 100vw;
         height: 100dvh;
-        flex-shrink: 0;
-        scroll-snap-align: center;
+        flex-shrink: 0; scroll-snap-align: center;
         position: relative;
         display: flex;
         align-items: center;
@@ -35,18 +33,15 @@
 
     /* Hardware acceleration for the zoom effect */
     .cine-zoom-container {
-        will-change: transform, border-radius;
-        transform: translateZ(0);
+        will-change: transform, border-radius; transform: translateZ(0);
     }
     
     /* Interactive Exit Buttons */
     .cine-exit-btn {
-        transition: all 0.3s ease;
-        cursor: pointer;
+        transition: all 0.3s ease; cursor: pointer;
     }
     .cine-exit-btn:hover {
-        color: #B8906B !important;
-        transform: rotate(180deg) translateY(-5px); 
+        color: #B8906B !important; transform: rotate(180deg) translateY(-5px); 
     }
 
     /* Customer Instruction Animations */
@@ -122,13 +117,17 @@
 {% comment %} DATA TEMPLATE {% endcomment %}
 <div id="cinematic-data-{{ section.id }}" class="hidden">
     {% for block in section.blocks %}
-        <div class="cine-item" data-icon="{{ block.settings.icon | escape }}">
+        <div class="cine-item" data-icon="{{ block.settings.icon | escape }}" {{ block.shopify_attributes }}>
             <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                {% if block.settings.image != blank %}
+                {% comment %} Updated to support Video first, then fallback to Image {% endcomment %}
+                {% if block.settings.background_video != blank %}
+                    {{ block.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'absolute inset-0 w-full h-full object-cover opacity-[0.55] grayscale-[20%]', draggable: false }}
+                {% elsif block.settings.image != blank %}
                     <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ block.settings.title | escape }}" class="absolute inset-0 w-full h-full object-cover opacity-[0.55] grayscale-[20%]" draggable="false" loading="lazy"/>
                 {% else %}
                     {{ 'image' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-[0.45] grayscale-[30%] bg-[#222]' }}
                 {% endif %}
+               
                 <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/40 to-transparent"></div>
                 <div class="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-transparent to-transparent"></div>
             </div>
@@ -205,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 queueNextAutoScroll(); 
             }
             if(cineVProg) cineVProg.style.transform = `scaleY(${progress})`;
-            
         } else {
             // NOT FULL SCREEN: Lock interactions & Pause Auto-Slider
             if (isFullScreen) {
@@ -217,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cineBg.style.borderRadius = `32px`;
                 [cineUi, cineInd, cineArr, cineHeading].forEach(el => { if(el) el.style.opacity = 0; });
                 
-                clearTimeout(autoSlideTimer); 
+                clearTimeout(autoSlideTimer);
             }
         }
     }, { passive: true });
@@ -226,12 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalOriginal = dataItems.length;
     let cineTimeout = null;
     let isJumping = false;
-    let isTouching = false; 
+    let isTouching = false;
 
     function queueNextAutoScroll() {
         clearTimeout(autoSlideTimer);
         if (!isFullScreen || isTouching || isJumping || isDownCine || totalOriginal === 0 || AUTO_SLIDE_DELAY === 0) return;
-        
         autoSlideTimer = setTimeout(() => {
             if (!isFullScreen || isTouching || isJumping || isDownCine) return;
             cineGallery.scrollTo({ left: cineGallery.scrollLeft + cineGallery.clientWidth, behavior: 'smooth' });
@@ -282,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const idx = Math.round(cineGallery.scrollLeft / w);
             updateDots(idx % totalOriginal);
-
+            
             // Fade out the instruction text once the user successfully scrolls
             if (hasInteracted && cineInstruction && cineInstruction.style.opacity !== '0.2') {
                 cineInstruction.style.opacity = '0.2';
@@ -308,12 +305,10 @@ document.addEventListener('DOMContentLoaded', () => {
             hasInteracted = true; 
             clearTimeout(autoSlideTimer); 
         }, { passive: true });
-        
         cineGallery.addEventListener('touchend', () => { 
             isTouching = false; 
             handleScroll(); 
         }, { passive: true });
-        
         cineGallery.addEventListener('touchcancel', () => { isTouching = false; queueNextAutoScroll(); }, { passive: true });
 
         // Init position
@@ -325,12 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Controls (Arrows)
         const cPrev = document.getElementById(`cinematic-prev-${sectionId}`);
         const cNext = document.getElementById(`cinematic-next-${sectionId}`);
+        
         if(cPrev) cPrev.addEventListener('click', () => {
             if (!isFullScreen) return;
             hasInteracted = true;
             clearTimeout(autoSlideTimer);
             cineGallery.scrollTo({ left: cineGallery.scrollLeft - cineGallery.clientWidth, behavior: 'smooth' });
         });
+        
         if(cNext) cNext.addEventListener('click', () => {
             if (!isFullScreen) return;
             hasInteracted = true;
@@ -345,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var startIndexCine;
 
         const startDragCine = (e) => {
-            if (!isFullScreen) return; 
+            if (!isFullScreen) return;
             isDownCine = true;
             hasInteracted = true;
             clearTimeout(autoSlideTimer); 
@@ -433,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { "type": "text", "id": "title", "label": "Title", "default": "Vivid Memory Display" },
         { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "A stunning 8-inch retina screen that brings your personalized stories to life." },
         { "type": "image_picker", "id": "image", "label": "Background Image" },
+        { "type": "video", "id": "background_video", "label": "Background Video", "info": "Overrides background image. Use a short, looping mp4 video." },
         { "type": "text", "id": "icon", "label": "Lucide Icon Name", "default": "aperture", "info": "Find icons at lucide.dev/icons" }
       ]
     }
