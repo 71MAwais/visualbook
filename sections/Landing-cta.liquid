@@ -16,7 +16,8 @@
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center">
         {% if section.settings.subtitle != blank %}
-            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-4">
+            {% comment %} Changed text color from #B8906B to a slightly brighter #C59D73 {% endcomment %}
+            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#C59D73] mb-4">
                 {{ section.settings.subtitle }}
             </p>
         {% endif %}
