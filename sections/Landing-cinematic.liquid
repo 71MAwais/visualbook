@@ -1,4 +1,4 @@
-{% comment %} sections/cinematic-grid-reviews.liquid {% endcomment %}
+{% comment %} sections/cinematic-experience.liquid {% endcomment %}
 <style>
     #cinematic-grid-{{ section.id }} { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -57,7 +57,7 @@
             <button type="button" 
                  class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 bg-[#111] text-left block w-full cine-modal-trigger" 
                  data-modal-target="cine-modal-{{ block.id }}" 
-                 aria-label="Play video: {{ title }}"
+                 aria-label="Experience the unboxing: {{ title }}"
                  {{ block.shopify_attributes }}>
                 
                 {% comment %} Thumbnail Image {% endcomment %}
@@ -106,16 +106,16 @@
             
             {% comment %} Close Button {% endcomment %}
             <button type="button" 
-                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20"
+                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110"
                     aria-label="Close modal">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
             {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
-            <div class="w-full md:w-1/2 aspect-video md:aspect-auto bg-black relative flex items-center justify-center">
+            <div class="w-full md:w-1/2 aspect-video md:aspect-auto bg-black relative flex items-center justify-center group/video">
                 
                 {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
-                <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full">
+                <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full relative">
                     {% if block.settings.video != blank %}
                         <video id="video-{{ block.id }}" class="w-full h-full object-contain bg-black" controls playsinline preload="metadata">
                             {% for source in block.settings.video.sources %}
@@ -123,8 +123,30 @@
                             {% endfor %}
                             Your browser does not support the video tag.
                         </video>
+
+                        {% comment %} Timestamps / Chapters Overlay {% endcomment %}
+                        {% if block.settings.chapter_1_label != blank or block.settings.chapter_2_label != blank or block.settings.chapter_3_label != blank %}
+                            <div class="absolute bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-4 z-20 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                {% if block.settings.chapter_1_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-bold px-4 py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_1_label | escape }}
+                                    </button>
+                                {% endif %}
+                                {% if block.settings.chapter_2_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_2_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-bold px-4 py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_2_label | escape }}
+                                    </button>
+                                {% endif %}
+                                {% if block.settings.chapter_3_label != blank %}
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_3_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[11px] uppercase tracking-wider font-bold px-4 py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                        {{ block.settings.chapter_3_label | escape }}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
                     {% else %}
-                        <div class="w-full h-full flex items-center justify-center text-white/50 text-sm">No video uploaded</div>
+                        <div class="w-full h-full flex items-center justify-center text-white/50 text-sm absolute inset-0">No video uploaded</div>
                     {% endif %}
                 </div>
 
@@ -293,12 +315,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // 4. TIMESTAMPS / CHAPTER LOGIC
+    const chapterBtns = document.querySelectorAll('.chapter-btn');
+    chapterBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent modal from doing anything weird
+            const blockId = this.getAttribute('data-block');
+            const time = parseInt(this.getAttribute('data-time'), 10);
+            const video = document.getElementById(`video-${blockId}`);
+            
+            if (video && !isNaN(time)) {
+                video.currentTime = time;
+                video.play();
+            }
+        });
+    });
 });
 </script>
 
 {% schema %}
 {
-  "name": "Grid Reviews & Tabs",
+  "name": "The Unboxing Experience",
   "max_blocks": 6,
   "settings": [
     {
@@ -309,13 +347,13 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Real Stories, Preserved."
+      "default": "Experience the Unboxing"
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Watch how our customers turn their favorite memories into timeless heirlooms."
+      "default": "See what it feels like to hold your memories in your hands for the first time."
     },
     {
       "type": "header",
@@ -370,8 +408,8 @@ document.addEventListener('DOMContentLoaded', function() {
   ],
   "blocks": [
     {
-      "type": "memory",
-      "name": "Memory Card",
+      "type": "experience",
+      "name": "Experience Video",
       "settings": [
         {
           "type": "text",
@@ -396,17 +434,59 @@ document.addEventListener('DOMContentLoaded', function() {
           "id": "video",
           "label": "The Video",
           "info": "Plays natively inside Tab 1 content slots."
+        },
+        {
+          "type": "header",
+          "content": "Video Chapters (Optional)",
+          "info": "Add buttons over the video that skip to specific timestamps. Leave blank to hide."
+        },
+        {
+          "type": "text",
+          "id": "chapter_1_label",
+          "label": "Chapter 1 Label",
+          "placeholder": "e.g., The Box"
+        },
+        {
+          "type": "number",
+          "id": "chapter_1_time",
+          "label": "Chapter 1 Timestamp (Seconds)",
+          "default": 0,
+          "info": "Enter the time in seconds (e.g., 5)"
+        },
+        {
+          "type": "text",
+          "id": "chapter_2_label",
+          "label": "Chapter 2 Label",
+          "placeholder": "e.g., Opening"
+        },
+        {
+          "type": "number",
+          "id": "chapter_2_time",
+          "label": "Chapter 2 Timestamp (Seconds)",
+          "default": 15
+        },
+        {
+          "type": "text",
+          "id": "chapter_3_label",
+          "label": "Chapter 3 Label",
+          "placeholder": "e.g., The Screen"
+        },
+        {
+          "type": "number",
+          "id": "chapter_3_time",
+          "label": "Chapter 3 Timestamp (Seconds)",
+          "default": 30
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Grid Reviews & Tabs",
+      "name": "The Unboxing Experience",
       "blocks": [
-        { "type": "memory" },
-        { "type": "memory" },
-        { "type": "memory" }
+        { "type": "experience" },
+        { "type": "experience" },
+        { "type": "experience" }
       ]
     }
   ]
