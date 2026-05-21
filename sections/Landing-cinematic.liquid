@@ -22,7 +22,7 @@
         animation: fadeIn 0.4s ease forwards;
     }
     .cine-tab-content.active {
-        display: flex; /* Changed to flex to maintain centering */
+        display: flex; 
     }
 
     @keyframes fadeIn {
@@ -31,44 +31,61 @@
     }
 </style>
 
-<section id="cinematic-grid-{{ section.id }}" class="w-full py-12 md:py-24 bg-[#FAFAFA] relative">
+<section id="cinematic-grid-{{ section.id }}" class="w-full py-16 md:py-24 bg-[#FAFAFA] relative">
     
+    {% comment %} SECTION HEADER {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+        <div class="max-w-4xl mx-auto px-6 text-center mb-12 md:mb-16">
+            {% if section.settings.heading != blank %}
+                <h2 class="font-serif text-[36px] md:text-[48px] text-[#111] leading-tight mb-4">
+                    {{ section.settings.heading | escape }}
+                </h2>
+            {% endif %}
+            {% if section.settings.subheading != blank %}
+                <p class="font-sans text-[16px] md:text-[18px] text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                    {{ section.settings.subheading | escape }}
+                </p>
+            {% endif %}
+        </div>
+    {% endif %}
+
     {% comment %} THE 6-ITEM GRID {% endcomment %}
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
             <button type="button" 
-                 class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 bg-[#111] text-left block w-full cine-modal-trigger" 
+                 class="group relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 bg-[#111] text-left block w-full cine-modal-trigger" 
                  data-modal-target="cine-modal-{{ block.id }}" 
-                 aria-label="Open details for {{ title }}"
+                 aria-label="Play video: {{ title }}"
                  {{ block.shopify_attributes }}>
                 
                 {% comment %} Thumbnail Image {% endcomment %}
                 {% if block.settings.cover_image != blank %}
                     {{ block.settings.cover_image | image_url: width: 800 | image_tag: 
-                        class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-60',
+                        class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-50',
                         loading: 'lazy',
                         alt: title 
                     }}
                 {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity' }}
+                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity' }}
                 {% endif %}
 
                 {% comment %} Overlays & Play Button {% endcomment %}
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none transition-opacity duration-500"></div>
+                
                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] transition-colors duration-300">
-                        <svg class="w-6 h-6 text-white ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] group-hover:scale-110 transition-all duration-300 shadow-lg">
+                        <svg class="w-7 h-7 text-white ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                 </div>
 
                 {% comment %} Card Text {% endcomment %}
-                <div class="absolute bottom-6 left-6 right-6 pointer-events-none">
-                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white mb-3">
+                <div class="absolute bottom-6 left-6 right-6 pointer-events-none transform group-hover:-translate-y-2 transition-transform duration-500">
+                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white mb-3 border border-white/10 shadow-sm">
                         {{ block.settings.tag | escape }}
                     </span>
-                    <h3 class="text-white font-serif text-[28px] leading-tight">{{ title }}</h3>
+                    <h3 class="text-white font-serif text-[28px] leading-tight drop-shadow-md">{{ title }}</h3>
                 </div>
             </button>
         {% endfor %}
@@ -171,7 +188,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Encapsulate logic to prevent global variable leaks
     const sectionContainer = document.getElementById('cinematic-grid-{{ section.id }}');
     if (!sectionContainer) return;
 
@@ -253,21 +269,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function switchCineTab(blockId, tabNumber, modalContext) {
         if (!modalContext) return;
         
-        // Reset all tabs in this specific modal
         const allBtns = modalContext.querySelectorAll('.cine-tab-btn');
         const allContents = modalContext.querySelectorAll('.cine-tab-content');
         
         allBtns.forEach(b => b.classList.remove('active'));
         allContents.forEach(c => c.classList.remove('active'));
 
-        // Activate the clicked tab
         const activeBtn = modalContext.querySelector(`.cine-tab-btn[data-tab="${tabNumber}"]`);
         const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
         
         if (activeBtn) activeBtn.classList.add('active');
         if (activeContent) activeContent.classList.add('active');
 
-        // Handle video pausing/playing based on active tab
         const video = document.getElementById(`video-${blockId}`);
         if (video) {
             if (tabNumber !== '1') {
@@ -288,6 +301,22 @@ document.addEventListener('DOMContentLoaded', function() {
   "name": "Grid Reviews & Tabs",
   "max_blocks": 6,
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Titles"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real Stories, Preserved."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Watch how our customers turn their favorite memories into timeless heirlooms."
+    },
     {
       "type": "header",
       "content": "Global Tabs Configuration",

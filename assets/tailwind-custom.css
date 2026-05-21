@@ -2361,6 +2361,9 @@
   .whitespace-pre-line {
     white-space: pre-line;
   }
+  .text-\[\#111\] {
+    color: #111;
+  }
   .text-\[\#00529b\] {
     color: #00529b;
   }
