@@ -383,6 +383,9 @@
   .bottom-4 {
     bottom: calc(var(--spacing) * 4);
   }
+  .bottom-5 {
+    bottom: calc(var(--spacing) * 5);
+  }
   .bottom-6 {
     bottom: calc(var(--spacing) * 6);
   }
@@ -813,6 +816,9 @@
   .max-h-\[90vh\] {
     max-height: 90vh;
   }
+  .max-h-\[92vh\] {
+    max-height: 92vh;
+  }
   .max-h-\[140px\] {
     max-height: 140px;
   }
@@ -863,6 +869,9 @@
   }
   .w-10 {
     width: calc(var(--spacing) * 10);
+  }
+  .w-11 {
+    width: calc(var(--spacing) * 11);
   }
   .w-12 {
     width: calc(var(--spacing) * 12);
@@ -2231,8 +2240,14 @@
   .text-\[36px\] {
     font-size: 36px;
   }
+  .text-\[40px\] {
+    font-size: 40px;
+  }
   .text-\[42px\] {
     font-size: 42px;
+  }
+  .text-\[44px\] {
+    font-size: 44px;
   }
   .leading-\[0\.9\] {
     --tw-leading: 0.9;
@@ -4442,9 +4457,19 @@
       font-size: 52px;
     }
   }
+  .md\:text-\[56px\] {
+    @media (width >= 48rem) {
+      font-size: 56px;
+    }
+  }
   .md\:text-\[72px\] {
     @media (width >= 48rem) {
       font-size: 72px;
+    }
+  }
+  .md\:text-\[90px\] {
+    @media (width >= 48rem) {
+      font-size: 90px;
     }
   }
   .md\:group-hover\:opacity-100 {
