@@ -84,43 +84,27 @@
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
       "blocks": {
-        "book_pDKQFm": {
-          "type": "book",
+        "memory_AA7gpA": {
+          "type": "memory",
           "settings": {
-            "book_video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
-            "tag": "birthday",
-            "title": "The Big Day"
-          }
-        },
-        "book_44VYXB": {
-          "type": "book",
-          "settings": {
-            "book_video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
-            "tag": "wedding",
-            "title": "The Big Day"
-          }
-        },
-        "book_PNieEH": {
-          "type": "book",
-          "settings": {
-            "book_video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
-            "tag": "Weddings",
-            "title": "The Big Day"
+            "tag": "Always for ever",
+            "title": "The celebration day",
+            "video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov"
           }
         }
       },
       "block_order": [
-        "book_pDKQFm",
-        "book_44VYXB",
-        "book_PNieEH"
+        "memory_AA7gpA"
       ],
       "name": "Cinematic Showcase",
       "settings": {
-        "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
         "subtitle": "Experince",
         "heading": "",
-        "text": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion.",
-        "showcase_heading": "A Story For Every Occasion",
+        "tab_1_title": "The Video",
+        "tab_2_title": "Features",
+        "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+        "tab_3_title": "Craftsmanship",
+        "tab_3_text": "<p>Bound in premium artisan linen, designed to last lifetimes and be passed down as a true modern heirloom.</p>",
         "button_label": "Discover The Book",
         "button_link": "shopify://pages/all-products"
       }
