@@ -249,26 +249,42 @@ document.addEventListener('DOMContentLoaded', () => {
 function openCineModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
+    
     modal.classList.remove('hidden');
     modal.classList.add('flex');
+    
     setTimeout(() => {
         modal.classList.remove('opacity-0');
         modal.querySelector('.relative').classList.remove('scale-95');
         modal.querySelector('.relative').classList.add('scale-100');
     }, 10);
-    const video = modal.querySelector('.cine-video-player');
-    if (video) video.play();
+    
+    // Fix: Safely target the native video element and handle browser playback promises
+    const video = modal.querySelector('video');
+    if (video) {
+        video.currentTime = 0; // Start from beginning
+        let playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Browser policy paused auto-playback. User can use native controls.");
+            });
+        }
+    }
     document.body.style.overflow = 'hidden';
 }
 
 function closeCineModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
+    
     modal.classList.add('opacity-0');
     modal.querySelector('.relative').classList.remove('scale-100');
     modal.querySelector('.relative').classList.add('scale-95');
-    const video = modal.querySelector('.cine-video-player');
+    
+    // Fix: Safely pause native video
+    const video = modal.querySelector('video');
     if (video) video.pause();
+    
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
@@ -285,16 +301,24 @@ function switchCineTab(blockId, tabNumber) {
         if (btn) btn.classList.remove('active');
         if (content) content.classList.remove('active');
     }
+    
     const activeBtn = document.getElementById(`tab-btn-${tabNumber}-${blockId}`);
     const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
     if (activeBtn) activeBtn.classList.add('active');
     if (activeContent) activeContent.classList.add('active');
 
+    // Fix: Safely handle video playback on tab switch
     const modal = document.getElementById(`cine-modal-${blockId}`);
-    const video = modal.querySelector('.cine-video-player');
+    const video = modal.querySelector('video');
     if (video) {
-        if (tabNumber !== 1) video.pause();
-        else video.play();
+        if (tabNumber !== 1) {
+            video.pause();
+        } else {
+            let playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(e => console.log("Playback required interaction."));
+            }
+        }
     }
 }
 </script>
