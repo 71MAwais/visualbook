@@ -534,7 +534,7 @@
         "subtitle": "Begin Your Story",
         "title": "Ready to preserve\nwhat matters most?",
         "button_label": "Shop The Collection",
-        "button_link": ""
+        "button_link": "shopify://collections/all"
       }
     }
   },
