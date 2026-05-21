@@ -49,59 +49,48 @@
         </div>
     {% endif %}
 
-    {% comment %} THE 6-ITEM GRID {% endcomment %}
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+    {% comment %} THE DYNAMIC GRID {% endcomment %}
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 justify-center">
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
             <button type="button" 
-                 class="group relative aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer bg-[#111] text-left block w-full cine-modal-trigger transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(184,144,107,0.3)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA]" 
+                 class="group relative w-full bg-[#111] border border-[#222] rounded-xl p-8 text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(184,144,107,0.3)] hover:border-[#B8906B]/40 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] cine-modal-trigger overflow-hidden flex flex-col justify-between h-[220px]" 
                  data-modal-target="cine-modal-{{ block.id }}" 
                  aria-label="Experience the unboxing: {{ title }}"
                  {{ block.shopify_attributes }}>
                 
-                {% comment %} Thumbnail Image {% endcomment %}
-                {% if block.settings.cover_image != blank %}
-                    {{ block.settings.cover_image | image_url: width: 800 | image_tag: 
-                        class: 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-70',
-                        loading: 'lazy',
-                        alt: title 
-                    }}
-                {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-70 transition-opacity' }}
-                {% endif %}
+                {% comment %} Top Hover Gradient Border {% endcomment %}
+                <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#B8906B] to-[#e0c4a8] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
 
-                {% comment %} Overlays: Global Dim + Edge Protection {% endcomment %}
-                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500 pointer-events-none z-10"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 pointer-events-none z-10"></div>
-                <div class="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none z-30"></div>
-                
-                {% comment %} Top Bar: Tag & Duration {% endcomment %}
-                <div class="absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none z-20">
-                    {% if block.settings.tag != blank %}
-                        <span class="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest text-white border border-white/20 shadow-sm">
-                            {{ block.settings.tag | escape }}
-                        </span>
-                    {% endif %}
-                    
-                    {% if block.settings.video_duration != blank %}
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/50 backdrop-blur-md rounded-md text-[10px] font-bold tracking-wider text-white border border-white/10 shadow-sm">
-                            <svg class="w-3 h-3 text-[#B8906B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            {{ block.settings.video_duration | escape }}
-                        </span>
-                    {% endif %}
-                </div>
-
-                {% comment %} Center: Frosted Glass Play Button {% endcomment %}
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                    <div class="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 group-hover:bg-[#B8906B] group-hover:border-[#B8906B] group-hover:scale-110 transition-all duration-500 shadow-[0_8px_30px_rgba(0,0,0,0.2)]">
-                        <svg class="w-5 h-5 text-white ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        {% if block.settings.tag != blank %}
+                            <span class="inline-block px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase tracking-widest text-[#B8906B] font-bold border border-white/5">
+                                {{ block.settings.tag | escape }}
+                            </span>
+                        {% endif %}
+                        {% if block.settings.video_duration != blank %}
+                            <span class="text-white/40 text-[11px] font-bold tracking-wider font-sans">
+                                {{ block.settings.video_duration | escape }}
+                            </span>
+                        {% endif %}
                     </div>
+                    <h3 class="text-white font-serif text-[24px] leading-tight group-hover:text-[#B8906B] transition-colors duration-300">
+                        {{ title }}
+                    </h3>
+                    {% if block.settings.description != blank %}
+                        <p class="text-gray-400 font-sans text-[13px] mt-2 line-clamp-2 leading-relaxed">
+                            {{ block.settings.description | escape }}
+                        </p>
+                    {% endif %}
                 </div>
-
-                {% comment %} Bottom: Card Title {% endcomment %}
-                <div class="absolute bottom-5 left-5 right-5 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500 z-20">
-                    <h3 class="text-white font-serif text-[22px] md:text-[24px] leading-tight drop-shadow-lg">{{ title }}</h3>
+                
+                <div class="flex items-center gap-3 text-white/70 group-hover:text-white transition-colors mt-auto pt-4 border-t border-white/10">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#B8906B] transition-colors duration-300">
+                        <svg class="w-3.5 h-3.5 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span class="text-[11px] uppercase tracking-widest font-bold">Watch Unboxing</span>
                 </div>
             </button>
         {% endfor %}
@@ -117,7 +106,6 @@
          aria-modal="true" 
          aria-labelledby="modal-title-{{ block.id }}">
         
-        {% comment %} Modal Box Template Container {% endcomment %}
         <div class="relative w-full max-w-6xl max-h-[90vh] bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300 cine-modal-inner">
             
             {% comment %} Close Button {% endcomment %}
@@ -427,13 +415,19 @@ document.addEventListener('DOMContentLoaded', function() {
           "type": "text",
           "id": "tag",
           "label": "Category Tag",
-          "default": "Wedding"
+          "default": "Linen"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "The Big Day"
+          "default": "Classic Linen"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description",
+          "default": "The timeless, heirloom-quality videobook wrapped in artisan linen."
         },
         {
           "type": "text",
@@ -445,8 +439,8 @@ document.addEventListener('DOMContentLoaded', function() {
         {
           "type": "image_picker",
           "id": "cover_image",
-          "label": "Video Thumbnail / Cover",
-          "info": "Displays on the grid and maps inside modal backgrounds."
+          "label": "Modal Background Image",
+          "info": "Fills the background of Tab 2 and Tab 3 inside the modal."
         },
         {
           "type": "video",
