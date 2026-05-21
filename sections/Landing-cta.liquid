@@ -2,19 +2,16 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        /* Fades from dark charcoal on the left, to pure black in the middle, back to charcoal on the right */
-        background: linear-gradient(90deg, #161616 0%, #000000 50%, #161616 100%);
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
     .cta-glow {
-        /* Subtle luxury bronze glow layered perfectly over the black center */
-        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 65%);
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
     }
 </style>
 
-<section class="relative py-24 md:py-40 overflow-hidden" id="cta-{{ section.id }}">
+<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#FAFAFA] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
     <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center">
