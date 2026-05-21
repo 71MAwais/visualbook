@@ -31,18 +31,8 @@
     }
 </style>
 
-<section id="cinematic-grid-{{ section.id }}" class="w-full py-20 md:py-32 bg-[#FAFAFA] relative">
+<section id="cinematic-grid-{{ section.id }}" class="w-full py-12 md:py-24 bg-[#FAFAFA] relative">
     
-    {% comment %} SECTION HEADER {% endcomment %}
-    <div class="max-w-7xl mx-auto px-6 mb-16 text-center">
-        {% if section.settings.subtitle != blank %}
-            <span class="block font-sans text-[12px] md:text-[14px] text-[#B8906B] font-bold tracking-[0.3em] uppercase mb-4">{{ section.settings.subtitle }}</span>
-        {% endif %}
-        {% if section.settings.heading != blank %}
-            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] text-black leading-[1.1] tracking-tight">{{ section.settings.heading }}</h2>
-        {% endif %}
-    </div>
-
     {% comment %} THE 6-ITEM GRID {% endcomment %}
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {% for block in section.blocks limit: 6 %}
@@ -52,7 +42,7 @@
                 
                 {% comment %} Thumbnail Image {% endcomment %}
                 {% if block.settings.cover_image != blank %}
-                    <img src="{{ block.settings.cover_image | image_url: width: 800 }}" alt="{{ block.settings.title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-60" loading="lazy">
+                    <img src="{{ block.settings.cover_image | image_url: width: 800 }}" alt="{{ block.settings.title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-60" draggable="false" loading="lazy">
                 {% else %}
                     {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity' }}
                 {% endif %}
@@ -80,7 +70,7 @@
 {% for block in section.blocks limit: 6 %}
     <div id="cine-modal-{{ block.id }}" class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         
-        {% comment %} Modal Container {% endcomment %}
+        {% comment %} Modal Box Template Container {% endcomment %}
         <div class="relative w-full max-w-6xl max-h-[90vh] bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300" id="cine-modal-inner-{{ block.id }}">
             
             {% comment %} Close Button {% endcomment %}
@@ -106,26 +96,26 @@
                 </div>
 
                 {% comment %} TAB 2 CONTENT: FEATURES IMAGE {% endcomment %}
-                <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-16 flex flex-col justify-center">
+                <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center">
                     {% if block.settings.cover_image != blank %}
-                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-30" loading="lazy">
+                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" draggable="false" loading="lazy">
                     {% endif %}
-                    <div class="relative z-10">
-                        <h4 class="font-serif text-[32px] text-white mb-6">{{ section.settings.tab_2_title }}</h4>
-                        <div class="font-sans text-[16px] text-white/80 space-y-4 leading-relaxed">
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-xs font-bold mb-4">{{ section.settings.tab_2_title }}</h5>
+                        <div class="font-sans text-[15px] text-white/80 space-y-4 leading-relaxed">
                             {{ section.settings.tab_2_text }}
                         </div>
                     </div>
                 </div>
 
                 {% comment %} TAB 3 CONTENT: CRAFTSMANSHIP {% endcomment %}
-                <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-16 flex flex-col justify-center">
+                <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center">
                     {% if block.settings.cover_image != blank %}
-                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-30" loading="lazy">
+                         <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" draggable="false" loading="lazy">
                     {% endif %}
-                    <div class="relative z-10">
-                        <h4 class="font-serif text-[32px] text-white mb-6">{{ section.settings.tab_3_title }}</h4>
-                        <div class="font-sans text-[16px] text-white/80 space-y-4 leading-relaxed">
+                    <div class="relative z-10 w-full max-w-md mx-auto">
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-xs font-bold mb-4">{{ section.settings.tab_3_title }}</h5>
+                        <div class="font-sans text-[15px] text-white/80 space-y-4 leading-relaxed">
                             {{ section.settings.tab_3_text }}
                         </div>
                     </div>
@@ -151,7 +141,7 @@
                     </button>
                 </div>
 
-                {% comment %} Dynamic Text area below tabs (optional call to action) {% endcomment %}
+                {% comment %} Dynamic Text area below tabs {% endcomment %}
                 <div class="mt-auto pt-8">
                     <a href="{{ section.settings.button_link }}" class="inline-flex w-full items-center justify-center px-8 py-4 bg-white text-black font-sans text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full">
                         {{ section.settings.button_label | default: "Create Your Book" }}
@@ -171,18 +161,18 @@
         
         const modalBox = modal.firstElementChild;
         
-        // Show modal and trigger fade in
+        // Show modal layers
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        // Slight delay for animation classes to apply
+        // Fire transitions smoothly
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             modalBox.classList.remove('scale-95');
             modalBox.classList.add('scale-100');
         }, 10);
 
-        // SAFELY FIND AND PLAY THE VIDEO
+        // Play the inner loop video using its direct ID selector
         const blockId = modalId.replace('cine-modal-', '');
         const video = document.getElementById(`video-${blockId}`);
         if (video) {
@@ -190,12 +180,12 @@
             let playPromise = video.play();
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
-                    console.warn("Browser blocked autoplay. User must click play.", error);
+                    console.warn("Browser auto-play rules delayed execution.", error);
                 });
             }
         }
 
-        // Lock background scroll
+        // Lock global wrapper behind window viewport scroll
         document.body.style.overflow = 'hidden';
     }
 
@@ -206,32 +196,32 @@
         
         const modalBox = modal.firstElementChild;
         
-        // Trigger fade out
+        // Fire fade out transition layers
         modal.classList.add('opacity-0');
         modalBox.classList.remove('scale-100');
         modalBox.classList.add('scale-95');
 
-        // SAFELY PAUSE VIDEO
+        // Target target source video to pause tracking metrics
         const blockId = modalId.replace('cine-modal-', '');
         const video = document.getElementById(`video-${blockId}`);
         if (video) video.pause();
 
-        // Hide modal after animation
+        // Clear dynamic layout view spaces after standard duration frame timers
         setTimeout(() => {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             
-            // Reset to Tab 1 automatically on close
+            // Revert default interface to tab 1 mapping
             switchCineTab(blockId, 1);
         }, 300);
 
-        // Unlock background scroll
+        // Restore global background scrolling mechanics
         document.body.style.overflow = '';
     }
 
     // TAB SWITCHING LOGIC
     function switchCineTab(blockId, tabNumber) {
-        // 1. Reset all tabs for this specific modal
+        // Reset element selectors across target arrays
         for (let i = 1; i <= 3; i++) {
             const btn = document.getElementById(`tab-btn-${i}-${blockId}`);
             const content = document.getElementById(`tab-content-${i}-${blockId}`);
@@ -239,13 +229,13 @@
             if (content) content.classList.remove('active');
         }
 
-        // 2. Activate the clicked tab
+        // Apply updated parameters to active tracking indices
         const activeBtn = document.getElementById(`tab-btn-${tabNumber}-${blockId}`);
         const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
         if (activeBtn) activeBtn.classList.add('active');
         if (activeContent) activeContent.classList.add('active');
 
-        // 3. Pause video if switching AWAY from Tab 1
+        // Toggle context based audio elements when switching away from video nodes
         const video = document.getElementById(`video-${blockId}`);
         if (video) {
             if (tabNumber !== 1) {
@@ -254,7 +244,7 @@
                 let playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.warn("Browser blocked play on tab switch.", error);
+                        console.warn("Interface activation requested user trigger.", error);
                     });
                 }
             }
@@ -269,24 +259,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Section Header"
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "Real Moments"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "A Story For Every Occasion"
-    },
-    {
-      "type": "header",
       "content": "Global Tabs Configuration",
-      "info": "Tab 1 is automatically set to play the Video uploaded in each block."
+      "info": "Tab 1 automatically renders the video file assigned to each individual block."
     },
     {
       "type": "text",
@@ -355,13 +329,13 @@
           "type": "image_picker",
           "id": "cover_image",
           "label": "Grid Cover Image",
-          "info": "Displays on the grid and as a background in Tabs 2 and 3."
+          "info": "Displays on the grid and maps inside modal backgrounds."
         },
         {
           "type": "video",
           "id": "video",
           "label": "The Video",
-          "info": "Plays when the user clicks 'The Video' tab."
+          "info": "Plays natively inside Tab 1 content slots."
         }
       ]
     }
