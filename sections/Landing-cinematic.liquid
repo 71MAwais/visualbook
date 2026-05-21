@@ -1,11 +1,11 @@
-{% comment %} sections/cinematic-scroll-grid.liquid {% endcomment %}
+{% comment %} sections/cinematic-hero-and-grid.liquid {% endcomment %}
 
 <style>
-#cinematic-scroll-{{ section.id }} {
+#cinematic-wrapper-{{ section.id }} {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-#cinematic-scroll-{{ section.id }} .font-serif {
+#cinematic-wrapper-{{ section.id }} .font-serif {
     font-family: 'Playfair Display', serif;
 }
 
@@ -15,129 +15,144 @@
 }
 
 /* Modal Scrollbar */
-.modal-scroll::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal-scroll::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.modal-scroll::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 10px;
-}
+.modal-scroll::-webkit-scrollbar { width: 6px; }
+.modal-scroll::-webkit-scrollbar-track { background: transparent; }
+.modal-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
 /* Tabs */
-.cine-tab-btn.active {
-    color: #B8906B;
-    border-bottom-color: #B8906B;
-}
-
-.cine-tab-content {
-    display: none;
-    animation: fadeIn .35s ease forwards;
-}
-
-.cine-tab-content.active {
-    display: flex;
-}
+.cine-tab-btn.active { color: #B8906B; border-bottom-color: #B8906B; }
+.cine-tab-content { display: none; animation: fadeIn .35s ease forwards; }
+.cine-tab-content.active { display: flex; }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+/* Bouncing Scroll Instruction */
+@keyframes subtle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+.animate-subtle-bounce { animation: subtle-bounce 2s ease-in-out infinite; }
+
+/* UI Buttons */
+.cine-exit-btn { transition: all 0.3s ease; cursor: pointer; }
+.cine-exit-btn:hover { color: #B8906B !important; transform: rotate(180deg) translateY(-5px); }
 </style>
 
-<section id="cinematic-scroll-{{ section.id }}" class="w-full h-[250vh] relative bg-[#FAFAFA]">
+<div id="cinematic-wrapper-{{ section.id }}" class="w-full bg-[#FAFAFA]">
 
-    <div id="cinematic-sticky-{{ section.id }}"
-         class="sticky top-0 w-full h-[100dvh] overflow-hidden flex items-center justify-center z-40 transition-all duration-0">
+    {% comment %} ==========================================
+      PART 1: CINEMATIC SCROLL HERO (Header Hidden)
+    ======================================================== {% endcomment %}
+    <section id="cinematic-scroll-{{ section.id }}" class="w-full h-[150vh] relative">
 
-        <div id="cinematic-bg-{{ section.id }}"
-             class="will-change-transform absolute inset-0 bg-black overflow-hidden flex items-center justify-center origin-center"
-             style="transform: scale(.85); border-radius:32px;">
+        <div id="cinematic-sticky-{{ section.id }}"
+             class="sticky top-0 w-full h-[100dvh] overflow-hidden flex items-center justify-center z-40 transition-all duration-0">
 
-            {% if section.settings.background_video != blank %}
-                <video autoplay muted loop playsinline
-                       class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false">
-                    {% for source in section.settings.background_video.sources %}
-                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
-                    {% endfor %}
-                </video>
-            {% elsif section.settings.image != blank %}
-                <img src="{{ section.settings.image | image_url: width: 2400 }}"
-                     class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false" loading="lazy">
-            {% endif %}
+            <div id="cinematic-bg-{{ section.id }}"
+                 class="will-change-transform absolute inset-0 bg-black overflow-hidden flex items-center justify-center origin-center"
+                 style="transform: scale(.85); border-radius:32px;">
 
-            <div id="cinematic-overlay-{{ section.id }}"
-                 class="absolute inset-0 bg-[#050505] opacity-30 transition-opacity duration-500"></div>
+                {% if section.settings.background_video != blank %}
+                    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false">
+                        {% for source in section.settings.background_video.sources %}
+                            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                        {% endfor %}
+                    </video>
+                {% elsif section.settings.image != blank %}
+                    <img src="{{ section.settings.image | image_url: width: 2400 }}" class="absolute inset-0 w-full h-full object-cover opacity-80" draggable="false" loading="lazy">
+                {% else %}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 bg-[#222]' }}
+                {% endif %}
+
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/30 to-transparent"></div>
+            </div>
+
+            <div id="cinematic-text-{{ section.id }}"
+                 class="will-change-transform absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 opacity-0 pointer-events-none">
+
+                {% if section.settings.subtitle != blank %}
+                <span class="text-[#B8906B] uppercase tracking-[0.3em] text-xs font-bold mb-5 drop-shadow-md">
+                    {{ section.settings.subtitle }}
+                </span>
+                {% endif %}
+
+                <h2 class="font-serif text-white text-[44px] md:text-[90px] leading-none mb-6 drop-shadow-xl tracking-tight">
+                    {{ section.settings.heading }}
+                </h2>
+
+                <p class="text-white/80 text-[16px] md:text-[20px] font-light max-w-2xl leading-relaxed">
+                    {{ section.settings.text }}
+                </p>
+            </div>
+
+            <div id="cinematic-ui-{{ section.id }}" class="absolute inset-0 z-30 pointer-events-none opacity-0 transition-opacity duration-500">
+                
+                <div class="absolute left-4 md:left-10 top-0 bottom-0 flex flex-col items-center justify-center pointer-events-auto">
+                    <button id="cinematic-exit-up-{{ section.id }}" class="cine-exit-btn font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+                        Exit Up
+                    </button>
+                    
+                    <div class="relative w-[1px] h-[80px] md:h-[120px] bg-white/10 my-6 overflow-hidden">
+                        <div id="cinematic-progress-{{ section.id }}" class="absolute top-0 left-0 w-full h-full bg-white origin-top" style="transform: scaleY(0);"></div>
+                    </div>
+                    
+                    <button id="cinematic-exit-down-{{ section.id }}" class="cine-exit-btn font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 flex flex-col items-center gap-2" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+                        Skip Down
+                    </button>
+                </div>
+
+                <div class="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/70">
+                    <span class="font-sans text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase drop-shadow-md">Scroll to Explore</span>
+                    <svg class="w-4 h-4 animate-subtle-bounce text-[#B8906B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                </div>
+
+            </div>
+
         </div>
 
-        <div id="cinematic-slide-1-{{ section.id }}"
-             class="will-change-transform absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 opacity-0 pointer-events-none">
+    </section>
 
-            {% if section.settings.subtitle != blank %}
-            <span class="text-[#B8906B] uppercase tracking-[0.3em] text-xs font-bold mb-5 drop-shadow-md">
-                {{ section.settings.subtitle }}
-            </span>
-            {% endif %}
 
-            {% if section.settings.heading != blank %}
-            <h2 class="font-serif text-white text-[44px] md:text-[90px] leading-none mb-6 drop-shadow-xl tracking-tight">
-                {{ section.settings.heading }}
-            </h2>
-            {% endif %}
-
-            {% if section.settings.text != blank %}
-            <p class="text-white/80 text-[16px] md:text-[20px] font-light max-w-2xl leading-relaxed">
-                {{ section.settings.text }}
-            </p>
-            {% endif %}
-        </div>
-
-        <div id="cinematic-slide-2-{{ section.id }}"
-             class="will-change-transform absolute inset-0 z-20 flex flex-col items-center justify-center opacity-0 pointer-events-none px-4 md:px-8">
-
+    {% comment %} ==========================================
+      PART 2: SIMPLE STATIC GRID (2x2 Mobile, 3x3 Desktop)
+    ======================================================== {% endcomment %}
+    <section id="cinematic-grid-section-{{ section.id }}" class="w-full py-20 md:py-32 relative z-10 bg-[#FAFAFA]">
+        
+        <div class="w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
+            
             {% if section.settings.grid_heading != blank %}
-            <h3 class="font-serif text-white text-[30px] md:text-[48px] mb-10 text-center tracking-tight drop-shadow-lg">
+            <h3 class="font-serif text-black text-[30px] md:text-[48px] mb-12 text-center tracking-tight">
                 {{ section.settings.grid_heading }}
             </h3>
             {% endif %}
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-5xl">
-                {% for block in section.blocks limit: 6 %}
-                    <div class="group relative aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer bg-[#111] shadow-lg hover:shadow-2xl transition-all duration-500"
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 w-full">
+                {% for block in section.blocks %}
+                    <div class="group relative aspect-square md:aspect-[4/5] rounded-xl overflow-hidden cursor-pointer bg-[#111] shadow-lg hover:shadow-2xl transition-all duration-500"
                          onclick="openCineModal('cine-modal-{{ block.id }}')" {{ block.shopify_attributes }}>
 
                         {% if block.settings.cover_image != blank %}
-                            <img src="{{ block.settings.cover_image | image_url: width: 800 }}"
-                                 class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-50 transition-transform duration-700" loading="lazy">
+                            <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-50 transition-transform duration-700" loading="lazy">
                         {% else %}
-                            {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity' }}
+                            {{ 'product-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity' }}
                         {% endif %}
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
 
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover:bg-[#B8906B] group-hover:border-[#B8906B] transition-colors duration-300">
-                                <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover:bg-[#B8906B] group-hover:border-[#B8906B] transition-colors duration-300">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
 
-                        <div class="absolute bottom-5 left-5 right-5">
-                            <span class="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] uppercase tracking-widest text-white mb-3">
+                        <div class="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6">
+                            <span class="inline-block px-2 py-1 md:px-3 md:py-1 rounded-full bg-white/20 backdrop-blur-md text-[8px] md:text-[10px] uppercase tracking-widest text-white mb-2">
                                 {{ block.settings.tag }}
                             </span>
-                            <h4 class="text-white text-[20px] md:text-[28px] font-serif leading-tight">
+                            <h4 class="text-white text-[18px] md:text-[28px] font-serif leading-tight">
                                 {{ block.settings.title }}
                             </h4>
                         </div>
@@ -146,30 +161,27 @@
             </div>
 
         </div>
+    </section>
 
-    </div>
+</div>
 
-</section>
 
-{% for block in section.blocks limit: 6 %}
+{% comment %} ==========================================
+  MODALS (Placed safely at bottom of file)
+======================================================== {% endcomment %}
+{% for block in section.blocks %}
 
-<div id="cine-modal-{{ block.id }}"
-     class="fixed inset-0 z- hidden items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 opacity-0 transition-opacity duration-300">
+<div id="cine-modal-{{ block.id }}" class="fixed inset-0 z- hidden items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 opacity-0 transition-opacity duration-300">
 
     <div class="relative w-full max-w-6xl max-h-[92vh] bg-[#0A0A0A] border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300">
 
-        <button onclick="closeCineModal('cine-modal-{{ block.id }}')"
-                class="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-[#B8906B] transition-colors">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
+        <button onclick="closeCineModal('cine-modal-{{ block.id }}')" class="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center hover:bg-[#B8906B] transition-colors">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
 
         <div class="w-full md:w-1/2 bg-black relative aspect-video md:aspect-auto flex items-center justify-center">
 
-            <div id="tab-content-1-{{ block.id }}"
-                 class="cine-tab-content active absolute inset-0 w-full h-full">
-
+            <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full">
                 {% if block.settings.video != blank %}
                     <video id="video-{{ block.id }}" class="w-full h-full object-contain bg-black" controls playsinline preload="metadata">
                         {% for source in block.settings.video.sources %}
@@ -179,37 +191,33 @@
                 {% else %}
                     <div class="w-full h-full flex items-center justify-center text-white/50 text-sm">No video uploaded</div>
                 {% endif %}
-
             </div>
 
-            <div id="tab-content-2-{{ block.id }}"
-                 class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center">
+            <div id="tab-content-2-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center">
                 {% if block.settings.cover_image != blank %}
                     <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy">
                 {% endif %}
                 <div class="relative z-10 w-full max-w-md mx-auto">
-                    <div class="mb-10">
-                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-xs font-bold mb-4">Core Features</h5>
-                        <ul class="space-y-3 text-white/80 text-[15px]">
+                    <div class="mb-8 md:mb-10">
+                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-4">Core Features</h5>
+                        <ul class="space-y-3 text-white/80 text-[14px] md:text-[15px]">
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Premium cinematic playback</li>
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Instant auto-play experience</li>
-                            <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Emotional memory storytelling</li>
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-[#B8906B] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Luxury handcrafted presentation</li>
                         </ul>
                     </div>
 
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="p-5 md:p-6 rounded-2xl bg-white/5 border border-white/10">
                         <div class="flex gap-1 text-[#B8906B] mb-4">
                             {% for i in (1..5) %}<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}
                         </div>
-                        <p class="text-white/90 text-[15px] italic mb-4">"{{ block.settings.review_text }}"</p>
-                        <span class="text-white/50 uppercase tracking-widest text-xs font-bold">— {{ block.settings.author }}</span>
+                        <p class="text-white/90 text-[14px] md:text-[15px] italic mb-4">"{{ block.settings.review_text }}"</p>
+                        <span class="text-white/50 uppercase tracking-widest text-[10px] font-bold">— {{ block.settings.author }}</span>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-content-3-{{ block.id }}"
-                 class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center text-center">
+            <div id="tab-content-3-{{ block.id }}" class="cine-tab-content absolute inset-0 w-full h-full p-8 md:p-12 flex-col justify-center text-center">
                 {% if block.settings.cover_image != blank %}
                     <img src="{{ block.settings.cover_image | image_url: width: 800 }}" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy">
                 {% endif %}
@@ -217,8 +225,8 @@
                     <div class="w-16 h-16 mx-auto rounded-full bg-[#B8906B]/20 flex items-center justify-center text-[#B8906B] mb-6">
                         <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                     </div>
-                    <h4 class="font-serif text-white text-[32px] md:text-[34px] mb-6">The Perfect Gift</h4>
-                    <p class="text-white/80 text-[16px] leading-relaxed">{{ block.settings.usecase_text }}</p>
+                    <h4 class="font-serif text-white text-[28px] md:text-[34px] mb-6">The Perfect Gift</h4>
+                    <p class="text-white/80 text-[15px] md:text-[16px] leading-relaxed">{{ block.settings.usecase_text }}</p>
                 </div>
             </div>
 
@@ -230,28 +238,24 @@
                 {{ block.settings.tag }}
             </span>
 
-            <h3 class="font-serif text-white text-[40px] md:text-[56px] leading-none mb-10">
+            <h3 class="font-serif text-white text-[32px] md:text-[56px] leading-none mb-8 md:mb-10">
                 {{ block.settings.title }}
             </h3>
 
-            <div class="flex gap-6 border-b border-white/10 mb-10">
-                <button id="tab-btn-1-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',1)"
-                        class="cine-tab-btn active pb-4 text-white/50 uppercase tracking-widest text-[11px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
+            <div class="flex gap-4 md:gap-6 border-b border-white/10 mb-8 md:mb-10">
+                <button id="tab-btn-1-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',1)" class="cine-tab-btn active pb-4 text-white/50 uppercase tracking-widest text-[10px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
                     {{ section.settings.tab_1_title }}
                 </button>
-                <button id="tab-btn-2-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',2)"
-                        class="cine-tab-btn pb-4 text-white/50 uppercase tracking-widest text-[11px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
+                <button id="tab-btn-2-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',2)" class="cine-tab-btn pb-4 text-white/50 uppercase tracking-widest text-[10px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
                     {{ section.settings.tab_2_title }}
                 </button>
-                <button id="tab-btn-3-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',3)"
-                        class="cine-tab-btn pb-4 text-white/50 uppercase tracking-widest text-[11px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
+                <button id="tab-btn-3-{{ block.id }}" onclick="switchCineTab('{{ block.id }}',3)" class="cine-tab-btn pb-4 text-white/50 uppercase tracking-widest text-[10px] md:text-xs font-bold border-b-2 border-transparent transition-colors hover:text-white">
                     {{ section.settings.tab_3_title }}
                 </button>
             </div>
 
-            <div class="mt-auto pt-10">
-                <a href="{{ section.settings.button_link }}"
-                   class="w-full inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-black uppercase tracking-widest text-xs font-bold hover:bg-[#B8906B] hover:text-white transition-colors duration-300">
+            <div class="mt-auto pt-6 md:pt-10">
+                <a href="{{ section.settings.button_link }}" class="w-full inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-black uppercase tracking-widest text-xs font-bold hover:bg-[#B8906B] hover:text-white transition-colors duration-300">
                     {{ section.settings.button_label | default: 'Create Your Book' }}
                 </a>
             </div>
@@ -272,9 +276,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const section = document.getElementById(`cinematic-scroll-${sectionId}`);
     const sticky = document.getElementById(`cinematic-sticky-${sectionId}`);
     const bg = document.getElementById(`cinematic-bg-${sectionId}`);
-    const overlay = document.getElementById(`cinematic-overlay-${sectionId}`);
-    const slide1 = document.getElementById(`cinematic-slide-1-${sectionId}`);
-    const slide2 = document.getElementById(`cinematic-slide-2-${sectionId}`);
+    const textLayer = document.getElementById(`cinematic-text-${sectionId}`);
+    const uiLayer = document.getElementById(`cinematic-ui-${sectionId}`);
+    const progressBar = document.getElementById(`cinematic-progress-${sectionId}`);
+    
+    const gridSection = document.getElementById(`cinematic-grid-section-${sectionId}`);
+    const btnExitUp = document.getElementById(`cinematic-exit-up-${sectionId}`);
+    const btnExitDown = document.getElementById(`cinematic-exit-down-${sectionId}`);
+
+    // UI Buttons Action
+    if(btnExitUp) btnExitUp.addEventListener('click', () => window.scrollTo({ top: section.offsetTop - 100, behavior: 'smooth' }));
+    if(btnExitDown) btnExitDown.addEventListener('click', () => window.scrollTo({ top: gridSection.offsetTop, behavior: 'smooth' }));
 
     if (!section) return;
 
@@ -284,53 +296,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const wh = window.innerHeight;
         const total = rect.height - wh;
 
+        // Progress 0 to 1 as user scrolls through the 150vh section
         let progress = Math.min(Math.max(-rect.top / total, 0), 1);
 
         if (rect.top <= 0 && rect.bottom >= wh) {
 
+            // Hide Global Header
             sticky.style.zIndex = '999999';
 
-            let zoom = Math.min(progress / .3, 1);
-
+            // Background Zoom Logic
+            let zoom = Math.min(progress / .5, 1);
             bg.style.transform = `scale(${0.85 + (0.15 * zoom)})`;
             bg.style.borderRadius = `${32 - (32 * zoom)}px`;
 
-            // Phase 1 Fade
-            if (progress < .5) {
-                let fadeIn = Math.min(progress / .15, 1);
-                let fadeOut = 1 - Math.max((progress - .35) / .15, 0);
-
-                slide1.style.opacity = Math.min(fadeIn, fadeOut);
-                slide1.style.transform = `translateY(${(1 - fadeOut) * -30}px)`;
-            } else {
-                slide1.style.opacity = 0;
-            }
-
-            // Phase 2 Fade
-            if (progress >= .45) {
-                let gridFade = Math.min((progress - .45) / .2, 1);
-
-                slide2.style.opacity = gridFade;
-                slide2.style.pointerEvents = 'auto';
-                slide2.style.transform = `translateY(${(1 - gridFade) * 40}px)`;
-
-                // Dim the background more so grid pops
-                overlay.style.opacity = 0.4 + (0.4 * gridFade); 
-            } else {
-                slide2.style.opacity = 0;
-                slide2.style.pointerEvents = 'none';
-                overlay.style.opacity = 0.3; // Reset background brightness
-            }
+            // Text & UI Fade Logic
+            let fade = Math.min(progress / .3, 1);
+            textLayer.style.opacity = fade;
+            uiLayer.style.opacity = fade;
+            
+            if(progressBar) progressBar.style.transform = `scaleY(${progress})`;
 
         } else {
+            // Un-hide Global Header
             sticky.style.zIndex = '40';
             
             if (rect.top > 0) {
+                // Reset to default if user scrolls above section
                 bg.style.transform = `scale(0.85)`;
                 bg.style.borderRadius = `32px`;
-                slide1.style.opacity = 0;
-                slide2.style.opacity = 0;
-                overlay.style.opacity = 0.3;
+                textLayer.style.opacity = 0;
+                uiLayer.style.opacity = 0;
             }
         }
 
@@ -339,9 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function openCineModal(modalId) {
-
     const modal = document.getElementById(modalId);
-
     if (!modal) return;
 
     const modalBox = modal.firstElementChild;
@@ -367,9 +360,7 @@ function openCineModal(modalId) {
 }
 
 function closeCineModal(modalId) {
-
     const modal = document.getElementById(modalId);
-
     if (!modal) return;
 
     const modalBox = modal.firstElementChild;
@@ -395,7 +386,6 @@ function closeCineModal(modalId) {
 }
 
 function switchCineTab(blockId, tabNumber) {
-
     for (let i = 1; i <= 3; i++) {
         const btn = document.getElementById(`tab-btn-${i}-${blockId}`);
         const content = document.getElementById(`tab-content-${i}-${blockId}`);
@@ -424,17 +414,17 @@ function switchCineTab(blockId, tabNumber) {
 
 {% schema %}
 {
-  "name": "Cinematic Scroll Grid",
-  "max_blocks": 6,
+  "name": "Cinematic Hero & Grid",
+  "max_blocks": 9,
   "settings": [
     {
       "type": "header",
-      "content": "Phase 1: Background & Intro Slide"
+      "content": "Part 1: Cinematic Hero"
     },
     {
       "type": "video",
       "id": "background_video",
-      "label": "Background Video (Main Hero)"
+      "label": "Background Video"
     },
     {
       "type": "image_picker",
@@ -461,7 +451,7 @@ function switchCineTab(blockId, tabNumber) {
     },
     {
       "type": "header",
-      "content": "Phase 2: The Grid Slide"
+      "content": "Part 2: Static Grid Area"
     },
     {
       "type": "text",
@@ -471,7 +461,7 @@ function switchCineTab(blockId, tabNumber) {
     },
     {
       "type": "header",
-      "content": "Global Tabs Configuration"
+      "content": "Global Modal Tabs Configuration"
     },
     {
       "type": "text",
@@ -554,8 +544,10 @@ function switchCineTab(blockId, tabNumber) {
   ],
   "presets": [
     {
-      "name": "Cinematic Scroll Grid",
+      "name": "Cinematic Hero & Grid",
       "blocks": [
+        { "type": "memory" },
+        { "type": "memory" },
         { "type": "memory" },
         { "type": "memory" },
         { "type": "memory" },
