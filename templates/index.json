@@ -83,38 +83,15 @@
     },
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
-      "blocks": {
-        "feature_9hwL6R": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "background_video": "shopify://files/videos/video.mp4",
-            "icon": "aperture"
-          }
-        },
-        "feature_e4pbBn": {
-          "type": "feature",
-          "settings": {
-            "number": "01",
-            "title": "Vivid Memory Display",
-            "subtitle": "A stunning 8-inch retina screen that brings your personalized stories to life.",
-            "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
-            "icon": "aperture"
-          }
-        }
-      },
-      "block_order": [
-        "feature_9hwL6R",
-        "feature_e4pbBn"
-      ],
       "name": "Cinematic Showcase",
       "settings": {
+        "background_video": "shopify://files/videos/video.mp4",
+        "image": "shopify://shop_images/bba_1770874385698d6611425941907.png",
         "subtitle": "Experince",
         "heading": "",
-        "instruction_text": "Swipe or Drag to Explore",
-        "autoplay_speed": 4
+        "text": "Open the cover and instantly transport back to your most cherished moments. No apps, no loading, just pure emotion.",
+        "button_label": "Discover The Book",
+        "button_link": "shopify://pages/all-products"
       }
     },
     "landing_feature_grid_hG6MFa": {
