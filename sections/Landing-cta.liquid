@@ -2,39 +2,102 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
+        /* The outer background matches the footer to create a seamless track */
+        background-color: #050505; 
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
-    .cta-glow {
-        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
+
+    /* The Contained Floating Card */
+    .cta-container {
+        position: relative;
+        background: linear-gradient(145deg, #1c1a18 0%, #0a0908 100%);
+        border: 1px solid rgba(184, 144, 107, 0.15);
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    @media (min-width: 768px) {
+        .cta-container {
+            border-radius: 36px;
+        }
+    }
+
+    /* Architectural Glow Lines */
+    .cta-glow-line {
+        position: absolute;
+        top: 0;
+        left: 10%;
+        width: 80%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(184, 144, 107, 0.6) 50%, transparent 100%);
+    }
+
+    .cta-glow-ambient {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 0%, rgba(184, 144, 107, 0.12) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    /* Magnetic Pop Button */
+    .cta-magnetic-btn {
+        background-color: #ffffff;
+        color: #000000;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .cta-magnetic-btn:hover {
+        background-color: #B8906B;
+        color: #ffffff;
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -10px rgba(184, 144, 107, 0.5);
     }
 </style>
 
-<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#1A1A1A] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
-    <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
-    
-    <div class="relative z-10 text-center px-5 flex flex-col items-center">
-        {% if section.settings.subtitle != blank %}
-            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-4">
-                {{ section.settings.subtitle }}
-            </p>
-        {% endif %}
+<section id="cta-{{ section.id }}" class="py-12 md:py-24 px-4 md:px-8">
+    <div class="cta-container max-w-[1400px] mx-auto py-24 md:py-36 px-6 text-center flex flex-col items-center">
         
-        {% if section.settings.title != blank %}
-            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] font-medium tracking-tight text-white mb-10 leading-[1.1] drop-shadow-md">
-                {{ section.settings.title | newline_to_br }}
-            </h2>
+        {% comment %} Inner Lighting Elements {% endcomment %}
+        <div class="cta-glow-line"></div>
+        <div class="cta-glow-ambient"></div>
+
+        {% comment %} Optional Background Texture {% endcomment %}
+        {% if section.settings.bg_image != blank %}
+            <img src="{{ section.settings.bg_image | image_url: width: 2000 }}" 
+                 alt="Background Texture" 
+                 class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-screen pointer-events-none z-0"
+                 loading="lazy">
         {% endif %}
-        
-        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-            <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white shadow-xl">
-                <span>{{ section.settings.button_label }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
-                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                </svg>
-            </a>
-        {% endif %}
+
+        <div class="relative z-10 max-w-3xl">
+            {% if section.settings.subtitle != blank %}
+                <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-6 drop-shadow-md">
+                    {{ section.settings.subtitle }}
+                </p>
+            {% endif %}
+            
+            {% if section.settings.title != blank %}
+                <h2 class="font-serif text-[40px] md:text-[56px] lg:text-[72px] font-medium tracking-tight text-white mb-10 leading-[1.05] drop-shadow-xl">
+                    {{ section.settings.title | newline_to_br }}
+                </h2>
+            {% endif %}
+            
+            {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+                <a href="{{ section.settings.button_link }}" class="cta-magnetic-btn font-sans inline-flex items-center justify-center px-10 py-4 md:px-12 md:py-5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold rounded-sm mt-4">
+                    <span>{{ section.settings.button_label }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
+                        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </section>
 
@@ -42,6 +105,12 @@
 {
   "name": "Call to Action",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Texture (Optional)",
+      "info": "Upload an image to add a subtle cinematic texture behind the text."
+    },
     {
       "type": "text",
       "id": "subtitle",
