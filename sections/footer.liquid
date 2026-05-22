@@ -1,56 +1,91 @@
 {% comment %} sections/footer.liquid {% endcomment %}
 <style>
     .luxury-fast { transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+
+    /* Custom overrides for the native social-icons snippet */
+    .footer-social-icons {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.25rem; /* 20px */
+        margin-top: 1.75rem; /* mt-7 */
+        padding: 0;
+        list-style: none;
+    }
+    .footer-social-icons .list-social__item {
+        display: flex;
+    }
+    .footer-social-icons .list-social__link {
+        /* BOOSTED CONTRAST: From 0.6 to 0.85 */
+        color: rgba(255, 255, 255, 0.85);
+        transition: color 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+    .footer-social-icons .list-social__link:hover {
+        color: #B8906B;
+        transform: translateY(-2px); /* Added slight lift on hover for better interaction feedback */
+    }
+    .footer-social-icons .svg-wrapper {
+        display: flex;
+    }
+    .footer-social-icons .svg-wrapper svg {
+        width: 20px; /* Slightly larger icons for visibility */
+        height: 20px;
+        fill: currentColor;
+    }
 </style>
 
-<footer id="contact-{{ section.id }}" class="bg-[#050505] pt-10 pb-8 border-t border-white/5">
+<footer id="contact-{{ section.id }}" class="bg-[#050505] pt-12 pb-10 border-t border-white/10">
     <div class="max-w-[1600px] mx-auto px-5 md:px-8">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
             
             {% comment %} Brand & Social Column {% endcomment %}
             <div>
-                <span class="font-serif text-2xl text-white font-semibold">{{ section.settings.brand_name }}</span>
-                <span class="block text-[9px] uppercase tracking-[0.25em] text-white/70 mt-0.5">{{ section.settings.city }}</span>
-                <p class="text-sm text-white/80 leading-relaxed mt-4 max-w-xs">{{ section.settings.brand_description }}</p>
+                <span class="font-serif text-[28px] text-white font-semibold tracking-wide">{{ section.settings.brand_name }}</span>
+                <span class="block text-[11px] font-bold uppercase tracking-[0.25em] text-white/80 mt-1">{{ section.settings.city }}</span>
+                <p class="text-[15px] text-white/90 leading-relaxed mt-5 max-w-sm">{{ section.settings.brand_description }}</p>
                 
                 {% comment %} Custom Built-in Social Links {% endcomment %}
-                <div class="flex items-center gap-5 mt-7">
+                <div class="flex items-center gap-6 mt-8">
                     {% if section.settings.social_instagram != blank %}
-                        <a href="{{ section.settings.social_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-white/60 hover:text-[#B8906B] luxury-fast block">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <a href="{{ section.settings.social_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-white/80 hover:text-[#B8906B] luxury-fast block hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.98a1.44 1.44 0 100-2.881 1.44 1.44 0 000 2.88z"/>
                             </svg>
                         </a>
                     {% endif %}
                     
                     {% if section.settings.social_pinterest != blank %}
-                        <a href="{{ section.settings.social_pinterest }}" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" class="text-white/60 hover:text-[#B8906B] luxury-fast block">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <a href="{{ section.settings.social_pinterest }}" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" class="text-white/80 hover:text-[#B8906B] luxury-fast block hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.951-7.252 4.168 0 7.41 2.967 7.41 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.367 18.624 0 12.017 0z"/>
                             </svg>
                         </a>
                     {% endif %}
 
                     {% if section.settings.social_tiktok != blank %}
-                        <a href="{{ section.settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="text-white/60 hover:text-[#B8906B] luxury-fast block">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <a href="{{ section.settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="text-white/80 hover:text-[#B8906B] luxury-fast block hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                             </svg>
                         </a>
                     {% endif %}
 
                     {% if section.settings.social_facebook != blank %}
-                        <a href="{{ section.settings.social_facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-white/60 hover:text-[#B8906B] luxury-fast block">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <a href="{{ section.settings.social_facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-white/80 hover:text-[#B8906B] luxury-fast block hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/>
                             </svg>
                         </a>
                     {% endif %}
 
                     {% if section.settings.social_amazon != blank %}
-                        <a href="{{ section.settings.social_amazon }}" target="_blank" rel="noopener noreferrer" aria-label="Amazon" class="text-white/60 hover:text-[#B8906B] luxury-fast block">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <a href="{{ section.settings.social_amazon }}" target="_blank" rel="noopener noreferrer" aria-label="Amazon" class="text-white/80 hover:text-[#B8906B] luxury-fast block hover:-translate-y-0.5">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M15.42 17.51c-2.07 1.4-5.33 2.14-8.15.54-.62-.35-.29-1.22.37-.99 2.95.96 6.09.43 8.35-1.36.42-.33 1.01.21.94.81l-1.51 1zM17.1 16.03l1.52.88c.57.33.11 1.18-.55 1.01l-1.49-.38c-.3-.08-.39-.47-.13-.65l1.13-.93c.27-.23.75.14.5.55l-.46.42v-.03z M11.83 5.4c-2.3 0-3.61 1.54-3.61 3.93s1.26 3.94 3.58 3.94c1.33 0 2.5-.56 3.08-1.55l-.01.1c.02.43.01.86.01 1.28 0 .43.12.56.55.56h2.24V4.76c0-2.45-1.54-3.79-4.22-3.79-2.38 0-4.24 1.1-4.45 2.86l2.3.26c.15-1 .85-1.46 1.95-1.46 1.18 0 1.86.58 1.86 1.81v.83c-.87-.3-1.87-.5-2.84-.5zm.77 6.13c-1.12 0-1.81-.59-1.81-1.68 0-1.14.86-1.73 2.17-1.73.66 0 1.32.14 1.85.39v1.65c-.56.88-1.42 1.37-2.21 1.37z" />
                             </svg>
                         </a>
@@ -60,22 +95,22 @@
             
             {% comment %} Navigation Column {% endcomment %}
             <div>
-                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/90 font-semibold mb-4">{{ section.settings.menu_title }}</h4>
-                <nav class="flex flex-col gap-3">
+                <h4 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.menu_title }}</h4>
+                <nav class="flex flex-col gap-3.5">
                     {% if section.settings.footer_menu != blank %}
                         {% for link in linklists[section.settings.footer_menu].links %}
-                            <a href="{{ link.url }}" class="text-sm text-white/80 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                            <a href="{{ link.url }}" class="text-[15px] text-white/90 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
                         {% endfor %}
                     {% else %}
-                        <a href="#" class="text-sm text-white/80 hover:text-[#B8906B] luxury-fast">Please select a menu in theme settings</a>
+                        <a href="#" class="text-[15px] text-white/90 hover:text-[#B8906B] luxury-fast">Please select a menu in theme settings</a>
                     {% endif %}
                 </nav>
             </div>
             
             {% comment %} Newsletter Column {% endcomment %}
             <div>
-                <h4 class="text-[10px] uppercase tracking-[0.2em] text-white/90 font-semibold mb-4">{{ section.settings.newsletter_title }}</h4>
-                <p class="text-sm text-white/80 mb-4">{{ section.settings.newsletter_text }}</p>
+                <h4 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.newsletter_title }}</h4>
+                <p class="text-[15px] text-white/90 mb-5">{{ section.settings.newsletter_text }}</p>
                 
                 {% form 'customer', class: 'flex relative' %}
                     <input type="hidden" name="contact[tags]" value="newsletter">
@@ -86,21 +121,21 @@
                             name="contact[email]" 
                             id="Email-{{ section.id }}" 
                             value="{% if customer %}{{ customer.email }}{% endif %}"
-                            placeholder="Your email" 
+                            placeholder="Your email address" 
                             aria-label="Email Address"
-                            class="flex-1 bg-white/5 border border-white/10 text-white text-sm px-4 py-3 rounded-l-sm outline-none focus:border-[#B8906B] luxury-fast placeholder:text-white/60" 
+                            class="flex-1 bg-white/10 border border-white/20 text-white text-[15px] px-4 py-3 rounded-l-sm outline-none focus:border-[#B8906B] focus:bg-white/15 luxury-fast placeholder:text-white/70" 
                             required
                         >
-                        <button type="submit" class="bg-[#B8906B] text-white px-5 py-3 rounded-r-sm hover:bg-[#8A6A4E] luxury-fast focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="Subscribe">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        <button type="submit" class="bg-[#B8906B] text-white px-6 py-3 rounded-r-sm hover:bg-[#8A6A4E] luxury-fast focus:outline-none focus-visible:ring-2 focus-visible:ring-white transition-colors" aria-label="Subscribe">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                         </button>
                     </div>
                     
                     {%- if form.posted_successfully? -%}
-                        <p class="text-[11px] text-green-400 mt-2 absolute -bottom-6">Thank you for subscribing!</p>
+                        <p class="text-xs text-green-400 mt-2 absolute -bottom-7">Thank you for subscribing!</p>
                     {%- endif -%}
                     {%- if form.errors -%}
-                        <p class="text-[11px] text-red-400 mt-2 absolute -bottom-6">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+                        <p class="text-xs text-red-400 mt-2 absolute -bottom-7">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
                     {%- endif -%}
                 {% endform %}
             </div>
@@ -108,17 +143,17 @@
         </div>
         
         {% comment %} Bottom Legal Strip {% endcomment %}
-        <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p class="text-[11px] text-white/60">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+        <div class="border-t border-white/10 pt-6 mt-4 flex flex-col md:flex-row items-center justify-between gap-5">
+            <p class="text-[13px] text-white/80">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
             
             <div class="flex items-center gap-6">
                 {% if section.settings.legal_menu != blank %}
                     {% for link in linklists[section.settings.legal_menu].links %}
-                        <a href="{{ link.url }}" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">{{ link.title }}</a>
+                        <a href="{{ link.url }}" class="text-[13px] text-white/80 hover:text-[#B8906B] luxury-fast font-medium">{{ link.title }}</a>
                     {% endfor %}
                 {% else %}
-                    <a href="#" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">Privacy Policy</a>
-                    <a href="#" class="text-[11px] text-white/60 hover:text-[#B8906B] luxury-fast">Terms of Service</a>
+                    <a href="#" class="text-[13px] text-white/80 hover:text-[#B8906B] luxury-fast font-medium">Privacy Policy</a>
+                    <a href="#" class="text-[13px] text-white/80 hover:text-[#B8906B] luxury-fast font-medium">Terms of Service</a>
                 {% endif %}
             </div>
         </div>
