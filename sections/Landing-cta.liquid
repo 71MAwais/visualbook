@@ -6,30 +6,50 @@
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
+    
+    /* Enhanced, brighter glow effect */
     .cta-glow {
-        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.25) 0%, rgba(184, 144, 107, 0.05) 40%, transparent 75%);
+    }
+    
+    /* Optional: Subtle animated glow */
+    @keyframes pulseGlow {
+        0% { opacity: 0.8; }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 0.8; }
+    }
+    .cta-glow-animated {
+        animation: pulseGlow 6s ease-in-out infinite;
     }
 </style>
 
-<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#1A1A1A] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
-    <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
+{% comment %} 
+  Lighter background gradient:
+  From #2A2A2A (dark gray) to #111111 (almost black) 
+  instead of #1A1A1A to #050505
+{% endcomment %}
+<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#2A2A2A] to-[#111111] overflow-hidden" id="cta-{{ section.id }}">
+    
+    {% comment %} Added a subtle top border to separate it from the dark section above {% endcomment %}
+    <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <div class="cta-glow cta-glow-animated absolute inset-0 pointer-events-none z-0"></div>
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center">
         {% if section.settings.subtitle != blank %}
-            {% comment %} Changed text color from #B8906B to a slightly brighter #C59D73 {% endcomment %}
             <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#C59D73] mb-4">
                 {{ section.settings.subtitle }}
             </p>
         {% endif %}
         
         {% if section.settings.title != blank %}
-            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] font-medium tracking-tight text-white mb-10 leading-[1.1] drop-shadow-md">
+            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] font-medium tracking-tight text-white mb-10 leading-[1.1] drop-shadow-lg">
                 {{ section.settings.title | newline_to_br }}
             </h2>
         {% endif %}
         
         {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-            <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white shadow-xl">
+            <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-[#B8906B] hover:text-white border border-white hover:border-[#B8906B] shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(184,144,107,0.3)]">
                 <span>{{ section.settings.button_label }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
