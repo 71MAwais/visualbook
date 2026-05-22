@@ -6,49 +6,29 @@
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
-    
-    /* High contrast, luminous glow */
     .cta-glow {
-        background: radial-gradient(ellipse at center, rgba(184, 144, 107, 0.45) 0%, rgba(184, 144, 107, 0.1) 40%, transparent 70%);
-        mix-blend-mode: screen;
-    }
-    
-    /* Striking button transition */
-    .cta-button {
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-    .cta-button:hover {
-        background-color: #B8906B;
-        border-color: #B8906B;
-        color: white;
-        box-shadow: 0 10px 40px -10px rgba(184, 144, 107, 0.7);
-        transform: translateY(-2px);
+        background: radial-gradient(circle at center, rgba(184, 144, 107, 0.15) 0%, transparent 75%);
     }
 </style>
 
-<section class="relative py-24 md:py-40 bg-[#000000] overflow-hidden" id="cta-{{ section.id }}">
+<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#1A1A1A] to-[#050505] overflow-hidden" id="cta-{{ section.id }}">
+    <div class="cta-glow absolute inset-0 pointer-events-none z-0"></div>
     
-    {% comment %} Subtle gold separator line {% endcomment %}
-    <div class="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#B8906B]/40 to-transparent"></div>
-
-    {% comment %} Centered glowing light {% endcomment %}
-    <div class="cta-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] pointer-events-none z-0"></div>
-    
-    <div class="relative z-10 text-center px-5 flex flex-col items-center max-w-4xl mx-auto">
+    <div class="relative z-10 text-center px-5 flex flex-col items-center">
         {% if section.settings.subtitle != blank %}
-            <p class="font-sans text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-5">
+            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-4">
                 {{ section.settings.subtitle }}
             </p>
         {% endif %}
         
         {% if section.settings.title != blank %}
-            <h2 class="font-serif text-[40px] md:text-[56px] lg:text-[72px] font-medium tracking-tight text-white mb-12 leading-[1.05]">
+            <h2 class="font-serif text-[36px] md:text-[52px] lg:text-[64px] font-medium tracking-tight text-white mb-10 leading-[1.1] drop-shadow-md">
                 {{ section.settings.title | newline_to_br }}
             </h2>
         {% endif %}
         
         {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-            <a href="{{ section.settings.button_link }}" class="cta-button font-sans inline-flex items-center justify-center group bg-white text-black px-12 py-4.5 md:py-5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold border border-white">
+            <a href="{{ section.settings.button_link }}" class="font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 text-[11px] tracking-[0.2em] uppercase font-bold transition-all duration-500 hover:bg-transparent hover:text-white border border-white shadow-xl">
                 <span>{{ section.settings.button_label }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
