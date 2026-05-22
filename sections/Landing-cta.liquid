@@ -2,14 +2,13 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: #0C0A09; /* Warm, extremely dark espresso */
-        border-bottom: 1px solid rgba(184, 144, 107, 0.2); /* Gold separator from the HTML design */
+        background-color: #F7F5F0; /* Light, luxurious cream */
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
 
-    /* Ambient CSS lighting behind the text */
+    /* Ambient CSS lighting behind the text (Subtle white glow on cream) */
     .cta-ambient-glow {
         position: absolute;
         top: 50%;
@@ -18,18 +17,18 @@
         width: 100%;
         max-width: 900px;
         height: 100%;
-        background: radial-gradient(ellipse at center, rgba(184, 144, 107, 0.12) 0%, transparent 60%);
+        background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.7) 0%, transparent 60%);
         pointer-events: none;
         z-index: 0;
     }
 
-    /* Film grain texture (Pure CSS) */
+    /* Film grain texture suitable for light backgrounds */
     .bg-noise {
         position: absolute;
         inset: 0;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
-        opacity: 0.04;
-        mix-blend-mode: overlay;
+        opacity: 0.03;
+        mix-blend-mode: multiply;
         pointer-events: none;
         z-index: 0;
     }
@@ -43,7 +42,7 @@
         border-color: #B8906B;
         color: #ffffff;
         transform: translateY(-3px);
-        box-shadow: 0 15px 35px -10px rgba(184, 144, 107, 0.5);
+        box-shadow: 0 15px 35px -10px rgba(184, 144, 107, 0.4);
     }
 </style>
 
@@ -54,19 +53,19 @@
     
     <div class="relative z-10 text-center px-5 flex flex-col items-center max-w-3xl mx-auto">
         {% if section.settings.subtitle != blank %}
-            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-5">
+            <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#9A7A54] mb-5">
                 {{ section.settings.subtitle }}
             </p>
         {% endif %}
         
         {% if section.settings.title != blank %}
-            <h2 class="font-serif text-[32px] md:text-[44px] lg:text-[52px] font-medium tracking-tight text-white mb-10 leading-[1.1]">
+            <h2 class="font-serif text-[32px] md:text-[44px] lg:text-[52px] font-medium tracking-tight text-[#111111] mb-10 leading-[1.1]">
                 {{ section.settings.title | newline_to_br }}
             </h2>
         {% endif %}
         
         {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-            <a href="{{ section.settings.button_link }}" class="cta-btn-luxury font-sans inline-flex items-center justify-center group bg-white text-black px-10 py-4 md:px-12 md:py-4.5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold border border-white">
+            <a href="{{ section.settings.button_link }}" class="cta-btn-luxury font-sans inline-flex items-center justify-center group bg-[#111111] text-white px-10 py-4 md:px-12 md:py-4.5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold border border-[#111111]">
                 <span>{{ section.settings.button_label }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
