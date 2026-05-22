@@ -102,6 +102,12 @@
     height: 48px;
   }
 
+  .custom-feature-icon {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+  }
+
   .feature-item:hover .feature-icon-wrapper {
     opacity: 1;
     color: {{ section.settings.accent_color | default: '#B8906B' }};
@@ -144,13 +150,17 @@
       {% comment %} Feature 1: Signature Box {% endcomment %}
       <div class="feature-item">
         <div class="feature-icon-wrapper">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 12 20 22 4 22 4 12"></polyline>
-            <rect x="2" y="7" width="20" height="5"></rect>
-            <line x1="12" y1="22" x2="12" y2="7"></line>
-            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-          </svg>
+          {% if section.settings.image_1 != blank %}
+            <img src="{{ section.settings.image_1 | image_url: width: 68 }}" alt="{{ section.settings.text_1 | escape }}" class="custom-feature-icon" loading="lazy" width="34" height="34">
+          {% else %}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 12 20 22 4 22 4 12"></polyline>
+              <rect x="2" y="7" width="20" height="5"></rect>
+              <line x1="12" y1="22" x2="12" y2="7"></line>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+          {% endif %}
         </div>
         <span class="feature-text">{{ section.settings.text_1 }}</span>
       </div>
@@ -158,14 +168,18 @@
       {% comment %} Feature 2: Memory Preservation {% endcomment %}
       <div class="feature-item">
         <div class="feature-icon-wrapper">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 20v-1a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v1" />
-            <circle cx="4" cy="12" r="3" />
-            <rect x="9" y="8" width="14" height="9" rx="1" />
-            <path d="M13 21h6" />
-            <path d="M16 17v4" />
-            <polygon points="14.5,10.5 17.5,12.5 14.5,14.5" />
-          </svg>
+          {% if section.settings.image_2 != blank %}
+            <img src="{{ section.settings.image_2 | image_url: width: 68 }}" alt="{{ section.settings.text_2 | escape }}" class="custom-feature-icon" loading="lazy" width="34" height="34">
+          {% else %}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 20v-1a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v1" />
+              <circle cx="4" cy="12" r="3" />
+              <rect x="9" y="8" width="14" height="9" rx="1" />
+              <path d="M13 21h6" />
+              <path d="M16 17v4" />
+              <polygon points="14.5,10.5 17.5,12.5 14.5,14.5" />
+            </svg>
+          {% endif %}
         </div>
         <span class="feature-text">{{ section.settings.text_2 }}</span>
       </div>
@@ -173,11 +187,15 @@
       {% comment %} Feature 3: Fast Delivery (Spans full width on mobile) {% endcomment %}
       <div class="feature-item">
         <div class="feature-icon-wrapper">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
-            <polyline points="3.29 7 12 12 20.71 7"></polyline>
-            <line x1="12" y1="22" x2="12" y2="12"></line>
-          </svg>
+          {% if section.settings.image_3 != blank %}
+            <img src="{{ section.settings.image_3 | image_url: width: 68 }}" alt="{{ section.settings.text_3 | escape }}" class="custom-feature-icon" loading="lazy" width="34" height="34">
+          {% else %}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+              <polyline points="3.29 7 12 12 20.71 7"></polyline>
+              <line x1="12" y1="22" x2="12" y2="12"></line>
+            </svg>
+          {% endif %}
         </div>
         <span class="feature-text">{{ section.settings.text_3 }}</span>
       </div>
@@ -185,14 +203,18 @@
       {% comment %} Feature 4: Exceptional Craft {% endcomment %}
       <div class="feature-item">
         <div class="feature-icon-wrapper">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 11L12 5L17 11L12 21L7 11z" />
-            <path d="M4 11h16" />
-            <path d="M7 11L12 5" />
-            <path d="M17 11L12 5" />
-            <path d="M12 11v10" />
-            <path d="M4 6L2.5 4.5M2.5 7.5L4 6l1.5 1.5M4 6l-1.5 1.5" />
-          </svg>
+          {% if section.settings.image_4 != blank %}
+            <img src="{{ section.settings.image_4 | image_url: width: 68 }}" alt="{{ section.settings.text_4 | escape }}" class="custom-feature-icon" loading="lazy" width="34" height="34">
+          {% else %}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 11L12 5L17 11L12 21L7 11z" />
+              <path d="M4 11h16" />
+              <path d="M7 11L12 5" />
+              <path d="M17 11L12 5" />
+              <path d="M12 11v10" />
+              <path d="M4 6L2.5 4.5M2.5 7.5L4 6l1.5 1.5M4 6l-1.5 1.5" />
+            </svg>
+          {% endif %}
         </div>
         <span class="feature-text">{{ section.settings.text_4 }}</span>
       </div>
@@ -200,10 +222,14 @@
       {% comment %} Feature 5: Eco-Friendly {% endcomment %}
       <div class="feature-item">
         <div class="feature-icon-wrapper">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-            <path d="M2 21c0-3 1.85-5.36 5.08-6C10.3 14.52 12 11.97 13 9"></path>
-          </svg>
+          {% if section.settings.image_5 != blank %}
+            <img src="{{ section.settings.image_5 | image_url: width: 68 }}" alt="{{ section.settings.text_5 | escape }}" class="custom-feature-icon" loading="lazy" width="34" height="34">
+          {% else %}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C10.3 14.52 12 11.97 13 9"></path>
+            </svg>
+          {% endif %}
         </div>
         <span class="feature-text">{{ section.settings.text_5 }}</span>
       </div>
@@ -246,7 +272,12 @@
     },
     {
       "type": "header",
-      "content": "Feature Labels"
+      "content": "Feature Labels & Custom Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Custom Image 1 (Optional)"
     },
     {
       "type": "text",
@@ -255,10 +286,20 @@
       "default": "Signature Box"
     },
     {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Custom Image 2 (Optional)"
+    },
+    {
       "type": "text",
       "id": "text_2",
       "label": "Feature 2",
       "default": "Memory Preservation"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Custom Image 3 (Optional)"
     },
     {
       "type": "text",
@@ -267,10 +308,20 @@
       "default": "Fast Delivery"
     },
     {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Custom Image 4 (Optional)"
+    },
+    {
       "type": "text",
       "id": "text_4",
       "label": "Feature 4",
       "default": "Exceptional Craft"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Custom Image 5 (Optional)"
     },
     {
       "type": "text",
