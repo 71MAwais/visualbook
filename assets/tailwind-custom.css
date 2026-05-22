@@ -4225,6 +4225,11 @@
       padding-block: calc(var(--spacing) * 3);
     }
   }
+  .md\:py-4\.5 {
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 4.5);
+    }
+  }
   .md\:py-5 {
     @media (width >= 48rem) {
       padding-block: calc(var(--spacing) * 5);
@@ -4503,6 +4508,11 @@
   .md\:text-\[42px\] {
     @media (width >= 48rem) {
       font-size: 42px;
+    }
+  }
+  .md\:text-\[44px\] {
+    @media (width >= 48rem) {
+      font-size: 44px;
     }
   }
   .md\:text-\[48px\] {
@@ -4814,6 +4824,11 @@
   .lg\:text-\[48px\] {
     @media (width >= 64rem) {
       font-size: 48px;
+    }
+  }
+  .lg\:text-\[52px\] {
+    @media (width >= 64rem) {
+      font-size: 52px;
     }
   }
   .lg\:text-\[60px\] {
