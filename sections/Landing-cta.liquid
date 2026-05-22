@@ -2,102 +2,68 @@
 <style>
     #cta-{{ section.id }} {
         font-family: 'Plus Jakarta Sans', sans-serif;
-        /* The outer background matches the footer to create a seamless track */
-        background-color: #050505; 
     }
     #cta-{{ section.id }} .font-serif {
         font-family: 'Playfair Display', serif;
     }
-
-    /* The Contained Floating Card */
-    .cta-container {
-        position: relative;
-        background: linear-gradient(145deg, #1c1a18 0%, #0a0908 100%);
-        border: 1px solid rgba(184, 144, 107, 0.15);
-        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
-        border-radius: 20px;
-        overflow: hidden;
-    }
     
-    @media (min-width: 768px) {
-        .cta-container {
-            border-radius: 36px;
-        }
-    }
-
-    /* Architectural Glow Lines */
-    .cta-glow-line {
+    /* Central ambient glow to give the text depth */
+    .cta-glow-center {
         position: absolute;
-        top: 0;
-        left: 10%;
-        width: 80%;
-        height: 1px;
-        background: linear-gradient(90deg, transparent 0%, rgba(184, 144, 107, 0.6) 50%, transparent 100%);
-    }
-
-    .cta-glow-ambient {
-        position: absolute;
-        top: 0;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, -50%);
         width: 100%;
+        max-width: 1000px;
         height: 100%;
-        background: radial-gradient(circle at 50% 0%, rgba(184, 144, 107, 0.12) 0%, transparent 60%);
+        background: radial-gradient(ellipse at center, rgba(184, 144, 107, 0.15) 0%, transparent 60%);
         pointer-events: none;
-    }
-
-    /* Magnetic Pop Button */
-    .cta-magnetic-btn {
-        background-color: #ffffff;
-        color: #000000;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 0;
+        mix-blend-mode: screen;
     }
     
-    .cta-magnetic-btn:hover {
+    /* High contrast button hover */
+    .cta-btn-luxury {
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cta-btn-luxury:hover {
         background-color: #B8906B;
+        border-color: #B8906B;
         color: #ffffff;
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px -10px rgba(184, 144, 107, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px -10px rgba(184, 144, 107, 0.6);
     }
 </style>
 
-<section id="cta-{{ section.id }}" class="py-12 md:py-24 px-4 md:px-8">
-    <div class="cta-container max-w-[1400px] mx-auto py-24 md:py-36 px-6 text-center flex flex-col items-center">
-        
-        {% comment %} Inner Lighting Elements {% endcomment %}
-        <div class="cta-glow-line"></div>
-        <div class="cta-glow-ambient"></div>
-
-        {% comment %} Optional Background Texture {% endcomment %}
-        {% if section.settings.bg_image != blank %}
-            <img src="{{ section.settings.bg_image | image_url: width: 2000 }}" 
-                 alt="Background Texture" 
-                 class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-screen pointer-events-none z-0"
-                 loading="lazy">
+{% comment %} 
+  Gradient starts with a warm, dark espresso (#1a1613) and fades perfectly into the footer's color (#050505).
+  Added a subtle top border (border-white/5) to separate it from the section above.
+{% endcomment %}
+<section class="relative py-24 md:py-40 bg-gradient-to-b from-[#1a1613] via-[#0d0b09] to-[#050505] overflow-hidden border-t border-white/5" id="cta-{{ section.id }}">
+    
+    <div class="cta-glow-center"></div>
+    
+    <div class="relative z-10 text-center px-5 flex flex-col items-center max-w-4xl mx-auto">
+        {% if section.settings.subtitle != blank %}
+            <p class="font-sans text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-5">
+                {{ section.settings.subtitle }}
+            </p>
         {% endif %}
-
-        <div class="relative z-10 max-w-3xl">
-            {% if section.settings.subtitle != blank %}
-                <p class="font-sans text-[10px] md:text-[12px] font-bold tracking-[0.3em] uppercase text-[#B8906B] mb-6 drop-shadow-md">
-                    {{ section.settings.subtitle }}
-                </p>
-            {% endif %}
-            
-            {% if section.settings.title != blank %}
-                <h2 class="font-serif text-[40px] md:text-[56px] lg:text-[72px] font-medium tracking-tight text-white mb-10 leading-[1.05] drop-shadow-xl">
-                    {{ section.settings.title | newline_to_br }}
-                </h2>
-            {% endif %}
-            
-            {% if section.settings.button_label != blank and section.settings.button_link != blank %}
-                <a href="{{ section.settings.button_link }}" class="cta-magnetic-btn font-sans inline-flex items-center justify-center px-10 py-4 md:px-12 md:py-5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold rounded-sm mt-4">
-                    <span>{{ section.settings.button_label }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
-                        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                    </svg>
-                </a>
-            {% endif %}
-        </div>
+        
+        {% if section.settings.title != blank %}
+            <h2 class="font-serif text-[40px] md:text-[56px] lg:text-[72px] font-medium tracking-tight text-white mb-12 leading-[1.05]">
+                {{ section.settings.title | newline_to_br }}
+            </h2>
+        {% endif %}
+        
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="cta-btn-luxury font-sans inline-flex items-center justify-center group bg-white text-black px-12 py-4.5 md:py-5 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-bold border border-white">
+                <span>{{ section.settings.button_label }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-3 transition-transform duration-300 group-hover:translate-x-1">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+            </a>
+        {% endif %}
     </div>
 </section>
 
@@ -105,12 +71,6 @@
 {
   "name": "Call to Action",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Background Texture (Optional)",
-      "info": "Upload an image to add a subtle cinematic texture behind the text."
-    },
     {
       "type": "text",
       "id": "subtitle",
