@@ -27,7 +27,8 @@
         "brand_VzyznY": {
           "type": "brand",
           "settings": {
-            "text": "Vogue"
+            "logo": "shopify://shop_images/style-me-pretty-logo.png",
+            "text": "Style Me Pretty"
           }
         },
         "brand_HfcC4z": {
@@ -89,7 +90,16 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
+            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
+            "video_duration": "",
             "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features",
+            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "",
             "chapter_1_label": "unbox",
             "chapter_1_time": 0,
             "chapter_2_label": "opening",
@@ -103,7 +113,16 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
+            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
+            "video_duration": "",
             "video": "shopify://files/videos/video.mp4",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features",
+            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
@@ -117,7 +136,16 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
+            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
+            "video_duration": "",
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features",
+            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
@@ -131,7 +159,16 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
+            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
+            "video_duration": "",
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features",
+            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
