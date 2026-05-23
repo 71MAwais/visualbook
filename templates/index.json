@@ -197,10 +197,15 @@
         "text_color": "#000000",
         "accent_color": "#b8906b",
         "font_family": "inter_n4",
+        "image_1": "shopify://shop_images/Unknown.png",
         "text_1": "Signature Box",
+        "image_2": "shopify://shop_images/no_bg_sat_icons_how_it_works-09.png",
         "text_2": "Memory Preservation",
+        "image_3": "shopify://shop_images/Unknown-1_d4aeb63a-d53c-43ce-92c3-d4d5fa4f19e2.png",
         "text_3": "Fast Delivery",
+        "image_4": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
         "text_4": "Exceptional Craft",
+        "image_5": "shopify://shop_images/Unknown-3_3d540254-931e-4b6a-85b2-181999047d70.png",
         "text_5": "Eco-Friendly",
         "show_separator": true
       }
