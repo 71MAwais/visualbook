@@ -89,7 +89,7 @@
     </div>
 
     {% if section.settings.video_url != blank %}
-        {% comment %} Center Play/Pause Control {% endcomment %}
+        {% comment %} Center Play/Pause/Loading Control {% endcomment %}
         <div class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
             <button id="centerPlayBtn-{{ section.id }}" 
                     class="glass-btn pointer-events-auto w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-white focus:outline-none focus:ring-2 focus:ring-white/50 opacity-0" 
@@ -100,6 +100,12 @@
                 </div>
                 <div class="icon-pause hidden">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="md:w-7 md:h-7"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </div>
+                <div class="icon-loading hidden">
+                    <svg class="animate-spin w-8 h-8 md:w-10 md:h-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </div>
             </button>
         </div>
@@ -144,42 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let playTimeout;
 
-    function toggleIcon(parent, hideSelector, showSelector) {
+    // Updated to accept multiple selectors to hide simultaneously
+    function toggleIcon(parent, hideSelectors, showSelector) {
         if(!parent) return;
-        parent.querySelector(hideSelector).classList.add('hidden');
+        parent.querySelectorAll(hideSelectors).forEach(el => el.classList.add('hidden'));
         parent.querySelector(showSelector).classList.remove('hidden');
-    }
-
-    function updatePlayState() {
-        if (video.paused) {
-            overlay.classList.remove('fade-out'); 
-            
-            // Hide the secondary CTA when paused
-            if (playingCta) {
-                playingCta.classList.add('opacity-0');
-                playingCta.classList.add('pointer-events-none');
-            }
-
-            toggleIcon(centerPlayBtn, '.icon-pause', '.icon-play');
-            centerPlayBtn.style.opacity = '1';
-            centerPlayBtn.setAttribute('aria-label', 'Play Video');
-        } else {
-            overlay.classList.add('fade-out'); 
-            
-            // Show the secondary CTA when playing
-            if (playingCta) {
-                playingCta.classList.remove('opacity-0');
-                playingCta.classList.remove('pointer-events-none');
-            }
-
-            toggleIcon(centerPlayBtn, '.icon-play', '.icon-pause');
-            centerPlayBtn.setAttribute('aria-label', 'Pause Video');
-            
-            setTimeout(() => { if(!video.paused) centerPlayBtn.style.opacity = '0'; }, 1000);
-
-            video.classList.add('video-loaded');
-            if(placeholder) placeholder.style.opacity = '0';
-        }
     }
 
     section.addEventListener('mouseenter', () => centerPlayBtn.style.opacity = '1');
@@ -192,14 +167,54 @@ document.addEventListener('DOMContentLoaded', () => {
         centerPlayBtn.addEventListener('click', () => {
             if (video.paused) {
                 clearTimeout(playTimeout);
+                // Immediately show loading indicator when play is requested
+                toggleIcon(centerPlayBtn, '.icon-play, .icon-pause', '.icon-loading');
                 video.play();
             } else {
                 video.pause();
             }
         });
     }
-    video.addEventListener('play', updatePlayState);
-    video.addEventListener('pause', updatePlayState);
+
+    // Event: Video is paused
+    video.addEventListener('pause', () => {
+        overlay.classList.remove('fade-out'); 
+        
+        if (playingCta) {
+            playingCta.classList.add('opacity-0');
+            playingCta.classList.add('pointer-events-none');
+        }
+
+        toggleIcon(centerPlayBtn, '.icon-pause, .icon-loading', '.icon-play');
+        centerPlayBtn.style.opacity = '1';
+        centerPlayBtn.setAttribute('aria-label', 'Play Video');
+    });
+
+    // Event: Video is actively playing frames (Loading finished)
+    video.addEventListener('playing', () => {
+        overlay.classList.add('fade-out'); 
+        
+        if (playingCta) {
+            playingCta.classList.remove('opacity-0');
+            playingCta.classList.remove('pointer-events-none');
+        }
+
+        toggleIcon(centerPlayBtn, '.icon-play, .icon-loading', '.icon-pause');
+        centerPlayBtn.setAttribute('aria-label', 'Pause Video');
+        
+        setTimeout(() => { if(!video.paused) centerPlayBtn.style.opacity = '0'; }, 1000);
+
+        // Safely reveal video and hide placeholder NOW
+        video.classList.add('video-loaded');
+        if(placeholder) placeholder.style.opacity = '0';
+    });
+
+    // Event: Video is buffering/waiting for data due to slow internet
+    video.addEventListener('waiting', () => {
+        centerPlayBtn.style.opacity = '1';
+        toggleIcon(centerPlayBtn, '.icon-play, .icon-pause', '.icon-loading');
+        // Do NOT hide placeholder here. The thumbnail will stay visible while buffering.
+    });
 
     if (muteBtn) {
         muteBtn.addEventListener('click', () => {
