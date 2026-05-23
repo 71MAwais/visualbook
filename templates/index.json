@@ -24,41 +24,46 @@
     "landing_as_seen_dFngCU": {
       "type": "Landing-as-seen",
       "blocks": {
-        "brand_VzyznY": {
+        "brand_QJ4KUt": {
           "type": "brand",
           "settings": {
-            "text": "Vogue"
+            "logo": "shopify://shop_images/YOUmag-logo-black.png",
+            "text": "YOU Magazine"
           }
         },
-        "brand_HfcC4z": {
+        "brand_4gDXR8": {
           "type": "brand",
           "settings": {
-            "text": "Soho House"
+            "logo": "shopify://shop_images/97BB0225-47A2-4C6D-8C2F-4B642DEB508F.png",
+            "text": "T W E."
           }
         },
-        "brand_JfHikg": {
+        "brand_nEhiUx": {
           "type": "brand",
           "settings": {
-            "text": "wed2b"
+            "logo": "shopify://shop_images/style-me-pretty-logo.png",
+            "text": "Style Me Pretty"
           }
         },
         "brand_JdT8Pt": {
           "type": "brand",
           "settings": {
+            "logo": "shopify://shop_images/logo-wedding-chicks_801a0503-faed-4f71-8fa6-cf74ce692c8a.png",
             "text": "Wedding Chicks"
           }
         },
         "brand_MLjryL": {
           "type": "brand",
           "settings": {
+            "logo": "shopify://shop_images/Reader_s-Digest-Logo_svg.png",
             "text": "Reader's Digest"
           }
         }
       },
       "block_order": [
-        "brand_VzyznY",
-        "brand_HfcC4z",
-        "brand_JfHikg",
+        "brand_QJ4KUt",
+        "brand_4gDXR8",
+        "brand_nEhiUx",
         "brand_JdT8Pt",
         "brand_MLjryL"
       ],
