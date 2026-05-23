@@ -499,40 +499,29 @@
     "landing_instore_eFePrb": {
       "type": "Landing-instore",
       "blocks": {
-        "store_jXqCN8": {
-          "type": "store",
-          "settings": {
-            "store_name": "Selfridges & Co"
-          }
-        },
-        "store_GFHfit": {
-          "type": "store",
-          "settings": {
-            "store_name": "la Rinascente"
-          }
-        },
         "store_jUBEX6": {
           "type": "store",
           "settings": {
-            "store_name": "KaDeWe"
+            "store_name": "KaDeWe",
+            "logo": "shopify://shop_images/2560px-KaDeWe_svg.png"
           }
         },
         "store_NrDaLt": {
           "type": "store",
           "settings": {
-            "store_name": "Le Bon Marché"
+            "store_name": "Selfridges",
+            "logo": "shopify://shop_images/Selfridges_logo_svg.png"
           }
         },
         "store_xBPzhG": {
           "type": "store",
           "settings": {
-            "store_name": "Harrods"
+            "store_name": "Rinascente",
+            "logo": "shopify://shop_images/9_RINASCENTE.png"
           }
         }
       },
       "block_order": [
-        "store_jXqCN8",
-        "store_GFHfit",
         "store_jUBEX6",
         "store_NrDaLt",
         "store_xBPzhG"
