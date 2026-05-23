@@ -150,14 +150,7 @@
       "name": "Cinematic Showcase",
       "settings": {
         "heading": "The Luxury Experience",
-        "subheading": "See what it feels like to hold your memories in your hands for the first time.",
-        "tab_1_title": "The Video",
-        "tab_2_title": "Features",
-        "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
-        "tab_3_title": "Craftsmanship",
-        "tab_3_text": "<p>Bound in premium artisan linen, designed to last lifetimes and be passed down as a true modern heirloom.</p>",
-        "button_label": "Discover The Book",
-        "button_link": "shopify://pages/all-products"
+        "subheading": "See what it feels like to hold your memories in your hands for the first time."
       }
     },
     "landing_feature_grid_hG6MFa": {
