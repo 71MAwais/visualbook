@@ -486,6 +486,7 @@
       "type": "Landing-founder",
       "name": "Founder Story",
       "settings": {
+        "main_image": "shopify://shop_images/DSC3638.jpg",
         "subtitle": "Our Story",
         "title": "Born from Loss,\nDesigned for Forever",
         "story_html": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>",
