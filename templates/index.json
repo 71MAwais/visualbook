@@ -27,35 +27,30 @@
         "brand_VzyznY": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/style-me-pretty-logo.png",
-            "text": "Style Me Pretty"
+            "text": "Vogue"
           }
         },
         "brand_HfcC4z": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/YOUmag-logo-black.png",
-            "text": "YOU MAGAZINE"
+            "text": "Soho House"
           }
         },
         "brand_JfHikg": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/97BB0225-47A2-4C6D-8C2F-4B642DEB508F.png",
-            "text": "T W E."
+            "text": "wed2b"
           }
         },
         "brand_JdT8Pt": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/logo-wedding-chicks_801a0503-faed-4f71-8fa6-cf74ce692c8a.png",
             "text": "Wedding Chicks"
           }
         },
         "brand_MLjryL": {
           "type": "brand",
           "settings": {
-            "logo": "shopify://shop_images/Reader_s-Digest-Logo_svg.png",
             "text": "Reader's Digest"
           }
         }
@@ -94,16 +89,7 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
-            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
-            "video_duration": "",
             "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features",
-            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "",
             "chapter_1_label": "unbox",
             "chapter_1_time": 0,
             "chapter_2_label": "opening",
@@ -117,16 +103,7 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
-            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
-            "video_duration": "",
             "video": "shopify://files/videos/video.mp4",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features",
-            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
@@ -140,16 +117,7 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
-            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
-            "video_duration": "",
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features",
-            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
@@ -163,16 +131,7 @@
           "settings": {
             "tag": "Wedding",
             "title": "The Big Day",
-            "description": "The timeless, heirloom-quality videobook wrapped in artisan linen.",
-            "video_duration": "",
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features",
-            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "",
             "chapter_1_label": "",
             "chapter_1_time": 0,
             "chapter_2_label": "",
@@ -202,15 +161,10 @@
         "text_color": "#000000",
         "accent_color": "#b8906b",
         "font_family": "inter_n4",
-        "image_1": "shopify://shop_images/Unknown_18237229-0fb8-4029-b5d8-7aa07c01a6c2.png",
         "text_1": "Signature Box",
-        "image_2": "shopify://shop_images/no_bg_sat_icons_how_it_works-09.png",
         "text_2": "Memory Preservation",
-        "image_3": "shopify://shop_images/Unknown-1_d4aeb63a-d53c-43ce-92c3-d4d5fa4f19e2.png",
         "text_3": "Fast Delivery",
-        "image_4": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
         "text_4": "Exceptional Craft",
-        "image_5": "shopify://shop_images/Unknown-3_3d540254-931e-4b6a-85b2-181999047d70.png",
         "text_5": "Eco-Friendly",
         "show_separator": true
       }
@@ -222,7 +176,6 @@
           "type": "step",
           "settings": {
             "category": "tab1",
-            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-07_8c26d5e4-6c4e-40ef-95f0-c393f48c00ca.png",
             "tag": "Step 01",
             "title": "Connect To Your Computer",
             "description": "Easily set up your Classic Visual Book by plugging it directly into your Mac or PC using the provided USB cable.",
@@ -234,8 +187,7 @@
           "type": "step",
           "settings": {
             "category": "tab1",
-            "image": "shopify://shop_images/Untitled_design-24.png",
-            "tag": "Step 02",
+            "tag": "Step 01",
             "title": "Manage Photos and Videos",
             "description": "Drag and drop your media into the designated folders. You can add, delete, or organize your memories anytime. Just ensure your files match our recommended formats and resolutions for the best display quality.",
             "link_text": "",
@@ -246,7 +198,6 @@
           "type": "step",
           "settings": {
             "category": "tab1",
-            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
             "tag": "Step 03",
             "title": "Ready to Gift Out of the Box",
             "description": "Take advantage of our complimentary media pre-loading service. Our experts will prepare your video book so it arrives beautifully packaged in a premium gift box, ready to play the moment it's opened.",
@@ -258,7 +209,6 @@
           "type": "step",
           "settings": {
             "category": "tab1",
-            "image": "shopify://shop_images/NO_FILE.png",
             "tag": "Step 04",
             "title": "Fix Video Format Issues Fast",
             "description": "Seeing a 'no file' or 'format not supported' error? Use our free video converter tool to quickly optimize your files for seamless, high-quality playback on your Visual Book.",
@@ -270,7 +220,6 @@
           "type": "step",
           "settings": {
             "category": "tab2",
-            "image": "shopify://shop_images/audiocards-03.png",
             "tag": "Step 01",
             "title": "Start Your Recording",
             "description": "Press the record button on your greeting card. A single beep will signal that recording has started. Speak your personal message or play your favorite audio, and the card will save it instantly.",
@@ -282,7 +231,6 @@
           "type": "step",
           "settings": {
             "category": "tab2",
-            "image": "shopify://shop_images/audiocards-06.png",
             "tag": "Step 02",
             "title": "Stop Recording",
             "description": "Press the record button one more time when you are finished. You will hear two beeps confirming your custom audio message has been saved successfully.",
@@ -294,7 +242,6 @@
           "type": "step",
           "settings": {
             "category": "tab2",
-            "image": "shopify://shop_images/audiocards-04.png",
             "tag": "Step 03",
             "title": "Play or Re-Record",
             "description": "Press the play button to listen to your message. Not quite right? Just repeat the recording steps. Your new audio will automatically overwrite and replace the previous one.",
@@ -486,42 +433,52 @@
       "type": "Landing-founder",
       "name": "Founder Story",
       "settings": {
-        "main_image": "shopify://shop_images/DSC3638.jpg",
         "subtitle": "Our Story",
         "title": "Born from Loss,\nDesigned for Forever",
         "story_html": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember.</p><p>That ache — the longing for something tangible to hold onto — never left me. It became the seed of The Visual Book. I wanted to create something that didn't just store memories, but honoured them. Something you could touch, open, and feel the weight of a moment that might otherwise slip away.</p><p>Every Visual Book is crafted with that same urgency: the belief that the people and moments we love deserve more than a cloud folder. They deserve permanence. They deserve beauty. They deserve to be held.</p>",
         "button_link": "",
         "button_label": "Read Full Story",
-        "founder_name": "AISHA IMAN",
+        "founder_name": "Adanna Okafor",
         "founder_title": "Founder & CEO"
       }
     },
     "landing_instore_eFePrb": {
       "type": "Landing-instore",
       "blocks": {
+        "store_jXqCN8": {
+          "type": "store",
+          "settings": {
+            "store_name": "Selfridges & Co"
+          }
+        },
+        "store_GFHfit": {
+          "type": "store",
+          "settings": {
+            "store_name": "la Rinascente"
+          }
+        },
         "store_jUBEX6": {
           "type": "store",
           "settings": {
-            "store_name": "KaDeWe",
-            "logo": "shopify://shop_images/2560px-KaDeWe_svg.png"
+            "store_name": "KaDeWe"
           }
         },
         "store_NrDaLt": {
           "type": "store",
           "settings": {
-            "store_name": "Selfridges",
-            "logo": "shopify://shop_images/Selfridges_logo_svg.png"
+            "store_name": "Le Bon Marché"
           }
         },
         "store_xBPzhG": {
           "type": "store",
           "settings": {
-            "store_name": "Rinascente",
-            "logo": "shopify://shop_images/9_RINASCENTE.png"
+            "store_name": "Harrods"
           }
         }
       },
       "block_order": [
+        "store_jXqCN8",
+        "store_GFHfit",
         "store_jUBEX6",
         "store_NrDaLt",
         "store_xBPzhG"
