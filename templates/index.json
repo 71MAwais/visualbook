@@ -24,6 +24,13 @@
     "landing_as_seen_dFngCU": {
       "type": "Landing-as-seen",
       "blocks": {
+        "brand_MqpVxN": {
+          "type": "brand",
+          "settings": {
+            "logo": "shopify://shop_images/CTH-logo-black_png.webp",
+            "text": "Country & Town HOUSE"
+          }
+        },
         "brand_QJ4KUt": {
           "type": "brand",
           "settings": {
@@ -61,6 +68,7 @@
         }
       },
       "block_order": [
+        "brand_MqpVxN",
         "brand_QJ4KUt",
         "brand_4gDXR8",
         "brand_nEhiUx",
