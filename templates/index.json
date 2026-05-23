@@ -236,6 +236,7 @@
           "type": "step",
           "settings": {
             "category": "tab1",
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
             "tag": "Step 03",
             "title": "Ready to Gift Out of the Box",
             "description": "Take advantage of our complimentary media pre-loading service. Our experts will prepare your video book so it arrives beautifully packaged in a premium gift box, ready to play the moment it's opened.",
@@ -247,6 +248,7 @@
           "type": "step",
           "settings": {
             "category": "tab1",
+            "image": "shopify://shop_images/NO_FILE.png",
             "tag": "Step 04",
             "title": "Fix Video Format Issues Fast",
             "description": "Seeing a 'no file' or 'format not supported' error? Use our free video converter tool to quickly optimize your files for seamless, high-quality playback on your Visual Book.",
@@ -258,6 +260,7 @@
           "type": "step",
           "settings": {
             "category": "tab2",
+            "image": "shopify://shop_images/audiocards-03.png",
             "tag": "Step 01",
             "title": "Start Your Recording",
             "description": "Press the record button on your greeting card. A single beep will signal that recording has started. Speak your personal message or play your favorite audio, and the card will save it instantly.",
@@ -269,6 +272,7 @@
           "type": "step",
           "settings": {
             "category": "tab2",
+            "image": "shopify://shop_images/audiocards-06.png",
             "tag": "Step 02",
             "title": "Stop Recording",
             "description": "Press the record button one more time when you are finished. You will hear two beeps confirming your custom audio message has been saved successfully.",
@@ -280,6 +284,7 @@
           "type": "step",
           "settings": {
             "category": "tab2",
+            "image": "shopify://shop_images/audiocards-04.png",
             "tag": "Step 03",
             "title": "Play or Re-Record",
             "description": "Press the play button to listen to your message. Not quite right? Just repeat the recording steps. Your new audio will automatically overwrite and replace the previous one.",
