@@ -34,7 +34,8 @@
         "brand_HfcC4z": {
           "type": "brand",
           "settings": {
-            "text": "Soho House"
+            "logo": "shopify://shop_images/YOUmag-logo-black.png",
+            "text": "YOU MAGAZINE"
           }
         },
         "brand_JfHikg": {
