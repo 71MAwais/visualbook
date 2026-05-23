@@ -48,12 +48,14 @@
         "brand_JdT8Pt": {
           "type": "brand",
           "settings": {
+            "logo": "shopify://shop_images/logo-wedding-chicks_801a0503-faed-4f71-8fa6-cf74ce692c8a.png",
             "text": "Wedding Chicks"
           }
         },
         "brand_MLjryL": {
           "type": "brand",
           "settings": {
+            "logo": "shopify://shop_images/Reader_s-Digest-Logo_svg.png",
             "text": "Reader's Digest"
           }
         }
