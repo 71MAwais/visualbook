@@ -1,0 +1,45 @@
+[33m5a3a933[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull --rebase (finish): returning to refs/heads/main
+[33m5a3a933[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: pull --rebase (start): checkout 5a3a9330a670ab7f34ca0f794be036a05121745c
+[33mc589451[m HEAD@{2}: commit: Updated landing sections and styling
+[33mfbed28d[m HEAD@{3}: pull: Merge made by the 'ort' strategy.
+[33m5b59cd5[m HEAD@{4}: commit (merge): Updated landing sections and styling
+[33m669f197[m HEAD@{5}: commit: Updated landing sections and styling
+[33m5b4dd51[m HEAD@{6}: pull origin main: Merge made by the 'ort' strategy.
+[33mc55d958[m[33m ([m[1;32mlocal-theme-backup[m[33m)[m HEAD@{7}: commit: Saving local work before pulling
+[33m842cfad[m HEAD@{8}: reset: moving to origin/main
+[33me152511[m HEAD@{9}: commit: Fixed Liquid schema merge conflicts and syntax errors
+[33m3547422[m HEAD@{10}: pull: Merge made by the 'ort' strategy.
+[33m487a0e8[m HEAD@{11}: commit (merge): Fixed Liquid schema merge conflicts and syntax errors
+[33m1671391[m HEAD@{12}: commit: home page design fixing
+[33m7e00cc8[m HEAD@{13}: reset: moving to origin/main
+[33m531d16f[m HEAD@{14}: commit: home page design fixing
+[33mdd4aa1c[m HEAD@{15}: checkout: moving from main to main
+[33mdd4aa1c[m HEAD@{16}: commit: speed optimization
+[33m5ba49b4[m HEAD@{17}: pull: Merge made by the 'ort' strategy.
+[33m229fb6a[m HEAD@{18}: commit: speed optimization
+[33m3c4eb8d[m HEAD@{19}: commit: landing page upgrade
+[33m093ad2d[m HEAD@{20}: commit: extra pages
+[33m128deb0[m HEAD@{21}: commit: collection pages
+[33m5b0ad0f[m HEAD@{22}: commit: product text field
+[33m7092ced[m HEAD@{23}: commit: product text field
+[33m58d25d9[m HEAD@{24}: commit: product text field
+[33m1de22a0[m HEAD@{25}: commit: cart page fixed fully
+[33m8c718fd[m HEAD@{26}: commit: cart page
+[33m9f36668[m HEAD@{27}: pull: Merge made by the 'ort' strategy.
+[33m692110a[m HEAD@{28}: commit: cart page
+[33mecf3921[m HEAD@{29}: commit: optimization of different pages
+[33m17e59d0[m HEAD@{30}: commit: [Product page add]
+[33m2c64d7b[m HEAD@{31}: commit: [Product page add]
+[33mee6ab54[m HEAD@{32}: commit: [Product page add]
+[33m5b0f9e4[m HEAD@{33}: commit: [Product page add]
+[33m1c1e97f[m HEAD@{34}: commit: [Product page add]
+[33mcba86d4[m HEAD@{35}: commit: [improved howitwork page]
+[33m7877231[m HEAD@{36}: commit: [how it work]
+[33m3bbe0ef[m HEAD@{37}: commit: [improved landing page]
+[33m6e27cb8[m HEAD@{38}: reset: moving to HEAD
+[33m6e27cb8[m HEAD@{39}: reset: moving to HEAD
+[33m6e27cb8[m HEAD@{40}: commit: nee
+[33m46eb502[m HEAD@{41}: Branch: renamed refs/heads/master to refs/heads/main
+[33m46eb502[m HEAD@{43}: commit: How it work update
+[33md9714de[m HEAD@{44}: commit: restored repo and synced with GitHub
+[33m5d9a1e8[m HEAD@{45}: reset: moving to origin/main
