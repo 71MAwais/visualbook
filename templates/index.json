@@ -212,6 +212,7 @@
           "type": "step",
           "settings": {
             "category": "tab1",
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-07_8c26d5e4-6c4e-40ef-95f0-c393f48c00ca.png",
             "tag": "Step 01",
             "title": "Connect To Your Computer",
             "description": "Easily set up your Classic Visual Book by plugging it directly into your Mac or PC using the provided USB cable.",
@@ -223,7 +224,8 @@
           "type": "step",
           "settings": {
             "category": "tab1",
-            "tag": "Step 01",
+            "image": "shopify://shop_images/Untitled_design-24.png",
+            "tag": "Step 02",
             "title": "Manage Photos and Videos",
             "description": "Drag and drop your media into the designated folders. You can add, delete, or organize your memories anytime. Just ensure your files match our recommended formats and resolutions for the best display quality.",
             "link_text": "",
