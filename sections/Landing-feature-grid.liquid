@@ -2,14 +2,15 @@
   Landing Feature Grid - optimized for luxury branding.
   Mobile: Classic 2-1-2 Diamond layout.
   Desktop: Modern, inline single row with elegant hover states.
-  Bottom padding removed.
+  Equal top and bottom padding (reduced by 40%).
 {% endcomment %}
 
 <style>
   #shopify-section-{{ section.id }} .landing-features {
+    position: relative; /* Added to constrain the absolute bottom separator */
     background-color: {{ section.settings.bg_color | default: '#FCFCFC' }};
-    /* Padding: Top Right Bottom Left (Bottom is 0) */
-    padding: 5rem 1.5rem 0 1.5rem; 
+    /* Padding: Top & Bottom (3rem = 5rem - 40%), Left & Right (1.5rem) */
+    padding: 3rem 1.5rem; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +21,8 @@
 
   @media (min-width: 1024px) {
     #shopify-section-{{ section.id }} .landing-features {
-      padding: 7rem 2rem 0 2rem;
+      /* Padding: Top & Bottom (4.2rem = 7rem - 40%), Left & Right (2rem) */
+      padding: 4.2rem 2rem;
     }
   }
 
@@ -95,30 +97,30 @@
   /* --- ENHANCED LOGO/ICON WRAPPER --- */
   .feature-icon-wrapper {
     color: {{ section.settings.text_color | default: '#000000' }};
-    opacity: 0.85; /* Increased base opacity so logos don't look too faded */
+    opacity: 1; /* Retained 100% opacity for crispness */
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80px; /* Increased from 60px to accommodate larger logos */
-    width: 80px;  /* Added fixed width for perfect centering */
+    height: 90px;
+    width: 100%;
   }
 
   .custom-feature-icon {
-    width: 64px; /* Increased from 40px for much better visibility */
-    height: 64px;
+    width: 100%; 
+    height: 100%;
+    max-width: 120px;
     object-fit: contain;
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .feature-item:hover .feature-icon-wrapper {
-    opacity: 1;
     color: {{ section.settings.accent_color | default: '#B8906B' }};
     transform: translateY(-6px); 
   }
   
   .feature-item:hover .custom-feature-icon {
-    transform: scale(1.08); /* Slightly softer zoom for larger images */
+    transform: scale(1.08);
   }
 
   .feature-text {
@@ -138,16 +140,16 @@
      opacity: 1;
   }
 
+  /* Fixed to absolute bottom so the exact padding above it remains visually equal to the top */
   .feature-separator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%; 
     max-width: 1400px;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.08); 
-    margin-top: 5rem; 
-  }
-
-  @media (min-width: 1024px) {
-     .feature-separator { margin-top: 7rem; }
   }
 </style>
 
@@ -159,8 +161,7 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_1 != blank %}
-            {% comment %} Increased image_url resolution from 80 to 150 for crispness {% endcomment %}
-            <img src="{{ section.settings.image_1 | image_url: width: 150 }}" alt="{{ section.settings.text_1 | escape }}" class="custom-feature-icon" loading="lazy" width="64" height="64">
+            <img src="{{ section.settings.image_1 | image_url: width: 300 }}" alt="{{ section.settings.text_1 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 12 20 22 4 22 4 12"></polyline>
@@ -178,7 +179,7 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_2 != blank %}
-            <img src="{{ section.settings.image_2 | image_url: width: 150 }}" alt="{{ section.settings.text_2 | escape }}" class="custom-feature-icon" loading="lazy" width="64" height="64">
+            <img src="{{ section.settings.image_2 | image_url: width: 300 }}" alt="{{ section.settings.text_2 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
               <path d="M8 20v-1a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v1" />
@@ -197,7 +198,7 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_3 != blank %}
-            <img src="{{ section.settings.image_3 | image_url: width: 150 }}" alt="{{ section.settings.text_3 | escape }}" class="custom-feature-icon" loading="lazy" width="64" height="64">
+            <img src="{{ section.settings.image_3 | image_url: width: 300 }}" alt="{{ section.settings.text_3 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
@@ -213,7 +214,7 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_4 != blank %}
-            <img src="{{ section.settings.image_4 | image_url: width: 150 }}" alt="{{ section.settings.text_4 | escape }}" class="custom-feature-icon" loading="lazy" width="64" height="64">
+            <img src="{{ section.settings.image_4 | image_url: width: 300 }}" alt="{{ section.settings.text_4 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 11L12 5L17 11L12 21L7 11z" />
@@ -232,7 +233,7 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_5 != blank %}
-            <img src="{{ section.settings.image_5 | image_url: width: 150 }}" alt="{{ section.settings.text_5 | escape }}" class="custom-feature-icon" loading="lazy" width="64" height="64">
+            <img src="{{ section.settings.image_5 | image_url: width: 300 }}" alt="{{ section.settings.text_5 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
               <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
