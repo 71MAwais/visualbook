@@ -6,19 +6,16 @@
     #credentials-{{ section.id }} .font-serif { font-family: var(--font-display, 'Cormorant Garamond', serif); }
 </style>
 
-{% comment %} UPDATED: Changed bg-[#FAFAFA] to Brand Warm Linen bg-[#F5F3F0] {% endcomment %}
 <section class="py-12 md:py-16 bg-[#F5F3F0] relative overflow-hidden" id="credentials-{{ section.id }}">
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#B8906B]/5 blur-[100px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-[1200px] mx-auto px-5 md:px-8 text-center relative z-10">
         
         {% if section.settings.subtitle != blank %}
-            {% comment %} UPDATED: Changed text color to #9C7655 to pass Lighthouse Accessibility Contrast Check {% endcomment %}
-            <p class="font-sans text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#9C7655] font-semibold mb-2">{{ section.settings.subtitle }}</p>
+            <p class="font-sans text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#181615] font-semibold mb-2">{{ section.settings.subtitle }}</p>
         {% endif %}
         
         {% if section.settings.title != blank %}
-            {% comment %} UPDATED: Changed text to Brand Obsidian Black text-[#181615] {% endcomment %}
             <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-10 text-[#181615] leading-tight max-w-3xl mx-auto">
                 {{ section.settings.title }}
             </h2>
@@ -32,7 +29,6 @@
                         
                         {%- comment -%} LOGIC: Image > Custom SVG > Pregenerated Fallback {%- endcomment -%}
                         {% if block.settings.image != blank %}
-                            {% comment %} UPDATED: Added width and height attributes to fix Lighthouse Performance (CLS) error {% endcomment %}
                             <img src="{{ block.settings.image | image_url: width: 200 }}" 
                                  alt="{{ block.settings.title | escape }}" 
                                  width="{{ block.settings.image.width }}"
@@ -60,13 +56,10 @@
 
                     </div>
                     
-                    {% comment %} UPDATED: Changed text to Brand Obsidian Black text-[#181615] {% endcomment %}
                     <h3 class="font-serif text-lg md:text-xl mb-2 text-[#181615]">{{ block.settings.title }}</h3>
                     
-                    {% comment %} UPDATED: Changed text color to #9C7655 to pass Lighthouse Accessibility Contrast Check {% endcomment %}
-                    <p class="text-[9px] uppercase tracking-[0.2em] text-[#9C7655] font-bold mb-3">{{ block.settings.subtitle }}</p>
+                    <p class="text-[9px] uppercase tracking-[0.2em] text-[#181615] font-bold mb-3">{{ block.settings.subtitle }}</p>
                     
-                    {% comment %} UPDATED: Changed text to Brand Obsidian Black hex {% endcomment %}
                     <p class="text-[13px] text-[#181615]/60 font-light leading-relaxed">{{ block.settings.text }}</p>
                     
                 </div>
@@ -80,18 +73,8 @@
 {
   "name": "Credentials & Trust",
   "settings": [
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "Born in London, Loved Worldwide"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Heading",
-      "default": "A Global Standard in Luxury Memory Preservation"
-    }
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Born in London, Loved Worldwide" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "A Global Standard in Luxury Memory Preservation" }
   ],
   "blocks": [
     {

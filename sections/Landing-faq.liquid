@@ -1,13 +1,19 @@
 {% comment %} sections/visual-faq.liquid {% endcomment %}
 <style>
+    #faq-{{ section.id }} {
+        font-family: var(--font-sans, 'Inter', sans-serif);
+    }
+    #faq-{{ section.id }} .font-serif {
+        font-family: var(--font-display, 'Cormorant Garamond', serif);
+    }
     .faq-answer { 
-        transition: max-height 0.4s ease, opacity 0.4s ease; 
+        transition: max-height 0.4s ease, opacity 0.4s ease;
         max-height: 0; 
         opacity: 0; 
         overflow: hidden; 
     }
     .faq-answer.open { 
-        max-height: 300px; 
+        max-height: 300px;
         opacity: 1; 
     }
 </style>
@@ -16,7 +22,7 @@
     <div class="max-w-[800px] mx-auto px-5 md:px-8">
         
         <div class="text-center mb-12">
-            <p class="font-script text-[#B8906B] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
+            <p class="font-script text-[#181615] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
             <h2 class="font-serif text-3xl md:text-5xl font-light tracking-tight text-black">{{ section.settings.title }}</h2>
         </div>
         
@@ -61,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // SVG strings for open/close states
     const iconPlus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
     const iconMinus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/></svg>';
-
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
             const answer = btn.nextElementSibling;
@@ -87,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const title = btn.querySelector('.faq-title');
                 // Force open items to stay black, overriding the gray baseline
                 title.className = "faq-title font-serif text-[20px] md:text-[24px] transition-colors text-black";
-                
                 const iconSpan = btn.querySelector('.faq-icon');
                 iconSpan.style.transform = 'rotate(180deg)';
                 iconSpan.innerHTML = iconMinus;

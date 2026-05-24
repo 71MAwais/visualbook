@@ -35,13 +35,11 @@
     .shop-arrow:active { transform: translateY(-50%) scale(0.95); }
 </style>
 
-{% comment %} UPDATED: Changed bg-[#050505] to Brand Obsidian Black bg-[#181615] {% endcomment %}
 <div id="toast" class="toast fixed left-1/2 -translate-x-1/2 z-50 bg-[#181615] text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium pointer-events-none bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8A892" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     <span id="toast-message" aria-live="polite">Added to cart</span>
 </div>
 
-{% comment %} UPDATED: Changed bg-[#FAFAFA] to Brand Warm Linen bg-[#F5F3F0] {% endcomment %}
 <section id="shop" class="w-full bg-[#F5F3F0] py-4 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100" aria-labelledby="shop-title">
 
     <noscript>
@@ -53,8 +51,7 @@
     </noscript>
 
     <div class="w-full text-center pb-2 px-5 flex-shrink-0 z-10">
-        {% comment %} UPDATED: Changed text color to #9C7655 to pass Lighthouse Accessibility Contrast Check {% endcomment %}
-        <p class="text-[10px] font-sans font-semibold tracking-[0.3em] uppercase text-[#9C7655] mb-1">{{ section.settings.subtitle }}</p>
+        <p class="text-[10px] font-sans font-semibold tracking-[0.3em] uppercase text-[#181615] mb-1">{{ section.settings.subtitle }}</p>
         <h2 id="shop-title" class="font-serif text-[28px] md:text-[34px] lg:text-[40px] text-stone-950 tracking-tight leading-none">{{ section.settings.title }}</h2>
         <p class="mt-2 text-stone-600 text-xs md:text-[14px] font-light max-w-md mx-auto leading-relaxed">{{ section.settings.text }}</p>
     </div>
@@ -65,7 +62,7 @@
                 {{ section.settings.tab_1_label }}
                 <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-black transform scale-x-100 origin-left transition-transform duration-500"></div>
             </button>
-            <button role="tab" aria-selected="false" class="tab-btn pb-1.5 text-[10px] sm:text-[11px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-gray-500 hover:text-stone-900 focus:outline-none" data-tab="2">
+            <button role="tab" aria-selected="false" class="tab-btn pb-1.5 text-[10px] sm:text-[11px] font-sans tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative text-[#181615] opacity-60 hover:opacity-100 focus:outline-none" data-tab="2">
                 {{ section.settings.tab_2_label }}
                 <div class="tab-active-line absolute bottom-0 left-0 w-full h-[1.5px] bg-black transform scale-x-0 origin-left transition-transform duration-500"></div>
             </button>
@@ -102,7 +99,6 @@
             </div>
             
             <div id="shop-progress-container" class="flex-1 mx-4 h-[1.5px] bg-gray-300 relative overflow-hidden" role="progressbar" aria-label="Carousel Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                {% comment %} UPDATED: Changed bg-[#B8906B] to Champagne Accent bg-[#B8A892] {% endcomment %}
                 <div id="shop-progress" class="absolute top-0 left-0 h-full bg-[#B8A892] transition-all duration-500 ease-out" style="width: 0%;"></div>
             </div>
             
@@ -116,20 +112,19 @@
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {% comment %} UPDATED: Reduced width to 400 & added responsive widths for Performance (Speed) {% endcomment %}
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
                 {% for tag in product.tags %}
                     {% if tag contains 'badge:' %}
                         <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
                         </div>
                     {% endif %}
                 {% endfor %}
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
                     <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-black text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-black hover:text-white transition-colors">Quick Add</button>
+                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
@@ -137,8 +132,7 @@
                 <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
                     <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-black tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
                 </a>
-                {% comment %} UPDATED: Changed text color to #9C7655 to pass Lighthouse Accessibility Contrast Check {% endcomment %}
-                <p class="mt-1 text-[#9C7655] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
             </div>
         </article>
     {% endfor %}
@@ -149,20 +143,19 @@
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {% comment %} UPDATED: Reduced width to 400 & added responsive widths for Performance (Speed) {% endcomment %}
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
                 {% for tag in product.tags %}
                     {% if tag contains 'badge:' %}
                         <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-black">{{ tag | remove: 'badge:' }}</span>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
                         </div>
                     {% endif %}
                 {% endfor %}
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
                     <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-black text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-black hover:text-white transition-colors">Quick Add</button>
+                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
@@ -170,8 +163,7 @@
                 <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
                     <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-black tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
                 </a>
-                {% comment %} UPDATED: Changed text color to #9C7655 to pass Lighthouse Accessibility Contrast Check {% endcomment %}
-                <p class="mt-1 text-[#9C7655] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
             </div>
         </article>
     {% endfor %}
@@ -386,12 +378,12 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(t => {
                 t.classList.remove('active', 'text-black', 'font-bold');
-                t.classList.add('text-gray-500');
+                t.classList.add('text-[#181615]', 'opacity-60');
                 t.setAttribute('aria-selected', 'false');
                 t.querySelector('.tab-active-line').classList.replace('scale-x-100', 'scale-x-0');
             });
             btn.classList.add('active', 'text-black', 'font-bold');
-            btn.classList.remove('text-gray-500');
+            btn.classList.remove('text-[#181615]', 'opacity-60');
             btn.setAttribute('aria-selected', 'true');
             btn.querySelector('.tab-active-line').classList.replace('scale-x-0', 'scale-x-100');
             renderTab(parseInt(btn.dataset.tab));
@@ -450,8 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { "type": "text", "id": "tab_2_label", "label": "Tab 2 Label", "default": "Audio Cards" },
     { "type": "collection", "id": "collection_2", "label": "Collection 2" }
   ],
-  "presets": [
-    { "name": "Shop Carousel" }
-  ]
+  "presets": [{ "name": "Shop Carousel" }]
 }
 {% endschema %}

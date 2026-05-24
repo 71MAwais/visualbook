@@ -1,10 +1,10 @@
 {% comment %} sections/cinematic-experience.liquid {% endcomment %}
 <style>
     #cinematic-grid-{{ section.id }} { 
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: var(--font-sans, 'Inter', sans-serif);
     }
     #cinematic-grid-{{ section.id }} .font-serif { 
-        font-family: 'Playfair Display', serif;
+        font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
 
     /* Custom Scrollbar for Modal content */
@@ -14,8 +14,8 @@
 
     /* Tab active state transitions */
     .cine-tab-btn.active {
-        color: #B8906B;
-        border-bottom-color: #B8906B;
+        color: #181615;
+        border-bottom-color: #181615;
     }
     .cine-tab-content {
         display: none;
@@ -59,9 +59,8 @@
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
-            {% comment %} ACCESSIBILITY FIX: Removed aria-label to let screen readers read the actual visual content {% endcomment %}
             <button type="button" 
-                 class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#B8906B] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
+                 class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#181615] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
                  data-modal-target="cine-modal-{{ block.id }}" 
                  {{ block.shopify_attributes }}>
                 
@@ -84,8 +83,8 @@
 
                     {% comment %} Floating Play Button {% endcomment %}
                     <div class="absolute inset-0 flex items-center justify-center z-20">
-                        <div class="w-14 h-14 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:bg-[#B8906B] group-hover:scale-110 transition-all duration-500">
-                            <svg class="w-5 h-5 text-[#B8906B] group-hover:text-white ml-0.5 transition-colors duration-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        <div class="w-14 h-14 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:bg-[#181615] group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5 text-[#181615] group-hover:text-white ml-0.5 transition-colors duration-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
 
@@ -93,7 +92,7 @@
                     {% if block.settings.video_duration != blank %}
                         <div class="absolute bottom-3 right-3 z-20">
                             <span class="inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded tracking-wider shadow-sm">
-                                <svg class="w-2.5 h-2.5 text-[#B8906B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <svg class="w-2.5 h-2.5 text-[#181615]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 {{ block.settings.video_duration | escape }}
                             </span>
                         </div>
@@ -103,13 +102,12 @@
                 {% comment %} Bottom Text Area {% endcomment %}
                 <div class="p-6 md:p-8 flex flex-col grow bg-white">
                     {% if block.settings.tag != blank %}
-                        {% comment %} ACCESSIBILITY FIX: Darkened gold to #73563F for 4.5:1 ratio on white {% endcomment %}
-                        <span class="inline-block text-[#73563F] text-[10px] uppercase tracking-widest font-bold mb-3">
+                        <span class="inline-block text-[#181615] text-[10px] uppercase tracking-widest font-bold mb-3">
                              {{ block.settings.tag | escape }}
                         </span>
                     {% endif %}
                     
-                    <h3 class="font-serif text-[24px] md:text-[26px] text-gray-900 leading-tight group-hover:text-[#B8906B] transition-colors duration-300">
+                    <h3 class="font-serif text-[24px] md:text-[26px] text-gray-900 leading-tight group-hover:text-[#181615] transition-colors duration-300">
                         {{ title }}
                     </h3>
                     
@@ -137,7 +135,7 @@
             
             {% comment %} Close Button {% endcomment %}
             <button type="button" 
-                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/60 backdrop-blur hover:bg-[#B8906B] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
+                    class="cine-modal-close absolute top-4 right-4 z-50 w-10 h-10 bg-black/60 backdrop-blur hover:bg-[#181615] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
                     aria-label="Close modal">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
@@ -160,17 +158,17 @@
                             <div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10 md:hidden"></div>
                             <div class="absolute bottom-12 md:bottom-16 left-0 right-0 flex flex-wrap justify-center gap-2 px-2 z-20 opacity-100 md:opacity-0 group-hover/video:opacity-100 transition-opacity duration-300 pointer-events-none">
                                 {% if block.settings.chapter_1_label != blank %}
-                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_1_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#181615] transition-colors border border-white/20">
                                         {{ block.settings.chapter_1_label | escape }}
                                     </button>
                                 {% endif %}
                                 {% if block.settings.chapter_2_label != blank %}
-                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_2_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_2_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#181615] transition-colors border border-white/20">
                                         {{ block.settings.chapter_2_label | escape }}
                                     </button>
                                 {% endif %}
                                 {% if block.settings.chapter_3_label != blank %}
-                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_3_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#B8906B] transition-colors border border-white/20">
+                                    <button type="button" data-block="{{ block.id }}" data-time="{{ block.settings.chapter_3_time }}" class="chapter-btn pointer-events-auto bg-black/70 backdrop-blur-md text-white text-[10px] md:text-[11px] uppercase tracking-wider font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-[#181615] transition-colors border border-white/20">
                                         {{ block.settings.chapter_3_label | escape }}
                                     </button>
                                 {% endif %}
@@ -188,7 +186,7 @@
                         {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
                     {% endif %}
                     <div class="relative z-10 w-full max-w-md mx-auto">
-                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_2_title | escape }}</h5>
+                        <h5 class="text-[#181615] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_2_title | escape }}</h5>
                         <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
                             {{ block.settings.tab_2_text }}
                         </div>
@@ -201,7 +199,7 @@
                         {{ block.settings.cover_image | image_url: width: 800 | image_tag: class: 'absolute inset-0 w-full h-full object-cover opacity-10', loading: 'lazy' }}
                     {% endif %}
                     <div class="relative z-10 w-full max-w-md mx-auto">
-                        <h5 class="text-[#B8906B] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_3_title | escape }}</h5>
+                        <h5 class="text-[#181615] uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 md:mb-4">{{ block.settings.tab_3_title | escape }}</h5>
                         <div class="font-sans text-[14px] md:text-[15px] text-white/80 space-y-3 md:space-y-4 leading-relaxed">
                             {{ block.settings.tab_3_text }}
                         </div>
@@ -212,8 +210,7 @@
 
             {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
             <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll flex-1 overflow-y-auto z-10">
-                {% comment %} ACCESSIBILITY FIX: Darkened gold to #73563F for 4.5:1 ratio on white {% endcomment %}
-                <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#73563F] font-bold mb-2">{{ block.settings.tag | escape }}</span>
+                <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#181615] font-bold mb-2">{{ block.settings.tag | escape }}</span>
                 <h3 id="modal-title-{{ block.id }}" class="font-serif text-[28px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-8 md:mb-10">{{ block.settings.title | escape }}</h3>
 
                 {% comment %} The 3 Tabs Buttons {% endcomment %}
@@ -231,7 +228,7 @@
 
                 {% comment %} Dynamic Text area below tabs {% endcomment %}
                 <div class="mt-auto pt-6 md:pt-8 pb-4 sm:pb-0">
-                    <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#B8906B] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#B8906B] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
+                    <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#181615] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#181615] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
                         {{ block.settings.button_label | default: "Create Your Book" | escape }}
                     </a>
                 </div>
