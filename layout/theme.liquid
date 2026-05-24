@@ -22,13 +22,22 @@
         :root {
             /* Refined Luxury Palette */
             --color-obsidian: #181615; /* Deep warm black for high-end contrast */
-            --color-canvas: #FFFFFF;   /* Pure white to maintain the clean, bright look */
-            --color-linen: #F5F3F0;    /* Soft beige for subtle product card backgrounds */
-            --color-accent: #B8A892;   /* Elegant taupe/champagne for subtle highlights */
-            --color-stone: #8E8881;    /* Muted grey-brown for secondary typography */
+            --color-canvas: #FFFFFF; /* Pure white to maintain the clean, bright look */
+            --color-linen: #F5F3F0; /* Soft beige for subtle product card backgrounds */
+            --color-accent: #B8A892; /* Elegant taupe/champagne for subtle highlights */
+            --color-stone: #8E8881; /* Muted grey-brown for secondary typography */
             
+            /* Your Custom Brand Fonts */
             --font-display: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Inter', Helvetica, sans-serif;
+
+            /* FIX: Map Brand Fonts to Shopify's Default Variables */
+            --font-heading-family: var(--font-display);
+            --font-body-family: var(--font-sans);
+            --font-heading-weight: 400;
+            --font-body-weight: 400;
+            --font-heading-style: normal;
+            --font-body-style: normal;
             
             --spacing-sm: 12px;
             --spacing-md: 24px;

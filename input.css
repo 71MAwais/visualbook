@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @theme {
+  /* 1. Define Tailwind Brand Fonts */
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
   --font-logo: "Inter", sans-serif;
+  
   --animate-marquee: marquee 30s linear infinite;
 
   @keyframes marquee {
@@ -10,7 +14,6 @@
   }
 }
 
-/* Explicitly allow the header classes to exist even if not used in standard HTML strings */
 @utility header-hidden {
   transform: translateY(-100%);
 }
@@ -24,9 +27,33 @@
 }
 
 @layer base {
+  /* 2. Hijack Shopify's native CSS variables */
+  :root {
+    --font-heading-family: "Cormorant Garamond", serif !important;
+    --font-body-family: "Inter", sans-serif !important;
+    --font-heading-weight: 400 !important;
+    --font-body-weight: 400 !important;
+  }
+
+  /* 3. Force Body and Text to Inter */
   body {
     -webkit-font-smoothing: antialiased;
-    color: #000000;
-    background-color: #ffffff;
+    color: #181615; /* Obsidian Black */
+    background-color: #ffffff; /* Canvas White */
+    font-family: var(--font-sans) !important;
+  }
+
+  /* 4. Force all Headings to Cormorant Garamond */
+  h1, h2, h3, h4, h5, h6, 
+  .h0, .h1, .h2, .h3, .h4, .h5, .h6,
+  .title, .hxl, .hxxl {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+  }
+
+  /* 5. Force UI elements (Buttons, Nav, Inputs) to Inter */
+  button, .button, a.button, 
+  .header__menu-item, input, select, textarea {
+    font-family: var(--font-sans) !important;
   }
 }
