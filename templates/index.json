@@ -97,6 +97,28 @@
     "landing_cinematic_dVzXyi": {
       "type": "Landing-cinematic",
       "blocks": {
+        "experience_fUUBki": {
+          "type": "experience",
+          "settings": {
+            "tag": "OUR WEDDING",
+            "title": "Classic Visual Book",
+            "description": "Relive the magic of your special day with a beautifully crafted visual book of your wedding memories.",
+            "video_duration": "",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features",
+            "tab_2_text": "<p><strong>Instant Playback:</strong> Open the cover and the video begins automatically.</p><p><strong>Vivid Display:</strong> Gorgeous 8-inch glare-free screen.</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>A physical home for your digital memories. Relive the laughter, the tears, and the joy of your most cherished moments—ready to be experienced without screens, apps, or distractions.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "",
+            "chapter_1_label": "",
+            "chapter_1_time": 0,
+            "chapter_2_label": "",
+            "chapter_2_time": 15,
+            "chapter_3_label": "",
+            "chapter_3_time": 30
+          }
+        },
         "experience_zfp7T3": {
           "type": "experience",
           "settings": {
@@ -122,6 +144,7 @@
         }
       },
       "block_order": [
+        "experience_fUUBki",
         "experience_zfp7T3"
       ],
       "name": "Cinematic Showcase",
