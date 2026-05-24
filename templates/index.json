@@ -188,13 +188,36 @@
             "chapter_3_label": "",
             "chapter_3_time": 30
           }
+        },
+        "experience_hxJmdV": {
+          "type": "experience",
+          "settings": {
+            "tag": "I LOVE YOU",
+            "title": "Classic Visual Book Gift",
+            "description": "A heartfelt gift to simply say \"I love you\" through a collection of the moving memories you've shared.",
+            "video_duration": "02:00",
+            "tab_1_title": "The Video",
+            "tab_2_title": "Features & Specs",
+            "tab_2_text": "<p><strong>Display:</strong> 7.1-inch IPS HD Display<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> Simple Drag & Drop Setup with a 2500mAh Lithium Battery</p>",
+            "tab_3_title": "The Purpose",
+            "tab_3_text": "<p>Sometimes words aren't enough. Show them exactly how much they mean to you with a curated video experience wrapped in a luxury, tangible book.</p>",
+            "button_label": "Create Your Book",
+            "button_link": "shopify://products/i-love-you-classic-visual-book-classic-visual-book-gift",
+            "chapter_1_label": "",
+            "chapter_1_time": 0,
+            "chapter_2_label": "",
+            "chapter_2_time": 15,
+            "chapter_3_label": "",
+            "chapter_3_time": 30
+          }
         }
       },
       "block_order": [
         "experience_zfp7T3",
         "experience_fUUBki",
         "experience_RDmccT",
-        "experience_4qNMfY"
+        "experience_4qNMfY",
+        "experience_hxJmdV"
       ],
       "name": "Cinematic Showcase",
       "settings": {
