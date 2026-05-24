@@ -3,9 +3,9 @@
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
---font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
---font-serif: 'Cormorant Garamond', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-100: oklch(93.6% 0.032 17.717);
@@ -19,6 +19,7 @@
     --color-emerald-50: oklch(97.9% 0.021 166.113);
     --color-emerald-100: oklch(95% 0.052 163.051);
     --color-emerald-600: oklch(59.6% 0.145 163.225);
+    --color-emerald-700: oklch(50.8% 0.118 165.612);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-pink-600: oklch(59.2% 0.249 0.584);
     --color-gray-50: oklch(98.5% 0.002 247.839);
@@ -1762,8 +1763,8 @@
     --tw-gradient-position: to top in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
   }
-  .from-\[\#B8906B\]\/10 {
-    --tw-gradient-from: color-mix(in oklab, #B8906B 10%, transparent);
+  .from-\[\#181615\]\/10 {
+    --tw-gradient-from: color-mix(in oklab, #181615 10%, transparent);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .from-\[\#F5F3F0\] {
@@ -2272,23 +2273,17 @@
   .whitespace-pre-line {
     white-space: pre-line;
   }
+  .text-\[\#8C734A\] {
+    color: #8C734A;
+  }
   .text-\[\#9A7A54\] {
     color: #9A7A54;
-  }
-  .text-\[\#9C7655\] {
-    color: #9C7655;
   }
   .text-\[\#111\] {
     color: #111;
   }
   .text-\[\#00529b\] {
     color: #00529b;
-  }
-  .text-\[\#050505\] {
-    color: #050505;
-  }
-  .text-\[\#050505\]\/60 {
-    color: color-mix(in oklab, #050505 60%, transparent);
   }
   .text-\[\#111111\] {
     color: #111111;
@@ -2298,6 +2293,9 @@
   }
   .text-\[\#181615\]\/60 {
     color: color-mix(in oklab, #181615 60%, transparent);
+  }
+  .text-\[\#181615\]\/70 {
+    color: color-mix(in oklab, #181615 70%, transparent);
   }
   .text-\[\#666666\] {
     color: #666666;
@@ -2331,6 +2329,9 @@
   }
   .text-emerald-600 {
     color: var(--color-emerald-600);
+  }
+  .text-emerald-700 {
+    color: var(--color-emerald-700);
   }
   .text-gray-200 {
     color: var(--color-gray-200);
@@ -2763,10 +2764,10 @@
       }
     }
   }
-  .group-hover\:bg-\[\#B8906B\] {
+  .group-hover\:bg-\[\#181615\] {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
-        background-color: #B8906B;
+        background-color: #181615;
       }
     }
   }
@@ -2794,10 +2795,10 @@
       }
     }
   }
-  .group-hover\:text-\[\#B8906B\] {
+  .group-hover\:text-\[\#181615\] {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
-        color: #B8906B;
+        color: #181615;
       }
     }
   }
@@ -3003,10 +3004,10 @@
       }
     }
   }
-  .hover\:bg-\[\#B8906B\] {
+  .hover\:bg-\[\#181615\] {
     &:hover {
       @media (hover: hover) {
-        background-color: #B8906B;
+        background-color: #181615;
       }
     }
   }
@@ -3014,13 +3015,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: #C5A059;
-      }
-    }
-  }
-  .hover\:bg-black {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-black);
       }
     }
   }
@@ -3100,6 +3094,13 @@
       }
     }
   }
+  .hover\:text-\[\#181615\] {
+    &:hover {
+      @media (hover: hover) {
+        color: #181615;
+      }
+    }
+  }
   .hover\:text-\[\#B8906B\] {
     &:hover {
       @media (hover: hover) {
@@ -3146,6 +3147,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-stone-700);
+      }
+    }
+  }
+  .hover\:text-stone-800 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-stone-800);
       }
     }
   }
@@ -3263,11 +3271,6 @@
       position: absolute;
     }
   }
-  .focus\:z-\[100\] {
-    &:focus {
-      z-index: 100;
-    }
-  }
   .focus\:border-\[\#B8906B\] {
     &:focus {
       border-color: #B8906B;
@@ -3313,9 +3316,9 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
-  .focus\:ring-\[\#B8906B\] {
+  .focus\:ring-\[\#181615\] {
     &:focus {
-      --tw-ring-color: #B8906B;
+      --tw-ring-color: #181615;
     }
   }
   .focus\:ring-white {
@@ -3360,9 +3363,9 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
-  .focus-visible\:ring-\[\#B8906B\] {
+  .focus-visible\:ring-\[\#181615\] {
     &:focus-visible {
-      --tw-ring-color: #B8906B;
+      --tw-ring-color: #181615;
     }
   }
   .focus-visible\:ring-white {
