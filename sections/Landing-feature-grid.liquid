@@ -2,14 +2,15 @@
   Landing Feature Grid - optimized for luxury branding.
   Mobile: Classic 2-1-2 Diamond layout.
   Desktop: Modern, inline single row with elegant hover states.
-  Bottom padding removed.
+  Equal top and bottom padding (reduced by 40%).
 {% endcomment %}
 
 <style>
   #shopify-section-{{ section.id }} .landing-features {
+    position: relative; /* Added to constrain the absolute bottom separator */
     background-color: {{ section.settings.bg_color | default: '#FCFCFC' }};
-    /* Padding: Top Right Bottom Left (Bottom is 0) */
-    padding: 5rem 1.5rem 0 1.5rem; 
+    /* Padding: Top & Bottom (3rem = 5rem - 40%), Left & Right (1.5rem) */
+    padding: 3rem 1.5rem; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +21,8 @@
 
   @media (min-width: 1024px) {
     #shopify-section-{{ section.id }} .landing-features {
-      padding: 7rem 2rem 0 2rem;
+      /* Padding: Top & Bottom (4.2rem = 7rem - 40%), Left & Right (2rem) */
+      padding: 4.2rem 2rem;
     }
   }
 
@@ -95,19 +97,19 @@
   /* --- ENHANCED LOGO/ICON WRAPPER --- */
   .feature-icon-wrapper {
     color: {{ section.settings.text_color | default: '#000000' }};
-    opacity: 1; /* Fixed: Removed 0.85 opacity so logos aren't washed out */
+    opacity: 1; /* Retained 100% opacity for crispness */
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 90px; /* Fixed height for consistency */
-    width: 100%;  /* Use full column width */
+    height: 90px;
+    width: 100%;
   }
 
   .custom-feature-icon {
     width: 100%; 
     height: 100%;
-    max-width: 120px; /* Limits width so horizontal logos don't get too large */
+    max-width: 120px;
     object-fit: contain;
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
@@ -118,7 +120,7 @@
   }
   
   .feature-item:hover .custom-feature-icon {
-    transform: scale(1.08); /* Slightly softer zoom for larger images */
+    transform: scale(1.08);
   }
 
   .feature-text {
@@ -138,16 +140,16 @@
      opacity: 1;
   }
 
+  /* Fixed to absolute bottom so the exact padding above it remains visually equal to the top */
   .feature-separator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%; 
     max-width: 1400px;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.08); 
-    margin-top: 5rem; 
-  }
-
-  @media (min-width: 1024px) {
-     .feature-separator { margin-top: 7rem; }
   }
 </style>
 
@@ -159,7 +161,6 @@
       <div class="feature-item">
         <div class="feature-icon-wrapper">
           {% if section.settings.image_1 != blank %}
-            {% comment %} Increased image_url resolution to 300 for crispness on Retina displays, removed hardcoded width/height HTML attributes {% endcomment %}
             <img src="{{ section.settings.image_1 | image_url: width: 300 }}" alt="{{ section.settings.text_1 | escape }}" class="custom-feature-icon" loading="lazy">
           {% else %}
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
