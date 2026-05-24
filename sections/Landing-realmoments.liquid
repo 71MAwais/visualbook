@@ -1,7 +1,7 @@
 {% comment %} sections/visual-realmoments.liquid {% endcomment %}
 
-{%- assign section_bg = section.settings.bg_color | default: '#FFFFFF' -%}
-{%- assign section_text = section.settings.text_color | default: '#111111' -%}
+{%- assign section_bg = section.settings.bg_color | default: '#14110F' -%}
+{%- assign section_text = section.settings.text_color | default: '#FFFFFF' -%}
 
 <style>
     #real-moments-{{ section.id }} { 
@@ -15,7 +15,7 @@
     .moment-card {
         transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
-        opacity: 0.4;
+        opacity: 0.35;
         transform: scale(0.85);
         will-change: transform, opacity;
     }
@@ -23,18 +23,18 @@
         opacity: 1;
         transform: scale(1);
         z-index: 10;
-        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); /* Softened shadow for light theme */
+        box-shadow: 0 20px 50px -15px rgba(0,0,0,0.6);
     }
     
     /* Play/Pause/Loading Button Logic - MATCHING THEME COLOR #B8906B */
     .play-pause-indicator {
         transition: all 0.3s ease;
         opacity: 1;
-        background: rgba(184, 144, 107, 0.2);
+        background: rgba(184, 144, 107, 0.15);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(184, 144, 107, 0.5);
-        color: #ffffff; /* Swapped to white for better visibility */
+        border: 1px solid rgba(184, 144, 107, 0.4);
+        color: #B8906B; 
     }
     
     /* Hide Indicator ONLY when actively playing */
@@ -70,12 +70,12 @@
         transform: translate3d(0, -50%, 0);
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
-        background: rgba(255, 255, 255, 0.8); 
+        background: rgba(184, 144, 107, 0.1); /* Subtle theme tint */
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(184, 144, 107, 0.3);
         color: var(--text-color);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        opacity: 0.8;
         transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     @media (hover: hover) and (pointer: fine) {
@@ -83,6 +83,7 @@
             background: #B8906B;
             border-color: #B8906B;
             color: #ffffff;
+            opacity: 1;
             transform: translate3d(0, -50%, 0) scale(1.05);
         }
     }
@@ -91,10 +92,10 @@
     }
 </style>
 
-<section id="real-moments-{{ section.id }}" class="w-full py-12 md:py-20 flex flex-col items-center select-none overflow-hidden" aria-labelledby="moments-title">
+<section id="real-moments-{{ section.id }}" class="w-full py-6 md:py-10 flex flex-col items-center select-none overflow-hidden" aria-labelledby="moments-title">
 
-    <div class="w-full text-center pb-8 md:pb-12 px-5 flex-shrink-0 z-10">
-        <p class="font-script text-[#B8906B] text-[24px] md:text-[30px] mb-2 leading-none">{{ section.settings.subtitle }}</p>
+    <div class="w-full text-center pb-4 md:pb-8 px-5 flex-shrink-0 z-10">
+        <p class="font-script text-[#B8906B] text-[24px] md:text-[30px] mb-1.5 leading-none">{{ section.settings.subtitle }}</p>
         <h2 id="moments-title" class="font-serif text-[36px] md:text-[52px] tracking-tight leading-[1.1]" style="color: var(--text-color);">{{ section.settings.title }}</h2>
     </div>
 
@@ -108,9 +109,9 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
-        <div id="moments-track" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab items-center py-8 relative">
+        <div id="moments-track" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab items-center py-6 relative">
             <div id="moments-start-spacer" class="shrink-0 w-[50vw]"></div>
-            <div id="moments-card-container" class="flex gap-6 md:gap-12 items-center shrink-0"></div>
+            <div id="moments-card-container" class="flex gap-4 md:gap-8 items-center shrink-0"></div>
             <div id="moments-end-spacer" class="shrink-0 w-[50vw]"></div>
         </div>
     </div>
@@ -118,11 +119,11 @@
 
 <template id="moments-data">
     {% for block in section.blocks %}
-        <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-gray-100 snap-center relative overflow-hidden rounded-[8px] cursor-pointer group">
+        <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-[#111] snap-center relative overflow-hidden rounded-[4px] cursor-pointer group">
             
             {% if block.settings.video != blank %}
                 {% if block.settings.video.preview_image %}
-                    <img src="{{ block.settings.video.preview_image | image_url: width: 600, format: 'webp' }}" class="moment-thumb absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-10 pointer-events-none" loading="lazy" alt="{{ block.settings.title | escape }}">
+                    <img src="{{ block.settings.video.preview_image | image_url: width: 600, format: 'webp' }}" class="moment-thumb absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-10 pointer-events-none opacity-80" loading="lazy" alt="{{ block.settings.title | escape }}">
                 {% endif %}
                 <video preload="none" loop muted playsinline webkit-playsinline class="moment-video absolute inset-0 w-full h-full object-cover z-0">
                     {% for source in block.settings.video.sources %}
@@ -130,10 +131,10 @@
                     {% endfor %}
                 </video>
             {% elsif block.settings.image != blank %}
-                <img src="{{ block.settings.image | image_url: width: 600, format: 'webp' }}" alt="{{ block.settings.handle }}" class="absolute inset-0 w-full h-full object-cover z-0" loading="lazy">
+                <img src="{{ block.settings.image | image_url: width: 600, format: 'webp' }}" alt="{{ block.settings.handle }}" class="absolute inset-0 w-full h-full object-cover z-0 opacity-80" loading="lazy">
             {% endif %}
             
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-70 pointer-events-none z-10"></div>
             
             <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                 <div class="play-pause-indicator w-14 h-14 rounded-full flex items-center justify-center">
@@ -154,7 +155,7 @@
         </div>
     {% else %}
         {% for i in (1..3) %}
-            <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-gray-200 snap-center relative overflow-hidden rounded-[8px] cursor-pointer">
+            <div class="moment-card flex-shrink-0 w-[75vw] sm:w-[280px] md:w-[320px] lg:w-[350px] aspect-[4/5] bg-[#111] snap-center relative overflow-hidden rounded-[4px] cursor-pointer">
                  <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                     <div class="play-pause-indicator w-14 h-14 rounded-full flex items-center justify-center">
                         <svg class="play-svg w-6 h-6 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -165,8 +166,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none z-10"></div>
-                <div class="absolute bottom-6 left-6 text-white text-[13px] font-sans font-bold tracking-widest uppercase z-20 pointer-events-none drop-shadow-md">
+                <div class="absolute bottom-6 left-6 text-white text-[13px] font-sans font-bold tracking-widest uppercase z-10 pointer-events-none">
                     @the_visual_book
                 </div>
             </div>
@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pauseSvg = card.querySelector('.pause-svg');
         const loadSvg = card.querySelector('.loading-svg');
         
+        // Hide all SVGs by default
         if(playSvg) playSvg.classList.add('hidden');
         if(pauseSvg) pauseSvg.classList.add('hidden');
         if(loadSvg) loadSvg.classList.add('hidden');
@@ -227,11 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.remove('is-playing');
             if(loadSvg) loadSvg.classList.remove('hidden');
         } else {
+            // Paused State
             card.classList.remove('is-playing');
             if(playSvg) playSvg.classList.remove('hidden');
         }
     }
 
+    // Attach native event listeners to properly control the states
     cards.forEach((card) => {
         const video = card.querySelector('video');
         const thumb = card.querySelector('.moment-thumb');
@@ -308,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video) {
                 if (isActive && isVisible && !card.classList.contains('manual-pause')) {
                     const playPromise = video.play();
+                    // State automatically handles itself due to the .addEventListener bindings above!
                     if (playPromise !== undefined) {
                         playPromise.catch(() => {}); 
                     }
@@ -317,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         video.currentTime = 0; 
                     }
                     card.classList.remove('manual-pause'); 
-                    if (thumb) thumb.style.opacity = '1'; 
+                    if (thumb) thumb.style.opacity = '0.8'; 
                 }
             }
         });
@@ -500,8 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
 {
   "name": "Real Moments",
   "settings": [
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FFFFFF", "info": "A bright white or soft off-white background." },
-    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#111111" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#14110F", "info": "A warm dark color complements the gold theme." },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Community" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Real Moments" }
   ],
