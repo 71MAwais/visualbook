@@ -1560,6 +1560,9 @@
   .bg-\[\#181615\] {
     background-color: #181615;
   }
+  .bg-\[\#B8A892\] {
+    background-color: #B8A892;
+  }
   .bg-\[\#B8906B\] {
     background-color: #B8906B;
   }
@@ -1761,6 +1764,10 @@
   }
   .from-\[\#B8906B\]\/10 {
     --tw-gradient-from: color-mix(in oklab, #B8906B 10%, transparent);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-\[\#F5F3F0\] {
+    --tw-gradient-from: #F5F3F0;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .from-\[\#FAFAFA\] {
