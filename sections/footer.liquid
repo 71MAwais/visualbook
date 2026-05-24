@@ -95,7 +95,8 @@
             
             {% comment %} Navigation Column {% endcomment %}
             <div>
-                <h4 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.menu_title }}</h4>
+                {% comment %} ACCESSIBILITY FIX: Changed h4 to h2 {% endcomment %}
+                <h2 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.menu_title }}</h2>
                 <nav class="flex flex-col gap-3.5">
                     {% if section.settings.footer_menu != blank %}
                         {% for link in linklists[section.settings.footer_menu].links %}
@@ -109,7 +110,8 @@
             
             {% comment %} Newsletter Column {% endcomment %}
             <div>
-                <h4 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.newsletter_title }}</h4>
+                {% comment %} ACCESSIBILITY FIX: Changed h4 to h2 {% endcomment %}
+                <h2 class="text-[12px] uppercase tracking-[0.2em] text-white font-bold mb-5">{{ section.settings.newsletter_title }}</h2>
                 <p class="text-[15px] text-white/90 mb-5">{{ section.settings.newsletter_text }}</p>
                 
                 {% form 'customer', class: 'flex relative' %}

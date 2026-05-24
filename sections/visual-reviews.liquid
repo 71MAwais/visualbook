@@ -79,7 +79,8 @@
 <section id="visual-reviews-{{ section.id }}" class="w-full bg-[#FAFAFA] py-8 md:py-12 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50">
 
     <div class="w-full text-center pb-6 px-5 flex-shrink-0 z-10">
-        <p class="font-script text-[#B8906B] text-[24px] md:text-[28px] mb-1 md:mb-2 leading-none">{{ section.settings.subtitle }}</p>
+        {% comment %} ACCESSIBILITY FIX: Darkened text to #73563F to pass 4.5:1 ratio {% endcomment %}
+        <p class="font-script text-[#73563F] text-[24px] md:text-[28px] mb-1 md:mb-2 leading-none">{{ section.settings.subtitle }}</p>
         <h2 class="font-serif text-[32px] md:text-[40px] text-stone-950 tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
         
         {% if section.settings.show_rating %}
@@ -122,14 +123,16 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#B8906B{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     {% endfor %}
                 </div>
-                <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h4>
+                {% comment %} ACCESSIBILITY FIX: Changed h4 to h3 {% endcomment %}
+                <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h3>
                 <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">{{ block.settings.text }}</p>
             </div>
             <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
                 <div class="flex flex-col">
                     <span class="text-[13px] font-bold text-stone-950 tracking-wide">{{ block.settings.author }}</span>
                     {% if block.settings.verified %}
-                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                        {% comment %} ACCESSIBILITY FIX: Darkened from stone-400 to stone-600 to pass contrast {% endcomment %}
+                        <span class="text-[10px] font-medium text-stone-600 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
                     {% endif %}
                 </div>
                 {% if block.settings.verified %}
@@ -144,13 +147,15 @@
                     <div class="flex items-center gap-1 mb-3">
                         {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#B8906B" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
                     </div>
-                    <h4 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h4>
+                    {% comment %} ACCESSIBILITY FIX: Changed h4 to h3 {% endcomment %}
+                    <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h3>
                     <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">Add a review in the Shopify customizer.</p>
                 </div>
                 <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center">
                     <div class="flex flex-col">
                         <span class="text-[13px] font-bold text-stone-950 tracking-wide">Customer Name</span>
-                        <span class="text-[10px] font-medium text-stone-400 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                        {% comment %} ACCESSIBILITY FIX: Darkened from stone-400 to stone-600 to pass contrast {% endcomment %}
+                        <span class="text-[10px] font-medium text-stone-600 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
                     </div>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
                 </div>
@@ -171,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isJumping = false;
     let isTouching = false; 
     let scrollTimeout = null;
-    
     // --- SMART AUTO SCROLL LOGIC ---
     let autoScrollTimer = null;
     let isInteracting = false;
@@ -182,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(autoScrollTimer);
         // Do not auto scroll if user is interacting, jumping, dragging, or if disabled
         if (isInteracting || totalOriginal === 0 || isJumping || isDown || isTouching || AUTO_SCROLL_DELAY === 0) return;
-        
         autoScrollTimer = setTimeout(() => {
             if (isInteracting || isJumping || isDown || isTouching) return;
             const active = document.querySelector('.review-card.active-card');
@@ -194,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
 
     if (totalOriginal === 0) return;
-
     // Loop 3 times to recreate infinite scrolling logic
     for (let i = 0; i < 3; i++) {
         dataCards.forEach((cardTemplate, idx) => {
@@ -236,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function jumpToIndexSilently(index) {
         isJumping = true;
-        
         scrollContainer.style.scrollSnapType = 'none'; // Prevent browser from fighting JS
         
         const cards = Array.from(cardContainer.children);
@@ -298,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PAUSE AUTO SCROLL ON INTERACTION ---
     scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
     scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown && !isTouching) queueNextAutoScroll(); });
-    
     // MOBILE TOUCH LISTENERS
     scrollContainer.addEventListener('touchstart', () => { 
         isTouching = true; 
@@ -314,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isTouching = false; 
         isInteracting = false;
     }, { passive: true });
-
     scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
 
     if (prevBtn) prevBtn.addEventListener('click', () => {
@@ -327,7 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const active = document.querySelector('.review-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) + 1);
     });
-
     // DESKTOP Drag to scroll
     let startX, scrollLeft;
     scrollContainer.addEventListener('mousedown', (e) => {
@@ -361,7 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const walk = (x - startX) * 2;
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
-
     // Initialize layout and jump to middle set safely
     adjustSpacers();
     
@@ -371,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
     scrollContainer.scrollLeft = initialPos;
     cards[totalOriginal].classList.add('active-card');
-    
     requestAnimationFrame(() => {
         scrollContainer.style.scrollSnapType = 'x mandatory';
         isJumping = false;
@@ -406,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "settings": [
         { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Star Rating", "default": 5 },
         { "type": "text", "id": "title", "label": "Review Title", "default": "Absolutely Beautiful" },
-        { "type": "textarea", "id": "text", "label": "Review Text", "default": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family." },
+        { "type": "textarea", "id": "text", "label": "Review Text", "default": "The craftsmanship is unmatched.\nIt truly feels like a modern heirloom for our family." },
         { "type": "text", "id": "author", "label": "Author Name", "default": "Sarah M." },
         { "type": "checkbox", "id": "verified", "label": "Show Verified Badge", "default": true }
       ]
