@@ -1,12 +1,14 @@
-{% comment %} sections/visual-as-seen.liquid {% endcomment %}
+{% comment %} sections/visual-as-seen.liquid - UPDATED FOR V2.1 BRAND ARCHITECTURE & LIGHTHOUSE {% endcomment %}
 
 <style>
     #visual-as-seen-{{ section.id }} {
         background-color: {{ section.settings.bg_color }};
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        /* UPDATED: V2.1 Brand Architecture Sans Font */
+        font-family: var(--font-sans, 'Inter', sans-serif);
     }
     #visual-as-seen-{{ section.id }} .font-serif {
-        font-family: 'Playfair Display', serif;
+        /* UPDATED: V2.1 Brand Architecture Display Font */
+        font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
     
     /* Hide scrollbars but allow scrolling */
@@ -35,9 +37,10 @@
     <div class="max-w-[1800px] mx-auto overflow-hidden">
         
         <div class="flex flex-col items-center mb-5 md:mb-6 text-center px-4">
-            <h3 class="font-serif text-[18px] md:text-[20px] font-medium tracking-wide text-stone-900">
+            {% comment %} UPDATED: Changed h3 to h2 to fix Lighthouse Accessibility Heading Order error {% endcomment %}
+            <h2 class="font-serif text-[18px] md:text-[20px] font-medium tracking-wide text-stone-900">
                 {{ section.settings.heading }}
-            </h3>
+            </h2>
         </div>
 
         <div class="relative w-full" aria-hidden="true">
@@ -52,7 +55,13 @@
                         {% for block in section.blocks %}
                             <div class="shrink-0 flex items-center justify-center" {{ block.shopify_attributes }}>
                                 {% if block.settings.logo != blank %}
-                                    <img src="{{ block.settings.logo | image_url: height: 100 }}" alt="{{ block.settings.text | escape }}" class="h-8 md:h-10 lg:h-12 w-auto object-contain" loading="lazy">
+                                    {% comment %} UPDATED: Added explicit width and height to fix Lighthouse CLS (Performance) error {% endcomment %}
+                                    <img src="{{ block.settings.logo | image_url: height: 100 }}" 
+                                         alt="{{ block.settings.text | escape }}" 
+                                         width="{{ block.settings.logo.width }}" 
+                                         height="{{ block.settings.logo.height }}"
+                                         class="h-8 md:h-10 lg:h-12 w-auto object-contain" 
+                                         loading="lazy">
                                 {% else %}
                                     {% assign brand_name = block.settings.text | downcase %}
                                     
@@ -175,7 +184,7 @@
         slider.addEventListener('touchstart', (e) => {
             isDown = true;
             isAnimating = false; // Pause auto-scroll on touch
-            startX = e.touches[0].pageX - slider.offsetLeft;
+            startX = e.touches.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
         }, {passive: true});
 
@@ -186,7 +195,7 @@
 
         slider.addEventListener('touchmove', (e) => {
             if (!isDown) return;
-            const x = e.touches[0].pageX - slider.offsetLeft;
+            const x = e.touches.pageX - slider.offsetLeft;
             const walk = (x - startX) * 2;
             slider.scrollLeft = scrollLeft - walk;
         }, {passive: true});
@@ -207,7 +216,8 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#FCFBF9"
+      "default": "#F5F3F0",
+      "info": "Updated to Warm Linen from V2.1 Brand Architecture"
     }
   ],
   "blocks": [
