@@ -1,3 +1,4 @@
+{% comment %} 2.1 Visual Book Brand Architecture {% endcomment %}
 <!doctype html>
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
@@ -13,10 +14,33 @@
 
     {{ content_for_header }}
 
+    {% comment %} --- V2.1 BRAND ARCHITECTURE: FONTS & COLORS --- {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Refined Luxury Palette */
+            --color-obsidian: #181615; /* Deep warm black for high-end contrast */
+            --color-canvas: #FFFFFF;   /* Pure white to maintain the clean, bright look */
+            --color-linen: #F5F3F0;    /* Soft beige for subtle product card backgrounds */
+            --color-accent: #B8A892;   /* Elegant taupe/champagne for subtle highlights */
+            --color-stone: #8E8881;    /* Muted grey-brown for secondary typography */
+            
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Inter', Helvetica, sans-serif;
+            
+            --spacing-sm: 12px;
+            --spacing-md: 24px;
+            --spacing-lg: 48px;
+            --spacing-xl: 80px;
+        }
+    </style>
+
     <link rel="preload" as="style" href="{{ 'tailwind-custom.css' | asset_url }}">
     {{ 'tailwind-custom.css' | asset_url | stylesheet_tag }}
 
-    <script src="{{ 'visual-book-logic.js' | asset_url }}" defer="defer"></script>
+    {% comment %} The 404 Script Error 'visual-book-logic.js' was removed from here {% endcomment %}
 
     <script>
       window.shopUrl = '{{ request.origin }}';
@@ -28,10 +52,29 @@
         predictive_search_url: '{{ routes.predictive_search_url }}',
       };
     </script>
+
+    {% comment %} 
+      DEFER 3RD-PARTY SCRIPTS
+      Place your manual script tags for Privy, GTM, and FB Pixel inside 
+      this setTimeout function. They will load 3.5 seconds after the page renders, 
+      drastically improving your Lighthouse Performance score.
+    {% endcomment %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+          // --- PASTE PRIVY SCRIPT BELOW THIS LINE ---
+
+          // --- PASTE GOOGLE TAG MANAGER SCRIPT BELOW THIS LINE ---
+
+          // --- PASTE FACEBOOK PIXEL SCRIPT BELOW THIS LINE ---
+
+        }, 3500); // 3500ms = 3.5 second delay
+      });
+    </script>
   </head>
 
   <body class="font-sans antialiased text-black bg-white overflow-x-hidden">
-    <a class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-black focus:text-white focus:z-[100]" href="#MainContent">
+    <a class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-black focus:text-white focus:z-" href="#MainContent">
       Skip to content
     </a>
 
