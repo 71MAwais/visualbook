@@ -112,6 +112,10 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
+    --color-obsidian: #181615;
+    --color-canvas: #FFFFFF;
+    --color-linen: #F5F3F0;
+    --color-accent: #B8A892;
   }
 }
 @layer base {
@@ -1544,6 +1548,9 @@
   .bg-\[\#fafafa\] {
     background-color: #fafafa;
   }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
   .bg-black {
     background-color: var(--color-black);
   }
@@ -1609,6 +1616,9 @@
   }
   .bg-green-600 {
     background-color: var(--color-green-600);
+  }
+  .bg-obsidian {
+    background-color: var(--color-obsidian);
   }
   .bg-stone-50 {
     background-color: var(--color-stone-50);
@@ -2926,13 +2936,6 @@
       }
     }
   }
-  .hover\:bg-\[\#8A6A4E\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #8A6A4E;
-      }
-    }
-  }
   .hover\:bg-\[\#181615\] {
     &:hover {
       @media (hover: hover) {
@@ -3030,17 +3033,17 @@
       }
     }
   }
-  .hover\:text-\[\#B8906B\] {
-    &:hover {
-      @media (hover: hover) {
-        color: #B8906B;
-      }
-    }
-  }
   .hover\:text-\[\#C5A059\] {
     &:hover {
       @media (hover: hover) {
         color: #C5A059;
+      }
+    }
+  }
+  .hover\:text-accent {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-accent);
       }
     }
   }
@@ -3160,6 +3163,14 @@
       }
     }
   }
+  .hover\:brightness-90 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-brightness: brightness(90%);
+        filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+      }
+    }
+  }
   .hover\:grayscale-0 {
     &:hover {
       @media (hover: hover) {
@@ -3193,14 +3204,14 @@
       position: absolute;
     }
   }
-  .focus\:border-\[\#B8906B\] {
-    &:focus {
-      border-color: #B8906B;
-    }
-  }
   .focus\:border-\[\#C5A059\] {
     &:focus {
       border-color: #C5A059;
+    }
+  }
+  .focus\:border-accent {
+    &:focus {
+      border-color: var(--color-accent);
     }
   }
   .focus\:bg-black {
@@ -4679,19 +4690,26 @@
     --font-body-family: "Inter", sans-serif !important;
     --font-heading-weight: 400 !important;
     --font-body-weight: 400 !important;
+    --color-foreground: 24, 22, 21 !important;
+    --color-background: 255, 255, 255 !important;
+    --color-button: 24, 22, 21 !important;
+    --color-button-text: 255, 255, 255 !important;
+    --color-base-outline-button-labels: 24, 22, 21 !important;
+    --color-base-solid-button-labels: 255, 255, 255 !important;
+    --color-border: 142, 136, 129 !important;
   }
   body {
     -webkit-font-smoothing: antialiased;
     color: #181615;
     background-color: #ffffff;
-    font-family: var(--font-sans) !important;
+    font-family: var(--font-body-family) !important;
   }
   h1, h2, h3, h4, h5, h6, .h0, .h1, .h2, .h3, .h4, .h5, .h6, .title, .hxl, .hxxl {
-    font-family: var(--font-serif) !important;
+    font-family: var(--font-heading-family) !important;
     font-weight: 400 !important;
   }
   button, .button, a.button, .header__menu-item, input, select, textarea {
-    font-family: var(--font-sans) !important;
+    font-family: var(--font-body-family) !important;
   }
 }
 @property --tw-translate-x {
