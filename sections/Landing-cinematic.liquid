@@ -59,6 +59,7 @@
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
+            {% comment %} ACCESSIBILITY FIX: Removed aria-label to let screen readers read the actual visual content {% endcomment %}
             <button type="button" 
                  class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#181615] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
                  data-modal-target="cine-modal-{{ block.id }}" 

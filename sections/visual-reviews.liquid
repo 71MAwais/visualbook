@@ -84,7 +84,7 @@
         {% if section.settings.show_rating %}
         <div class="flex items-center justify-center gap-1 mt-3">
             {% for i in (1..5) %}
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="#B8906B" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#181615" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             {% endfor %}
             <span class="ml-2 text-[12px] text-stone-500 font-semibold">{{ section.settings.rating_text }}</span>
         </div>
@@ -118,17 +118,17 @@
             <div>
                 <div class="flex items-center gap-1 mb-3">
                     {% for i in (1..5) %}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#B8906B{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#181615{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     {% endfor %}
                 </div>
-                <h3 class="text-[16px] font-bold text-[#181615] mb-2 leading-tight">{{ block.settings.title }}</h3>
+                <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h3>
                 <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">{{ block.settings.text }}</p>
             </div>
             <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
                 <div class="flex flex-col">
                     <span class="text-[13px] font-bold text-stone-950 tracking-wide">{{ block.settings.author }}</span>
                     {% if block.settings.verified %}
-                        <span class="text-[10px] font-medium text-[#181615] opacity-70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                        <span class="text-[10px] font-medium text-[#181615]/70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
                     {% endif %}
                 </div>
                 {% if block.settings.verified %}
@@ -141,15 +141,15 @@
             <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
                 <div>
                     <div class="flex items-center gap-1 mb-3">
-                        {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#B8906B" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
+                        {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#181615" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
                     </div>
-                    <h3 class="text-[16px] font-bold text-[#181615] mb-2 leading-tight">Beautifully Crafted</h3>
+                    <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h3>
                     <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">Add a review in the Shopify customizer.</p>
                 </div>
                 <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center">
                     <div class="flex flex-col">
                         <span class="text-[13px] font-bold text-stone-950 tracking-wide">Customer Name</span>
-                        <span class="text-[10px] font-medium text-[#181615] opacity-70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
+                        <span class="text-[10px] font-medium text-[#181615]/70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
                     </div>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
                 </div>
@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function queueNextAutoScroll() {
         clearTimeout(autoScrollTimer);
+        // Do not auto scroll if user is interacting, jumping, dragging, or if disabled
         if (isInteracting || totalOriginal === 0 || isJumping || isDown || isTouching || AUTO_SCROLL_DELAY === 0) return;
         autoScrollTimer = setTimeout(() => {
             if (isInteracting || isJumping || isDown || isTouching) return;
@@ -190,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
 
     if (totalOriginal === 0) return;
+    // Loop 3 times to recreate infinite scrolling logic
     for (let i = 0; i < 3; i++) {
         dataCards.forEach((cardTemplate, idx) => {
             const clone = cardTemplate.cloneNode(true);
@@ -197,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clone.dataset.realIndex = idx;
             clone.addEventListener('click', () => {
                 scrollToCard(parseInt(clone.dataset.index));
-                queueNextAutoScroll(); 
+                queueNextAutoScroll(); // Reset timer on manual click
             });
             cardContainer.appendChild(clone);
         });
@@ -225,15 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cards[index]) return;
         const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
         const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
-        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' }); 
+        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' }); // Explicit smooth scroll
     }
 
     function jumpToIndexSilently(index) {
         isJumping = true;
-        scrollContainer.style.scrollSnapType = 'none'; 
+        scrollContainer.style.scrollSnapType = 'none'; // Prevent browser from fighting JS
         
         const cards = Array.from(cardContainer.children);
-        cards.forEach(c => c.style.transition = 'none'); 
+        cards.forEach(c => c.style.transition = 'none'); // Disable scale animation temporarily
 
         if (cards[index]) {
             const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
@@ -244,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cards[index].classList.add('active-card');
         }
         
-        void scrollContainer.offsetWidth; 
+        void scrollContainer.offsetWidth; // Force layout repaint instantly
         
         requestAnimationFrame(() => {
             cards.forEach(c => c.style.transition = '');
@@ -283,13 +285,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const safeIndex = (closestIndex % totalOriginal) + totalOriginal;
                 jumpToIndexSilently(safeIndex);
             } else {
-                queueNextAutoScroll(); 
+                queueNextAutoScroll(); // Queue next slide if sitting safely in the middle set
             }
-        }, 250); 
+        }, 250); // Generous debounce ensures smooth scroll is entirely finished
     }
 
+    // --- PAUSE AUTO SCROLL ON INTERACTION ---
     scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
     scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown && !isTouching) queueNextAutoScroll(); });
+    // MOBILE TOUCH LISTENERS
     scrollContainer.addEventListener('touchstart', () => { 
         isTouching = true; 
         isInteracting = true;
@@ -316,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const active = document.querySelector('.review-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) + 1);
     });
+    // DESKTOP Drag to scroll
     let startX, scrollLeft;
     scrollContainer.addEventListener('mousedown', (e) => {
         isDown = true;
@@ -348,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const walk = (x - startX) * 2;
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
+    // Initialize layout and jump to middle set safely
     adjustSpacers();
     
     isJumping = true;
