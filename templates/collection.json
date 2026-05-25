@@ -82,13 +82,15 @@
         "store_gLFqw6": {
           "type": "store",
           "settings": {
-            "store_name": "Selfridges & Co"
+            "store_name": "Selfridges & Co",
+            "logo": "shopify://shop_images/Selfridges_logo_svg.png"
           }
         },
         "store_j7hCir": {
           "type": "store",
           "settings": {
-            "store_name": "Selfridges & Co"
+            "store_name": "laRINASCENTE",
+            "logo": "shopify://shop_images/9_RINASCENTE.png"
           }
         }
       },
