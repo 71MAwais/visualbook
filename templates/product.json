@@ -134,8 +134,12 @@
       ],
       "name": "Visual Product Hero",
       "settings": {
-        "review_text": "4.9 (128 Reviews)",
+        "hide_section": false,
+        "show_variants": true,
+        "show_media_upload": true,
+        "show_bg_song": true,
         "show_dynamic_checkout": true,
+        "review_text": "4.9 (128 Reviews)",
         "features_text": "<p>Up to 6-Hour Video Capacity.</p>",
         "design_text": "<p>Premium linen cover.</p>",
         "tech_text": "<p>7 or 10.1 inch IPS Display.</p>"
@@ -144,33 +148,20 @@
     "product_cinematic_kQi6Fj": {
       "type": "product-cinematic",
       "blocks": {
-        "slide_yrANYb": {
-          "type": "slide",
+        "tab_UF6zwT": {
+          "type": "tab",
           "settings": {
-            "video_url": "",
-            "badge": "The Experience",
-            "title": "Your Memories, Brought to Life.",
-            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
-          }
-        },
-        "slide_VwynJ8": {
-          "type": "slide",
-          "settings": {
-            "video_url": "",
-            "badge": "The Experience",
-            "title": "Your Memories, Brought to Life.",
-            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
+            "title": "Step 1",
+            "text": "<p>Explain how to perform this action simply and clearly.</p>"
           }
         }
       },
       "block_order": [
-        "slide_yrANYb",
-        "slide_VwynJ8"
+        "tab_UF6zwT"
       ],
       "name": "Visual Cinematic Experience",
       "settings": {
-        "heading": "Experience the Magic",
-        "subheading": "Discover how our classic visual book transforms your digital memories into a tangible experience."
+        "heading": "Experience the Magic"
       }
     },
     "1778872986a5784e31": {
@@ -199,7 +190,7 @@
             "corner_styling": "soft",
             "header_text_color": "#000000",
             "text_color": "#000000",
-            "card_color": "#F9F9F9",
+            "card_color": "#f9f9f9",
             "stars_color": "",
             "arrows_color": "#000000",
             "transition_speed": 5,
