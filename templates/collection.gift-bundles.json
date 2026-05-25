@@ -103,7 +103,7 @@
       }
     },
     "visual_instore_iU4FHD": {
-      "type": "visual-instore",
+      "type": "Landing-instore",
       "blocks": {
         "store_ijJRzG": {
           "type": "store",

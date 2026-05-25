@@ -28,7 +28,7 @@
       "settings": {}
     },
     "shop": {
-      "type": "visual-shop",
+      "type": "Landing-shop",
       "settings": {
         "subtitle": "SHOP THE COLLECTION",
         "title": "Curated Collections",
