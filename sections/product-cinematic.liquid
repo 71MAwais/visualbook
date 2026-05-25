@@ -1,168 +1,242 @@
-<div class="mb-10 text-center px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto mt-6 md:mt-8">
-    <h2 class="text-3xl md:text-4xl font-serif text-brand mb-4">{{ section.settings.heading }}</h2>
-    <p class="text-stone-500 max-w-2xl mx-auto font-light">{{ section.settings.subheading }}</p>
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .instruction-tabs-section {
+    margin: 60px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+  .instruction-tabs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .tab-headers {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    border-bottom: 2px solid #e8e8e1;
+    padding-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .tab-button {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.6rem;
+    font-family: var(--font-heading-family);
+    cursor: pointer;
+    color: rgba(var(--color-foreground), 0.6);
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    margin-bottom: -2px; /* overlaps the border */
+  }
+  .tab-button.active {
+    color: rgb(var(--color-foreground));
+    border-bottom: 3px solid rgb(var(--color-foreground));
+    font-weight: bold;
+  }
+  .tab-button:hover {
+    color: rgb(var(--color-foreground));
+  }
+  .tab-panel {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  .tab-panel.active {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  /* Desktop Layout: Side by Side */
+  @media (min-width: 768px) {
+    .tab-panel.active {
+      flex-direction: row; 
+      align-items: center;
+    }
+  }
+  
+  .tab-media {
+    flex: 1;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  .tab-media video, .tab-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  .tab-text {
+    flex: 1;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: rgb(var(--color-foreground));
+    padding: 20px;
+  }
+  .tab-text h3 {
+    margin-top: 0;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="instruction-tabs-section page-width">
+  {% if section.settings.heading != blank %}
+    <h2 class="h2 text-center" style="margin-bottom: 30px;">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="instruction-tabs-container">
+    <div class="tab-headers">
+      {% for block in section.blocks %}
+        <button 
+          class="tab-button {% if forloop.first %}active{% endif %}" 
+          data-target="tab-{{ block.id }}" 
+          {{ block.shopify_attributes }}>
+          {{ block.settings.title }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="tab-contents">
+      {% for block in section.blocks %}
+        <div id="tab-{{ block.id }}" class="tab-panel {% if forloop.first %}active{% endif %}">
+          
+          <div class="tab-media">
+            {% if block.settings.video != blank %}
+              {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: true, class: 'tab-video' }}
+            {% elsif block.settings.image != blank %}
+              <img 
+                src="{{ block.settings.image | image_url: width: 800 }}" 
+                alt="{{ block.settings.title | escape }}" 
+                loading="lazy" 
+                width="800" 
+                height="auto" 
+                class="tab-image">
+            {% else %}
+              {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+
+          {% if block.settings.text != blank %}
+            <div class="tab-text">
+              <h3>{{ block.settings.title }}</h3>
+              {{ block.settings.text }}
+            </div>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
-<section id="cinematic-showcase-container" class="w-full relative" style="height: {{ section.blocks.size | times: 100 }}vh;">
-    
-    <div class="sticky top-0 w-full h-[100dvh] bg-black overflow-hidden z-30">
-        <div id="story-slider-track" class="w-full flex flex-col transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
-            
-            {% for block in section.blocks %}
-            <div class="story-slide w-full h-[100dvh] relative shrink-0" {{ block.shopify_attributes }}>
-                
-                {% if block.settings.video_url != blank %}
-                    <video loop muted playsinline class="w-full h-full object-cover opacity-50 story-video">
-                        <source src="{{ block.settings.video_url }}" type="video/mp4">
-                    </video>
-                {% elsif block.settings.image != blank %}
-                    <img src="{{ block.settings.image | image_url: width: 2000 }}" alt="{{ block.settings.title }}" class="w-full h-full object-cover opacity-60" loading="lazy">
-                {% else %}
-                    <div class="w-full h-full bg-stone-900 opacity-60"></div>
-                {% endif %}
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-                <div class="absolute inset-0 flex flex-col justify-center px-8 md:px-20 max-w-3xl">
-                    <span class="text-[#C5A059] tracking-[0.2em] uppercase text-xs font-semibold mb-3 drop-shadow-md">{{ block.settings.badge }}</span>
-                    <h3 class="text-4xl md:text-5xl font-serif text-white mb-4 drop-shadow-lg">{{ block.settings.title }}</h3>
-                    <p class="text-stone-200 text-lg md:text-xl font-light max-w-2xl drop-shadow-md">{{ block.settings.subtitle }}</p>
-                </div>
-            </div>
-            {% endfor %}
-
-        </div>
-
-        <div class="absolute right-5 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-40 items-center">
-            {% for block in section.blocks %}
-                <button class="story-line w-1 md:w-1.5 {% if forloop.first %}h-16 bg-white shadow-[0_0_10px_rgba(255,255,255,0.3)]{% else %}h-8 bg-white/30 hover:bg-white/60{% endif %} rounded-full transition-all duration-500 focus:outline-none" aria-label="Go to slide {{ forloop.index }}"></button>
-            {% endfor %}
-        </div>
-        
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 flex flex-col items-center gap-1.5 animate-bounce pointer-events-none z-40">
-            <span class="text-[9px] uppercase tracking-[0.2em] font-medium drop-shadow-md">Scroll</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-        </div>
-    </div>
-</section>
-
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const showcaseContainer = document.getElementById('cinematic-showcase-container');
-        const sliderTrack = document.getElementById('story-slider-track');
-        const storyLines = document.querySelectorAll('.story-line');
-        const videos = document.querySelectorAll('.story-video');
+  document.addEventListener('DOMContentLoaded', function() {
+    // Select all tab buttons and panels within this section
+    const sectionContainer = document.querySelector('.instruction-tabs-section');
+    if (!sectionContainer) return;
 
-        if (showcaseContainer && sliderTrack) {
-            let currentActiveIndex = 0;
-            const totalSlides = {{ section.blocks.size | default: 1 }};
+    const buttons = sectionContainer.querySelectorAll('.tab-button');
+    const panels = sectionContainer.querySelectorAll('.tab-panel');
 
-            window.addEventListener('scroll', () => {
-                const rect = showcaseContainer.getBoundingClientRect();
-                const sectionTop = rect.top;
-                const scrollableDistance = rect.height - window.innerHeight;
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        // 1. Remove active state from all buttons and panels
+        buttons.forEach(btn => btn.classList.remove('active'));
+        panels.forEach(panel => panel.classList.remove('active'));
 
-                if (sectionTop <= window.innerHeight && sectionTop >= -(scrollableDistance + window.innerHeight)) {
-                    let rawProgress = Math.abs(sectionTop) / scrollableDistance;
-                    if (sectionTop > 0) rawProgress = 0; 
-                    let progress = Math.min(1, Math.max(0, rawProgress));
-                    
-                    let activeIndex = Math.min(totalSlides - 1, Math.floor(progress * totalSlides));
+        // 2. Add active state to the clicked button
+        button.classList.add('active');
 
-                    if (activeIndex !== currentActiveIndex) {
-                        currentActiveIndex = activeIndex;
-                        const translatePercent = activeIndex * (100 / totalSlides);
-                        sliderTrack.style.transform = `translateY(-${translatePercent}%)`;
-
-                        storyLines.forEach((line, index) => {
-                            if (index === activeIndex) {
-                                line.className = "story-line w-1 md:w-1.5 h-16 rounded-full bg-white transition-all duration-500 shadow-[0_0_10px_rgba(255,255,255,0.3)]";
-                            } else {
-                                line.className = "story-line w-1 md:w-1.5 h-8 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-500";
-                            }
-                        });
-
-                        videos.forEach((vid, idx) => {
-                            if (idx === activeIndex) { vid.play().catch(() => {}); } 
-                            else { vid.pause(); }
-                        });
-                    }
-                }
-            }, { passive: true });
-
-            storyLines.forEach((line, index) => {
-                line.addEventListener('click', () => {
-                    const scrollableDistance = showcaseContainer.offsetHeight - window.innerHeight;
-                    const chunk = scrollableDistance / totalSlides;
-                    const targetScrollY = showcaseContainer.offsetTop + (chunk * index) + 10;
-                    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-                });
-            });
-            window.dispatchEvent(new Event('scroll'));
+        // 3. Find and show the corresponding panel
+        const targetId = button.getAttribute('data-target');
+        const targetPanel = document.getElementById(targetId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
         }
+      });
     });
+  });
 </script>
 
 {% schema %}
 {
-  "name": "Visual Cinematic",
+  "name": "Product Instructions Tabs",
+  "tag": "section",
+  "class": "section",
   "settings": [
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Experience the Magic"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Discover how our classic visual book transforms your digital memories into a tangible experience."
+      "default": "How to setup your visualbook"
     }
   ],
   "blocks": [
     {
-      "type": "slide",
-      "name": "Cinematic Slide",
+      "type": "tab",
+      "name": "Instruction Tab",
+      "limit": 4,
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Background Image"
-        },
-        {
-          "type": "url",
-          "id": "video_url",
-          "label": "Direct Video Link (Optional)",
-          "info": "Link to an .mp4 file. Will override the image if provided."
-        },
-        {
-          "type": "text",
-          "id": "badge",
-          "label": "Small Top Badge",
-          "default": "The Experience"
-        },
         {
           "type": "text",
           "id": "title",
-          "label": "Main Heading",
-          "default": "Your Memories, Brought to Life."
+          "label": "Tab Title",
+          "default": "Step 1"
         },
         {
-          "type": "textarea",
-          "id": "subtitle",
-          "label": "Description Text",
-          "default": "A seamless blend of a classic coffee-table book and modern technology."
+          "type": "video",
+          "id": "video",
+          "label": "Video (Overrides Image)",
+          "info": "Upload an MP4 video showing this step."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (Optional)"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Instructions Text",
+          "default": "<p>Explain how to perform this action simply and clearly.</p>"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Visual Cinematic Experience",
-      "category": "Visual Book Custom",
+      "name": "Product Instructions Tabs",
       "blocks": [
-        { "type": "slide" },
-        { "type": "slide" }
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Unbox & Play",
+            "text": "<p>See how the product opens and starts up instantly.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Button Controls",
+            "text": "<p>Learn how to control playback and volume using the internal buttons.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Upload Data",
+            "text": "<p>Connect via the included cable to easily drag and drop your media files.</p>"
+          }
+        }
       ]
     }
   ]
