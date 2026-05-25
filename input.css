@@ -33,6 +33,24 @@
   scrollbar-width: none;
 }
 
+/* --- ADD THIS NEW SECTION --- */
+@layer components {
+  /* 1. Standard Section Padding (Vertical) */
+  .theme-section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* 2. Standard Container Width & Padding (Horizontal) */
+  .theme-container {
+    @apply max-w-7xl mx-auto px-4 md:px-8;
+  }
+
+  /* 3. Standard Grid Gaps */
+  .theme-grid-gap {
+    @apply gap-8 md:gap-12;
+  }
+}
+
 @layer base {
   /* Hijack Shopify's native CSS variables */
   :root {
@@ -41,17 +59,19 @@
     --font-heading-weight: 400 !important;
     --font-body-weight: 400 !important;
 
-    /* Colors (Shopify uses comma-separated RGB values for opacity parsing) */
-    --color-foreground: 24, 22, 21 !important; /* Obsidian Black #181615 */
-    --color-background: 255, 255, 255 !important; /* Pure Canvas #FFFFFF */
-    --color-button: 24, 22, 21 !important; /* Obsidian Black */
-    --color-button-text: 255, 255, 255 !important; /* Pure Canvas */
-    --color-base-outline-button-labels: 24, 22, 21 !important; /* Obsidian */
-    --color-base-solid-button-labels: 255, 255, 255 !important; /* Canvas */
-    --color-border: 142, 136, 129 !important; /* Muted Stone #8E8881 */
+    /* Colors */
+    --color-foreground: 24, 22, 21 !important; 
+    --color-background: 255, 255, 255 !important; 
+    --color-button: 24, 22, 21 !important; 
+    --color-button-text: 255, 255, 255 !important; 
+    --color-base-outline-button-labels: 24, 22, 21 !important; 
+    --color-base-solid-button-labels: 255, 255, 255 !important; 
+    --color-border: 142, 136, 129 !important; 
+
+    /* Force Native Shopify Sections to match Tailwind 'max-w-7xl' */
+    --page-width: 80rem !important; 
   }
 
-  /* Force Body and Text to Inter */
   body {
     -webkit-font-smoothing: antialiased;
     color: #181615;
@@ -59,7 +79,6 @@
     font-family: var(--font-body-family) !important;
   }
 
-  /* Force all Headings to Cormorant Garamond */
   h1, h2, h3, h4, h5, h6, 
   .h0, .h1, .h2, .h3, .h4, .h5, .h6,
   .title, .hxl, .hxxl {
@@ -67,7 +86,6 @@
     font-weight: 400 !important;
   }
 
-  /* Force UI elements (Buttons, Nav, Inputs) to Inter */
   button, .button, a.button, 
   .header__menu-item, input, select, textarea {
     font-family: var(--font-body-family) !important;

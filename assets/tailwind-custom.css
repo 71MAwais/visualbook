@@ -4684,6 +4684,31 @@
     }
   }
 }
+@layer components {
+  .theme-section {
+    padding-block: calc(var(--spacing) * 12);
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 16);
+    }
+    @media (width >= 64rem) {
+      padding-block: calc(var(--spacing) * 20);
+    }
+  }
+  .theme-container {
+    margin-inline: auto;
+    max-width: var(--container-7xl);
+    padding-inline: calc(var(--spacing) * 4);
+    @media (width >= 48rem) {
+      padding-inline: calc(var(--spacing) * 8);
+    }
+  }
+  .theme-grid-gap {
+    gap: calc(var(--spacing) * 8);
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 12);
+    }
+  }
+}
 @layer base {
   :root {
     --font-heading-family: "Cormorant Garamond", serif !important;
@@ -4697,6 +4722,7 @@
     --color-base-outline-button-labels: 24, 22, 21 !important;
     --color-base-solid-button-labels: 255, 255, 255 !important;
     --color-border: 142, 136, 129 !important;
+    --page-width: 80rem !important;
   }
   body {
     -webkit-font-smoothing: antialiased;

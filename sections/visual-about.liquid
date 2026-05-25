@@ -1,22 +1,24 @@
-<section class="visual-about py-16 px-4 md:px-8 max-w-7xl mx-auto">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-    <div class="relative w-full overflow-hidden rounded-sm">
-      {% if section.settings.image != blank %}
-        <img src="{{ section.settings.image | img_url: '1000x' }}" alt="{{ section.settings.image.alt | escape }}" class="w-full h-auto object-cover" loading="lazy">
-      {% else %}
-        {{ 'image' | placeholder_svg_tag: 'w-full h-full bg-gray-100 text-gray-400 aspect-[4/5]' }}
-      {% endif %}
-    </div>
-    <div class="space-y-6 md:pl-8">
-      <h2 class="text-4xl md:text-5xl font-serif text-gray-900">{{ section.settings.heading }}</h2>
-      <div class="text-lg text-gray-600 leading-relaxed space-y-4">
-        {{ section.settings.text }}
+<section class="visual-about theme-section">
+  <div class="theme-container">
+    <div class="grid grid-cols-1 md:grid-cols-2 theme-grid-gap items-center">
+      <div class="relative w-full overflow-hidden rounded-sm">
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | img_url: '1000x' }}" alt="{{ section.settings.image.alt | escape }}" class="w-full h-auto object-cover" loading="lazy">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'w-full h-full bg-gray-100 text-gray-400 aspect-[4/5]' }}
+        {% endif %}
       </div>
-      {% if section.settings.button_label != blank %}
-        <a href="{{ section.settings.button_link }}" class="inline-block mt-6 px-8 py-3 bg-black text-white text-sm uppercase tracking-widest hover:bg-gray-800 transition">
-          {{ section.settings.button_label }}
-        </a>
-      {% endif %}
+      <div class="space-y-6 md:pl-8">
+        <h2 class="text-4xl md:text-5xl font-serif text-gray-900">{{ section.settings.heading }}</h2>
+        <div class="text-lg text-gray-600 leading-relaxed space-y-4">
+          {{ section.settings.text }}
+        </div>
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}" class="inline-block mt-6 px-8 py-3 bg-black text-white text-sm uppercase tracking-widest hover:bg-gray-800 transition">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
