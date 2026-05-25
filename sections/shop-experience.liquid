@@ -1,330 +1,186 @@
-{% comment %} sections/product-interactive-guide.liquid {% endcomment %}
-<style>
-    #interactive-guide-{{ section.id }} { 
-        font-family: var(--font-sans, 'Inter', sans-serif);
-        background-color: {{ section.settings.bg_color }};
-    }
-    #interactive-guide-{{ section.id }} .font-serif { 
-        font-family: var(--font-display, 'Cormorant Garamond', serif);
-    }
-
-    /* Media Container Styles */
-    .guide-media-wrapper {
-        position: relative;
-        width: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-        background: #f3f3f3;
-        box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
-        aspect-ratio: 4/3;
-    }
+<section id="shop-experience-{{ section.id }}" class="border-t border-gray-100 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
     
-    @media (min-width: 768px) {
-        .guide-media-wrapper {
-            aspect-ratio: 1/1; /* Square on desktop for a bolder look */
-        }
-    }
+    {%- comment -%} ==========================================
+        TAB 1: VIDEO BOOKS EXPERIENCE
+    ========================================== {%- endcomment -%}
+    <div class="tab-experience-content transition-all duration-500" data-category="tab-1-products">
+      <div class="text-center mb-16">
+        <p class="text-xs tracking-[0.2em] text-[#8C734A] font-medium uppercase mb-4">{{ section.settings.tab1_badge }}</p>
+        <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.tab1_heading }}</h2>
+        <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
+          {{ section.settings.tab1_subheading }}
+        </p>
+      </div>
 
-    .guide-media-item {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.05);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1;
-    }
-
-    .guide-media-item.active {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1);
-        z-index: 2;
-    }
-
-    .guide-media-item video, 
-    .guide-media-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    /* Interactive Steps (Tabs) Styles */
-    .guide-steps-container {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .guide-step-btn {
-        text-align: left;
-        background: transparent;
-        border: 2px solid transparent;
-        border-radius: 16px;
-        padding: 24px;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .guide-step-btn::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: #fff;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: -1;
-        border-radius: 14px;
-    }
-
-    .guide-step-btn:hover::before {
-        opacity: 0.5;
-    }
-
-    .guide-step-btn.active {
-        border-color: rgba(0,0,0,0.1);
-        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
-    }
-    
-    .guide-step-btn.active::before {
-        opacity: 1;
-    }
-
-    .step-number {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        font-weight: 700;
-        color: #888;
-        margin-bottom: 8px;
-        display: block;
-        transition: color 0.3s ease;
-    }
-
-    .guide-step-btn.active .step-number {
-        color: #181615;
-    }
-
-    .step-title {
-        font-size: 24px;
-        color: #888;
-        transition: color 0.3s ease;
-        margin: 0;
-    }
-
-    .guide-step-btn.active .step-title {
-        color: #181615;
-    }
-
-    .step-content {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        color: #555;
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    .guide-step-btn.active .step-content {
-        max-height: 200px; /* Arbitrary large height to allow content expansion */
-        opacity: 1;
-        margin-top: 12px;
-    }
-</style>
-
-<section id="interactive-guide-{{ section.id }}" class="w-full py-16 md:py-24 relative px-4 md:px-6">
-    
-    {% comment %} SECTION HEADER {% endcomment %}
-    {% if section.settings.heading != blank or section.settings.subheading != blank %}
-        <div class="max-w-4xl mx-auto text-center mb-12 md:mb-16">
-            {% if section.settings.heading != blank %}
-                <h2 class="font-serif text-[32px] md:text-[42px] lg:text-[48px] text-[#111] leading-tight mb-4">
-                    {{ section.settings.heading | escape }}
-                </h2>
-            {% endif %}
-            {% if section.settings.subheading != blank %}
-                <p class="font-sans text-[15px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mx-auto">
-                    {{ section.settings.subheading | escape }}
-                </p>
-            {% endif %}
-        </div>
-    {% endif %}
-
-    {% comment %} SPLIT SCREEN LAYOUT {% endcomment %}
-    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
-        
-        {% comment %} LEFT: MEDIA DISPLAY {% endcomment %}
-        <div class="w-full lg:w-1/2">
-            <div class="guide-media-wrapper">
-                {% for block in section.blocks %}
-                    <div id="media-{{ block.id }}" class="guide-media-item {% if forloop.first %}active{% endif %}">
-                        {% if block.settings.video != blank %}
-                            {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'guide-video' }}
-                        {% elsif block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
-                        {% else %}
-                            {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-30' }}
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat1_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat1_text }}</p>
         </div>
 
-        {% comment %} RIGHT: INTERACTIVE TABS / ACCORDION {% endcomment %}
-        <div class="w-full lg:w-1/2">
-            <div class="guide-steps-container">
-                {% for block in section.blocks %}
-                    <button type="button" 
-                            class="guide-step-btn {% if forloop.first %}active{% endif %}" 
-                            data-target="media-{{ block.id }}"
-                            {{ block.shopify_attributes }}>
-                        <span class="step-number">Step {{ forloop.index }}</span>
-                        <h3 class="step-title font-serif">{{ block.settings.title | escape }}</h3>
-                        
-                        <div class="step-content">
-                            {{ block.settings.text }}
-                        </div>
-                    </button>
-                {% endfor %}
-            </div>
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat2_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat2_text }}</p>
         </div>
 
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><path d="M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1"/><path d="m11 7-3 5h4l-3 5"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat3_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat3_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat4_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat4_text }}</p>
+        </div>
+      </div>
     </div>
+
+
+    {%- comment -%} ==========================================
+        TAB 2: AUDIO CARDS EXPERIENCE
+    ========================================== {%- endcomment -%}
+    <div class="tab-experience-content hidden transition-all duration-500" data-category="tab-2-products" style="display: none;">
+      <div class="text-center mb-16">
+        <p class="text-xs tracking-[0.2em] text-[#8C734A] font-medium uppercase mb-4">{{ section.settings.tab2_badge }}</p>
+        <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.tab2_heading }}</h2>
+        <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
+          {{ section.settings.tab2_subheading }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat1_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat1_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat2_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat2_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect width="16" height="10" x="4" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat3_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat3_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat4_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat4_text }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sectionContainer = document.getElementById('interactive-guide-{{ section.id }}');
-    if (!sectionContainer) return;
-
-    const stepButtons = sectionContainer.querySelectorAll('.guide-step-btn');
-    const mediaItems = sectionContainer.querySelectorAll('.guide-media-item');
-
-    stepButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // 1. Remove active class from all buttons
-            stepButtons.forEach(btn => btn.classList.remove('active'));
-            // 2. Add active class to clicked button
-            this.classList.add('active');
-
-            // 3. Handle Media Switching
-            const targetId = this.getAttribute('data-target');
-            
-            mediaItems.forEach(item => {
-                // Remove active class to hide
-                item.classList.remove('active');
-                
-                // Pause video if it exists inside the inactive item
-                const video = item.querySelector('video');
-                if (video && item.id !== targetId) {
-                    video.pause();
-                }
-
-                // Show target item and play its video
-                if (item.id === targetId) {
-                    item.classList.add('active');
-                    if (video) {
-                        video.currentTime = 0; // Optional: restart video from beginning
-                        let playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => console.warn("Browser auto-play prevented.", error));
-                        }
-                    }
-                }
-            });
-        });
-    });
-});
-</script>
 
 {% schema %}
 {
-  "name": "Product Walkthrough",
+  "name": "Shop Experience",
   "settings": [
     {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#FAFAFA"
+      "type": "header",
+      "content": "Tab 1 (Video Books) Settings"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "How it works"
+      "type": "text", "id": "tab1_badge", "label": "Badge Text", "default": "The Experience"
     },
     {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Everything you need to know to get started with your visualbook in seconds."
-    }
-  ],
-  "blocks": [
+      "type": "text", "id": "tab1_heading", "label": "Heading", "default": "Designed for Forever"
+    },
     {
-      "type": "step",
-      "name": "Instruction Step",
-      "limit": 4,
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Step Title",
-          "default": "Unbox & Play"
-        },
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "Description",
-          "default": "<p>Simply open the cover and your memories begin playing instantly. No apps, no Wi-Fi, no hassle.</p>"
-        },
-        {
-          "type": "video",
-          "id": "video",
-          "label": "Video (Recommended)",
-          "info": "Upload a short, silent looping video showing this step."
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Fallback Image",
-          "info": "Displays if no video is selected."
-        }
-      ]
+      "type": "textarea", "id": "tab1_subheading", "label": "Subheading", "default": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+    },
+    {
+      "type": "text", "id": "tab1_feat1_title", "label": "Feature 1 Title", "default": "Instant Playback"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat1_text", "label": "Feature 1 Text", "default": "Magnetic sensors automatically play your crystal-clear HD videos the moment the book is opened."
+    },
+    {
+      "type": "text", "id": "tab1_feat2_title", "label": "Feature 2 Title", "default": "Easy Curation"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat2_text", "label": "Feature 2 Text", "default": "Connect via the provided USB to effortlessly drag and drop your photos and videos—no software required."
+    },
+    {
+      "type": "text", "id": "tab1_feat3_title", "label": "Feature 3 Title", "default": "Rechargeable"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat3_text", "label": "Feature 3 Text", "default": "The built-in battery provides hours of continuous playback, easily rechargeable via USB for endless viewing."
+    },
+    {
+      "type": "text", "id": "tab1_feat4_title", "label": "Feature 4 Title", "default": "Gift Ready"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat4_text", "label": "Feature 4 Text", "default": "Presented in a beautiful luxury box with an optional pre-loading service to create the ultimate personalized gift."
+    },
+    {
+      "type": "header",
+      "content": "Tab 2 (Audio Cards) Settings"
+    },
+    {
+      "type": "text", "id": "tab2_badge", "label": "Badge Text", "default": "The Audio Experience"
+    },
+    {
+      "type": "text", "id": "tab2_heading", "label": "Heading", "default": "Voice the moments that matter"
+    },
+    {
+      "type": "textarea", "id": "tab2_subheading", "label": "Subheading", "default": "Hear the voices of your loved ones anytime. The Audio Card lets you record a personal message that plays automatically when opened."
+    },
+    {
+      "type": "text", "id": "tab2_feat1_title", "label": "Feature 1 Title", "default": "Auto Playback"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat1_text", "label": "Feature 1 Text", "default": "Light sensors automatically trigger your personalized voice message the moment the card is opened."
+    },
+    {
+      "type": "text", "id": "tab2_feat2_title", "label": "Feature 2 Title", "default": "Easy Recording"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat2_text", "label": "Feature 2 Text", "default": "Simply press and hold the button to record your heartfelt message—no app or cable required."
+    },
+    {
+      "type": "text", "id": "tab2_feat3_title", "label": "Feature 3 Title", "default": "Long-lasting Battery"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat3_text", "label": "Feature 3 Text", "default": "Designed to keep your memories alive, equipped with a battery that supports hundreds of plays."
+    },
+    {
+      "type": "text", "id": "tab2_feat4_title", "label": "Feature 4 Title", "default": "Meaningful Keepsake"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat4_text", "label": "Feature 4 Text", "default": "A beautiful, tactile card that turns a simple greeting into an unforgettable, personalized gift."
     }
   ],
   "presets": [
     {
-      "name": "Product Walkthrough Guide",
-      "blocks": [
-        {
-          "type": "step",
-          "settings": {
-            "title": "Unbox and Play Experience",
-            "text": "<p>Simply open the elegant linen cover and your video comes to life instantly on the crisp HD screen.</p>"
-          }
-        },
-        {
-          "type": "step",
-          "settings": {
-            "title": "Internal Button Controls",
-            "text": "<p>Navigate your memories easily. Use the intuitive buttons below the screen to play, pause, adjust volume, or skip to your favorite chapters.</p>"
-          }
-        },
-        {
-          "type": "step",
-          "settings": {
-            "title": "Plug & Play Data Upload",
-            "text": "<p>Connect the included USB cable to your computer. Drag and drop your favorite videos directly into the book's folder—just like a flash drive.</p>"
-          }
-        }
-      ]
+      "name": "Shop Experience"
     }
   ]
 }
