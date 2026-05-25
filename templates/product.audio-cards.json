@@ -1,0 +1,240 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "disabled": true,
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "product_hero_visual_RfgfJ9": {
+      "type": "product-hero-visual",
+      "blocks": {
+        "accordion_HgaYcf": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        },
+        "accordion_qncAw3": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        },
+        "accordion_wW7mye": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<p>Our books arrive in a luxury gift box.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "accordion_HgaYcf",
+        "accordion_qncAw3",
+        "accordion_wW7mye"
+      ],
+      "name": "Visual Product Hero",
+      "settings": {
+        "review_text": "4.9 (128 Reviews)",
+        "show_dynamic_checkout": true,
+        "features_text": "<p>Up to 6-Hour Video Capacity.</p>",
+        "design_text": "<p>Premium linen cover.</p>",
+        "tech_text": "<p>7 or 10.1 inch IPS Display.</p>"
+      }
+    },
+    "product_cinematic_kQi6Fj": {
+      "type": "product-cinematic",
+      "blocks": {
+        "slide_yrANYb": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "badge": "The Experience",
+            "title": "Your Memories, Brought to Life.",
+            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
+          }
+        },
+        "slide_VwynJ8": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "badge": "The Experience",
+            "title": "Your Memories, Brought to Life.",
+            "subtitle": "A seamless blend of a classic coffee-table book and modern technology."
+          }
+        }
+      },
+      "block_order": [
+        "slide_yrANYb",
+        "slide_VwynJ8"
+      ],
+      "name": "Visual Cinematic Experience",
+      "settings": {
+        "heading": "Experience the Magic",
+        "subheading": "Discover how our classic visual book transforms your digital memories into a tangible experience."
+      }
+    },
+    "1778872986a5784e31": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_cards_carousel_83k4wy": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": true,
+            "reviews_selection": "current_product",
+            "products": [],
+            "star_rating": "all",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "review_text_only",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1",
+            "reviews_shown": 4,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "sides",
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#F9F9F9",
+            "stars_color": "",
+            "arrows_color": "#000000",
+            "transition_speed": 5,
+            "header_text": "Customers are saying",
+            "show_average_rating": true
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_83k4wy"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "landing_shop_8w6YGV": {
+      "type": "Landing-shop",
+      "name": "Shop Carousel",
+      "settings": {
+        "subtitle": "Curated Essentials",
+        "title": "Shop the Collection",
+        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "product_hero_visual_RfgfJ9",
+    "product_cinematic_kQi6Fj",
+    "1778872986a5784e31",
+    "landing_shop_8w6YGV"
+  ]
+}
