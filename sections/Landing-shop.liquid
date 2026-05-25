@@ -108,7 +108,7 @@
 </section>
 
 {%- comment -%} ==========================================
-    1. PRE-COMPUTE LOWEST & 2ND LOWEST STOCK FOR COLLECTION 1 
+    1. PRE-COMPUTE LOWEST STOCK & FEATURED FOR COLLECTION 1 
 ========================================== {%- endcomment -%}
 {% assign lowest_stock_id_1 = null %}
 {% assign lowest_stock_qty_1 = 999999 %}
@@ -144,8 +144,19 @@
   {% endif %}
 {% endfor %}
 
+{% assign featured_product_1 = null %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.tags contains 'best-seller' %}
+    {% assign featured_product_1 = product %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if featured_product_1 == null %}
+  {% assign featured_product_1 = section.settings.collection_1.products.first %}
+{% endif %}
+
 {%- comment -%} ==========================================
-    2. PRE-COMPUTE LOWEST & 2ND LOWEST STOCK FOR COLLECTION 2 
+    2. PRE-COMPUTE LOWEST STOCK & FEATURED FOR COLLECTION 2 
 ========================================== {%- endcomment -%}
 {% assign lowest_stock_id_2 = null %}
 {% assign lowest_stock_qty_2 = 999999 %}
@@ -181,11 +192,22 @@
   {% endif %}
 {% endfor %}
 
+{% assign featured_product_2 = null %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.tags contains 'best-seller' %}
+    {% assign featured_product_2 = product %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if featured_product_2 == null %}
+  {% assign featured_product_2 = section.settings.collection_2.products.first %}
+{% endif %}
+
 
 <template id="shop-data-1">
-    {% for product in section.settings.collection_1.products %}
-        
-        {%- comment -%} Evaluate Low Stock Condition for this product {%- endcomment -%}
+    {%- comment -%} 1A. RENDER THE FEATURED PRODUCT FIRST {%- endcomment -%}
+    {% if featured_product_1 %}
+        {% assign product = featured_product_1 %}
         {% assign is_low_stock = false %}
         {% if product.id == lowest_stock_id_1 %}
             {% assign is_low_stock = true %}
@@ -199,25 +221,18 @@
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
                 
-                {%- comment -%} BADGES WRAPPER (Top Left) {%- endcomment -%}
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    
-                    {%- comment -%} BEST SELLER TAG {%- endcomment -%}
                     {% if product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
                     {% endif %}
-
-                    {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
                     {% if is_low_stock %}
                         <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-
-                    {%- comment -%} CUSTOM TAGS {%- endcomment -%}
                     {% for tag in product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
@@ -227,7 +242,66 @@
                     {% endfor %}
                 </div>
 
-                {%- comment -%} AWARD ICON OVERLAY (Top Right) {%- endcomment -%}
+                {% if section.settings.award_icon != blank %}
+                    <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    </div>
+                {% endif %}
+
+                <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-3 text-center px-1 w-full">
+                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                </a>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+            </div>
+        </article>
+    {% endif %}
+
+    {%- comment -%} 1B. RENDER THE REST OF THE PRODUCTS {%- endcomment -%}
+    {% for product in section.settings.collection_1.products %}
+        {% if product.id == featured_product_1.id %}{% continue %}{% endif %}
+        
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_1 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
+        <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
+            <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
+                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                </a>
+                
+                <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
+                    {% if product.tags contains 'best-seller' %}
+                        <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
+                        </div>
+                    {% endif %}
+                    {% if is_low_stock %}
+                        <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
+                        </div>
+                    {% endif %}
+                    {% for tag in product.tags %}
+                        {% if tag contains 'badge:' %}
+                            <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
+                                <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
                 {% if section.settings.award_icon != blank %}
                     <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                         <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
@@ -252,9 +326,9 @@
 </template>
 
 <template id="shop-data-2">
-    {% for product in section.settings.collection_2.products %}
-        
-        {%- comment -%} Evaluate Low Stock Condition for this product {%- endcomment -%}
+    {%- comment -%} 2A. RENDER THE FEATURED PRODUCT FIRST {%- endcomment -%}
+    {% if featured_product_2 %}
+        {% assign product = featured_product_2 %}
         {% assign is_low_stock = false %}
         {% if product.id == lowest_stock_id_2 %}
             {% assign is_low_stock = true %}
@@ -268,25 +342,18 @@
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
 
-                {%- comment -%} BADGES WRAPPER (Top Left) {%- endcomment -%}
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    
-                    {%- comment -%} BEST SELLER TAG {%- endcomment -%}
                     {% if product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
                     {% endif %}
-
-                    {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
                     {% if is_low_stock %}
                         <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-
-                    {%- comment -%} CUSTOM TAGS {%- endcomment -%}
                     {% for tag in product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
@@ -296,7 +363,66 @@
                     {% endfor %}
                 </div>
 
-                {%- comment -%} AWARD ICON OVERLAY (Top Right) {%- endcomment -%}
+                {% if section.settings.award_icon != blank %}
+                    <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    </div>
+                {% endif %}
+
+                <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                        <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-3 text-center px-1 w-full">
+                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                </a>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+            </div>
+        </article>
+    {% endif %}
+
+    {%- comment -%} 2B. RENDER THE REST OF THE PRODUCTS {%- endcomment -%}
+    {% for product in section.settings.collection_2.products %}
+        {% if product.id == featured_product_2.id %}{% continue %}{% endif %}
+        
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_2 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
+        <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
+            <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
+                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                </a>
+
+                <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
+                    {% if product.tags contains 'best-seller' %}
+                        <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
+                        </div>
+                    {% endif %}
+                    {% if is_low_stock %}
+                        <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
+                        </div>
+                    {% endif %}
+                    {% for tag in product.tags %}
+                        {% if tag contains 'badge:' %}
+                            <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
+                                <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
                 {% if section.settings.award_icon != blank %}
                     <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                         <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
