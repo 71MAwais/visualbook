@@ -1,48 +1,101 @@
 <section id="shop-experience-{{ section.id }}" class="border-t border-gray-100 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-    <div class="text-center mb-16">
-      <p class="text-xs tracking-[0.2em] text-[#8C734A] font-medium uppercase mb-4">{{ section.settings.badge }}</p>
-      <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.heading }}</h2>
-      <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
-        {{ section.settings.subheading }}
-      </p>
+    
+    {%- comment -%} ==========================================
+        TAB 1: VIDEO BOOKS EXPERIENCE
+    ========================================== {%- endcomment -%}
+    <div class="tab-experience-content transition-all duration-500" data-category="tab-1-products">
+      <div class="text-center mb-16">
+        <p class="text-xs tracking-[0.2em] text-[#8C734A] font-medium uppercase mb-4">{{ section.settings.tab1_badge }}</p>
+        <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.tab1_heading }}</h2>
+        <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
+          {{ section.settings.tab1_subheading }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat1_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat1_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat2_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat2_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><path d="M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1"/><path d="m11 7-3 5h4l-3 5"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat3_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat3_text }}</p>
+        </div>
+
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab1_feat4_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab1_feat4_text }}</p>
+        </div>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
-      
-      <div class="flex flex-col items-center group">
-        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        </div>
-        <h3 class="font-serif text-lg mb-3 text-gray-900">Instant Playback</h3>
-        <p class="text-sm text-gray-500 font-light leading-relaxed">Magnetic sensors automatically play your crystal-clear HD videos the moment the book is opened.</p>
+
+    {%- comment -%} ==========================================
+        TAB 2: AUDIO CARDS EXPERIENCE
+    ========================================== {%- endcomment -%}
+    <div class="tab-experience-content hidden transition-all duration-500" data-category="tab-2-products" style="display: none;">
+      <div class="text-center mb-16">
+        <p class="text-xs tracking-[0.2em] text-[#8C734A] font-medium uppercase mb-4">{{ section.settings.tab2_badge }}</p>
+        <h2 class="text-3xl md:text-4xl font-serif text-black mb-6">{{ section.settings.tab2_heading }}</h2>
+        <p class="max-w-2xl mx-auto text-gray-500 font-light leading-relaxed">
+          {{ section.settings.tab2_subheading }}
+        </p>
       </div>
 
-      <div class="flex flex-col items-center group">
-        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center">
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat1_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat1_text }}</p>
         </div>
-        <h3 class="font-serif text-lg mb-3 text-gray-900">Easy Curation</h3>
-        <p class="text-sm text-gray-500 font-light leading-relaxed">Connect via the provided USB to effortlessly drag and drop your photos and videos—no software required.</p>
-      </div>
 
-      <div class="flex flex-col items-center group">
-        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><path d="M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1"/><path d="m11 7-3 5h4l-3 5"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat2_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat2_text }}</p>
         </div>
-        <h3 class="font-serif text-lg mb-3 text-gray-900">Rechargeable</h3>
-        <p class="text-sm text-gray-500 font-light leading-relaxed">The built-in battery provides hours of continuous playback, easily rechargeable via USB for endless viewing.</p>
-      </div>
 
-      <div class="flex flex-col items-center group">
-        <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect width="16" height="10" x="4" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat3_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat3_text }}</p>
         </div>
-        <h3 class="font-serif text-lg mb-3 text-gray-900">Gift Ready</h3>
-        <p class="text-sm text-gray-500 font-light leading-relaxed">Presented in a beautiful luxury box with an optional pre-loading service to create the ultimate personalized gift.</p>
-      </div>
 
+        <div class="flex flex-col items-center group">
+          <div class="w-16 h-16 rounded-full bg-[#F7F6F2] text-[#C5A880] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </div>
+          <h3 class="font-serif text-lg mb-3 text-gray-900">{{ section.settings.tab2_feat4_title }}</h3>
+          <p class="text-sm text-gray-500 font-light leading-relaxed">{{ section.settings.tab2_feat4_text }}</p>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -51,22 +104,78 @@
   "name": "Shop Experience",
   "settings": [
     {
-      "type": "text",
-      "id": "badge",
-      "label": "Badge Text",
-      "default": "The Experience"
+      "type": "header",
+      "content": "Tab 1 (Video Books) Settings"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Designed for Forever"
+      "type": "text", "id": "tab1_badge", "label": "Badge Text", "default": "The Experience"
     },
     {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+      "type": "text", "id": "tab1_heading", "label": "Heading", "default": "Designed for Forever"
+    },
+    {
+      "type": "textarea", "id": "tab1_subheading", "label": "Subheading", "default": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
+    },
+    {
+      "type": "text", "id": "tab1_feat1_title", "label": "Feature 1 Title", "default": "Instant Playback"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat1_text", "label": "Feature 1 Text", "default": "Magnetic sensors automatically play your crystal-clear HD videos the moment the book is opened."
+    },
+    {
+      "type": "text", "id": "tab1_feat2_title", "label": "Feature 2 Title", "default": "Easy Curation"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat2_text", "label": "Feature 2 Text", "default": "Connect via the provided USB to effortlessly drag and drop your photos and videos—no software required."
+    },
+    {
+      "type": "text", "id": "tab1_feat3_title", "label": "Feature 3 Title", "default": "Rechargeable"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat3_text", "label": "Feature 3 Text", "default": "The built-in battery provides hours of continuous playback, easily rechargeable via USB for endless viewing."
+    },
+    {
+      "type": "text", "id": "tab1_feat4_title", "label": "Feature 4 Title", "default": "Gift Ready"
+    },
+    {
+      "type": "textarea", "id": "tab1_feat4_text", "label": "Feature 4 Text", "default": "Presented in a beautiful luxury box with an optional pre-loading service to create the ultimate personalized gift."
+    },
+    {
+      "type": "header",
+      "content": "Tab 2 (Audio Cards) Settings"
+    },
+    {
+      "type": "text", "id": "tab2_badge", "label": "Badge Text", "default": "The Audio Experience"
+    },
+    {
+      "type": "text", "id": "tab2_heading", "label": "Heading", "default": "Voice the moments that matter"
+    },
+    {
+      "type": "textarea", "id": "tab2_subheading", "label": "Subheading", "default": "Hear the voices of your loved ones anytime. The Audio Card lets you record a personal message that plays automatically when opened."
+    },
+    {
+      "type": "text", "id": "tab2_feat1_title", "label": "Feature 1 Title", "default": "Auto Playback"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat1_text", "label": "Feature 1 Text", "default": "Light sensors automatically trigger your personalized voice message the moment the card is opened."
+    },
+    {
+      "type": "text", "id": "tab2_feat2_title", "label": "Feature 2 Title", "default": "Easy Recording"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat2_text", "label": "Feature 2 Text", "default": "Simply press and hold the button to record your heartfelt message—no app or cable required."
+    },
+    {
+      "type": "text", "id": "tab2_feat3_title", "label": "Feature 3 Title", "default": "Long-lasting Battery"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat3_text", "label": "Feature 3 Text", "default": "Designed to keep your memories alive, equipped with a battery that supports hundreds of plays."
+    },
+    {
+      "type": "text", "id": "tab2_feat4_title", "label": "Feature 4 Title", "default": "Meaningful Keepsake"
+    },
+    {
+      "type": "textarea", "id": "tab2_feat4_text", "label": "Feature 4 Text", "default": "A beautiful, tactile card that turns a simple greeting into an unforgettable, personalized gift."
     }
   ],
   "presets": [

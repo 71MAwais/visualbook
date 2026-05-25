@@ -454,35 +454,71 @@
     </div>
   </div>
 
+  {%- comment -%} ==========================================
+      DYNAMIC EXPERIENCE SECTIONS
+  ========================================== {%- endcomment -%}
   <div class="bg-[#111111] text-white py-20 lg:py-24 mt-10 relative overflow-hidden border-t border-stone-800">
       <div class="absolute left-0 top-0 w-1/2 h-full bg-[#C5A059]/10 blur-[120px] rounded-full pointer-events-none"></div>
-      <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+      
+      <div class="max-w-5xl mx-auto px-6 text-center relative z-10 tab-experience-content" data-category="tab-1-products">
           <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl mb-6 tracking-wide leading-tight">
-              Give the gift of <br class="md:hidden" /><i class="text-[#C5A059]">happy tears.</i>
+              {{ section.settings.tab1_exp_heading }}
           </h2>
           <p class="text-stone-400 text-[15px] md:text-[17px] font-light mb-12 max-w-2xl mx-auto leading-relaxed">
-              In a world of endless scrolling, give them something to hold. The Visual Book brings your digital memories into the physical world instantly. No setup, no internet, just pure emotion.
+              {{ section.settings.tab1_exp_text }}
           </p>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
               <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
                   <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                   <div class="text-left">
                       <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 1</p>
-                      <p class="text-sm font-medium tracking-wide">Plug & Upload</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab1_step1 }}</p>
                   </div>
               </div>
               <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
                   <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                   <div class="text-left">
                       <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 2</p>
-                      <p class="text-sm font-medium tracking-wide">Open Cover</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab1_step2 }}</p>
                   </div>
               </div>
               <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
                   <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                   <div class="text-left">
                       <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 3</p>
-                      <p class="text-sm font-medium tracking-wide">Instant Magic</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab1_step3 }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="max-w-5xl mx-auto px-6 text-center relative z-10 tab-experience-content hidden" data-category="tab-2-products" style="display: none;">
+          <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl mb-6 tracking-wide leading-tight">
+              {{ section.settings.tab2_exp_heading }}
+          </h2>
+          <p class="text-stone-400 text-[15px] md:text-[17px] font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+              {{ section.settings.tab2_exp_text }}
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+              <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
+                  <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 10v2a7 7 0 01-14 0v-2m7 9v-4m-3 4h6M12 3a3 3 0 00-3 3v4a3 3 0 006 0V6a3 3 0 00-3-3z"></path></svg>
+                  <div class="text-left">
+                      <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 1</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab2_step1 }}</p>
+                  </div>
+              </div>
+              <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
+                  <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V5l12-3v14M9 19c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zM21 16c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z"></path></svg>
+                  <div class="text-left">
+                      <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 2</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab2_step2 }}</p>
+                  </div>
+              </div>
+              <div class="flex items-center justify-center gap-4 bg-white/5 border border-white/10 rounded-sm py-5 px-6 backdrop-blur-sm">
+                  <svg class="w-7 h-7 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <div class="text-left">
+                      <p class="text-[10px] uppercase tracking-widest text-stone-300 font-bold mb-0.5">Step 3</p>
+                      <p class="text-sm font-medium tracking-wide">{{ section.settings.tab2_step3 }}</p>
                   </div>
               </div>
           </div>
@@ -497,8 +533,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // --- Tab Switching Logic ---
   const tabs = document.querySelectorAll('.shop-tab-btn');
   const products = document.querySelectorAll('.shop-product-card');
+  const expBlocks = document.querySelectorAll('.tab-experience-content');
 
-  function filterProducts(category) {
+  function filterContent(category) {
+    // 1. Toggle Product Cards
     products.forEach(product => {
       if (product.dataset.category === category) {
         product.style.display = 'flex';
@@ -513,12 +551,32 @@ document.addEventListener('DOMContentLoaded', function() {
         product.style.display = 'none';
       }
     });
+
+    // 2. Toggle Experience Sections
+    expBlocks.forEach(block => {
+      if (block.dataset.category === category) {
+        block.classList.remove('hidden');
+        block.style.display = 'block';
+        block.style.opacity = '0';
+        block.style.transform = 'translateY(15px)';
+        setTimeout(() => {
+            block.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            block.style.opacity = '1';
+            block.style.transform = 'translateY(0)';
+        }, 20);
+      } else {
+        block.style.display = 'none';
+        block.classList.add('hidden');
+      }
+    });
   }
 
-  filterProducts('tab-1-products');
+  // Initial load
+  filterContent('tab-1-products');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+      // Reset all tabs
       tabs.forEach(t => {
         t.classList.remove('text-[#111111]', 'font-bold');
         t.classList.add('text-stone-500', 'font-medium');
@@ -526,12 +584,13 @@ document.addEventListener('DOMContentLoaded', function() {
         t.querySelector('.tab-indicator').classList.add('hidden');
       });
 
+      // Set active tab
       tab.classList.add('text-[#111111]', 'font-bold');
       tab.classList.remove('text-stone-500', 'font-medium');
       tab.setAttribute('aria-selected', 'true');
       tab.querySelector('.tab-indicator').classList.remove('hidden');
 
-      filterProducts(tab.dataset.target);
+      filterContent(tab.dataset.target);
     });
     
     tab.addEventListener('keydown', (e) => {
@@ -642,7 +701,57 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "image_picker", 
       "id": "award_icon", 
       "label": "Award Overlay Icon", 
-      "info": "Upload an icon to overlay on product images." 
+      "info": "Upload an icon to overlay on the top right of product images." 
+    },
+    {
+      "type": "header",
+      "content": "Tab 1 Experience Section"
+    },
+    {
+      "type": "text",
+      "id": "tab1_exp_heading",
+      "label": "Heading",
+      "default": "Give the gift of <br class=\"md:hidden\" /><i class=\"text-[#C5A059]\">happy tears.</i>"
+    },
+    {
+      "type": "textarea",
+      "id": "tab1_exp_text",
+      "label": "Text",
+      "default": "In a world of endless scrolling, give them something to hold. The Visual Book brings your digital memories into the physical world instantly. No setup, no internet, just pure emotion."
+    },
+    {
+      "type": "text", "id": "tab1_step1", "label": "Step 1", "default": "Plug & Upload"
+    },
+    {
+      "type": "text", "id": "tab1_step2", "label": "Step 2", "default": "Open Cover"
+    },
+    {
+      "type": "text", "id": "tab1_step3", "label": "Step 3", "default": "Instant Magic"
+    },
+    {
+      "type": "header",
+      "content": "Tab 2 Experience Section"
+    },
+    {
+      "type": "text",
+      "id": "tab2_exp_heading",
+      "label": "Heading",
+      "default": "Voice the moments that <br class=\"md:hidden\" /><i class=\"text-[#C5A059]\">matter most.</i>"
+    },
+    {
+      "type": "textarea",
+      "id": "tab2_exp_text",
+      "label": "Text",
+      "default": "Hear the voices of your loved ones anytime. The Audio Card lets you record a personal message that plays automatically when opened."
+    },
+    {
+      "type": "text", "id": "tab2_step1", "label": "Step 1", "default": "Press Record"
+    },
+    {
+      "type": "text", "id": "tab2_step2", "label": "Step 2", "default": "Speak Your Heart"
+    },
+    {
+      "type": "text", "id": "tab2_step3", "label": "Step 3", "default": "Share the Love"
     }
   ],
   "presets": [

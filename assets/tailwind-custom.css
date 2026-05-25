@@ -390,9 +390,6 @@
   .bottom-12 {
     bottom: calc(var(--spacing) * 12);
   }
-  .bottom-14 {
-    bottom: calc(var(--spacing) * 14);
-  }
   .bottom-\[calc\(1\.5rem\+env\(safe-area-inset-bottom\)\)\] {
     bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
@@ -3442,11 +3439,6 @@
   .sm\:p-8 {
     @media (width >= 40rem) {
       padding: calc(var(--spacing) * 8);
-    }
-  }
-  .sm\:p-10 {
-    @media (width >= 40rem) {
-      padding: calc(var(--spacing) * 10);
     }
   }
   .sm\:px-6 {
