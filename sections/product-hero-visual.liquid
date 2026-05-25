@@ -3,6 +3,7 @@
   Description: Custom Tailwind product section with responsive gallery, scrollable description, AJAX cart animation, and interactive modals.
 {% endcomment %}
 
+{% unless section.settings.hide_section %}
 <style>
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -265,7 +266,7 @@
 </main>
 
 <div id="all-modals">
-    <div id="support-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -290,7 +291,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -313,7 +314,7 @@
         </div>
     </div>
 
-    <div id="discount-modal" class="fixed inset-0 z-[999] hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
+    <div id="discount-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
         <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -369,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof cents === 'string') cents = cents.replace('.', '');
         let value = '';
         const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-        const formatString = shopMoneyFormat.match(placeholderRegex)[1];
+        const formatString = shopMoneyFormat.match(placeholderRegex);
         
         switch (formatString) {
             case 'amount': value = (cents / 100).toFixed(2); break;
@@ -401,10 +402,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
-            const qty = parseInt(qtyInputs[0].value) || 1;
+            const qty = parseInt(qtyInputs.value) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
             
             priceDisplays.forEach(el => el.textContent = formattedPrice);
@@ -425,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
@@ -469,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            let val = parseInt(qtyInputs[0].value) || 1;
+            let val = parseInt(qtyInputs.value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
             qtyInputs.forEach(inp => inp.value = val);
@@ -768,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Focus trap elements
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements[0];
+        const firstFocusable = focusableElements;
         const lastFocusable = focusableElements[focusableElements.length - 1];
 
         modalEl.addEventListener('keydown', function(e) {
@@ -848,6 +849,12 @@ document.addEventListener('DOMContentLoaded', () => {
   "name": "Visual Product Hero",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "hide_section",
+      "label": "Hide this section",
+      "default": false
+    },
+    {
       "type": "text",
       "id": "review_text",
       "label": "Review Text",
@@ -915,3 +922,4 @@ document.addEventListener('DOMContentLoaded', () => {
   ]
 }
 {% endschema %}
+{% endunless %}
