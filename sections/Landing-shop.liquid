@@ -107,7 +107,9 @@
     </div>
 </section>
 
-{%- comment -%} 1. PRE-COMPUTE LOWEST STOCK FOR COLLECTION 1 {%- endcomment -%}
+{%- comment -%} ==========================================
+    1. PRE-COMPUTE LOWEST & 2ND LOWEST STOCK FOR COLLECTION 1 
+========================================== {%- endcomment -%}
 {% assign lowest_stock_id_1 = null %}
 {% assign lowest_stock_qty_1 = 999999 %}
 {% for product in section.settings.collection_1.products %}
@@ -125,7 +127,26 @@
   {% endif %}
 {% endfor %}
 
-{%- comment -%} 1. PRE-COMPUTE LOWEST STOCK FOR COLLECTION 2 {%- endcomment -%}
+{% assign second_lowest_id_1 = null %}
+{% assign second_lowest_qty_1 = 999999 %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.available and product.id != lowest_stock_id_1 %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < second_lowest_qty_1 %}
+      {% assign second_lowest_qty_1 = current_qty %}
+      {% assign second_lowest_id_1 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{%- comment -%} ==========================================
+    2. PRE-COMPUTE LOWEST & 2ND LOWEST STOCK FOR COLLECTION 2 
+========================================== {%- endcomment -%}
 {% assign lowest_stock_id_2 = null %}
 {% assign lowest_stock_qty_2 = 999999 %}
 {% for product in section.settings.collection_2.products %}
@@ -143,15 +164,42 @@
   {% endif %}
 {% endfor %}
 
+{% assign second_lowest_id_2 = null %}
+{% assign second_lowest_qty_2 = 999999 %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.available and product.id != lowest_stock_id_2 %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < second_lowest_qty_2 %}
+      {% assign second_lowest_qty_2 = current_qty %}
+      {% assign second_lowest_id_2 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+
 <template id="shop-data-1">
     {% for product in section.settings.collection_1.products %}
+        
+        {%- comment -%} Evaluate Low Stock Condition for this product {%- endcomment -%}
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_1 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
                 
-                {%- comment -%} BADGES WRAPPER {%- endcomment -%}
+                {%- comment -%} BADGES WRAPPER (Top Left) {%- endcomment -%}
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
                     
                     {%- comment -%} BEST SELLER TAG {%- endcomment -%}
@@ -162,10 +210,10 @@
                     {% endif %}
 
                     {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
-                    {% if product.id == lowest_stock_id_1 %}
+                    {% if is_low_stock %}
                         <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Lowest Stock</span>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
 
@@ -179,10 +227,10 @@
                     {% endfor %}
                 </div>
 
-                {%- comment -%} AWARD ICON OVERLAY {%- endcomment -%}
+                {%- comment -%} AWARD ICON OVERLAY (Top Right) {%- endcomment -%}
                 {% if section.settings.award_icon != blank %}
-                    <div class="absolute bottom-14 left-2.5 z-20 w-8 h-8 drop-shadow-md pointer-events-none">
-                        <img src="{{ section.settings.award_icon | img_url: '100x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
                     </div>
                 {% endif %}
 
@@ -205,13 +253,22 @@
 
 <template id="shop-data-2">
     {% for product in section.settings.collection_2.products %}
+        
+        {%- comment -%} Evaluate Low Stock Condition for this product {%- endcomment -%}
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_2 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
 
-                {%- comment -%} BADGES WRAPPER {%- endcomment -%}
+                {%- comment -%} BADGES WRAPPER (Top Left) {%- endcomment -%}
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
                     
                     {%- comment -%} BEST SELLER TAG {%- endcomment -%}
@@ -222,10 +279,10 @@
                     {% endif %}
 
                     {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
-                    {% if product.id == lowest_stock_id_2 %}
+                    {% if is_low_stock %}
                         <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Lowest Stock</span>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
 
@@ -239,10 +296,10 @@
                     {% endfor %}
                 </div>
 
-                {%- comment -%} AWARD ICON OVERLAY {%- endcomment -%}
+                {%- comment -%} AWARD ICON OVERLAY (Top Right) {%- endcomment -%}
                 {% if section.settings.award_icon != blank %}
-                    <div class="absolute bottom-14 left-2.5 z-20 w-8 h-8 drop-shadow-md pointer-events-none">
-                        <img src="{{ section.settings.award_icon | img_url: '100x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    <div class="absolute top-2.5 right-2.5 z-30 w-10 h-10 md:w-12 md:h-12 drop-shadow-lg pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
                     </div>
                 {% endif %}
 
