@@ -18,6 +18,104 @@
     }
 </style>
 
+{%- comment -%} ==========================================
+    1. PRE-COMPUTE DATA FOR COLLECTION 1
+========================================== {%- endcomment -%}
+{% assign lowest_stock_id_1 = null %}
+{% assign lowest_stock_qty_1 = 999999 %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.available %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < lowest_stock_qty_1 %}
+      {% assign lowest_stock_qty_1 = current_qty %}
+      {% assign lowest_stock_id_1 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign second_lowest_id_1 = null %}
+{% assign second_lowest_qty_1 = 999999 %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.available and product.id != lowest_stock_id_1 %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < second_lowest_qty_1 %}
+      {% assign second_lowest_qty_1 = current_qty %}
+      {% assign second_lowest_id_1 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign featured_product_1 = null %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.tags contains 'best-seller' %}
+    {% assign featured_product_1 = product %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if featured_product_1 == null %}
+  {% assign featured_product_1 = section.settings.collection_1.products.first %}
+{% endif %}
+
+
+{%- comment -%} ==========================================
+    2. PRE-COMPUTE DATA FOR COLLECTION 2
+========================================== {%- endcomment -%}
+{% assign lowest_stock_id_2 = null %}
+{% assign lowest_stock_qty_2 = 999999 %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.available %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < lowest_stock_qty_2 %}
+      {% assign lowest_stock_qty_2 = current_qty %}
+      {% assign lowest_stock_id_2 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign second_lowest_id_2 = null %}
+{% assign second_lowest_qty_2 = 999999 %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.available and product.id != lowest_stock_id_2 %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < second_lowest_qty_2 %}
+      {% assign second_lowest_qty_2 = current_qty %}
+      {% assign second_lowest_id_2 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign featured_product_2 = null %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.tags contains 'best-seller' %}
+    {% assign featured_product_2 = product %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if featured_product_2 == null %}
+  {% assign featured_product_2 = section.settings.collection_2.products.first %}
+{% endif %}
+
+
 <section id="shop-grid-{{ section.id }}" class="bg-white pt-12 md:pt-16 pb-0 font-sans antialiased overflow-hidden">
 
   <div class="flex justify-center mb-12 md:mb-16 border-b border-stone-200 w-full max-w-[600px] mx-auto overflow-x-auto hide-scrollbar" role="tablist">
@@ -44,23 +142,34 @@
   <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pb-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
       
+      {%- comment -%} ==========================================
+          TAB 1: RENDER PRODUCTS
+      ========================================== {%- endcomment -%}
+      {% assign rendered_count_1 = 0 %}
       {% assign collection_1 = section.settings.collection_1 %}
-      {% for product in collection_1.products limit: section.settings.max_products %}
+
+      {%- comment -%} 1A. Render the Featured Best Seller Product {%- endcomment -%}
+      {% if featured_product_1 %}
+        {% assign product = featured_product_1 %}
+        {% assign is_featured = true %}
         
-        {%- comment -%} Determine if this is the featured first product {%- endcomment -%}
-        {% assign is_featured = false %}
-        {% if forloop.first %}
-          {% assign is_featured = true %}
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_1 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+            {% assign is_low_stock = true %}
         {% endif %}
 
-        <div class="shop-product-card group flex flex-col {% if is_featured %}lg:flex-row lg:col-span-3 bg-stone-50 border border-stone-200/50 rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500{% else %}items-center{% endif %}" data-category="tab-1-products">
+        <div class="shop-product-card group flex flex-col lg:flex-row lg:col-span-3 bg-stone-50 border border-stone-200/50 rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500" data-category="tab-1-products">
           
-          <a href="{{ product.url }}" class="focus-ring relative w-full {% if is_featured %}lg:w-[55%] aspect-square md:aspect-[16/10] bg-stone-100{% else %}aspect-[4/5] bg-stone-50 mb-6 rounded-sm{% endif %} flex items-center justify-center p-8 md:p-14 overflow-hidden transition-all duration-500 hover:bg-stone-100/80">
+          <a href="{{ product.url }}" class="focus-ring relative w-full lg:w-[55%] aspect-square md:aspect-[16/10] bg-stone-100 flex items-center justify-center p-8 md:p-14 overflow-hidden transition-all duration-500 hover:bg-stone-100/80">
             
-            <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 items-start">
-              {% if is_featured %}
-                <span class="bg-[#111111] text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 font-bold shadow-md">#1 Bestseller</span>
-              {% elsif forloop.index == 2 %}
+            <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 items-start pointer-events-none">
+              {% if product.tags contains 'best-seller' %}
+                <span class="bg-[#111111] text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 font-bold shadow-md">Best Seller</span>
+              {% endif %}
+
+              {% if is_low_stock %}
                 <span class="bg-white/95 text-red-600 border border-red-100 text-[10px] tracking-wider uppercase px-3 py-1 font-bold shadow-sm flex items-center gap-1.5 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                   Low Stock
@@ -68,53 +177,48 @@
               {% endif %}
             </div>
 
-            <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out {% if is_featured %}hover-lift{% else %}group-hover:-translate-y-2{% endif %}">
+            {% if section.settings.award_icon != blank %}
+               <div class="absolute top-5 right-5 z-30 w-14 h-14 md:w-20 md:h-20 drop-shadow-xl pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
+                   <img src="{{ section.settings.award_icon | img_url: '160x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+               </div>
+            {% endif %}
+
+            <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out hover-lift">
               {% if product.featured_image %}
                 {{ product.featured_image | image_url: width: 800 | image_tag: 
                     class: 'max-w-full max-h-full object-contain shadow-2xl shadow-stone-300/60 transition-shadow duration-500 group-hover:shadow-stone-400/70 relative z-10',
-                    widths: '400, 600, 800',
-                    sizes: '(max-width: 768px) 100vw, 50vw',
-                    loading: 'lazy',
-                    alt: product.title | escape
-                }}
-              {% else %}
-                <div class="w-full h-full bg-stone-200 flex items-center justify-center text-stone-400">No Image</div>
+                    loading: 'lazy', alt: product.title | escape }}
               {% endif %}
             </div>
           </a>
 
-          <div class="w-full {% if is_featured %}lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left{% else %}px-4 flex flex-col items-center text-center{% endif %}">
-            
+          <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
             <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
               {% for i in (1..5) %}
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               {% endfor %}
-              {% if is_featured %}<span class="text-[12px] text-stone-500 ml-2">(2,145)</span>{% endif %}
+              <span class="text-[12px] text-stone-500 ml-2">(2,145)</span>
             </div>
             
-            <h3 class="font-serif text-[#111111] {% if is_featured %}text-2xl md:text-3xl mb-3{% else %}text-[15px] md:text-base mb-2 uppercase tracking-wide{% endif %} leading-tight">
+            <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight">
               <a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a>
             </h3>
 
-            {% if is_featured %}
-              <p class="text-stone-500 text-[14px] md:text-[15px] font-light leading-relaxed mb-6 max-w-md">
-                 Our signature design. The perfect blank canvas for weddings, anniversaries, and life's most elegant milestones. Includes a stunning HD display to bring memories to life.
-              </p>
-            {% endif %}
+            <p class="text-stone-500 text-[14px] md:text-[15px] font-light leading-relaxed mb-6 max-w-md">
+              Our signature design. The perfect blank canvas for weddings, anniversaries, and life's most elegant milestones.
+            </p>
             
             <div class="flex items-center gap-4 mb-8">
-              <p class="{% if is_featured %}text-xl md:text-2xl{% else %}text-[14px] md:text-[15px]{% endif %} text-[#111111] font-medium">{{ product.price | money }}</p>
-              {% if is_featured %}
-                 <span class="text-[11px] text-emerald-700 font-bold tracking-wider uppercase bg-emerald-50 px-2 py-1 rounded-sm flex items-center gap-1">
-                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Ships Fast
-                 </span>
-              {% endif %}
+              <p class="text-xl md:text-2xl text-[#111111] font-medium">{{ product.price | money }}</p>
+              <span class="text-[11px] text-emerald-700 font-bold tracking-wider uppercase bg-emerald-50 px-2 py-1 rounded-sm flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Ships Fast
+              </span>
             </div>
             
             <product-form class="w-full">
-                <form method="post" action="/cart/add" class="w-full flex {% if is_featured %}justify-center lg:justify-start{% else %}justify-center{% endif %}" data-type="add-to-cart-form">
+                <form method="post" action="/cart/add" class="w-full flex justify-center lg:justify-start" data-type="add-to-cart-form">
                 <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-                <button type="submit" name="add" class="quick-add-btn focus-ring w-full {% if is_featured %}md:w-[80%] lg:w-full max-w-[320px]{% else %}md:w-[90%] max-w-[280px]{% endif %} px-6 py-4 text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center bg-[#111111] text-white hover:bg-[#C5A059] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" {% if product.available == false %}disabled{% endif %}>
+                <button type="submit" name="add" class="quick-add-btn focus-ring w-full md:w-[80%] lg:w-full max-w-[320px] px-6 py-4 text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center bg-[#111111] text-white hover:bg-[#C5A059] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" {% if product.available == false %}disabled{% endif %}>
                     <span class="btn-text flex items-center gap-2">
                         {% if product.available %}
                             Add To Cart <svg class="w-4 h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -131,57 +235,73 @@
                 </form>
             </product-form>
 
-            {% if is_featured %}
-              <div class="mt-6 flex gap-6 text-[10px] text-stone-500 uppercase tracking-widest font-bold">
-                  <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> 1 Year Warranty</span>
-                  <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> 30-Day Returns</span>
-              </div>
-            {% endif %}
-
-          </div>
-        </div>
-      {% else %}
-        {% for i in (1..3) %}
-          <div class="shop-product-card group flex flex-col items-center" data-category="tab-1-products">
-            <div class="relative w-full aspect-[4/5] bg-stone-50 mb-8 flex items-center justify-center p-6 sm:p-10">
-              <p class="text-stone-400 text-sm font-light">Select a Collection in Customizer</p>
+            <div class="mt-6 flex gap-6 text-[10px] text-stone-500 uppercase tracking-widest font-bold">
+              <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> 1 Year Warranty</span>
+              <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> 30-Day Returns</span>
             </div>
           </div>
-        {% endfor %}
-      {% endfor %}
+        </div>
 
-      {% assign collection_2 = section.settings.collection_2 %}
-      {% for product in collection_2.products limit: section.settings.max_products %}
-        <div class="shop-product-card group flex flex-col items-center" data-category="tab-2-products" style="display:none;">
-          
+        {% assign rendered_count_1 = rendered_count_1 | plus: 1 %}
+      {% endif %}
+
+      {%- comment -%} 1B. Render the Remaining Standard Products {%- endcomment -%}
+      {% for product in collection_1.products %}
+        {% if product.id == featured_product_1.id %}{% continue %}{% endif %}
+        {% if rendered_count_1 >= section.settings.max_products %}{% break %}{% endif %}
+        
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_1 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
+        <div class="shop-product-card group flex flex-col items-center" data-category="tab-1-products">
           <a href="{{ product.url }}" class="focus-ring relative w-full aspect-[4/5] bg-stone-50 mb-6 rounded-sm flex items-center justify-center p-8 md:p-14 overflow-hidden transition-all duration-500 hover:bg-stone-100/80">
+            
+            <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 items-start pointer-events-none">
+              {% if product.tags contains 'best-seller' %}
+                <span class="bg-[#111111] text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 font-bold shadow-md">Best Seller</span>
+              {% endif %}
+
+              {% if is_low_stock %}
+                <span class="bg-white/95 text-red-600 border border-red-100 text-[10px] tracking-wider uppercase px-3 py-1 font-bold shadow-sm flex items-center gap-1.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  Low Stock
+                </span>
+              {% endif %}
+            </div>
+
+            {% if section.settings.award_icon != blank %}
+               <div class="absolute top-4 right-4 z-30 w-10 h-10 md:w-14 md:h-14 drop-shadow-md pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                   <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+               </div>
+            {% endif %}
+
             <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:-translate-y-2">
               {% if product.featured_image %}
                 {{ product.featured_image | image_url: width: 800 | image_tag: 
                     class: 'max-w-full max-h-full object-contain shadow-2xl shadow-stone-300/60 transition-shadow duration-500 group-hover:shadow-stone-400/70 relative z-10',
-                    widths: '400, 600, 800',
-                    sizes: '(max-width: 768px) 100vw, 33vw',
-                    loading: 'lazy',
-                    alt: product.title | escape
-                }}
-              {% else %}
-                <div class="w-full h-full bg-stone-200 flex items-center justify-center text-stone-400">No Image</div>
+                    loading: 'lazy', alt: product.title | escape }}
               {% endif %}
             </div>
           </a>
 
-          <div class="text-center w-full px-4 flex flex-col items-center">
-            <div class="flex justify-center space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
+          <div class="w-full px-4 flex flex-col items-center text-center">
+            <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
               {% for i in (1..5) %}
               <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               {% endfor %}
             </div>
             
-            <h3 class="text-[15px] md:text-base font-serif text-[#111111] mb-2 uppercase tracking-wide leading-tight">
+            <h3 class="font-serif text-[#111111] text-[15px] md:text-base mb-2 uppercase tracking-wide leading-tight">
               <a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a>
             </h3>
-            
-            <p class="text-[14px] md:text-[15px] text-[#111111] mb-8 font-medium">{{ product.price | money }}</p>
+
+            <div class="flex items-center gap-4 mb-8">
+              <p class="text-[14px] md:text-[15px] text-[#111111] font-medium">{{ product.price | money }}</p>
+            </div>
             
             <product-form class="w-full">
                 <form method="post" action="/cart/add" class="w-full flex justify-center" data-type="add-to-cart-form">
@@ -189,8 +309,8 @@
                 <button type="submit" name="add" class="quick-add-btn focus-ring w-full md:w-[90%] max-w-[280px] px-6 py-4 text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center bg-[#111111] text-white hover:bg-[#C5A059] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" {% if product.available == false %}disabled{% endif %}>
                     <span class="btn-text">{% if product.available %}Add To Cart{% else %}Sold Out{% endif %}</span>
                     <span class="added-state hidden items-center">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 mr-2"><path d="M20 6 9 17l-5-5"/></svg>
-                    Added
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 mr-2 text-white"><path d="M20 6 9 17l-5-5"/></svg>
+                        Added
                     </span>
                     <div class="loading-spinner hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 </button>
@@ -198,6 +318,137 @@
             </product-form>
           </div>
         </div>
+        {% assign rendered_count_1 = rendered_count_1 | plus: 1 %}
+      {% endfor %}
+
+
+      {%- comment -%} ==========================================
+          TAB 2: RENDER PRODUCTS
+      ========================================== {%- endcomment -%}
+      {% assign rendered_count_2 = 0 %}
+      {% assign collection_2 = section.settings.collection_2 %}
+
+      {%- comment -%} 2A. Render the Featured Best Seller Product {%- endcomment -%}
+      {% if featured_product_2 %}
+        {% assign product = featured_product_2 %}
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_2 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
+        <div class="shop-product-card group flex flex-col lg:flex-row lg:col-span-3 bg-stone-50 border border-stone-200/50 rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-500" data-category="tab-2-products" style="display:none;">
+          <a href="{{ product.url }}" class="focus-ring relative w-full lg:w-[55%] aspect-square md:aspect-[16/10] bg-stone-100 flex items-center justify-center p-8 md:p-14 overflow-hidden transition-all duration-500 hover:bg-stone-100/80">
+            <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 items-start pointer-events-none">
+              {% if product.tags contains 'best-seller' %}
+                <span class="bg-[#111111] text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 font-bold shadow-md">Best Seller</span>
+              {% endif %}
+              {% if is_low_stock %}
+                <span class="bg-white/95 text-red-600 border border-red-100 text-[10px] tracking-wider uppercase px-3 py-1 font-bold shadow-sm flex items-center gap-1.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  Low Stock
+                </span>
+              {% endif %}
+            </div>
+            {% if section.settings.award_icon != blank %}
+               <div class="absolute top-5 right-5 z-30 w-14 h-14 md:w-20 md:h-20 drop-shadow-xl pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[5deg]">
+                   <img src="{{ section.settings.award_icon | img_url: '160x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+               </div>
+            {% endif %}
+            <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out hover-lift">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 800 | image_tag: class: 'max-w-full max-h-full object-contain shadow-2xl shadow-stone-300/60 transition-shadow duration-500 group-hover:shadow-stone-400/70 relative z-10', loading: 'lazy', alt: product.title | escape }}
+              {% endif %}
+            </div>
+          </a>
+          <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
+            <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
+              {% for i in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
+              <span class="text-[12px] text-stone-500 ml-2">(2,145)</span>
+            </div>
+            <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight"><a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a></h3>
+            <p class="text-stone-500 text-[14px] md:text-[15px] font-light leading-relaxed mb-6 max-w-md">Our signature design. The perfect blank canvas for weddings, anniversaries, and life's most elegant milestones.</p>
+            <div class="flex items-center gap-4 mb-8">
+              <p class="text-xl md:text-2xl text-[#111111] font-medium">{{ product.price | money }}</p>
+              <span class="text-[11px] text-emerald-700 font-bold tracking-wider uppercase bg-emerald-50 px-2 py-1 rounded-sm flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Ships Fast
+              </span>
+            </div>
+            <product-form class="w-full">
+                <form method="post" action="/cart/add" class="w-full flex justify-center lg:justify-start" data-type="add-to-cart-form">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                <button type="submit" name="add" class="quick-add-btn focus-ring w-full md:w-[80%] lg:w-full max-w-[320px] px-6 py-4 text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center bg-[#111111] text-white hover:bg-[#C5A059] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" {% if product.available == false %}disabled{% endif %}>
+                    <span class="btn-text flex items-center gap-2">{% if product.available %}Add To Cart <svg class="w-4 h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>{% else %}Sold Out{% endif %}</span>
+                    <span class="added-state hidden items-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 mr-2 text-white"><path d="M20 6 9 17l-5-5"/></svg>Added to Cart</span>
+                    <div class="loading-spinner hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </button>
+                </form>
+            </product-form>
+          </div>
+        </div>
+        {% assign rendered_count_2 = rendered_count_2 | plus: 1 %}
+      {% endif %}
+
+      {%- comment -%} 2B. Render the Remaining Standard Products {%- endcomment -%}
+      {% for product in collection_2.products %}
+        {% if product.id == featured_product_2.id %}{% continue %}{% endif %}
+        {% if rendered_count_2 >= section.settings.max_products %}{% break %}{% endif %}
+        
+        {% assign is_low_stock = false %}
+        {% if product.id == lowest_stock_id_2 %}
+            {% assign is_low_stock = true %}
+        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+            {% assign is_low_stock = true %}
+        {% endif %}
+
+        <div class="shop-product-card group flex flex-col items-center" data-category="tab-2-products" style="display:none;">
+          <a href="{{ product.url }}" class="focus-ring relative w-full aspect-[4/5] bg-stone-50 mb-6 rounded-sm flex items-center justify-center p-8 md:p-14 overflow-hidden transition-all duration-500 hover:bg-stone-100/80">
+            
+            <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 items-start pointer-events-none">
+              {% if product.tags contains 'best-seller' %}
+                <span class="bg-[#111111] text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 font-bold shadow-md">Best Seller</span>
+              {% endif %}
+              {% if is_low_stock %}
+                <span class="bg-white/95 text-red-600 border border-red-100 text-[10px] tracking-wider uppercase px-3 py-1 font-bold shadow-sm flex items-center gap-1.5 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Low Stock
+                </span>
+              {% endif %}
+            </div>
+
+            {% if section.settings.award_icon != blank %}
+               <div class="absolute top-4 right-4 z-30 w-10 h-10 md:w-14 md:h-14 drop-shadow-md pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                   <img src="{{ section.settings.award_icon | img_url: '120x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+               </div>
+            {% endif %}
+
+            <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:-translate-y-2">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 800 | image_tag: class: 'max-w-full max-h-full object-contain shadow-2xl shadow-stone-300/60 transition-shadow duration-500 group-hover:shadow-stone-400/70 relative z-10', loading: 'lazy', alt: product.title | escape }}
+              {% endif %}
+            </div>
+          </a>
+
+          <div class="text-center w-full px-4 flex flex-col items-center">
+            <div class="flex justify-center space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
+              {% for i in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
+            </div>
+            <h3 class="text-[15px] md:text-base font-serif text-[#111111] mb-2 uppercase tracking-wide leading-tight"><a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a></h3>
+            <p class="text-[14px] md:text-[15px] text-[#111111] mb-8 font-medium">{{ product.price | money }}</p>
+            
+            <product-form class="w-full">
+                <form method="post" action="/cart/add" class="w-full flex justify-center" data-type="add-to-cart-form">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                <button type="submit" name="add" class="quick-add-btn focus-ring w-full md:w-[90%] max-w-[280px] px-6 py-4 text-[11px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center bg-[#111111] text-white hover:bg-[#C5A059] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" {% if product.available == false %}disabled{% endif %}>
+                    <span class="btn-text">{% if product.available %}Add To Cart{% else %}Sold Out{% endif %}</span>
+                    <span class="added-state hidden items-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4 mr-2"><path d="M20 6 9 17l-5-5"/></svg>Added</span>
+                    <div class="loading-spinner hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </button>
+                </form>
+            </product-form>
+          </div>
+        </div>
+        {% assign rendered_count_2 = rendered_count_2 | plus: 1 %}
       {% endfor %}
 
     </div>
@@ -251,7 +502,6 @@ document.addEventListener('DOMContentLoaded', function() {
     products.forEach(product => {
       if (product.dataset.category === category) {
         product.style.display = 'flex';
-        // Small animation trigger
         product.style.opacity = '0';
         product.style.transform = 'translateY(15px)';
         setTimeout(() => {
@@ -265,12 +515,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initial Filter
   filterProducts('tab-1-products');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Reset all tabs
       tabs.forEach(t => {
         t.classList.remove('text-[#111111]', 'font-bold');
         t.classList.add('text-stone-500', 'font-medium');
@@ -278,17 +526,14 @@ document.addEventListener('DOMContentLoaded', function() {
         t.querySelector('.tab-indicator').classList.add('hidden');
       });
 
-      // Set active tab
       tab.classList.add('text-[#111111]', 'font-bold');
       tab.classList.remove('text-stone-500', 'font-medium');
       tab.setAttribute('aria-selected', 'true');
       tab.querySelector('.tab-indicator').classList.remove('hidden');
 
-      // Filter products
       filterProducts(tab.dataset.target);
     });
     
-    // Keyboard navigation for tabs
     tab.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -299,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // --- AJAX Quick Add Logic ---
   const addForms = document.querySelectorAll('form[data-type="add-to-cart-form"]');
-  
+
   addForms.forEach(form => {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -309,11 +554,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const addedText = submitBtn.querySelector('.added-state');
       const spinner = submitBtn.querySelector('.loading-spinner');
       
-      // Prevent double clicks
       if(submitBtn.disabled) return;
       submitBtn.disabled = true;
 
-      // Loading visual state
       originalText.classList.add('hidden');
       spinner.classList.remove('hidden');
 
@@ -325,16 +568,13 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(res => res.json())
       .then(data => {
-        // Success visual state
         spinner.classList.add('hidden');
         addedText.classList.remove('hidden');
         addedText.style.display = 'flex';
         
-        // Turn button green/success temporarily
         submitBtn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
         submitBtn.classList.remove('bg-[#111111]', 'hover:bg-[#C5A059]');
 
-        // Reset after 2.5s
         setTimeout(() => {
           submitBtn.disabled = false;
           submitBtn.classList.remove('bg-emerald-600', 'border-emerald-600');
@@ -346,7 +586,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         console.error('Error adding to cart:', error);
-        // Revert on error
         submitBtn.disabled = false;
         spinner.classList.add('hidden');
         originalText.classList.remove('hidden');
@@ -398,6 +637,12 @@ document.addEventListener('DOMContentLoaded', function() {
       "max": 24,
       "step": 3,
       "default": 6
+    },
+    { 
+      "type": "image_picker", 
+      "id": "award_icon", 
+      "label": "Award Overlay Icon", 
+      "info": "Upload an icon to overlay on product images." 
     }
   ],
   "presets": [
