@@ -1,4 +1,4 @@
-{% comment %} sections/visual-shop.liquid - UPDATED FOR V2.1 BRAND ARCHITECTURE & PERFORMANCE {% endcomment %}
+{% comment %} sections/Landing-shop.liquid - UPDATED FOR V2.1 BRAND ARCHITECTURE & PERFORMANCE {% endcomment %}
 <style>
     /* UPDATED: V2.1 Brand Architecture Fonts */
     #shop .font-sans { font-family: var(--font-sans, 'Inter', sans-serif); }
@@ -40,7 +40,7 @@
     <span id="toast-message" aria-live="polite">Added to cart</span>
 </div>
 
-<section id="shop" class="w-full bg-[#F5F3F0] py-4 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100" aria-labelledby="shop-title">
+<section id="shop" class="w-full bg-[#F5F3F0] py-12 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100" aria-labelledby="shop-title">
 
     <noscript>
         <h2>{{ section.settings.title }}</h2>
@@ -107,6 +107,42 @@
     </div>
 </section>
 
+{%- comment -%} 1. PRE-COMPUTE LOWEST STOCK FOR COLLECTION 1 {%- endcomment -%}
+{% assign lowest_stock_id_1 = null %}
+{% assign lowest_stock_qty_1 = 999999 %}
+{% for product in section.settings.collection_1.products %}
+  {% if product.available %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < lowest_stock_qty_1 %}
+      {% assign lowest_stock_qty_1 = current_qty %}
+      {% assign lowest_stock_id_1 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{%- comment -%} 1. PRE-COMPUTE LOWEST STOCK FOR COLLECTION 2 {%- endcomment -%}
+{% assign lowest_stock_id_2 = null %}
+{% assign lowest_stock_qty_2 = 999999 %}
+{% for product in section.settings.collection_2.products %}
+  {% if product.available %}
+    {% assign current_qty = 0 %}
+    {% for variant in product.variants %}
+      {% if variant.inventory_management %}
+        {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
+      {% endif %}
+    {% endfor %}
+    {% if current_qty > 0 and current_qty < lowest_stock_qty_2 %}
+      {% assign lowest_stock_qty_2 = current_qty %}
+      {% assign lowest_stock_id_2 = product.id %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <template id="shop-data-1">
     {% for product in section.settings.collection_1.products %}
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
@@ -114,13 +150,42 @@
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
-                {% for tag in product.tags %}
-                    {% if tag contains 'badge:' %}
-                        <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+                
+                {%- comment -%} BADGES WRAPPER {%- endcomment -%}
+                <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
+                    
+                    {%- comment -%} BEST SELLER TAG {%- endcomment -%}
+                    {% if product.tags contains 'best-seller' %}
+                        <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
                     {% endif %}
-                {% endfor %}
+
+                    {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
+                    {% if product.id == lowest_stock_id_1 %}
+                        <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Lowest Stock</span>
+                        </div>
+                    {% endif %}
+
+                    {%- comment -%} CUSTOM TAGS {%- endcomment -%}
+                    {% for tag in product.tags %}
+                        {% if tag contains 'badge:' %}
+                            <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
+                                <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {%- comment -%} AWARD ICON OVERLAY {%- endcomment -%}
+                {% if section.settings.award_icon != blank %}
+                    <div class="absolute bottom-14 left-2.5 z-20 w-8 h-8 drop-shadow-md pointer-events-none">
+                        <img src="{{ section.settings.award_icon | img_url: '100x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    </div>
+                {% endif %}
+
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
                     <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
@@ -145,13 +210,42 @@
                 <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
                     {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
                 </a>
-                {% for tag in product.tags %}
-                    {% if tag contains 'badge:' %}
-                        <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
-                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+
+                {%- comment -%} BADGES WRAPPER {%- endcomment -%}
+                <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
+                    
+                    {%- comment -%} BEST SELLER TAG {%- endcomment -%}
+                    {% if product.tags contains 'best-seller' %}
+                        <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
                     {% endif %}
-                {% endfor %}
+
+                    {%- comment -%} LOWEST STOCK TAG {%- endcomment -%}
+                    {% if product.id == lowest_stock_id_2 %}
+                        <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-red-100 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-2.5 h-2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Lowest Stock</span>
+                        </div>
+                    {% endif %}
+
+                    {%- comment -%} CUSTOM TAGS {%- endcomment -%}
+                    {% for tag in product.tags %}
+                        {% if tag contains 'badge:' %}
+                            <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
+                                <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {%- comment -%} AWARD ICON OVERLAY {%- endcomment -%}
+                {% if section.settings.award_icon != blank %}
+                    <div class="absolute bottom-14 left-2.5 z-20 w-8 h-8 drop-shadow-md pointer-events-none">
+                        <img src="{{ section.settings.award_icon | img_url: '100x' }}" class="w-full h-full object-contain" alt="Award Logo" loading="lazy">
+                    </div>
+                {% endif %}
+
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
                     <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
                         <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
@@ -440,7 +534,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { "type": "text", "id": "tab_1_label", "label": "Tab 1 Label", "default": "Video Book" },
     { "type": "collection", "id": "collection_1", "label": "Collection 1" },
     { "type": "text", "id": "tab_2_label", "label": "Tab 2 Label", "default": "Audio Cards" },
-    { "type": "collection", "id": "collection_2", "label": "Collection 2" }
+    { "type": "collection", "id": "collection_2", "label": "Collection 2" },
+    { "type": "image_picker", "id": "award_icon", "label": "Award Overlay Icon", "info": "Upload an icon to overlay on product images." }
   ],
   "presets": [{ "name": "Shop Carousel" }]
 }
