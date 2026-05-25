@@ -167,23 +167,28 @@
                 
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="product-variant-id">
 
-                {% unless product.has_only_default_variant %}
-                <div class="mb-6">
-                    {% for option in product.options_with_values %}
-                    <fieldset class="mb-5 border-none p-0 m-0">
-                        <legend class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-3 w-full">{{ option.name }}</legend>
-                        <div class="flex flex-wrap gap-3" role="radiogroup" aria-label="{{ option.name }}">
-                            {% for value in option.values %}
-                            <button type="button" role="radio" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}" class="focus-ring size-btn flex-1 py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide touch-manipulation cursor-pointer {% if option.selected_value == value %}border-stone-900 bg-stone-900 text-white shadow-md{% else %}border-stone-300 bg-white text-stone-800 hover:border-stone-500{% endif %}" data-option-position="option{{ option.position }}" data-value="{{ value | escape }}">
-                                {{ value }}
-                            </button>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                    {% endfor %}
-                </div>
-                {% endunless %}
+                {%- comment -%} TOGGLE VARIANT OPTIONS {%- endcomment -%}
+                {% if section.settings.show_variants %}
+                  {% unless product.has_only_default_variant %}
+                  <div class="mb-6">
+                      {% for option in product.options_with_values %}
+                      <fieldset class="mb-5 border-none p-0 m-0">
+                          <legend class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-3 w-full">{{ option.name }}</legend>
+                          <div class="flex flex-wrap gap-3" role="radiogroup" aria-label="{{ option.name }}">
+                              {% for value in option.values %}
+                              <button type="button" role="radio" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}" class="focus-ring size-btn flex-1 py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide touch-manipulation cursor-pointer {% if option.selected_value == value %}border-stone-900 bg-stone-900 text-white shadow-md{% else %}border-stone-300 bg-white text-stone-800 hover:border-stone-500{% endif %}" data-option-position="option{{ option.position }}" data-value="{{ value | escape }}">
+                                  {{ value }}
+                              </button>
+                              {% endfor %}
+                          </div>
+                      </fieldset>
+                      {% endfor %}
+                  </div>
+                  {% endunless %}
+                {% endif %}
 
+                {%- comment -%} TOGGLE MEDIA UPLOAD {%- endcomment -%}
+                {% if section.settings.show_media_upload %}
                 <div class="mb-6 mt-6 relative z-40">
                     <label for="media-upload" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer" tabindex="0">
                         <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -192,11 +197,15 @@
                     </label>
                     <input type="file" name="properties[Media Upload]" id="media-upload" class="sr-only" multiple accept="image/*,video/*" tabindex="-1">
                 </div>
+                {% endif %}
 
+                {%- comment -%} TOGGLE BACKGROUND SONG {%- endcomment -%}
+                {% if section.settings.show_bg_song %}
                 <div class="mb-6 relative z-40">
                     <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">Background Song <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
                     <input type="text" name="properties[Background Song]" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. Perfect by Ed Sheeran">
                 </div>
+                {% endif %}
 
                 <div class="mb-4 relative z-50">
                     <div class="flex flex-col sm:flex-row gap-3">
@@ -844,6 +853,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+{% endunless %}
+
 {% schema %}
 {
   "name": "Visual Product Hero",
@@ -851,20 +862,42 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       "type": "checkbox",
       "id": "hide_section",
-      "label": "Hide this section",
+      "label": "Hide this section completely",
       "default": false
     },
     {
-      "type": "text",
-      "id": "review_text",
-      "label": "Review Text",
-      "default": "4.9 (128 Reviews)"
+      "type": "header",
+      "content": "Form Elements"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variants",
+      "label": "Show variants (Size, Storage, Color etc.)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media_upload",
+      "label": "Show Media Upload field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bg_song",
+      "label": "Show Background Song field",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "show_dynamic_checkout",
       "label": "Show dynamic checkout buttons",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "Review Text",
+      "default": "4.9 (128 Reviews)"
     },
     {
       "type": "header",
@@ -922,4 +955,3 @@ document.addEventListener('DOMContentLoaded', () => {
   ]
 }
 {% endschema %}
-{% endunless %}

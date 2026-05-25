@@ -1,8 +1,8 @@
 {% comment %} sections/Landing-shop.liquid - UPDATED FOR V2.1 BRAND ARCHITECTURE & PERFORMANCE {% endcomment %}
 <style>
     /* UPDATED: V2.1 Brand Architecture Fonts */
-    #shop .font-sans { font-family: var(--font-sans, 'Inter', sans-serif); }
-    #shop .font-serif { font-family: var(--font-display, 'Cormorant Garamond', serif); }
+    #shop-{{ section.id }} .font-sans { font-family: var(--font-sans, 'Inter', sans-serif); }
+    #shop-{{ section.id }} .font-serif { font-family: var(--font-display, 'Cormorant Garamond', serif); }
 
     .product-card {
         transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
@@ -15,44 +15,44 @@
         transform: scale(1);
         z-index: 10;
     }
-    #shop-scroll {
+    .shop-scroll {
         -webkit-user-select: none;
         user-select: none;
     }
-    #shop-scroll.dragging {
+    .shop-scroll.dragging {
         cursor: grabbing;
         scroll-snap-type: none !important; 
     }
-    .toast {
+    .shop-toast {
         transform: translateY(100px);
         opacity: 0;
         transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .toast.show {
+    .shop-toast.show {
         transform: translateY(0);
         opacity: 1;
     }
     .shop-arrow:active { transform: translateY(-50%) scale(0.95); }
 </style>
 
-<div id="toast" class="toast fixed left-1/2 -translate-x-1/2 z-50 bg-[#181615] text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium pointer-events-none bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
+<div id="toast-{{ section.id }}" class="shop-toast fixed left-1/2 -translate-x-1/2 z-50 bg-[#181615] text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium pointer-events-none bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8A892" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    <span id="toast-message" aria-live="polite">Added to cart</span>
+    <span id="toast-message-{{ section.id }}" aria-live="polite">Added to cart</span>
 </div>
 
-<section id="shop" class="w-full bg-[#F5F3F0] py-12 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100" aria-labelledby="shop-title">
+<section id="shop-{{ section.id }}" class="w-full bg-[#F5F3F0] py-12 flex flex-col items-center select-none overflow-x-hidden border-t border-gray-100" aria-labelledby="shop-title-{{ section.id }}">
 
     <noscript>
         <h2>{{ section.settings.title }}</h2>
         <ul>
-            {% for product in section.settings.collection_1.products %}<li><a href="{{ product.url }}">{{ product.title }}</a></li>{% endfor %}
-            {% for product in section.settings.collection_2.products %}<li><a href="{{ product.url }}">{{ product.title }}</a></li>{% endfor %}
+            {% for card_product in section.settings.collection_1.products %}<li><a href="{{ card_product.url }}">{{ card_product.title }}</a></li>{% endfor %}
+            {% for card_product in section.settings.collection_2.products %}<li><a href="{{ card_product.url }}">{{ card_product.title }}</a></li>{% endfor %}
         </ul>
     </noscript>
 
     <div class="w-full text-center pb-2 px-5 flex-shrink-0 z-10">
         <p class="text-[10px] font-sans font-semibold tracking-[0.3em] uppercase text-[#181615] mb-1">{{ section.settings.subtitle }}</p>
-        <h2 id="shop-title" class="font-serif text-[28px] md:text-[34px] lg:text-[40px] text-stone-950 tracking-tight leading-none">{{ section.settings.title }}</h2>
+        <h2 id="shop-title-{{ section.id }}" class="font-serif text-[28px] md:text-[34px] lg:text-[40px] text-stone-950 tracking-tight leading-none">{{ section.settings.title }}</h2>
         <p class="mt-2 text-stone-600 text-xs md:text-[14px] font-light max-w-md mx-auto leading-relaxed">{{ section.settings.text }}</p>
     </div>
 
@@ -69,21 +69,21 @@
         </div>
     </div>
 
-    <div class="w-full flex-1 min-h-0 relative transition-opacity duration-300 ease-out flex flex-col group/carousel" id="shop-content">
+    <div class="w-full flex-1 min-h-0 relative transition-opacity duration-300 ease-out flex flex-col group/carousel" id="shop-content-{{ section.id }}">
         <div class="absolute top-0 left-0 w-[10vw] h-full bg-gradient-to-r from-[#F5F3F0] to-transparent z-10 pointer-events-none"></div>
         <div class="absolute top-0 right-0 w-[10vw] h-full bg-gradient-to-l from-[#F5F3F0] to-transparent z-10 pointer-events-none"></div>
         
-        <button aria-label="Previous Product" id="shop-prev-btn" class="shop-arrow absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow border border-stone-200 flex items-center justify-center text-stone-600 hover:text-black hover:border-black transition-all duration-300 focus:outline-none">
+        <button aria-label="Previous Product" id="shop-prev-btn-{{ section.id }}" class="shop-arrow absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow border border-stone-200 flex items-center justify-center text-stone-600 hover:text-black hover:border-black transition-all duration-300 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <button aria-label="Next Product" id="shop-next-btn" class="shop-arrow absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow border border-stone-200 flex items-center justify-center text-stone-600 hover:text-black hover:border-black transition-all duration-300 focus:outline-none">
+        <button aria-label="Next Product" id="shop-next-btn-{{ section.id }}" class="shop-arrow absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow border border-stone-200 flex items-center justify-center text-stone-600 hover:text-black hover:border-black transition-all duration-300 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
         </button>
 
-        <div id="shop-scroll" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-2 relative">
-            <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
-            <div id="card-container" class="flex gap-3 md:gap-4 items-center shrink-0"></div>
-            <div id="end-spacer" class="shrink-0 w-[50vw]"></div>
+        <div id="shop-scroll-{{ section.id }}" class="shop-scroll flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full cursor-grab items-center py-2 relative">
+            <div id="start-spacer-{{ section.id }}" class="shrink-0 w-[50vw]"></div>
+            <div id="card-container-{{ section.id }}" class="flex gap-3 md:gap-4 items-center shrink-0"></div>
+            <div id="end-spacer-{{ section.id }}" class="shrink-0 w-[50vw]"></div>
         </div>
     </div>
 
@@ -91,15 +91,15 @@
     <div class="w-full flex-shrink-0 pt-2 px-5 md:px-10 z-10 pb-2">
         <div class="max-w-[800px] mx-auto flex items-center justify-between w-full pointer-events-auto">
             <div class="flex items-start shrink-0 w-12" aria-hidden="true">
-                <span id="card-current" class="font-serif text-[24px] text-black font-medium leading-none">01</span>
+                <span id="card-current-{{ section.id }}" class="font-serif text-[24px] text-black font-medium leading-none">01</span>
                 <div class="flex flex-col ml-1 mt-0.5">
                     <span class="text-[9px] text-[#181615]/70 font-sans leading-none">/</span>
-                    <span id="card-total" class="text-[9px] text-[#181615]/70 font-sans leading-none mt-0.5">00</span>
+                    <span id="card-total-{{ section.id }}" class="text-[9px] text-[#181615]/70 font-sans leading-none mt-0.5">00</span>
                 </div>
             </div>
             
-            <div id="shop-progress-container" class="flex-1 mx-4 h-[1.5px] bg-gray-300 relative overflow-hidden" role="progressbar" aria-label="Carousel Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div id="shop-progress" class="absolute top-0 left-0 h-full bg-[#B8A892] transition-all duration-500 ease-out" style="width: 0%;"></div>
+            <div id="shop-progress-container-{{ section.id }}" class="flex-1 mx-4 h-[1.5px] bg-gray-300 relative overflow-hidden" role="progressbar" aria-label="Carousel Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="shop-progress-{{ section.id }}" class="absolute top-0 left-0 h-full bg-[#B8A892] transition-all duration-500 ease-out" style="width: 0%;"></div>
             </div>
             
             <div class="flex shrink-0 w-12"></div>
@@ -112,42 +112,42 @@
 ========================================== {%- endcomment -%}
 {% assign lowest_stock_id_1 = null %}
 {% assign lowest_stock_qty_1 = 999999 %}
-{% for product in section.settings.collection_1.products %}
-  {% if product.available %}
+{% for card_product in section.settings.collection_1.products %}
+  {% if card_product.available %}
     {% assign current_qty = 0 %}
-    {% for variant in product.variants %}
+    {% for variant in card_product.variants %}
       {% if variant.inventory_management %}
         {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
       {% endif %}
     {% endfor %}
     {% if current_qty > 0 and current_qty < lowest_stock_qty_1 %}
       {% assign lowest_stock_qty_1 = current_qty %}
-      {% assign lowest_stock_id_1 = product.id %}
+      {% assign lowest_stock_id_1 = card_product.id %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
 {% assign second_lowest_id_1 = null %}
 {% assign second_lowest_qty_1 = 999999 %}
-{% for product in section.settings.collection_1.products %}
-  {% if product.available and product.id != lowest_stock_id_1 %}
+{% for card_product in section.settings.collection_1.products %}
+  {% if card_product.available and card_product.id != lowest_stock_id_1 %}
     {% assign current_qty = 0 %}
-    {% for variant in product.variants %}
+    {% for variant in card_product.variants %}
       {% if variant.inventory_management %}
         {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
       {% endif %}
     {% endfor %}
     {% if current_qty > 0 and current_qty < second_lowest_qty_1 %}
       {% assign second_lowest_qty_1 = current_qty %}
-      {% assign second_lowest_id_1 = product.id %}
+      {% assign second_lowest_id_1 = card_product.id %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
 {% assign featured_product_1 = null %}
-{% for product in section.settings.collection_1.products %}
-  {% if product.tags contains 'best-seller' %}
-    {% assign featured_product_1 = product %}
+{% for card_product in section.settings.collection_1.products %}
+  {% if card_product.tags contains 'best-seller' %}
+    {% assign featured_product_1 = card_product %}
     {% break %}
   {% endif %}
 {% endfor %}
@@ -160,42 +160,42 @@
 ========================================== {%- endcomment -%}
 {% assign lowest_stock_id_2 = null %}
 {% assign lowest_stock_qty_2 = 999999 %}
-{% for product in section.settings.collection_2.products %}
-  {% if product.available %}
+{% for card_product in section.settings.collection_2.products %}
+  {% if card_product.available %}
     {% assign current_qty = 0 %}
-    {% for variant in product.variants %}
+    {% for variant in card_product.variants %}
       {% if variant.inventory_management %}
         {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
       {% endif %}
     {% endfor %}
     {% if current_qty > 0 and current_qty < lowest_stock_qty_2 %}
       {% assign lowest_stock_qty_2 = current_qty %}
-      {% assign lowest_stock_id_2 = product.id %}
+      {% assign lowest_stock_id_2 = card_product.id %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
 {% assign second_lowest_id_2 = null %}
 {% assign second_lowest_qty_2 = 999999 %}
-{% for product in section.settings.collection_2.products %}
-  {% if product.available and product.id != lowest_stock_id_2 %}
+{% for card_product in section.settings.collection_2.products %}
+  {% if card_product.available and card_product.id != lowest_stock_id_2 %}
     {% assign current_qty = 0 %}
-    {% for variant in product.variants %}
+    {% for variant in card_product.variants %}
       {% if variant.inventory_management %}
         {% assign current_qty = current_qty | plus: variant.inventory_quantity %}
       {% endif %}
     {% endfor %}
     {% if current_qty > 0 and current_qty < second_lowest_qty_2 %}
       {% assign second_lowest_qty_2 = current_qty %}
-      {% assign second_lowest_id_2 = product.id %}
+      {% assign second_lowest_id_2 = card_product.id %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
 {% assign featured_product_2 = null %}
-{% for product in section.settings.collection_2.products %}
-  {% if product.tags contains 'best-seller' %}
-    {% assign featured_product_2 = product %}
+{% for card_product in section.settings.collection_2.products %}
+  {% if card_product.tags contains 'best-seller' %}
+    {% assign featured_product_2 = card_product %}
     {% break %}
   {% endif %}
 {% endfor %}
@@ -204,25 +204,25 @@
 {% endif %}
 
 
-<template id="shop-data-1">
+<template id="shop-data-1-{{ section.id }}">
     {%- comment -%} 1A. RENDER THE FEATURED PRODUCT FIRST {%- endcomment -%}
     {% if featured_product_1 %}
-        {% assign product = featured_product_1 %}
+        {% assign card_product = featured_product_1 %}
         {% assign is_low_stock = false %}
-        {% if product.id == lowest_stock_id_1 %}
+        {% if card_product.id == lowest_stock_id_1 %}
             {% assign is_low_stock = true %}
-        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+        {% elsif card_product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
             {% assign is_low_stock = true %}
         {% endif %}
 
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
-                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                <a href="{{ card_product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ card_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: card_product.title }}
                 </a>
                 
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    {% if product.tags contains 'best-seller' %}
+                    {% if card_product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
@@ -233,7 +233,7 @@
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-                    {% for tag in product.tags %}
+                    {% for tag in card_product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
                                 <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
@@ -249,40 +249,40 @@
                 {% endif %}
 
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
-                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showShopToast_{{ section.id | replace: '-', '_' }}('{{ card_product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ card_product.variants.first.id }}" />
                         <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
             <div class="mt-3 text-center px-1 w-full">
-                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
-                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                <a href="{{ card_product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ card_product.title }}">{{ card_product.title }}</h3>
                 </a>
-                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ card_product.price | money }}</p>
             </div>
         </article>
     {% endif %}
 
     {%- comment -%} 1B. RENDER THE REST OF THE PRODUCTS {%- endcomment -%}
-    {% for product in section.settings.collection_1.products %}
-        {% if product.id == featured_product_1.id %}{% continue %}{% endif %}
+    {% for card_product in section.settings.collection_1.products %}
+        {% if card_product.id == featured_product_1.id %}{% continue %}{% endif %}
         
         {% assign is_low_stock = false %}
-        {% if product.id == lowest_stock_id_1 %}
+        {% if card_product.id == lowest_stock_id_1 %}
             {% assign is_low_stock = true %}
-        {% elsif product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
+        {% elsif card_product.id == second_lowest_id_1 and second_lowest_qty_1 < 10 %}
             {% assign is_low_stock = true %}
         {% endif %}
 
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
-                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                <a href="{{ card_product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ card_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: card_product.title }}
                 </a>
                 
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    {% if product.tags contains 'best-seller' %}
+                    {% if card_product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
@@ -293,7 +293,7 @@
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-                    {% for tag in product.tags %}
+                    {% for tag in card_product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
                                 <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
@@ -309,41 +309,41 @@
                 {% endif %}
 
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
-                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showShopToast_{{ section.id | replace: '-', '_' }}('{{ card_product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ card_product.variants.first.id }}" />
                         <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
             <div class="mt-3 text-center px-1 w-full">
-                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
-                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                <a href="{{ card_product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ card_product.title }}">{{ card_product.title }}</h3>
                 </a>
-                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ card_product.price | money }}</p>
             </div>
         </article>
     {% endfor %}
 </template>
 
-<template id="shop-data-2">
+<template id="shop-data-2-{{ section.id }}">
     {%- comment -%} 2A. RENDER THE FEATURED PRODUCT FIRST {%- endcomment -%}
     {% if featured_product_2 %}
-        {% assign product = featured_product_2 %}
+        {% assign card_product = featured_product_2 %}
         {% assign is_low_stock = false %}
-        {% if product.id == lowest_stock_id_2 %}
+        {% if card_product.id == lowest_stock_id_2 %}
             {% assign is_low_stock = true %}
-        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+        {% elsif card_product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
             {% assign is_low_stock = true %}
         {% endif %}
 
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
-                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                <a href="{{ card_product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ card_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: card_product.title }}
                 </a>
 
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    {% if product.tags contains 'best-seller' %}
+                    {% if card_product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
@@ -354,7 +354,7 @@
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-                    {% for tag in product.tags %}
+                    {% for tag in card_product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
                                 <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
@@ -370,40 +370,40 @@
                 {% endif %}
 
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
-                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showShopToast_{{ section.id | replace: '-', '_' }}('{{ card_product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ card_product.variants.first.id }}" />
                         <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
             <div class="mt-3 text-center px-1 w-full">
-                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
-                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                <a href="{{ card_product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ card_product.title }}">{{ card_product.title }}</h3>
                 </a>
-                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ card_product.price | money }}</p>
             </div>
         </article>
     {% endif %}
 
     {%- comment -%} 2B. RENDER THE REST OF THE PRODUCTS {%- endcomment -%}
-    {% for product in section.settings.collection_2.products %}
-        {% if product.id == featured_product_2.id %}{% continue %}{% endif %}
+    {% for card_product in section.settings.collection_2.products %}
+        {% if card_product.id == featured_product_2.id %}{% continue %}{% endif %}
         
         {% assign is_low_stock = false %}
-        {% if product.id == lowest_stock_id_2 %}
+        {% if card_product.id == lowest_stock_id_2 %}
             {% assign is_low_stock = true %}
-        {% elsif product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
+        {% elsif card_product.id == second_lowest_id_2 and second_lowest_qty_2 < 10 %}
             {% assign is_low_stock = true %}
         {% endif %}
 
         <article class="product-card flex-shrink-0 w-[55vw] sm:w-[180px] md:w-[200px] lg:w-[220px] snap-center cursor-pointer flex flex-col items-center">
             <div class="relative group w-full aspect-[4/5] rounded-xl overflow-hidden bg-white shadow-sm border border-stone-200/60">
-                <a href="{{ product.url }}" tabindex="-1" class="block w-full h-full outline-none">
-                    {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: product.title }}
+                <a href="{{ card_product.url }}" tabindex="-1" class="block w-full h-full outline-none">
+                    {{ card_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply', alt: card_product.title }}
                 </a>
 
                 <div class="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start pointer-events-none">
-                    {% if product.tags contains 'best-seller' %}
+                    {% if card_product.tags contains 'best-seller' %}
                         <div class="bg-[#111111] px-2 py-0.5 rounded shadow-sm border border-black/5">
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-white">Best Seller</span>
                         </div>
@@ -414,7 +414,7 @@
                             <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-red-600">Low Stock</span>
                         </div>
                     {% endif %}
-                    {% for tag in product.tags %}
+                    {% for tag in card_product.tags %}
                         {% if tag contains 'badge:' %}
                             <div class="bg-white/95 backdrop-blur px-2 py-0.5 rounded shadow-sm border border-black/5">
                                 <span class="text-[8px] font-sans tracking-[0.2em] uppercase font-bold text-[#181615]">{{ tag | remove: 'badge:' }}</span>
@@ -430,36 +430,50 @@
                 {% endif %}
 
                 <div class="absolute inset-x-0 bottom-0 p-2.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:translate-y-2 lg:group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showToast('{{ product.title | escape | replace: "'", "\'" }}'); this.submit();">
-                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                    <form method="post" action="/cart/add" class="pointer-events-auto" onsubmit="event.preventDefault(); showShopToast_{{ section.id | replace: '-', '_' }}('{{ card_product.title | escape | replace: "'", "\'" }}'); this.submit();">
+                        <input type="hidden" name="id" value="{{ card_product.variants.first.id }}" />
                         <button type="submit" class="w-full bg-white/95 backdrop-blur border border-gray-100 text-[#181615] text-[9px] font-sans tracking-[0.2em] uppercase font-bold py-2.5 rounded-lg shadow-lg hover:bg-[#181615] hover:text-white transition-colors">Quick Add</button>
                     </form>
                 </div>
             </div>
             <div class="mt-3 text-center px-1 w-full">
-                <a href="{{ product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
-                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ product.title }}">{{ product.title }}</h3>
+                <a href="{{ card_product.url }}" class="hover:opacity-70 transition-opacity w-full outline-none">
+                    <h3 class="font-serif text-[17px] md:text-[19px] font-medium text-[#181615] tracking-tight leading-tight line-clamp-1" title="{{ card_product.title }}">{{ card_product.title }}</h3>
                 </a>
-                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ product.price | money }}</p>
+                <p class="mt-1 text-[#181615] text-[13px] font-medium font-sans">{{ card_product.price | money }}</p>
             </div>
         </article>
     {% endfor %}
 </template>
 
 <script>
+window.showShopToast_{{ section.id | replace: '-', '_' }} = function(productName) {
+    const toast = document.getElementById('toast-{{ section.id }}');
+    const msg = document.getElementById('toast-message-{{ section.id }}');
+    if(toast && msg) {
+        msg.textContent = `${productName} added to cart`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    const scrollContainer = document.getElementById('shop-scroll');
-    const cardContainer = document.getElementById('card-container');
-    const progressBar = document.getElementById('shop-progress');
-    const progressContainer = document.getElementById('shop-progress-container');
-    const currentEl = document.getElementById('card-current');
-    const totalEl = document.getElementById('card-total');
-    const prevBtn = document.getElementById('shop-prev-btn');
-    const nextBtn = document.getElementById('shop-next-btn');
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    const sectionId = '{{ section.id }}';
+    const shopContainer = document.getElementById(`shop-${sectionId}`);
+    if (!shopContainer) return;
+
+    const scrollContainer = document.getElementById(`shop-scroll-${sectionId}`);
+    const cardContainer = document.getElementById(`card-container-${sectionId}`);
+    const progressBar = document.getElementById(`shop-progress-${sectionId}`);
+    const progressContainer = document.getElementById(`shop-progress-container-${sectionId}`);
+    const currentEl = document.getElementById(`card-current-${sectionId}`);
+    const totalEl = document.getElementById(`card-total-${sectionId}`);
+    const prevBtn = document.getElementById(`shop-prev-btn-${sectionId}`);
+    const nextBtn = document.getElementById(`shop-next-btn-${sectionId}`);
+    const tabBtns = shopContainer.querySelectorAll('.tab-btn');
     
-    const tpl1 = document.getElementById('shop-data-1');
-    const tpl2 = document.getElementById('shop-data-2');
+    const tpl1 = document.getElementById(`shop-data-1-${sectionId}`);
+    const tpl2 = document.getElementById(`shop-data-2-${sectionId}`);
     
     let totalOriginal = 0;
     let isJumping = false;
@@ -476,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         autoScrollTimer = setTimeout(() => {
             if (isInteracting || isJumping || isDown) return;
-            const active = document.querySelector('.product-card.active-card');
+            const active = cardContainer.querySelector('.product-card.active-card');
             if (active) {
                 scrollToCard(parseInt(active.dataset.index) + 1);
             }
@@ -507,9 +521,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 clone.dataset.realIndex = idx;
                 
                 clone.addEventListener('click', (e) => {
-                    if (e.target.closest('a') || e.target.closest('button')) return;
+                    if (e.target.closest('a') || e.target.closest('button') || e.target.closest('form')) return;
                     const index = parseInt(clone.dataset.index);
-                    const active = document.querySelector('.product-card.active-card');
+                    const active = cardContainer.querySelector('.product-card.active-card');
                     if (active && parseInt(active.dataset.index) === index) return;
                     scrollToCard(index);
                 });
@@ -517,34 +531,51 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        adjustSpacers();
-        // Setup initial position instantly
-        isJumping = true;
-        scrollContainer.style.scrollSnapType = 'none';
-        const cards = Array.from(cardContainer.children);
-        const scrollPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
-        scrollContainer.scrollLeft = scrollPos;
-        cards[totalOriginal].classList.add('active-card');
-        updateUI(0);
-        
+        // Fix: Use requestAnimationFrame so the browser renders the new nodes
+        // before we attempt to calculate widths and positions.
         requestAnimationFrame(() => {
-            scrollContainer.style.scrollSnapType = '';
-            isJumping = false;
-            queueNextAutoScroll();
+            adjustSpacers();
+            
+            isJumping = true;
+            scrollContainer.style.scrollSnapType = 'none';
+            
+            // Force layout reflow so offset calculations are perfectly accurate
+            void scrollContainer.offsetWidth; 
+            
+            const cards = Array.from(cardContainer.children);
+            const targetCard = cards[totalOriginal];
+            
+            if (targetCard) {
+                const scrollPos = targetCard.offsetLeft + (targetCard.offsetWidth / 2) - (scrollContainer.clientWidth / 2);
+                scrollContainer.scrollLeft = scrollPos;
+                targetCard.classList.add('active-card');
+            }
+            
+            updateUI(0);
+            
+            // Wait one more frame to re-enable snapping so the instant jump isn't animated
+            requestAnimationFrame(() => {
+                scrollContainer.style.scrollSnapType = '';
+                isJumping = false;
+                queueNextAutoScroll();
+            });
         });
     }
 
     function adjustSpacers() {
         if (!cardContainer.children.length) return;
-        const cardWidth = cardContainer.children.offsetWidth || 220;
+        const cardWidth = cardContainer.children.offsetWidth || 220; 
         const space = (scrollContainer.clientWidth / 2) - (cardWidth / 2);
-        document.getElementById('start-spacer').style.width = `${space}px`;
-        document.getElementById('end-spacer').style.width = `${space}px`;
+        
+        const startSpacer = document.getElementById(`start-spacer-${sectionId}`);
+        const endSpacer = document.getElementById(`end-spacer-${sectionId}`);
+        if (startSpacer) startSpacer.style.width = `${space}px`;
+        if (endSpacer) endSpacer.style.width = `${space}px`;
     }
 
     window.addEventListener('resize', () => {
         adjustSpacers();
-        const activeCard = document.querySelector('.product-card.active-card');
+        const activeCard = cardContainer.querySelector('.product-card.active-card');
         if (activeCard) {
             const index = parseInt(activeCard.dataset.index);
             const cards = Array.from(cardContainer.children);
@@ -629,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 queueNextAutoScroll();
             }
-        }, 250); // Increased from 150 to 250 to ensure native smooth scroll is 100% finished before jumping
+        }, 250); 
     }
 
     scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
@@ -642,12 +673,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prevBtn) prevBtn.addEventListener('click', () => {
         clearTimeout(autoScrollTimer);
-        const active = document.querySelector('.product-card.active-card');
+        const active = cardContainer.querySelector('.product-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) - 1);
     });
     if (nextBtn) nextBtn.addEventListener('click', () => {
         clearTimeout(autoScrollTimer);
-        const active = document.querySelector('.product-card.active-card');
+        const active = cardContainer.querySelector('.product-card.active-card');
         if (active) scrollToCard(parseInt(active.dataset.index) + 1);
     });
 
@@ -669,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isDown = false, startX, scrollLeft;
     scrollContainer.addEventListener('mousedown', (e) => {
-        if (e.target.closest('button') || e.target.closest('a')) return;
+        if (e.target.closest('button') || e.target.closest('a') || e.target.closest('form')) return;
         isDown = true;
         isInteracting = true;
         clearTimeout(autoScrollTimer); 
@@ -682,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isDown = false; 
             isInteracting = false;
             scrollContainer.classList.remove('dragging'); 
-            handleScroll(); // Triggers the debounce which ultimately queues the next auto-scroll
+            handleScroll(); 
         }
     };
     scrollContainer.addEventListener('mouseleave', stopDrag);
@@ -692,16 +723,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         scrollContainer.scrollLeft = scrollLeft - ((e.pageX - scrollContainer.offsetLeft) - startX) * 2;
     });
-
-    window.showToast = function(productName) {
-        const toast = document.getElementById('toast');
-        const msg = document.getElementById('toast-message');
-        if(toast && msg) {
-            msg.textContent = `${productName} added to cart`;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-    };
 
     renderTab(1);
 });
