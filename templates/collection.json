@@ -56,7 +56,8 @@
         "collection_1": "classic-visual-books",
         "tab_2_label": "Audio Cards",
         "collection_2": "audio-greetings-card",
-        "max_products": 12
+        "max_products": 12,
+        "award_icon": "shopify://shop_images/images.png"
       }
     },
     "shop_experience_aiRhTK": {
