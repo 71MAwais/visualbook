@@ -72,43 +72,30 @@
     "visual_instore_iU4FHD": {
       "type": "Landing-instore",
       "blocks": {
-        "store_ijJRzG": {
+        "store_tNDtmh": {
+          "type": "store",
+          "settings": {
+            "store_name": "KaDeWe",
+            "logo": "shopify://shop_images/2560px-KaDeWe_svg.png"
+          }
+        },
+        "store_gLFqw6": {
           "type": "store",
           "settings": {
             "store_name": "Selfridges & Co"
           }
         },
-        "store_7x8Txk": {
+        "store_j7hCir": {
           "type": "store",
           "settings": {
-            "store_name": "la Rinascente"
-          }
-        },
-        "store_nc3ET9": {
-          "type": "store",
-          "settings": {
-            "store_name": "KaDeWe"
-          }
-        },
-        "store_rymneJ": {
-          "type": "store",
-          "settings": {
-            "store_name": "Le Bon Marché"
-          }
-        },
-        "store_c4pcGx": {
-          "type": "store",
-          "settings": {
-            "store_name": "Harrods"
+            "store_name": "Selfridges & Co"
           }
         }
       },
       "block_order": [
-        "store_ijJRzG",
-        "store_7x8Txk",
-        "store_nc3ET9",
-        "store_rymneJ",
-        "store_c4pcGx"
+        "store_tNDtmh",
+        "store_gLFqw6",
+        "store_j7hCir"
       ],
       "name": "In-Store Marquee",
       "settings": {
