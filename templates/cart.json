@@ -19,20 +19,6 @@
     },
     "cart-footer": {
       "type": "main-cart-footer",
-      "blocks": {
-        "subtotal": {
-          "type": "subtotal",
-          "settings": {}
-        },
-        "buttons": {
-          "type": "buttons",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "subtotal",
-        "buttons"
-      ],
       "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
