@@ -1,94 +1,143 @@
-<section id="hero-{{ section.id }}" class="w-full relative overflow-hidden flex flex-col justify-center items-center text-center" style="background-color: {{ section.settings.bg_color }}; padding-top: 12rem; padding-bottom: 6rem;">
-  <div class="max-w-4xl mx-auto w-full relative z-10 px-6">
-    <span class="reveal block text-[10px] font-semibold tracking-[0.3em] uppercase mb-6" style="color: {{ section.settings.accent_color }};">
-      {{ section.settings.badge }}
-    </span>
+{%- style -%}
+  #hero-{{ section.id }} {
+    --bg-color: {{ section.settings.bg_color }};
+    --accent-color: {{ section.settings.accent_color }};
+    --heading-color: {{ section.settings.heading_color }};
+    --text-color: {{ section.settings.text_color }};
+    /* Fluid typography for a seamless editorial look across all screen sizes */
+    --fluid-heading: clamp(2.5rem, 5vw + 1rem, 4.5rem); 
+    background-color: var(--bg-color);
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.7 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.7 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #hero-{{ section.id }} .fluid-title {
+    font-size: var(--fluid-heading);
+    line-height: 1.1;
+  }
+
+  #hero-{{ section.id }} .reveal { 
+    opacity: 0;
+    transform: translateY(25px); 
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #hero-{{ section.id }} .reveal.active { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+  #hero-{{ section.id }} .delay-100 { transition-delay: 150ms; }
+  #hero-{{ section.id }} .delay-200 { transition-delay: 300ms; }
+  #hero-{{ section.id }} .delay-300 { transition-delay: 450ms; }
+
+  /* Minimalist Scroll Indicator */
+  .scroll-indicator {
+    width: 22px;
+    height: 36px;
+    border: 1px solid var(--accent-color);
+    border-radius: 20px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
+  }
+  .scroll-indicator:hover {
+    opacity: 1;
+  }
+  .scroll-indicator::before {
+    content: '';
+    width: 3px;
+    height: 5px;
+    background-color: var(--accent-color);
+    border-radius: 4px;
+    position: absolute;
+    top: 6px;
+    animation: scrollDown 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @keyframes scrollDown {
+    0% { transform: translateY(0); opacity: 1; }
+    70% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+  }
+{%- endstyle -%}
+
+<section id="hero-{{ section.id }}" class="section-{{ section.id }}-padding w-full relative overflow-hidden flex flex-col justify-center items-center text-center">
+  <div class="max-w-3xl mx-auto w-full relative z-10 px-6 flex flex-col items-center">
     
-    <h1 class="reveal delay-100 font-serif text-5xl md:text-7xl font-medium leading-[1.1] tracking-tight mb-8" style="color: {{ section.settings.heading_color }};">
-      {{ section.settings.heading }}
-    </h1>
+    {%- if section.settings.badge != blank -%}
+      <span class="reveal block text-[10px] md:text-xs font-medium tracking-[0.25em] uppercase mb-6" style="color: var(--accent-color);">
+        {{ section.settings.badge }}
+      </span>
+    {%- endif -%}
     
-    <p class="reveal delay-200 text-lg font-light max-w-2xl mx-auto leading-relaxed" style="color: {{ section.settings.text_color }};">
-      {{ section.settings.subheading }}
-    </p>
+    {%- if section.settings.heading != blank -%}
+      <h1 class="reveal delay-100 font-serif fluid-title font-normal tracking-tight mb-6" style="color: var(--heading-color);">
+        {{ section.settings.heading }}
+      </h1>
+    {%- endif -%}
+    
+    {%- if section.settings.subheading != blank -%}
+      <p class="reveal delay-200 text-sm md:text-base font-light max-w-xl mx-auto leading-relaxed" style="color: var(--text-color);">
+        {{ section.settings.subheading }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.show_scroll_icon -%}
+      <div class="reveal delay-300" aria-hidden="true">
+        <div class="scroll-indicator"></div>
+      </div>
+    {%- endif -%}
+    
   </div>
 </section>
 
-<style>
-  #hero-{{ section.id }} .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-  #hero-{{ section.id }} .reveal.active { opacity: 1; transform: translateY(0); }
-  #hero-{{ section.id }} .delay-100 { transition-delay: 100ms; }
-  #hero-{{ section.id }} .delay-200 { transition-delay: 200ms; }
-</style>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const revealElements = document.querySelectorAll('#hero-{{ section.id }} .reveal');
-    const observerOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-    revealElements.forEach(el => revealObserver.observe(el));
-  });
+  (function() {
+    function initHero(container) {
+      if (!container) return;
+      const elements = container.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -20px 0px" });
+      elements.forEach(el => observer.observe(el));
+    }
+    document.addEventListener('DOMContentLoaded', () => initHero(document.querySelector('#hero-{{ section.id }}')));
+    document.addEventListener('shopify:section:load', (e) => { if (e.detail.sectionId === '{{ section.id }}') initHero(e.target); });
+  })();
 </script>
 
 {% schema %}
 {
   "name": "How It Works - Hero",
   "settings": [
-    {
-      "type": "text",
-      "id": "badge",
-      "label": "Badge Text",
-      "default": "Discover the Process"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "info": "Use HTML like <i class='italic font-light'>Works</i> for italics.",
-      "default": "How It <i class='italic font-light'>Works</i>"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Three exquisite ways to preserve your most treasured moments. Simple to set up, elegant to display, and meticulously designed to endure."
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#fafafa"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#c4b09e"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#737373"
-    }
+    { "type": "text", "id": "badge", "label": "Badge Text", "default": "The Experience" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "How The VisualBook <em>Works</em>" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Discover the elegant simplicity of bringing your most cherished memories to life in our signature formats." },
+    { "type": "checkbox", "id": "show_scroll_icon", "label": "Show scroll icon", "default": true },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#c4b09e" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#1c1c1c" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#595959" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Top Padding", "default": 120 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Bottom Padding", "default": 60 }
   ],
-  "presets": [
-    {
-      "name": "How It Works - Hero"
-    }
-  ]
+  "presets": [{ "name": "How It Works - Hero" }]
 }
 {% endschema %}
