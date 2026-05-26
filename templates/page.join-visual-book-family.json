@@ -15,9 +15,18 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "visual_family_WNXLwA": {
+      "type": "visual-family",
+      "name": "Visual Family (Community)",
+      "settings": {
+        "subheading": "Community",
+        "title": "Real Moments"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_family_WNXLwA"
   ]
 }

@@ -11,85 +11,10 @@
   "sections": {
     "main": {
       "type": "main-404",
-      "disabled": true,
       "settings": {}
-    },
-    "landing_hero_ie4fap": {
-      "type": "landing-hero",
-      "name": "Visual Hero",
-      "settings": {
-        "video_url": "",
-        "heading": "Your Memories,\nBrought to Life.",
-        "subheading": "The timeless elegance of a physical photo book, elevated with a stunning HD video display. No internet or setup required.",
-        "button_label": "Shop the Collection",
-        "button_link": "/"
-      }
-    },
-    "landing_as_seen_dU76eC": {
-      "type": "Landing-as-seen",
-      "blocks": {
-        "brand_kHpXcP": {
-          "type": "brand",
-          "settings": {
-            "text": "Vogue"
-          }
-        },
-        "brand_dKNV4C": {
-          "type": "brand",
-          "settings": {
-            "text": "Soho House"
-          }
-        },
-        "brand_hHXMCT": {
-          "type": "brand",
-          "settings": {
-            "text": "wed2b"
-          }
-        },
-        "brand_JfJtwE": {
-          "type": "brand",
-          "settings": {
-            "text": "Wedding Chicks"
-          }
-        },
-        "brand_6pJVMm": {
-          "type": "brand",
-          "settings": {
-            "text": "Reader's Digest"
-          }
-        }
-      },
-      "block_order": [
-        "brand_kHpXcP",
-        "brand_dKNV4C",
-        "brand_hHXMCT",
-        "brand_JfJtwE",
-        "brand_6pJVMm"
-      ],
-      "name": "As Seen In",
-      "settings": {
-        "heading": "As Seen",
-        "bg_color": "#F5F3F0"
-      }
-    },
-    "landing_shop_HDTydc": {
-      "type": "Landing-shop",
-      "name": "Shop Carousel",
-      "settings": {
-        "subtitle": "Curated Essentials",
-        "title": "Shop the Collection",
-        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
-        "tab_1_label": "Video Book",
-        "collection_1": "",
-        "tab_2_label": "Audio Cards",
-        "collection_2": ""
-      }
     }
   },
   "order": [
-    "main",
-    "landing_hero_ie4fap",
-    "landing_as_seen_dU76eC",
-    "landing_shop_HDTydc"
+    "main"
   ]
 }
