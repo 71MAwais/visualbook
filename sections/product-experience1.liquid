@@ -1,0 +1,782 @@
+{% comment %} sections/product-experience.liquid {% endcomment %}
+
+{%- assign accent_color = section.settings.accent_color | default: '#B8906B' -%}
+
+<style>
+    /* Section Core */
+    #visual-experience-{{ section.id }} {
+        font-family: var(--font-sans, 'Inter', sans-serif);
+        background-color: {{ section.settings.bg_color | default: '#FAFAFA' }};
+        --accent-color: {{ accent_color }};
+        position: relative;
+        overflow: hidden;
+    }
+    #visual-experience-{{ section.id }} .font-serif {
+        font-family: var(--font-display, 'Cormorant Garamond', serif);
+    }
+
+    /* Fixed Card Sizing (4:5 Aspect Ratio - Scaled down for shorter section height) */
+    .exp-card-{{ section.id }} {
+        width: 75vw;
+        max-width: 250px;
+        aspect-ratio: 4 / 5;
+        height: auto;
+        border-radius: 1rem;
+        transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
+        transform-origin: center center;
+        opacity: 0.4;
+        transform: scale(0.88);
+        will-change: transform, opacity;
+        display: flex;
+        flex-direction: column;
+    }
+    @media (min-width: 768px) {
+        .exp-card-{{ section.id }} { max-width: 280px; }
+    }
+    @media (min-width: 1024px) {
+        .exp-card-{{ section.id }} { max-width: 320px; }
+    }
+
+    /* Center Focus Effect */
+    .exp-card-{{ section.id }}.active-card {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 10;
+        box-shadow: 0 15px 35px -10px rgba(0,0,0,0.12);
+        border-color: var(--accent-color); 
+    }
+
+    /* Hard-enforced Image Styles */
+    .visual-exp-img-wrapper {
+        position: relative;
+        width: 100%;
+        height: 50%;
+        flex-shrink: 0;
+        background-color: #f5f5f4;
+        overflow: hidden;
+    }
+    .visual-exp-img {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transition: transform 0.7s ease;
+    }
+    .exp-card-{{ section.id }}:hover .visual-exp-img { transform: scale(1.05); }
+
+    /* Track Behaviors */
+    #exp-track-{{ section.id }} {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+    }
+    #exp-track-{{ section.id }}.dragging {
+        cursor: grabbing;
+        scroll-behavior: auto !important; 
+        scroll-snap-type: none !important; 
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Modal Cinematic Tabs Logic - FORCED DISPLAY */
+    .cine-modal-{{ section.id }} {
+        z-index: 99999 !important; 
+    }
+    body.modal-open { overflow: hidden !important; }
+    
+    .cine-tab-btn-{{ section.id }}.active-tab {
+        color: #ffffff !important;
+        border-bottom-color: #ffffff !important;
+    }
+    .cine-tab-content-{{ section.id }} { 
+        display: none !important; 
+        animation: fadeIn 0.4s ease forwards; 
+    }
+    .cine-tab-content-{{ section.id }}.active-content { 
+        display: flex !important; 
+        flex-direction: column !important;
+    }
+    .cine-tab-content-{{ section.id }}.img-content.active-content {
+        display: block !important;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<section id="visual-experience-{{ section.id }}" class="w-full py-8 md:py-12 flex flex-col items-center select-none" aria-hidden="false">
+
+    {% comment %} SECTION HEADER - Tighter bottom padding (pb-4 md:pb-8) {% endcomment %}
+    <div class="w-full text-center pb-4 md:pb-8 px-5 flex-shrink-0 z-20">
+        {% if section.settings.subtitle != blank %}
+            <p class="font-script text-[20px] md:text-[26px] mb-2 leading-none" style="color: var(--accent-color);">{{ section.settings.subtitle }}</p>
+        {% endif %}
+        <h2 class="font-serif text-[28px] md:text-[42px] text-stone-950 tracking-tight leading-[1.1] mb-2 md:mb-3">{{ section.settings.heading }}</h2>
+        <p class="font-sans text-[14px] md:text-[16px] text-stone-500 leading-relaxed max-w-2xl mx-auto">{{ section.settings.subheading }}</p>
+    </div>
+
+    {% comment %} INFINITE CAROUSEL {% endcomment %}
+    <div class="w-full relative group/carousel max-w-[1800px] mx-auto flex items-center">
+        
+        <button aria-label="Previous Feature" id="exp-prev-{{ section.id }}" class="exp-arrow-{{ section.id }} absolute left-2 md:left-8 top-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-600 transition-transform">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button aria-label="Next Feature" id="exp-next-{{ section.id }}" class="exp-arrow-{{ section.id }} absolute right-2 md:right-8 top-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-stone-200 flex items-center justify-center text-stone-600 transition-transform">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <div id="exp-track-{{ section.id }}" class="hide-scrollbar w-full py-4">
+            <div id="start-spacer-{{ section.id }}" class="shrink-0 w-[50vw]"></div>
+            
+            <div id="exp-card-container-{{ section.id }}" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full">
+                {% for block in section.blocks %}
+                    <div class="exp-card-{{ section.id }} flex-shrink-0 snap-center bg-white border border-stone-200 p-0 overflow-hidden cursor-pointer relative" data-modal-target="cine-modal-{{ block.id }}">
+                        
+                        <div class="visual-exp-img-wrapper z-10">
+                            {% if block.settings.card_image != blank %}
+                                {{ block.settings.card_image | image_url: width: 600 | image_tag: class: 'visual-exp-img', loading: 'eager', alt: block.settings.card_title }}
+                            {% else %}
+                                {{ 'product-1' | placeholder_svg_tag: 'visual-exp-img opacity-40' }}
+                            {% endif %}
+                            <div class="absolute inset-0 bg-black/5 transition-colors duration-500 z-10 hover:bg-transparent pointer-events-none"></div>
+                        </div>
+                        
+                        <div class="p-4 md:p-6 flex flex-col grow bg-white relative z-20">
+                            <h3 class="font-serif text-[20px] md:text-[24px] text-stone-900 leading-tight mb-2 transition-colors">{{ block.settings.card_title }}</h3>
+                            <p class="text-stone-500 font-sans text-[12px] md:text-[13px] line-clamp-3 leading-relaxed">{{ block.settings.card_desc }}</p>
+                            <div class="mt-auto pt-3 flex items-center font-bold text-[10px] md:text-[11px] uppercase tracking-widest transition-transform" style="color: var(--accent-color);">
+                                {{ block.settings.card_action_text | default: "Discover" }}
+                                <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="end-spacer-{{ section.id }}" class="shrink-0 w-[50vw]"></div>
+        </div>
+    </div>
+</section>
+
+{% comment %} CINEMATIC MODALS {% endcomment %}
+{% for block in section.blocks %}
+    <div id="cine-modal-{{ block.id }}" class="cine-modal-{{ section.id }} fixed inset-0 hidden items-center justify-center p-0 sm:p-4 md:p-8 bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-hidden="true">
+        
+        <div class="relative w-full h-full sm:h-auto max-w-6xl sm:max-h-[90vh] bg-[#0A0A0A] sm:border border-white/10 sm:rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl scale-95 transition-transform duration-300 cine-modal-inner">
+            
+            <button type="button" aria-label="Close modal" class="cine-modal-close-{{ section.id }} bg-black/60 backdrop-blur hover:bg-[#181615] rounded-full flex items-center justify-center text-white transition-colors border border-white/20 hover:scale-110" style="position: absolute; top: 16px; right: 16px; z-index: 99999; width: 44px; height: 44px; cursor: pointer; padding: 0; margin: 0; outline: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: auto;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div class="w-full md:w-1/2 h-[40vh] md:h-auto bg-black relative flex items-center justify-center shrink-0 border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                <div class="cine-tab-content-{{ section.id }} img-content active-content absolute inset-0 w-full h-full" data-tab-content="1">
+                    {% if block.settings.tab1_img != blank %}
+                        {{ block.settings.tab1_img | image_url: width: 1000 | image_tag: class: 'w-full h-full object-cover absolute inset-0', loading: 'lazy' }}
+                    {% else %}
+                        {{ 'collection-1' | placeholder_svg_tag: 'w-full h-full object-cover absolute inset-0 opacity-30' }}
+                    {% endif %}
+                </div>
+                <div class="cine-tab-content-{{ section.id }} img-content absolute inset-0 w-full h-full" data-tab-content="2">
+                    {% if block.settings.tab2_img != blank %}
+                        {{ block.settings.tab2_img | image_url: width: 1000 | image_tag: class: 'w-full h-full object-cover absolute inset-0', loading: 'lazy' }}
+                    {% else %}
+                        {{ 'collection-2' | placeholder_svg_tag: 'w-full h-full object-cover absolute inset-0 opacity-30' }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] overflow-y-auto z-10 relative" style="flex-grow: 1; min-height: 50vh;">
+                <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-bold mb-3 md:mb-4" style="color: var(--accent-color);">{{ block.settings.card_title }}</span>
+                
+                <div class="flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap hide-scrollbar shrink-0" role="tablist">
+                    <button type="button" data-tab="1" class="cine-tab-btn-{{ section.id }} active-tab pb-3 md:pb-4 text-[11px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab" aria-selected="true" style="background: transparent;">{{ block.settings.tab1_btn }}</button>
+                    <button type="button" data-tab="2" class="cine-tab-btn-{{ section.id }} pb-3 md:pb-4 text-[11px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab" aria-selected="false" style="background: transparent;">{{ block.settings.tab2_btn }}</button>
+                </div>
+
+                <div class="cine-tab-content-{{ section.id }} active-content" data-tab-content="1" role="tabpanel" style="width: 100%;">
+                    <h3 class="font-serif text-[24px] sm:text-[28px] md:text-[36px] lg:text-[42px] leading-tight mb-3 md:mb-6" style="color: #ffffff !important;">{{ block.settings.tab1_heading }}</h3>
+                    <p class="font-sans text-[14px] md:text-[16px] leading-relaxed" style="color: rgba(255, 255, 255, 0.8) !important;">{{ block.settings.tab1_desc | newline_to_br }}</p>
+                </div>
+
+                <div class="cine-tab-content-{{ section.id }}" data-tab-content="2" role="tabpanel" style="width: 100%;">
+                    <h3 class="font-serif text-[24px] sm:text-[28px] md:text-[36px] lg:text-[42px] leading-tight mb-3 md:mb-6" style="color: #ffffff !important;">{{ block.settings.tab2_heading }}</h3>
+                    <p class="font-sans text-[14px] md:text-[16px] leading-relaxed" style="color: rgba(255, 255, 255, 0.8) !important;">{{ block.settings.tab2_desc | newline_to_br }}</p>
+                </div>
+
+                <div class="mt-auto pt-8 md:pt-12 pb-2 sm:pb-0 shrink-0 w-full">
+                    {% if product != blank %}
+                        <form method="post" action="/cart/add" class="w-full m-0">
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <button type="submit" class="inline-flex w-full items-center justify-center px-6 py-4 font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase transition-colors duration-300 rounded-full focus:outline-none border-none cursor-pointer" style="background-color: #ffffff; color: #000000;" onmouseover="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
+                                {{ block.settings.button_label | default: "Add to Cart" }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{{ block.settings.button_link | default: routes.all_products_collection_url }}" class="inline-flex w-full items-center justify-center px-6 py-4 font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase transition-colors duration-300 rounded-full focus:outline-none text-center" style="background-color: #ffffff; color: #000000; text-decoration: none;" onmouseover="this.style.backgroundColor='var(--accent-color)'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
+                            {{ block.settings.button_label | default: "Shop Now" }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+    if (!window.ShopExperienceManager) { window.ShopExperienceManager = {}; }
+
+    class ShopExperienceSlider {
+        constructor(sectionId) {
+            this.sectionId = sectionId;
+            this.sectionEl = document.getElementById('visual-experience-' + sectionId);
+            this.scrollContainer = document.getElementById('exp-track-' + sectionId);
+            this.cardContainer = document.getElementById('exp-card-container-' + sectionId);
+            this.prevBtn = document.getElementById('exp-prev-' + sectionId);
+            this.nextBtn = document.getElementById('exp-next-' + sectionId);
+            
+            this.isJumping = false;
+            this.isTouching = false;
+            this.isInteracting = false;
+            this.isDown = false;
+            this.isDraggingCard = false;
+            
+            this.scrollTimeout = null;
+            this.autoScrollTimer = null;
+            this.AUTO_SCROLL_DELAY = 4000;
+            this.pointerStartX = 0;
+            this.pointerStartY = 0;
+            this.startX = 0;
+            this.scrollLeft = 0;
+            this.totalOriginal = 0;
+            
+            this.handleResize = this.handleResize.bind(this);
+            this.handleScroll = this.handleScroll.bind(this);
+        }
+
+        init() {
+            if (!this.scrollContainer || !this.cardContainer) return;
+
+            const originalCards = Array.from(this.cardContainer.children);
+            this.totalOriginal = originalCards.length;
+            if (this.totalOriginal === 0) return;
+
+            for (let i = 0; i < 2; i++) {
+                originalCards.forEach(card => {
+                    const clone = card.cloneNode(true);
+                    this.cardContainer.appendChild(clone);
+                });
+            }
+
+            Array.from(this.cardContainer.children).forEach((c, idx) => {
+                c.dataset.index = idx;
+                this.attachCardEvents(c);
+            });
+
+            this.bindModals();
+            this.bindEvents();
+
+            this.adjustSpacers();
+            this.isJumping = true;
+            this.scrollContainer.style.scrollSnapType = 'none';
+            
+            const cards = Array.from(this.cardContainer.children);
+            const initialPos = cards[this.totalOriginal].offsetLeft + (cards[this.totalOriginal].offsetWidth / 2) - (this.scrollContainer.clientWidth / 2);
+            this.scrollContainer.scrollLeft = initialPos;
+            cards[this.totalOriginal].classList.add('active-card');
+            
+            requestAnimationFrame(() => {
+                this.scrollContainer.style.scrollSnapType = 'x mandatory';
+                this.isJumping = false;
+                this.queueNextAutoScroll();
+            });
+        }
+
+        attachCardEvents(card) {
+            card.addEventListener('pointerdown', (e) => {
+                this.pointerStartX = e.clientX;
+                this.pointerStartY = e.clientY;
+                this.isDraggingCard = false;
+            });
+            card.addEventListener('pointermove', (e) => {
+                if (Math.abs(e.clientX - this.pointerStartX) > 5 || Math.abs(e.clientY - this.pointerStartY) > 5) {
+                    this.isDraggingCard = true;
+                }
+            });
+            card.addEventListener('click', () => {
+                if (this.isDraggingCard) return;
+                if (!card.classList.contains('active-card')) {
+                    this.scrollToCard(parseInt(card.dataset.index));
+                    this.queueNextAutoScroll();
+                } else {
+                    this.openModal(card.getAttribute('data-modal-target'));
+                }
+            });
+        }
+
+        bindModals() {
+            document.querySelectorAll(`.cine-modal-close-${this.sectionId}`).forEach(btn => {
+                btn.addEventListener('click', (e) => this.closeModal(e.target.closest(`.cine-modal-${this.sectionId}`)));
+            });
+            document.querySelectorAll(`.cine-modal-${this.sectionId}`).forEach(modal => {
+                modal.addEventListener('click', (e) => { if (e.target === modal) this.closeModal(modal); });
+            });
+            document.querySelectorAll(`.cine-tab-btn-${this.sectionId}`).forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    this.switchTab(e.currentTarget.getAttribute('data-tab'), e.currentTarget.closest(`.cine-modal-${this.sectionId}`));
+                });
+            });
+        }
+
+        openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            const modalBox = modal.querySelector('.cine-modal-inner');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modal.setAttribute('aria-hidden', 'false');
+            this.switchTab('1', modal); 
+            
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                if (modalBox) {
+                    modalBox.classList.remove('scale-95');
+                    modalBox.classList.add('scale-100');
+                }
+            }, 10);
+            
+            document.body.classList.add('modal-open');
+            clearTimeout(this.autoScrollTimer);
+            this.isInteracting = true; 
+        }
+
+        closeModal(modal) {
+            if (!modal) return;
+            const modalBox = modal.querySelector('.cine-modal-inner');
+            modal.classList.add('opacity-0');
+            modal.setAttribute('aria-hidden', 'true');
+
+            if (modalBox) {
+                modalBox.classList.remove('scale-100');
+                modalBox.classList.add('scale-95');
+            }
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            document.body.classList.remove('modal-open');
+            this.isInteracting = false;
+            this.queueNextAutoScroll();
+        }
+
+        switchTab(tabNumber, modalContext) {
+            if (!modalContext) return;
+            const allBtns = modalContext.querySelectorAll(`.cine-tab-btn-${this.sectionId}`);
+            const allContent = modalContext.querySelectorAll(`.cine-tab-content-${this.sectionId}`);
+            
+            allBtns.forEach(b => {
+                b.classList.remove('active-tab');
+                b.setAttribute('aria-selected', 'false');
+            });
+            allContent.forEach(c => c.classList.remove('active-content'));
+
+            const activeBtn = modalContext.querySelector(`.cine-tab-btn-${this.sectionId}[data-tab="${tabNumber}"]`);
+            const activeContents = modalContext.querySelectorAll(`.cine-tab-content-${this.sectionId}[data-tab-content="${tabNumber}"]`);
+            
+            if (activeBtn) {
+                activeBtn.classList.add('active-tab');
+                activeBtn.setAttribute('aria-selected', 'true');
+            }
+            activeContents.forEach(c => c.classList.add('active-content'));
+        }
+
+        queueNextAutoScroll() {
+            clearTimeout(this.autoScrollTimer);
+            if (this.isInteracting || this.totalOriginal === 0 || this.isJumping || this.isDown || this.isTouching || this.AUTO_SCROLL_DELAY === 0) return;
+            
+            this.autoScrollTimer = setTimeout(() => {
+                if (this.isInteracting || this.isJumping || this.isDown || this.isTouching) return;
+                const active = this.scrollContainer.querySelector(`.exp-card-${this.sectionId}.active-card`);
+                if (active) this.scrollToCard(parseInt(active.dataset.index) + 1);
+            }, this.AUTO_SCROLL_DELAY);
+        }
+
+        adjustSpacers() {
+            if (!this.cardContainer.children.length) return;
+            const cardWidth = this.cardContainer.firstElementChild?.offsetWidth || 250;
+            const space = Math.max(0, (this.scrollContainer.clientWidth / 2) - (cardWidth / 2));
+            document.getElementById('start-spacer-' + this.sectionId).style.width = `${space}px`;
+            document.getElementById('end-spacer-' + this.sectionId).style.width = `${space}px`;
+        }
+
+        scrollToCard(index) {
+            const cards = Array.from(this.cardContainer.children);
+            if (!cards[index]) return;
+            const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
+            const scrollPos = cardCenter - (this.scrollContainer.clientWidth / 2);
+            this.scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        }
+
+        jumpToIndexSilently(index) {
+            this.isJumping = true;
+            this.scrollContainer.style.scrollSnapType = 'none';
+            const cards = Array.from(this.cardContainer.children);
+            cards.forEach(c => c.style.transition = 'none');
+
+            if (cards[index]) {
+                const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
+                const scrollPos = cardCenter - (this.scrollContainer.clientWidth / 2);
+                this.scrollContainer.scrollLeft = scrollPos;
+                
+                cards.forEach(c => c.classList.remove('active-card'));
+                cards[index].classList.add('active-card');
+            }
+            
+            void this.scrollContainer.offsetWidth; 
+            
+            requestAnimationFrame(() => {
+                cards.forEach(c => c.style.transition = '');
+                this.scrollContainer.style.scrollSnapType = 'x mandatory';
+                setTimeout(() => { this.isJumping = false; this.queueNextAutoScroll(); }, 50);
+            });
+        }
+
+        handleScroll() {
+            if (this.isJumping || this.totalOriginal === 0) return;
+            const cards = Array.from(this.cardContainer.children);
+            const containerCenter = this.scrollContainer.scrollLeft + (this.scrollContainer.clientWidth / 2);
+            
+            let minDiff = Infinity;
+            let closestIndex = 0;
+            cards.forEach((card, i) => {
+                const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+                const diff = Math.abs(containerCenter - cardCenter);
+                if (diff < minDiff) { minDiff = diff; closestIndex = i; }
+            });
+
+            cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
+
+            clearTimeout(this.scrollTimeout);
+            this.scrollTimeout = setTimeout(() => {
+                if (this.isTouching || this.isDown) return;
+                if (closestIndex < this.totalOriginal || closestIndex >= this.totalOriginal * 2) {
+                    const safeIndex = (closestIndex % this.totalOriginal) + this.totalOriginal;
+                    this.jumpToIndexSilently(safeIndex);
+                } else {
+                    this.queueNextAutoScroll();
+                }
+            }, 250);
+        }
+
+        handleResize() {
+            this.adjustSpacers();
+            const activeCard = this.scrollContainer.querySelector(`.exp-card-${this.sectionId}.active-card`);
+            if (activeCard) this.jumpToIndexSilently(parseInt(activeCard.dataset.index));
+        }
+
+        bindEvents() {
+            window.addEventListener('resize', this.handleResize);
+
+            this.scrollContainer.addEventListener('mouseenter', () => { this.isInteracting = true; clearTimeout(this.autoScrollTimer); });
+            this.scrollContainer.addEventListener('mouseleave', () => { this.isInteracting = false; if (!this.isDown && !this.isTouching) this.queueNextAutoScroll(); });
+            
+            this.scrollContainer.addEventListener('touchstart', () => { this.isTouching = true; this.isInteracting = true; clearTimeout(this.autoScrollTimer); }, { passive: true });
+            this.scrollContainer.addEventListener('touchend', () => { this.isTouching = false; this.isInteracting = false; this.handleScroll(); }, { passive: true });
+            this.scrollContainer.addEventListener('touchcancel', () => { this.isTouching = false; this.isInteracting = false; }, { passive: true });
+            
+            this.scrollContainer.addEventListener('scroll', this.handleScroll, { passive: true });
+
+            if (this.prevBtn) this.prevBtn.addEventListener('click', () => {
+                clearTimeout(this.autoScrollTimer);
+                const active = this.scrollContainer.querySelector(`.exp-card-${this.sectionId}.active-card`);
+                if (active) this.scrollToCard(parseInt(active.dataset.index) - 1);
+            });
+            if (this.nextBtn) this.nextBtn.addEventListener('click', () => {
+                clearTimeout(this.autoScrollTimer);
+                const active = this.scrollContainer.querySelector(`.exp-card-${this.sectionId}.active-card`);
+                if (active) this.scrollToCard(parseInt(active.dataset.index) + 1);
+            });
+
+            this.scrollContainer.addEventListener('mousedown', (e) => {
+                this.isDown = true; this.isInteracting = true;
+                clearTimeout(this.autoScrollTimer);
+                this.scrollContainer.classList.add('dragging');
+                this.startX = e.pageX - this.scrollContainer.offsetLeft;
+                this.scrollLeft = this.scrollContainer.scrollLeft;
+            });
+            const stopDrag = () => { if(this.isDown) { this.isDown = false; this.isInteracting = false; this.scrollContainer.classList.remove('dragging'); this.handleScroll(); } };
+            this.scrollContainer.addEventListener('mouseleave', stopDrag);
+            this.scrollContainer.addEventListener('mouseup', stopDrag);
+            this.scrollContainer.addEventListener('mousemove', (e) => {
+                if (!this.isDown) return;
+                e.preventDefault();
+                const x = e.pageX - this.scrollContainer.offsetLeft;
+                const walk = (x - this.startX) * 2;
+                this.scrollContainer.scrollLeft = this.scrollLeft - walk;
+            });
+        }
+
+        destroy() {
+            window.removeEventListener('resize', this.handleResize);
+            clearTimeout(this.autoScrollTimer);
+            clearTimeout(this.scrollTimeout);
+        }
+    }
+
+    function bootstrapShopExperience_{{ section.id | replace: '-', '_' }}() {
+        const sectionId = '{{ section.id }}';
+        if (window.ShopExperienceManager[sectionId]) window.ShopExperienceManager[sectionId].destroy();
+        const slider = new ShopExperienceSlider(sectionId);
+        slider.init();
+        window.ShopExperienceManager[sectionId] = slider;
+    }
+
+    document.addEventListener('DOMContentLoaded', bootstrapShopExperience_{{ section.id | replace: '-', '_' }});
+
+    if (window.Shopify && Shopify.designMode) {
+        document.addEventListener('shopify:section:load', function(event) {
+            if (event.detail.sectionId === '{{ section.id }}') bootstrapShopExperience_{{ section.id | replace: '-', '_' }}();
+        });
+        document.addEventListener('shopify:section:unload', function(event) {
+            if (event.detail.sectionId === '{{ section.id }}' && window.ShopExperienceManager['{{ section.id }}']) {
+                window.ShopExperienceManager['{{ section.id }}'].destroy();
+            }
+        });
+    }
+</script>
+
+{% schema %}
+{
+  "name": "Product Experience Slider",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#B8906B",
+      "info": "Used for buttons, borders, and active highlights."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Technology"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Visualbook Experience"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Select a feature to discover the seamless technology behind your most cherished memories."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "experience_card",
+      "name": "Experience Feature",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Main Slider Card"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_desc",
+          "label": "Card Description"
+        },
+        {
+          "type": "text",
+          "id": "card_action_text",
+          "label": "Button Text",
+          "default": "Discover how"
+        },
+        {
+          "type": "header",
+          "content": "Modal - Tab 1"
+        },
+        {
+          "type": "text",
+          "id": "tab1_btn",
+          "label": "Tab 1 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab1_img",
+          "label": "Tab 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "tab1_heading",
+          "label": "Tab 1 Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "tab1_desc",
+          "label": "Tab 1 Description"
+        },
+        {
+          "type": "header",
+          "content": "Modal - Tab 2"
+        },
+        {
+          "type": "text",
+          "id": "tab2_btn",
+          "label": "Tab 2 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab2_img",
+          "label": "Tab 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "tab2_heading",
+          "label": "Tab 2 Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "tab2_desc",
+          "label": "Tab 2 Description"
+        },
+        {
+          "type": "header",
+          "content": "Call To Action"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Add to Cart"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Fallback Link (If not on product page)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Experience Unified",
+      "blocks": [
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Unbox & Play",
+            "card_desc": "Experience the magic instantly. The book opens seamlessly and starts playing your memories right out of the box.",
+            "card_action_text": "Discover how",
+            "tab1_btn": "Magnetic Switch",
+            "tab1_heading": "Smart Cover Technology",
+            "tab1_desc": "Our built-in magnetic sensor detects the exact moment the cover is lifted. No power buttons to hunt for—the book simply knows when you're ready to watch. Closing it instantly saves battery.",
+            "tab2_btn": "Instant Playback",
+            "tab2_heading": "Zero Loading Time",
+            "tab2_desc": "Unlike apps or streaming services, the Visualbook reads directly from high-speed internal memory. Your videos start playing in crisp HD the second the cover opens."
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Stunning Display & Sound",
+            "card_desc": "Crystal clear HD video and rich, room-filling sound bring your most cherished moments back to life.",
+            "card_action_text": "See the specs",
+            "tab1_btn": "Brilliant Screen",
+            "tab1_heading": "High-Definition IPS Display",
+            "tab1_desc": "Relive your memories in stunning clarity. Our premium IPS screen ensures your videos are bright, colorful, and perfectly viewable from any angle without glare.",
+            "tab2_btn": "Immersive Audio",
+            "tab2_heading": "Specially Tuned Speakers",
+            "tab2_desc": "Relive the laughter and the vows. The internal speaker is specially calibrated for clear voices and rich background music, ensuring the audio is just as emotional as the video."
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Premium Craftsmanship",
+            "card_desc": "Designed to sit beautifully in your home. A timeless linen finish that feels like a classic heirloom.",
+            "card_action_text": "View details",
+            "tab1_btn": "Linen Cover",
+            "tab1_heading": "Elegant Linen Finish",
+            "tab1_desc": "Wrapped in high-quality, tactile linen, the Visualbook feels substantial and luxurious in your hands. It’s designed to be a centerpiece, not something you hide in a drawer.",
+            "tab2_btn": "Coffee Table Ready",
+            "tab2_heading": "A Modern Heirloom",
+            "tab2_desc": "We removed the distraction of glowing screens and messy cables. With its minimalist spine and cover, it blends perfectly into your bookshelf or coffee table decor."
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Effortless Uploads",
+            "card_desc": "Drag, drop, and done. Treat it like a standard flash drive to add or change your videos anytime.",
+            "card_action_text": "See how easy",
+            "tab1_btn": "Plug & Play",
+            "tab1_heading": "Drag and Drop Simplicity",
+            "tab1_desc": "Use the included USB-C cable to connect the Visualbook to any Mac or PC. It opens just like a standard USB flash drive. No special software or apps required.",
+            "tab2_btn": "Universal Formats",
+            "tab2_heading": "Endless Storage",
+            "tab2_desc": "We support standard MP4, MOV, and AVI formats. Upload a single long wedding documentary, or load multiple short clips—the book will play them seamlessly in order."
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Intuitive Controls",
+            "card_desc": "Complete control without distraction. Soft-touch buttons let you pause, skip, and adjust volume effortlessly.",
+            "card_action_text": "View controls",
+            "tab1_btn": "Playback Options",
+            "tab1_heading": "Skip, Rewind, Relive",
+            "tab1_desc": "Subtle, flush-mounted buttons let you skip to your favorite video clip or pause the action without distracting from the gorgeous aesthetic of the book.",
+            "tab2_btn": "Volume Adjust",
+            "tab2_heading": "Perfect Audio Levels",
+            "tab2_desc": "Easily adjust the volume up or down using the dedicated +/- buttons depending on your environment, from a quiet living room to a bustling family gathering."
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_title": "Built for Forever",
+            "card_desc": "A fully rechargeable battery and offline storage means your memories are always safe and ready to play.",
+            "card_action_text": "Learn more",
+            "tab1_btn": "Rechargeable",
+            "tab1_heading": "Long-Lasting Battery",
+            "tab1_desc": "The built-in battery provides hours of continuous playback on a single charge. When it runs low, simply plug it in with the included USB-C cable to recharge it for endless viewings.",
+            "tab2_btn": "Offline Safety",
+            "tab2_heading": "No Cloud, No Subscriptions",
+            "tab2_desc": "Your privacy and memories are secure. Because the video lives on the physical memory of the book, you never have to worry about Wi-Fi dropping, lost cloud passwords, or ongoing subscription fees."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
