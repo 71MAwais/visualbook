@@ -254,26 +254,6 @@
         "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
       }
     },
-    "1778872986a5784e31": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_7RezmW": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_7RezmW"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
     "landing_shop_8w6YGV": {
       "type": "Landing-shop",
       "name": "Shop Carousel",
@@ -293,7 +273,6 @@
     "related-products",
     "product_hero_visual_RfgfJ9",
     "product_experience1_r74Bzr",
-    "1778872986a5784e31",
     "landing_shop_8w6YGV"
   ]
 }
