@@ -1,41 +1,35 @@
-<section class="visual-stockists py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-  <div class="text-center mb-16">
-    <h2 class="text-4xl font-serif text-gray-900">{{ section.settings.title }}</h2>
-    <p class="mt-4 text-gray-500 max-w-2xl mx-auto">{{ section.settings.subtitle }}</p>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-    {% for block in section.blocks %}
-      <div class="border-t border-gray-200 pt-6">
-        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ block.settings.store_name }}</h3>
-        <div class="text-gray-600 mb-4 leading-relaxed">{{ block.settings.address }}</div>
-        {% if block.settings.website_link != blank %}
-          <a href="{{ block.settings.website_link }}" target="_blank" class="text-sm font-medium uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 hover:border-gray-500 transition">
-            Visit Website
-          </a>
+<section class="w-full bg-[#fafafa] py-24 px-6">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-serif text-[#1a1a1a] mb-16">{{ section.settings.title }}</h2>
+    
+    <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-80 mix-blend-multiply grayscale hover:grayscale-0 transition duration-500">
+      {% for block in section.blocks %}
+        {% if block.settings.logo != blank %}
+          <img src="{{ block.settings.logo | img_url: '300x' }}" alt="{{ block.settings.name }}" class="h-8 md:h-12 object-contain" loading="lazy">
+        {% else %}
+          <span class="text-2xl font-serif font-bold">{{ block.settings.name }}</span>
         {% endif %}
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Visual Stockists",
+  "name": "Visual Stockists (Logos)",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "Our Stockists" },
-    { "type": "text", "id": "subtitle", "label": "Subheading", "default": "Find The Visual Book in stores near you." }
+    { "type": "text", "id": "title", "label": "Heading", "default": "Available In-Store At" }
   ],
   "blocks": [
     {
-      "type": "location",
-      "name": "Location",
+      "type": "stockist",
+      "name": "Store Logo",
       "settings": [
-        { "type": "text", "id": "store_name", "label": "Store Name", "default": "Store Name" },
-        { "type": "richtext", "id": "address", "label": "Address", "default": "<p>123 High Street<br>London, UK</p>" },
-        { "type": "url", "id": "website_link", "label": "Website Link" }
+        { "type": "image_picker", "id": "logo", "label": "Store Logo" },
+        { "type": "text", "id": "name", "label": "Store Name", "default": "Selfridges & Co" }
       ]
     }
   ],
-  "presets": [{ "name": "Visual Stockists" }]
+  "presets": [{ "name": "Visual Stockists (Logos)" }]
 }
 {% endschema %}

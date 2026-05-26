@@ -1,20 +1,26 @@
-<section class="visual-family py-20 px-4 sm:px-6 max-w-7xl mx-auto">
-  <div class="text-center mb-14">
-    <h2 class="text-4xl font-serif text-gray-900">{{ section.settings.title }}</h2>
-    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">{{ section.settings.text }}</p>
+<section class="w-full bg-[#111111] py-32 px-4 sm:px-6">
+  <div class="text-center mb-20 max-w-3xl mx-auto">
+    <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#c4b09e] mb-4">{{ section.settings.subheading }}</p>
+    <h2 class="text-4xl md:text-5xl font-serif text-white">{{ section.settings.title }}</h2>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 max-w-screen-2xl mx-auto gap-4">
     {% for block in section.blocks %}
-      <div class="relative group overflow-hidden bg-gray-100 aspect-square">
+      <div class="relative group overflow-hidden bg-[#1a1a1a] aspect-[4/5] cursor-pointer">
         {% if block.settings.image != blank %}
-          <img src="{{ block.settings.image | img_url: '600x600', crop: 'center' }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="{{ block.settings.name }}">
+          <img src="{{ block.settings.image | img_url: '800x' }}" class="w-full h-full object-cover opacity-70 transition duration-1000 group-hover:scale-105 group-hover:opacity-100" alt="{{ block.settings.name }}">
         {% else %}
-          {{ 'image' | placeholder_svg_tag: 'w-full h-full text-gray-300' }}
+          <div class="w-full h-full bg-[#222]"></div>
         {% endif %}
         
-        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col items-center justify-center text-center p-4">
-          <p class="text-white font-serif text-xl mb-1">{{ block.settings.name }}</p>
-          <p class="text-gray-200 text-sm italic">{{ block.settings.role }}</p>
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          <div class="w-12 h-12 rounded-full border border-white flex items-center justify-center text-white">
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+
+        <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+          <p class="text-white text-[10px] font-bold uppercase tracking-[0.2em]">{{ block.settings.name }}</p>
         </div>
       </div>
     {% endfor %}
@@ -23,22 +29,21 @@
 
 {% schema %}
 {
-  "name": "Visual Book Family",
+  "name": "Visual Family (Community)",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "The Visual Book Family" },
-    { "type": "textarea", "id": "text", "label": "Description" }
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Community" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Real Moments" }
   ],
   "blocks": [
     {
       "type": "member",
-      "name": "Community Member",
+      "name": "Instagram Post",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Photo" },
-        { "type": "text", "id": "name", "label": "Name" },
-        { "type": "text", "id": "role", "label": "Role / Subtext" }
+        { "type": "text", "id": "name", "label": "Handle", "default": "@THE_VISUAL_BOOK" }
       ]
     }
   ],
-  "presets": [{ "name": "Visual Book Family" }]
+  "presets": [{ "name": "Visual Family (Community)" }]
 }
 {% endschema %}

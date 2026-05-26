@@ -1,15 +1,29 @@
-<section class="visual-press bg-[#fafafa] py-20 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-4xl font-serif text-center mb-16 text-gray-900">{{ section.settings.title }}</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<section class="w-full bg-[#fcfcfc] py-32 px-6 border-y border-[#f0f0f0]">
+  <div class="max-w-screen-2xl mx-auto">
+    <div class="text-center mb-20">
+      <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#737373] mb-4">{{ section.settings.subheading }}</p>
+      <h2 class="text-4xl md:text-5xl font-serif text-[#1a1a1a] mb-4">{{ section.settings.title }}</h2>
+      <div class="flex items-center justify-center space-x-1 text-black text-sm">
+        ★★★★★ <span class="text-[#737373] font-light ml-2">4.9/5 — 2,400+ Reviews</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {% for block in section.blocks %}
-        <div class="flex flex-col justify-between p-8 bg-white border border-gray-100 shadow-sm hover:shadow-md transition duration-300">
-          <p class="mb-8 text-gray-700 text-lg italic leading-relaxed">"{{ block.settings.quote }}"</p>
-          <div>
-            <p class="font-bold uppercase tracking-widest text-xs mb-3">{{ block.settings.publication }}</p>
-            {% if block.settings.link != blank %}
-              <a href="{{ block.settings.link }}" target="_blank" class="text-xs uppercase border-b border-black pb-1 hover:text-gray-500">Read Article</a>
-            {% endif %}
+        <div class="flex flex-col p-10 bg-white border border-[#f0f0f0] shadow-sm">
+          <div class="text-black text-xs mb-4">★★★★★</div>
+          <h4 class="font-serif text-lg mb-3">{{ block.settings.review_title }}</h4>
+          <p class="text-[#737373] font-light leading-relaxed text-sm flex-grow mb-8">
+            "{{ block.settings.quote }}"
+          </p>
+          <div class="mt-auto flex items-center justify-between">
+            <div>
+              <p class="font-bold text-xs uppercase tracking-wider text-[#1a1a1a]">{{ block.settings.author }}</p>
+              <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1 flex items-center">
+                Verified Buyer
+                <svg class="w-3 h-3 text-green-600 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              </p>
+            </div>
           </div>
         </div>
       {% endfor %}
@@ -19,21 +33,22 @@
 
 {% schema %}
 {
-  "name": "Visual Press",
+  "name": "Visual Testimonials",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "In The Press" }
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Testimonials" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "From our Customers" }
   ],
   "blocks": [
     {
-      "type": "press_mention",
-      "name": "Press Mention",
+      "type": "review",
+      "name": "Review",
       "settings": [
-        { "type": "textarea", "id": "quote", "label": "Quote" },
-        { "type": "text", "id": "publication", "label": "Publication Name" },
-        { "type": "url", "id": "link", "label": "Article Link" }
+        { "type": "text", "id": "review_title", "label": "Review Title", "default": "Absolutely Beautiful" },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family." },
+        { "type": "text", "id": "author", "label": "Author Name", "default": "Sarah M." }
       ]
     }
   ],
-  "presets": [{ "name": "Visual Press" }]
+  "presets": [{ "name": "Visual Testimonials" }]
 }
 {% endschema %}

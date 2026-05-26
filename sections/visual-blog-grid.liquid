@@ -1,44 +1,56 @@
-<section class="visual-blog-grid py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-  <div class="flex justify-between items-end mb-12">
-    <h2 class="text-4xl font-serif text-gray-900">{{ section.settings.title }}</h2>
-    {% if section.settings.show_view_all %}
-      <a href="{{ blogs[section.settings.blog].url }}" class="text-sm font-medium uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500">View All</a>
-    {% endif %}
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-    {% assign blog = blogs[section.settings.blog] %}
-    {% for article in blog.articles limit: section.settings.post_limit %}
-      <article class="flex flex-col h-full group">
-        <a href="{{ article.url }}" class="block mb-6 overflow-hidden aspect-[4/3] bg-gray-100">
-          {% if article.image %}
-            <img src="{{ article.image | img_url: '800x600', crop: 'center' }}" alt="{{ article.title }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
-          {% else %}
-            {{ 'image' | placeholder_svg_tag: 'w-full h-full text-gray-300' }}
-          {% endif %}
+<section class="w-full bg-white py-32 px-6">
+  <div class="max-w-screen-2xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-[#e5e5e5] pb-8">
+      <div>
+        <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#737373] mb-4">{{ section.settings.subheading }}</p>
+        <h2 class="text-4xl md:text-5xl font-serif text-[#1a1a1a]">{{ section.settings.title }}</h2>
+      </div>
+      {% if section.settings.show_view_all %}
+        <a href="{{ blogs[section.settings.blog].url }}" class="mt-6 md:mt-0 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] hover:text-[#c4b09e] transition flex items-center">
+          Explore All Articles
+          <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
         </a>
-        <p class="text-xs text-gray-500 mb-3 uppercase tracking-widest">{{ article.published_at | date: "%B %d, %Y" }}</p>
-        <h3 class="text-2xl font-serif mb-3 text-gray-900 group-hover:text-gray-600 transition">
-          <a href="{{ article.url }}">{{ article.title }}</a>
-        </h3>
-        <p class="text-gray-600 mb-5 line-clamp-3">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
-        <a href="{{ article.url }}" class="mt-auto text-sm font-bold uppercase tracking-widest underline decoration-1 underline-offset-4 hover:text-gray-500">Read More</a>
-      </article>
-    {% else %}
-      <p class="text-gray-500">No articles found. Please select a blog in the theme editor.</p>
-    {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {% assign blog = blogs[section.settings.blog] %}
+      {% for article in blog.articles limit: section.settings.post_limit %}
+        <article class="group cursor-pointer flex flex-col">
+          <a href="{{ article.url }}" class="block overflow-hidden aspect-[4/3] mb-6">
+            {% if article.image %}
+              <img src="{{ article.image | img_url: '800x600', crop: 'center' }}" alt="{{ article.title }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+            {% else %}
+              <div class="w-full h-full bg-[#f4f4f4]"></div>
+            {% endif %}
+          </a>
+          <p class="text-[10px] font-medium uppercase tracking-[0.15em] text-[#737373] mb-3">
+            {{ article.published_at | date: "%B %d, %Y" }}
+          </p>
+          <h3 class="text-2xl font-serif text-[#1a1a1a] leading-snug mb-3 group-hover:text-[#c4b09e] transition">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h3>
+          <p class="text-[#737373] font-light leading-relaxed line-clamp-2 text-sm">
+            {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
+          </p>
+        </article>
+      {% else %}
+        <p class="text-[#737373] font-light italic col-span-3">Journal entries will appear here once published.</p>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Visual Blog Grid",
+  "name": "Visual Journal Grid",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "Latest News" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Journal" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Latest Stories" },
     { "type": "blog", "id": "blog", "label": "Select Blog" },
-    { "type": "range", "id": "post_limit", "min": 3, "max": 12, "step": 3, "label": "Number of posts to show", "default": 3 },
+    { "type": "range", "id": "post_limit", "min": 3, "max": 9, "step": 3, "label": "Posts to show", "default": 3 },
     { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' link", "default": true }
   ],
-  "presets": [{ "name": "Visual Blog Grid" }]
+  "presets": [{ "name": "Visual Journal Grid" }]
 }
 {% endschema %}
