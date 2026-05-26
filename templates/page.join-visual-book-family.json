@@ -18,6 +18,45 @@
     },
     "visual_family_WNXLwA": {
       "type": "visual-family",
+      "blocks": {
+        "member_96q3aA": {
+          "type": "member",
+          "settings": {
+            "name": "@THE_VISUAL_BOOK"
+          }
+        },
+        "member_7CKHk9": {
+          "type": "member",
+          "settings": {
+            "name": "@THE_VISUAL_BOOK"
+          }
+        },
+        "member_MKtQKN": {
+          "type": "member",
+          "settings": {
+            "name": "@THE_VISUAL_BOOK"
+          }
+        },
+        "member_3RtUq7": {
+          "type": "member",
+          "settings": {
+            "name": "@THE_VISUAL_BOOK"
+          }
+        },
+        "member_ineRWx": {
+          "type": "member",
+          "settings": {
+            "name": "@THE_VISUAL_BOOK"
+          }
+        }
+      },
+      "block_order": [
+        "member_96q3aA",
+        "member_7CKHk9",
+        "member_MKtQKN",
+        "member_3RtUq7",
+        "member_ineRWx"
+      ],
       "name": "Visual Family (Community)",
       "settings": {
         "subheading": "Community",
