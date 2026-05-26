@@ -140,28 +140,9 @@
         "show_bg_song": true,
         "show_dynamic_checkout": true,
         "review_text": "4.9 (128 Reviews)",
-        "features_text": "<p>Up to 6-Hour Video Capacity.</p>",
+        "features_text": "<ul><li>Up to 6-Hour Video & Photo Capacity</li><li>One-Click Video/Photo Switch</li><li>Simple Drag & Drop Setup</li><li>Personal Gift/Keepsake</li><li>Complimentary Pre-Loading & Professional Editing</li></ul>",
         "design_text": "<p>Premium linen cover.</p>",
         "tech_text": "<p>7 or 10.1 inch IPS Display.</p>"
-      }
-    },
-    "product_cinematic_kQi6Fj": {
-      "type": "product-cinematic",
-      "blocks": {
-        "tab_UF6zwT": {
-          "type": "tab",
-          "settings": {
-            "title": "Step 1",
-            "text": "<p>Explain how to perform this action simply and clearly.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "tab_UF6zwT"
-      ],
-      "name": "Visual Cinematic Experience",
-      "settings": {
-        "heading": "Experience the Magic"
       }
     },
     "1778872986a5784e31": {
@@ -224,7 +205,6 @@
     "main",
     "related-products",
     "product_hero_visual_RfgfJ9",
-    "product_cinematic_kQi6Fj",
     "1778872986a5784e31",
     "landing_shop_8w6YGV"
   ]
