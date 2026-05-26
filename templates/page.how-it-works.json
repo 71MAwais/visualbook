@@ -16,10 +16,13 @@
         "badge": "The Journey",
         "heading": "How It Works",
         "subheading": "Scroll to discover how effortless it is to bring your stories to life in our signature formats.",
+        "show_scroll_icon": true,
         "bg_color": "#fafafa",
         "accent_color": "#b8906b",
         "heading_color": "#1a1a1a",
-        "text_color": "#737373"
+        "text_color": "#737373",
+        "padding_top": 120,
+        "padding_bottom": 60
       }
     },
     "how_it_works_journey_qMGC9m": {
@@ -42,7 +45,21 @@
     "how_it_works_support_rhThdj": {
       "type": "how-it-works-support",
       "name": "How It Works - Support",
-      "settings": {}
+      "settings": {
+        "faq_badge": "Client Care",
+        "faq_heading": "Common Questions",
+        "cta_heading": "Require Personal Assistance?",
+        "cta_subheading": "Our dedicated concierge team is at your service to ensure your VisualBook is perfectly curated for your special moments.",
+        "btn_label": "Contact Concierge",
+        "btn_link": "shopify://pages/contact",
+        "bg_color_faq": "#ffffff",
+        "bg_color_cta": "#f3f3f3",
+        "heading_color": "#1c1c1c",
+        "text_color": "#595959",
+        "accent_color": "#c4b09e",
+        "btn_bg_color": "#1c1c1c",
+        "btn_text_color": "#ffffff"
+      }
     }
   },
   "order": [
