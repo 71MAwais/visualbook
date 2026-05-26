@@ -109,7 +109,7 @@
           "type": "accordion",
           "settings": {
             "title": "GIFTING THE BOOK?",
-            "content": "<p>Our books arrive in a luxury gift box.</p>"
+            "content": "<ol><li><strong>Pre-Loaded Gift:</strong> Upload your content for us to preload. The recipient will receive the book with your specially chosen memories already in place.</li><li><strong>DIY Upload:</strong> Alternatively, you can simply unbox the book, connect it to your computer, and upload those special memories yourself.</li><li><strong>Blank Book Gift:</strong> For a more personal touch, give the recipient a blank book. They can then add their cherished moments at their convenience, creating a truly personalized keepsake.</li></ol>"
           }
         },
         "accordion_qncAw3": {
