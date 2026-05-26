@@ -15,9 +15,18 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "visual_help_C89zcd": {
+      "type": "visual-help",
+      "name": "Visual FAQ",
+      "settings": {
+        "subheading": "Support",
+        "title": "Common Questions"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_help_C89zcd"
   ]
 }
