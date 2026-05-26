@@ -117,46 +117,36 @@
         "tech_text": "<ul><li><strong>Start Recording</strong>: Press record button, hear a beep.</li><li><strong>Record</strong>: Speak or play audio.</li><li><strong>Stop Recording</strong>: Press record button again, hear two beeps.</li><li><strong>Playback</strong>: Press play button to listen.</li><li><strong>Re-Record</strong>: Follow steps again to replace recording.</li></ul>"
       }
     },
-    "1778872986a5784e31": {
-      "type": "apps",
+    "product_experience1_xizDKV": {
+      "type": "product-experience1",
       "blocks": {
-        "judge_me_reviews_cards_carousel_83k4wy": {
-          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "experience_card_GHf9Q7": {
+          "type": "experience_card",
           "settings": {
-            "show_sample_reviews": true,
-            "reviews_selection": "current_product",
-            "products": [],
-            "star_rating": "all",
-            "show_review_media": true,
-            "display_order": "media_first",
-            "no_image_fallback": "review_text_only",
-            "max_reviews": 20,
-            "review_length": "medium",
-            "text_size": "medium",
-            "image_ratio": "1",
-            "reviews_shown": 4,
-            "show_reviewer_name": true,
-            "show_product_name": true,
-            "hide_arrows_mobile": true,
-            "arrows_position": "sides",
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "header_text_color": "#000000",
-            "text_color": "#000000",
-            "card_color": "#f9f9f9",
-            "stars_color": "",
-            "arrows_color": "#000000",
-            "transition_speed": 5,
-            "header_text": "Customers are saying",
-            "show_average_rating": true
+            "card_title": "",
+            "card_desc": "",
+            "card_action_text": "Discover how",
+            "tab1_btn": "",
+            "tab1_heading": "",
+            "tab1_desc": "",
+            "tab2_btn": "",
+            "tab2_heading": "",
+            "tab2_desc": "",
+            "button_label": "Add to Cart",
+            "button_link": ""
           }
         }
       },
       "block_order": [
-        "judge_me_reviews_cards_carousel_83k4wy"
+        "experience_card_GHf9Q7"
       ],
+      "name": "Product Experience Unified",
       "settings": {
-        "include_margins": true
+        "bg_color": "#FAFAFA",
+        "accent_color": "#B8906B",
+        "subtitle": "Technology",
+        "heading": "The Visualbook Experience",
+        "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
       }
     },
     "landing_shop_8w6YGV": {
@@ -177,7 +167,7 @@
     "main",
     "related-products",
     "product_hero_visual_RfgfJ9",
-    "1778872986a5784e31",
+    "product_experience1_xizDKV",
     "landing_shop_8w6YGV"
   ]
 }
