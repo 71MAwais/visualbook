@@ -104,34 +104,6 @@
     },
     "product_hero_visual_RfgfJ9": {
       "type": "product-hero-visual",
-      "blocks": {
-        "accordion_HgaYcf": {
-          "type": "accordion",
-          "settings": {
-            "title": "GIFTING THE BOOK?",
-            "content": "<p>Our books arrive in a luxury gift box.</p>"
-          }
-        },
-        "accordion_qncAw3": {
-          "type": "accordion",
-          "settings": {
-            "title": "GIFTING THE BOOK?",
-            "content": "<p>Our books arrive in a luxury gift box.</p>"
-          }
-        },
-        "accordion_wW7mye": {
-          "type": "accordion",
-          "settings": {
-            "title": "GIFTING THE BOOK?",
-            "content": "<p>Our books arrive in a luxury gift box.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "accordion_HgaYcf",
-        "accordion_qncAw3",
-        "accordion_wW7mye"
-      ],
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
