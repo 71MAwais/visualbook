@@ -11,13 +11,34 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "visual_stockists_3chggj": {
+      "type": "visual-stockists",
+      "blocks": {
+        "stockist_JzA93f": {
+          "type": "stockist",
+          "settings": {
+            "logo": "shopify://shop_images/Selfridges_logo_svg.png",
+            "name": "Selfridges & Co"
+          }
+        }
+      },
+      "block_order": [
+        "stockist_JzA93f"
+      ],
+      "name": "Visual Stockists (Logos)",
+      "settings": {
+        "title": "Available In-Store At"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_stockists_3chggj"
   ]
 }
