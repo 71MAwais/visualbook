@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "top_heading": "",
         "bottom_heading": "",
@@ -25,6 +26,24 @@
     "visual_press_iFEr37": {
       "type": "visual-press",
       "blocks": {
+        "press_article_bMxKhh": {
+          "type": "press_article",
+          "settings": {
+            "publication_name": "Vogue",
+            "article_title": "Meet the generation side hustle",
+            "excerpt": "Today's 20-somethings know how to spin plates. Charlotte Vossen meets savvy Gen Zs making their projects pay, highlighting the stunning craftsmanship of The Visual Book.",
+            "link": ""
+          }
+        },
+        "press_article_gL6Ybr": {
+          "type": "press_article",
+          "settings": {
+            "publication_name": "Vogue",
+            "article_title": "Meet the generation side hustle",
+            "excerpt": "Today's 20-somethings know how to spin plates. Charlotte Vossen meets savvy Gen Zs making their projects pay, highlighting the stunning craftsmanship of The Visual Book.",
+            "link": ""
+          }
+        },
         "press_article_3qWicM": {
           "type": "press_article",
           "settings": {
@@ -46,6 +65,8 @@
         }
       },
       "block_order": [
+        "press_article_bMxKhh",
+        "press_article_gL6Ybr",
         "press_article_3qWicM",
         "press_article_qAQWL7"
       ],
@@ -54,7 +75,12 @@
         "subheading": "Press & Praise",
         "title": "As Seen In",
         "description": "Discover the latest features, interviews, and mentions of The Visual Book from leading publications around the world.",
-        "read_more_text": "Read Article"
+        "read_more_text": "Read Article",
+        "show_media_card": true,
+        "media_title": "Press & Media Inquiries",
+        "media_text": "For press releases, high-resolution imagery, and media kits, please reach out to our communications team.",
+        "media_btn_text": "Download Media Kit",
+        "media_btn_link": ""
       }
     }
   },
