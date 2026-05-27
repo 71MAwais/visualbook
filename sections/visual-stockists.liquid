@@ -1,35 +1,312 @@
-<section class="w-full bg-[#fafafa] py-24 px-6">
-  <div class="max-w-6xl mx-auto text-center">
-    <h2 class="text-2xl md:text-3xl font-serif text-[#1a1a1a] mb-16">{{ section.settings.title }}</h2>
+<style>
+  /* Minimal scoped animation to avoid any global conflicts */
+  .stockist-card { opacity: 0; }
+  .stockist-card.card-enter { animation: stockistFadeIn 0.4s ease-out forwards; }
+  .stockist-hide { display: none !important; }
+  
+  @keyframes stockistFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="w-full bg-[#fafafa] py-10 md:py-16">
+  
+  <header class="px-6 text-center max-w-3xl mx-auto mb-10 md:mb-16">
+    <h1 class="text-5xl md:text-6xl font-serif text-[#181615] mb-4">{{ section.settings.heading }}</h1>
+    <p class="text-lg text-gray-600 font-sans font-light leading-relaxed">
+      {{ section.settings.description }}
+    </p>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 w-full">
     
-    <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-80 mix-blend-multiply grayscale hover:grayscale-0 transition duration-500">
+    {% if section.settings.show_filters %}
+      <div class="flex justify-center gap-4 mb-10 border-b border-gray-200 pb-px overflow-x-auto whitespace-nowrap">
+        <button onclick="filterStockists('all')" id="btn-all" class="stockist-tab-btn active px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-[#181615] text-[#181615] transition-all">
+          {{ section.settings.filter_all_text }}
+        </button>
+        <button onclick="filterStockists('physical')" id="btn-physical" class="stockist-tab-btn px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
+          {{ section.settings.filter_physical_text }}
+        </button>
+        <button onclick="filterStockists('online')" id="btn-online" class="stockist-tab-btn px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
+          {{ section.settings.filter_online_text }}
+        </button>
+      </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stockist-container">
+      
       {% for block in section.blocks %}
-        {% if block.settings.logo != blank %}
-          <img src="{{ block.settings.logo | img_url: '300x' }}" alt="{{ block.settings.name }}" class="h-8 md:h-12 object-contain" loading="lazy">
-        {% else %}
-          <span class="text-2xl font-serif font-bold">{{ block.settings.name }}</span>
-        {% endif %}
+        {% case block.type %}
+          
+          {% when 'physical' %}
+            <div class="stockist-card physical bg-white p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-sm" {{ block.shopify_attributes }}>
+              <div class="flex items-start justify-between mb-3">
+                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400">{{ block.settings.location_tag }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <h3 class="text-xl font-serif text-[#181615] mb-2">{{ block.settings.store_name }}</h3>
+              <div class="text-sm font-sans text-gray-500 font-light flex-grow space-y-1 mb-6">
+                {% if block.settings.address_1 != blank %}<p>{{ block.settings.address_1 }}</p>{% endif %}
+                {% if block.settings.address_2 != blank %}<p>{{ block.settings.address_2 }}</p>{% endif %}
+                {% if block.settings.phone != blank %}<p class="pt-1 text-[#181615] font-medium">{{ block.settings.phone }}</p>{% endif %}
+              </div>
+              {% if block.settings.link_url != blank %}
+                <a href="{{ block.settings.link_url }}" target="_blank" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-[#181615] border-b border-[#181615] pb-1 w-max hover:text-gray-500 hover:border-gray-500 transition-colors">
+                  {{ block.settings.link_text }} 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+              {% endif %}
+            </div>
+
+          {% when 'online' %}
+            <div class="stockist-card online bg-[#181615] text-white p-6 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-sm" {{ block.shopify_attributes }}>
+              <div class="flex items-start justify-between mb-3">
+                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400">{{ block.settings.location_tag }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <h3 class="text-xl font-serif text-white mb-2">{{ block.settings.store_name }}</h3>
+              <div class="text-sm font-sans text-gray-300 font-light flex-grow space-y-1 mb-6">
+                <p>{{ block.settings.description }}</p>
+              </div>
+              {% if block.settings.link_url != blank %}
+                <a href="{{ block.settings.link_url }}" target="_blank" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-white border-b border-white pb-1 w-max hover:text-gray-400 hover:border-gray-400 transition-colors">
+                  {{ block.settings.link_text }} 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+              {% endif %}
+            </div>
+
+        {% endcase %}
       {% endfor %}
+
     </div>
-  </div>
-</section>
+
+    {% if section.settings.show_retail_contact %}
+      <div class="mt-16 pt-10 border-t border-gray-200 text-center max-w-2xl mx-auto">
+        {% if section.settings.retail_text != blank %}
+          <p class="text-2xl font-serif text-[#181615] mb-6">{{ section.settings.retail_text | escape }}</p>
+        {% endif %}
+        {% if section.settings.retail_btn_link != blank and section.settings.retail_btn_text != blank %}
+          <a href="{{ section.settings.retail_btn_link }}" class="inline-block px-8 py-3 bg-[#181615] text-white text-sm font-sans font-medium uppercase tracking-widest hover:bg-gray-800 transition-colors rounded-sm">
+            {{ section.settings.retail_btn_text | escape }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </main>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.stockist-card');
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('card-enter');
+      }, 50 * index);
+    });
+  });
+
+  function filterStockists(type) {
+    const cards = document.querySelectorAll('.stockist-card');
+    const btns = document.querySelectorAll('.stockist-tab-btn');
+
+    // Update buttons
+    btns.forEach(btn => {
+      if (btn.id === `btn-${type}`) {
+        btn.classList.add('border-[#181615]', 'text-[#181615]');
+        btn.classList.remove('border-transparent', 'text-gray-400');
+      } else {
+        btn.classList.remove('border-[#181615]', 'text-[#181615]');
+        btn.classList.add('border-transparent', 'text-gray-400');
+      }
+    });
+
+    // Update cards
+    let visibleIndex = 0;
+    cards.forEach((card) => {
+      card.classList.remove('card-enter');
+      card.classList.add('stockist-hide');
+      
+      if (type === 'all' || card.classList.contains(type)) {
+        setTimeout(() => {
+          card.classList.remove('stockist-hide');
+          card.classList.add('card-enter');
+        }, 50 * visibleIndex); 
+        visibleIndex++;
+      }
+    });
+  }
+</script>
 
 {% schema %}
 {
-  "name": "Visual Stockists (Logos)",
+  "name": "Visual Book Stockists",
   "settings": [
-    { "type": "text", "id": "title", "label": "Heading", "default": "Available In-Store At" }
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Where to find us"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover our curated collection of visual books in person or online through our trusted network of global retail partners and galleries."
+    },
+    {
+      "type": "header",
+      "content": "Filter Tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show Filter Tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "filter_all_text",
+      "label": "All Tab Label",
+      "default": "All Locations"
+    },
+    {
+      "type": "text",
+      "id": "filter_physical_text",
+      "label": "Physical Tab Label",
+      "default": "Physical Stores"
+    },
+    {
+      "type": "text",
+      "id": "filter_online_text",
+      "label": "Online Tab Label",
+      "default": "Online Partners"
+    },
+    {
+      "type": "header",
+      "content": "Retail Inquiries"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_retail_contact",
+      "label": "Show Retail Contact CTA",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "retail_text",
+      "label": "Prompt Text",
+      "default": "Interested in becoming a retail partner?"
+    },
+    {
+      "type": "text",
+      "id": "retail_btn_text",
+      "label": "Button Text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "retail_btn_link",
+      "label": "Button Link",
+      "info": "Select your contact page here."
+    }
   ],
   "blocks": [
     {
-      "type": "stockist",
-      "name": "Store Logo",
+      "type": "physical",
+      "name": "Physical Store",
       "settings": [
-        { "type": "image_picker", "id": "logo", "label": "Store Logo" },
-        { "type": "text", "id": "name", "label": "Store Name", "default": "Selfridges & Co" }
+        {
+          "type": "text",
+          "id": "location_tag",
+          "label": "Location Tag",
+          "default": "New York, USA"
+        },
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store Name",
+          "default": "The Artful Page"
+        },
+        {
+          "type": "text",
+          "id": "address_1",
+          "label": "Address Line 1",
+          "default": "123 Gallery Row, Chelsea"
+        },
+        {
+          "type": "text",
+          "id": "address_2",
+          "label": "Address Line 2",
+          "default": "New York, NY 10001"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone Number",
+          "default": "(212) 555-0198"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Get Directions"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    },
+    {
+      "type": "online",
+      "name": "Online Partner",
+      "settings": [
+        {
+          "type": "text",
+          "id": "location_tag",
+          "label": "Shipping Tag",
+          "default": "Global Shipping"
+        },
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store Name",
+          "default": "Curated Print Co."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Store Description",
+          "default": "An online marketplace for independent publishers and contemporary art books."
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Shop Online"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
       ]
     }
   ],
-  "presets": [{ "name": "Visual Stockists (Logos)" }]
+  "presets": [
+    {
+      "name": "Visual Book Stockists",
+      "blocks": [
+        { "type": "physical" },
+        { "type": "physical" },
+        { "type": "online" }
+      ]
+    }
+  ]
 }
 {% endschema %}

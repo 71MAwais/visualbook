@@ -12,12 +12,54 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "visual_press_iFEr37": {
+      "type": "visual-press",
+      "blocks": {
+        "press_article_3qWicM": {
+          "type": "press_article",
+          "settings": {
+            "logo": "shopify://shop_images/Reader_s-Digest-Logo_svg.png",
+            "publication_name": "Reader's Digest",
+            "article_title": "Down To Business: The Visual Book",
+            "excerpt": "Reader's Digest spoke to Aisha, founder of multi-media photo album that allows users to record their videos, The Visual Book.",
+            "link": "#"
+          }
+        },
+        "press_article_qAQWL7": {
+          "type": "press_article",
+          "settings": {
+            "publication_name": "Reader's Digest",
+            "article_title": "Down To Business: The Visual Book",
+            "excerpt": "Reader's Digest spoke to Aisha, founder of multi-media photo album that allows users to record their videos, The Visual Book.",
+            "link": "#"
+          }
+        }
+      },
+      "block_order": [
+        "press_article_3qWicM",
+        "press_article_qAQWL7"
+      ],
+      "name": "Visual Press",
+      "settings": {
+        "subheading": "Press & Praise",
+        "title": "As Seen In",
+        "description": "Discover the latest features, interviews, and mentions of The Visual Book from leading publications around the world.",
+        "read_more_text": "Read Article"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_press_iFEr37"
   ]
 }

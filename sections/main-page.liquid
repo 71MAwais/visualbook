@@ -6,21 +6,65 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  /* Custom Alignment and Sizing */
+  .section-{{ section.id }}-content {
+    text-align: {{ section.settings.text_alignment }};
+  }
+
+  .section-{{ section.id }}-content .main-page-title {
+    font-size: {{ section.settings.title_size_mobile }}rem;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0.75rem; /* Decreased from 1.5rem */
+  }
+
+  .section-{{ section.id }}-bold-heading {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .bottom-heading {
+    margin-top: 1.5rem; /* Decreased from 3rem */
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+    .section-{{ section.id }}-content .main-page-title {
+      font-size: {{ section.settings.title_size_desktop }}rem;
+    }
   }
 {%- endstyle -%}
 
-<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+<div class="page-width page-width--narrow section-{{ section.id }}-padding section-{{ section.id }}-content">
+  
+  {%- if section.settings.top_heading != blank -%}
+    <div class="section-{{ section.id }}-bold-heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {{ section.settings.top_heading | escape }}
+    </div>
+  {%- endif -%}
+
   <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    {{ page.title | escape }}
+    {%- if section.settings.custom_title != blank -%}
+      {{ section.settings.custom_title | escape }}
+    {%- else -%}
+      {{ page.title | escape }}
+    {%- endif -%}
   </h1>
+
   <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
     {{ page.content }}
   </div>
+
+  {%- if section.settings.bottom_heading != blank -%}
+    <div class="section-{{ section.id }}-bold-heading bottom-heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      {{ section.settings.bottom_heading | escape }}
+    </div>
+  {%- endif -%}
+
 </div>
 
 {% schema %}
@@ -29,6 +73,63 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Custom Headings"
+    },
+    {
+      "type": "text",
+      "id": "top_heading",
+      "label": "Top Bold Heading",
+      "info": "Appears above the main page title."
+    },
+    {
+      "type": "text",
+      "id": "bottom_heading",
+      "label": "Bottom Bold Heading",
+      "info": "Appears below the page content."
+    },
+    {
+      "type": "header",
+      "content": "Title Styling"
+    },
+    {
+      "type": "text",
+      "id": "custom_title",
+      "label": "Custom Page Title",
+      "info": "Overrides the default page title. Leave blank to use the default title."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 2,
+      "max": 8,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Desktop Title Size",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Mobile Title Size",
+      "default": 2.5
+    },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
@@ -41,7 +142,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "default": 16
     },
     {
       "type": "range",
@@ -51,7 +152,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "default": 16
     }
   ]
 }

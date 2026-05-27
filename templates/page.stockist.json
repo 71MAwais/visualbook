@@ -11,34 +11,77 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "disabled": true,
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
       }
     },
-    "visual_stockists_3chggj": {
+    "visual_stockists_hMLVHw": {
       "type": "visual-stockists",
       "blocks": {
-        "stockist_JzA93f": {
-          "type": "stockist",
+        "physical_fP9C8k": {
+          "type": "physical",
           "settings": {
-            "logo": "shopify://shop_images/Selfridges_logo_svg.png",
-            "name": "Selfridges & Co"
+            "location_tag": "New York, USA",
+            "store_name": "The Artful Page",
+            "address_1": "123 Gallery Row, Chelsea",
+            "address_2": "New York, NY 10001",
+            "phone": "(212) 555-0198",
+            "link_text": "Get Directions",
+            "link_url": ""
+          }
+        },
+        "physical_mihzcW": {
+          "type": "physical",
+          "settings": {
+            "location_tag": "New York, USA",
+            "store_name": "The Artful Page",
+            "address_1": "123 Gallery Row, Chelsea",
+            "address_2": "New York, NY 10001",
+            "phone": "(212) 555-0198",
+            "link_text": "Get Directions",
+            "link_url": ""
+          }
+        },
+        "online_LEyXYh": {
+          "type": "online",
+          "settings": {
+            "location_tag": "Global Shipping",
+            "store_name": "Curated Print Co.",
+            "description": "An online marketplace for independent publishers and contemporary art books.",
+            "link_text": "Shop Online",
+            "link_url": ""
           }
         }
       },
       "block_order": [
-        "stockist_JzA93f"
+        "physical_fP9C8k",
+        "physical_mihzcW",
+        "online_LEyXYh"
       ],
-      "name": "Visual Stockists (Logos)",
+      "name": "Visual Book Stockists",
       "settings": {
-        "title": "Available In-Store At"
+        "heading": "Where to find us",
+        "description": "Discover our curated collection of visual books in person or online through our trusted network of global retail partners and galleries.",
+        "show_filters": true,
+        "filter_all_text": "All Locations",
+        "filter_physical_text": "Physical Stores",
+        "filter_online_text": "Online Partners",
+        "show_retail_contact": false,
+        "retail_text": "Interested in becoming a retail partner?",
+        "retail_btn_text": "Contact Us",
+        "retail_btn_link": ""
       }
     }
   },
   "order": [
     "main",
-    "visual_stockists_3chggj"
+    "visual_stockists_hMLVHw"
   ]
 }

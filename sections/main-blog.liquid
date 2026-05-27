@@ -1,143 +1,101 @@
-{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+{{ 'component-pagination.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-{%- paginate blog.articles by 6 -%}
-  <div class="main-blog page-width section-{{ section.id }}-padding">
-    <h1 class="title--primary{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {{ blog.title | escape }}
-    </h1>
-
-    <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
-      {%- for article in blog.articles -%}
-        <div
-          class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-          {% endif %}
-        >
-          {%- render 'article-card',
-            article: article,
-            media_height: section.settings.image_height,
-            media_aspect_ratio: article.image.aspect_ratio,
-            show_image: section.settings.show_image,
-            show_date: section.settings.show_date,
-            show_author: section.settings.show_author,
-            show_excerpt: true
-          -%}
-        </div>
-      {%- endfor -%}
+<section class="w-full bg-[#fafafa] py-16 md:py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="flex flex-col items-center text-center mb-12 md:mb-16 border-b border-[#e5e5e5] pb-6 md:pb-8">
+      {% if section.settings.subheading != blank %}
+        <p class="text-[10px] font-sans font-semibold uppercase tracking-[0.25em] text-[#737373] mb-4">
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+      <h2 class="text-4xl md:text-5xl font-serif text-[#1a1a1a]">
+        {{ section.settings.title }}
+      </h2>
     </div>
 
-    {%- if paginate.pages > 1 -%}
-      {%- render 'pagination', paginate: paginate -%}
-    {%- endif -%}
+    {% if section.settings.blog != blank and section.settings.blog.articles_count > 0 %}
+      
+      {%- paginate section.settings.blog.articles by section.settings.post_limit -%}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          
+          {% for article in section.settings.blog.articles %}
+            <article class="group cursor-pointer flex flex-col">
+              
+              <a href="{{ article.url }}" class="block overflow-hidden aspect-[4/3] mb-6">
+                {% if article.image %}
+                  {{ article.image | image_url: width: 800 | image_tag: class: 'w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105', loading: 'lazy', alt: article.title | escape }}
+                {% else %}
+                  <div class="w-full h-full bg-[#f4f4f4] flex items-center justify-center">
+                    {{ 'image' | placeholder_svg_tag: 'w-16 h-16 text-[#cccccc]' }}
+                  </div>
+                {% endif %}
+              </a>
+              
+              <p class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-[#737373] mb-3">
+                {{ article.published_at | date: "%B %d, %Y" }}
+              </p>
+              
+              <h3 class="text-2xl font-serif text-[#1a1a1a] leading-snug mb-3 group-hover:text-[#c4b09e] transition-colors">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h3>
+              
+              <p class="text-[#737373] font-sans font-light leading-relaxed line-clamp-2 text-sm">
+                {%- if article.excerpt.size > 0 -%}
+                  {{ article.excerpt | strip_html | truncatewords: 25 }}
+                {%- else -%}
+                  {{ article.content | strip_html | truncatewords: 25 }}
+                {%- endif -%}
+              </p>
+              
+            </article>
+          {% endfor %}
+          
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <div class="mt-12 md:mt-16 flex justify-center w-full">
+            {% render 'pagination', paginate: paginate %}
+          </div>
+        {%- endif -%}
+        
+      {%- endpaginate -%}
+
+    {% else %}
+    
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        {% for i in (1..section.settings.post_limit) %}
+          <article class="group cursor-pointer flex flex-col">
+            <div class="block overflow-hidden aspect-[4/3] mb-6 bg-[#f4f4f4] flex items-center justify-center">
+              {{ 'image' | placeholder_svg_tag: 'w-16 h-16 text-[#cccccc]' }}
+            </div>
+            <p class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-[#737373] mb-3">
+              {{ 'now' | date: "%B %d, %Y" }}
+            </p>
+            <h3 class="text-2xl font-serif text-[#1a1a1a] leading-snug mb-3 group-hover:text-[#c4b09e] transition-colors">
+              Your Article Title
+            </h3>
+            <p class="text-[#737373] font-sans font-light leading-relaxed line-clamp-2 text-sm">
+              This is placeholder text for your journal entry. Please select a blog in the section settings.
+            </p>
+          </article>
+        {% endfor %}
+      </div>
+      
+    {% endif %}
+      
   </div>
-{%- endpaginate -%}
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.main-blog.name",
-  "tag": "section",
-  "class": "section",
+  "name": "Visual Journal Grid",
   "settings": [
-    {
-      "type": "select",
-      "id": "layout",
-      "options": [
-        {
-          "value": "grid",
-          "label": "t:sections.main-blog.settings.layout.options__1.label"
-        },
-        {
-          "value": "collage",
-          "label": "t:sections.main-blog.settings.layout.options__2.label"
-        }
-      ],
-      "default": "collage",
-      "label": "t:sections.main-blog.settings.layout.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_image",
-      "default": true,
-      "label": "t:sections.main-blog.settings.show_image.label"
-    },
-    {
-      "type": "select",
-      "id": "image_height",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.main-blog.settings.image_height.options__1.label"
-        },
-        {
-          "value": "small",
-          "label": "t:sections.main-blog.settings.image_height.options__2.label"
-        },
-        {
-          "value": "medium",
-          "label": "t:sections.main-blog.settings.image_height.options__3.label"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.main-blog.settings.image_height.options__4.label"
-        }
-      ],
-      "default": "medium",
-      "label": "t:sections.main-blog.settings.image_height.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_date",
-      "default": true,
-      "label": "t:sections.main-blog.settings.show_date.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_author",
-      "default": false,
-      "label": "t:sections.main-blog.settings.show_author.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
-    }
-  ]
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Journal" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Latest Stories" },
+    { "type": "blog", "id": "blog", "label": "Select Blog" },
+    { "type": "range", "id": "post_limit", "min": 3, "max": 24, "step": 3, "label": "Posts per page", "default": 6 }
+  ],
+  "presets": [{ "name": "Visual Journal Grid" }]
 }
 {% endschema %}
