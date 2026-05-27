@@ -1,72 +1,245 @@
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-  @media screen and (min-width: 768px) {
-    .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
-  }
-  #VisualAbout-{{ section.id }} .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease-out, transform 1s ease-out; }
-  #VisualAbout-{{ section.id }} .reveal.active { opacity: 1; transform: translateY(0); }
-{%- endstyle -%}
+{%- comment -%}
+  Load custom fonts if they aren't already in your theme.liquid
+{%- endcomment -%}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+  
+  .font-serif { font-family: 'Playfair Display', serif; }
+  .font-sans { font-family: 'Inter', sans-serif; }
+</style>
 
-<section id="VisualAbout-{{ section.id }}" class="section-{{ section.id }}-padding w-full overflow-hidden bg-white">
-  <div class="max-w-screen-xl mx-auto px-6 md:px-12">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-      
-      <div class="relative w-full overflow-hidden reveal">
-        {% if section.settings.image != blank %}
-          <img src="{{ section.settings.image | img_url: '1200x' }}" alt="Founder" class="w-full h-auto object-cover" loading="lazy">
-        {% else %}
-          <div class="w-full bg-[#f4f4f4] aspect-[3/4] flex items-center justify-center">
-            <span class="text-gray-400 text-sm tracking-widest uppercase">Founder Image</span>
-          </div>
-        {% endif %}
-      </div>
-      
-      <div class="space-y-6 lg:pl-4">
-        <p class="reveal transition-delay-100 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#1a1a1a]">
-          {{ section.settings.subheading }}
-        </p>
-        <h2 class="reveal transition-delay-200 text-4xl md:text-5xl font-serif text-[#1a1a1a] leading-tight">
-          {{ section.settings.heading | replace: 'Forever', '<i class="font-light italic">Forever</i>' }}
-        </h2>
-        <div class="reveal transition-delay-300 text-base font-light text-[#737373] leading-relaxed space-y-6">
-          {{ section.settings.text }}
-        </div>
-        
-        <div class="reveal transition-delay-400 pt-6">
-          <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] mb-1">{{ section.settings.author_name }}</p>
-          <p class="text-[10px] tracking-[0.1em] text-[#737373] uppercase">{{ section.settings.author_title }}</p>
-        </div>
-      </div>
+<div class="bg-white text-[#111111] antialiased font-sans overflow-hidden">
+  
+  {%- comment -%} Page Header {%- endcomment -%}
+  <section class="text-center pt-20 pb-10 px-4 lg:pt-28 lg:pb-12">
+    <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block font-medium">
+      {{ section.settings.page_subtitle | default: 'The Visual Book' }}
+    </span>
+    <h1 class="text-5xl lg:text-6xl font-serif tracking-tight text-[#111111]">
+      {{ page.title | default: 'About' }}
+    </h1>
+  </section>
 
+  {%- comment -%} Our Story / Origin Section {%- endcomment -%}
+  <section class="flex flex-col lg:flex-row items-center py-12 lg:py-16 px-6 lg:px-12 max-w-[1400px] mx-auto gap-8 lg:gap-16">
+    <div class="flex-1 w-full relative">
+      {% if section.settings.story_image != blank %}
+        {{ section.settings.story_image | image_url: width: 1200 | image_tag: class: 'w-full h-[400px] lg:h-[600px] object-cover bg-[#faf8f5]', loading: 'lazy' }}
+      {% else %}
+        <div class="w-full h-[400px] lg:h-[600px] bg-[#f0ede6] flex items-center justify-center text-[#a39d93] uppercase tracking-widest text-sm">
+          Visual Memories (Image)
+        </div>
+      {% endif %}
     </div>
-  </div>
-</section>
+    <div class="flex-1 max-w-[550px] py-6">
+      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Our Origin</span>
+      <h2 class="text-3xl lg:text-4xl font-serif leading-tight mb-6 text-[#111111]">
+        {{ section.settings.story_heading | default: 'Our story revolves around something we all cherish deeply: Memories.' }}
+      </h2>
+      <div class="text-[1rem] text-gray-600 font-light leading-relaxed space-y-4">
+        {{ section.settings.story_text }}
+      </div>
+    </div>
+  </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('active'); obs.unobserve(entry.target); }});
-    }, { threshold: 0.15 });
-    document.querySelectorAll('#VisualAbout-{{ section.id }} .reveal').forEach(el => observer.observe(el));
-  });
-</script>
+  {%- comment -%} Founder Letter Section {%- endcomment -%}
+  <section class="bg-[#faf8f5] py-16 lg:py-24 px-6 text-center my-10 lg:my-16">
+    <div class="max-w-[800px] mx-auto">
+      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-6 block">A Letter From Aisha Iman</span>
+      
+      <div class="text-[1.05rem] text-[#111111] leading-loose space-y-8">
+        <p class="text-xl lg:text-2xl font-serif italic leading-relaxed text-[#222222]">
+          {{ section.settings.letter_quote | default: '"Hi there, I wanted to share with you something very close to my heart – The Visual Book. In my home, these aren`t just books; they`re cherished collections of my dad`s life, my graduation, and moments with friends and family."' }}
+        </p>
+        
+        <div class="space-y-4 text-gray-700 font-light">
+          {{ section.settings.letter_text }}
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <div class="font-serif text-2xl mb-1 text-[#111111]">{{ section.settings.founder_name | default: 'Aisha Shafii Ndayako' }}</div>
+        <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500">Founder, The Visual Book</span>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} Sustainable Design Section {%- endcomment -%}
+  <section class="flex flex-col lg:flex-row-reverse items-center py-12 lg:py-16 px-6 lg:px-12 max-w-[1400px] mx-auto gap-8 lg:gap-16">
+    <div class="flex-1 w-full relative">
+      {% if section.settings.sustainability_image != blank %}
+        {{ section.settings.sustainability_image | image_url: width: 1200 | image_tag: class: 'w-full h-[400px] lg:h-[600px] object-cover bg-[#faf8f5]', loading: 'lazy' }}
+      {% else %}
+        <div class="w-full h-[400px] lg:h-[600px] bg-[#f0ede6] flex items-center justify-center text-[#a39d93] uppercase tracking-widest text-sm">
+          Sustainable Packaging (Image)
+        </div>
+      {% endif %}
+    </div>
+    <div class="flex-1 max-w-[550px] py-6">
+      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Eco-Conscious</span>
+      <h2 class="text-3xl lg:text-4xl font-serif leading-tight mb-6 text-[#111111]">
+        {{ section.settings.sustainability_heading | default: 'Sustainable design' }}
+      </h2>
+      <div class="text-[1rem] text-gray-600 font-light leading-relaxed space-y-4">
+        {{ section.settings.sustainability_text }}
+      </div>
+      {% if section.settings.sustainability_link != blank %}
+        <a href="{{ section.settings.sustainability_link }}" class="inline-block mt-8 text-[0.75rem] uppercase tracking-[0.15em] font-medium text-[#111111] border-b border-[#111111] pb-1 hover:opacity-60 transition-opacity duration-300">
+          {{ section.settings.sustainability_link_text | default: 'Find out more' }}
+        </a>
+      {% endif %}
+    </div>
+  </section>
+
+  {%- comment -%} Features / Family Section {%- endcomment -%}
+  <section class="py-16 lg:py-20 px-6 text-center max-w-[1400px] mx-auto">
+    <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Craftsmanship</span>
+    <h2 class="text-3xl lg:text-4xl font-serif leading-tight text-[#111111]">The Visual Book Family</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mt-12 pt-12 border-t border-gray-100">
+      
+      {% for block in section.blocks %}
+        <div class="text-center group" {{ block.shopify_attributes }}>
+          <div class="flex justify-center mb-6">
+            {% if block.settings.icon_image != blank %}
+              {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'w-10 h-10 object-contain transition-transform duration-500 group-hover:scale-110', loading: 'lazy' }}
+            {% else %}
+              <svg class="w-8 h-8 text-[#111111] transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h20L19 20H5L2 4z"></path><path d="M12 22v-8"></path><path d="M8 22v-8"></path><path d="M16 22v-8"></path></svg>
+            {% endif %}
+          </div>
+          <h4 class="text-lg font-serif mb-3 text-[#111111]">{{ block.settings.title }}</h4>
+          <p class="text-sm text-gray-600 font-light leading-relaxed">{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+      
+    </div>
+  </section>
+
+</div>
 
 {% schema %}
 {
-  "name": "Visual About (Story)",
+  "name": "About Page Content",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Feature Image" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Our Story" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Born from Loss, Designed for Forever" },
-    { "type": "richtext", "id": "text", "label": "Body Text", "default": "<p>I grew up in Lagos, Nigeria — a place bursting with colour, sound, and story. But my own story had a gap. I lost my father when I was just three years old. No letters. No recordings. Just a handful of faded photographs I would hold up to the light, trying to memorise the shape of a man I could barely remember...</p>" },
-    { "type": "text", "id": "author_name", "label": "Author Name", "default": "AISHA IMAN" },
-    { "type": "text", "id": "author_title", "label": "Author Title", "default": "FOUNDER & CEO" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 4, "unit": "px", "label": "Top Padding", "default": 160 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "label": "Bottom Padding", "default": 160 }
+    {
+      "type": "text",
+      "id": "page_subtitle",
+      "label": "Page Subtitle",
+      "default": "The Visual Book"
+    },
+    {
+      "type": "header",
+      "content": "Story Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story Image"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Story Heading",
+      "default": "Our story revolves around something we all cherish deeply: Memories."
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story Text",
+      "default": "<p>My journey towards creating The Visual Book is deeply connected to my early years. Losing my father at the age of three was a defining moment in my life. I grew up in Nigeria, holding onto a deep longing for the memories we never had the chance to create together.</p><p>My mother, with her creative resourcefulness, would photoshop images of us, crafting an imagined past that felt real in my dreams but was absent in reality.</p><p>Being part of Gen-Z, I grew up amidst the digital revolution, which profoundly shaped my understanding of the crucial role photos, videos, and audio play in defining our identities and connecting us with others. This insight, combined with my personal quest for tangible memories, became the driving force behind The Visual Book.</p><p>The idea truly took shape during my university years in the UK, where I envisioned a product that would revolutionise traditional memory preservation.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Founder Letter"
+    },
+    {
+      "type": "textarea",
+      "id": "letter_quote",
+      "label": "Letter Highlight Quote",
+      "default": "\"Hi there, I wanted to share with you something very close to my heart – The Visual Book. In my home, these aren't just books; they're cherished collections of my dad's life, my graduation, and moments with friends and family.\""
+    },
+    {
+      "type": "richtext",
+      "id": "letter_text",
+      "label": "Letter Body Text",
+      "default": "<p>Creating The Visual Book has been a journey of love and remembrance. My vision for The Visual Book is to offer easy-to-use, beautifully designed products that bring innovation to how we preserve and display our most treasured stories and memories.</p><p>The Visual Book was conceived to blend the digital with the physical, creating a medium where memories are not just stored but felt and relived. It stands as a testament to bridging generational gaps, allowing me to connect with the essence of my father and offering others the chance to do the same with their loved ones.</p>"
+    },
+    {
+      "type": "text",
+      "id": "founder_name",
+      "label": "Founder Name",
+      "default": "Aisha Shafii Ndayako"
+    },
+    {
+      "type": "header",
+      "content": "Sustainability Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "sustainability_image",
+      "label": "Sustainability Image"
+    },
+    {
+      "type": "text",
+      "id": "sustainability_heading",
+      "label": "Sustainability Heading",
+      "default": "Sustainable design"
+    },
+    {
+      "type": "richtext",
+      "id": "sustainability_text",
+      "label": "Sustainability Text",
+      "default": "<p>Sustainability is at the heart of our mission. We aim to minimize waste in every aspect of our production.</p><p>Understanding the environmental impact of single-use packaging, we've designed our packaging to be more than just a disposable shell but an essential and attractive part of the product itself.</p><p>We envision our customers using this packaging as a stylish and functional element in their homes, aligning with our commitment to eco-friendly practices and thoughtful design.</p>"
+    },
+    {
+      "type": "text",
+      "id": "sustainability_link_text",
+      "label": "Button Text",
+      "default": "Find out more"
+    },
+    {
+      "type": "url",
+      "id": "sustainability_link",
+      "label": "Button Link"
+    }
   ],
-  "presets": [{ "name": "Visual About (Story)" }]
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image",
+          "info": "Upload an icon or small image (PNG or SVG recommended)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "British Design"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page Content",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "British Design", "text": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology." } },
+        { "type": "feature", "settings": { "title": "Eco-Friendly Quality", "text": "Built to last with sustainable materials, preserving your memories and the planet." } },
+        { "type": "feature", "settings": { "title": "Timeless Keepsake", "text": "A beautiful heirloom designed to be passed down through generations." } },
+        { "type": "feature", "settings": { "title": "Desbossed Foil", "text": "Luxurious finishing touches that elevate your book into a premium work of art." } }
+      ]
+    }
+  ]
 }
 {% endschema %}

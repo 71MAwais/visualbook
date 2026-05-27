@@ -1,14 +1,89 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "visual_about_TRkzf8": {
+      "type": "visual-about",
+      "blocks": {
+        "feature_pDwqzz": {
+          "type": "feature",
+          "settings": {
+            "custom_svg": "",
+            "title": "British Design",
+            "text": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology."
+          }
+        },
+        "feature_McJ4eC": {
+          "type": "feature",
+          "settings": {
+            "custom_svg": "",
+            "title": "Eco-Friendly Quality",
+            "text": "Built to last with sustainable materials, preserving your memories and the planet."
+          }
+        },
+        "feature_xNNfmM": {
+          "type": "feature",
+          "settings": {
+            "custom_svg": "",
+            "title": "Timeless Keepsake",
+            "text": "A beautiful heirloom designed to be passed down through generations."
+          }
+        },
+        "feature_Lm8UEa": {
+          "type": "feature",
+          "settings": {
+            "custom_svg": "",
+            "title": "Desbossed Foil",
+            "text": "Luxurious finishing touches that elevate your book into a premium work of art."
+          }
+        }
+      },
+      "block_order": [
+        "feature_pDwqzz",
+        "feature_McJ4eC",
+        "feature_xNNfmM",
+        "feature_Lm8UEa"
+      ],
+      "name": "About Page Content",
+      "settings": {
+        "page_subtitle": "The Visual Book",
+        "story_image": "shopify://shop_images/DSC3638.jpg",
+        "story_heading": "Our story revolves around something we all cherish deeply: Memories.",
+        "story_text": "<p>My journey towards creating The Visual Book is deeply connected to my early years. Losing my father at the age of three was a defining moment in my life. I grew up in Nigeria, holding onto a deep longing for the memories we never had the chance to create together.</p><p>My mother, with her creative resourcefulness, would photoshop images of us, crafting an imagined past that felt real in my dreams but was absent in reality.</p><p>Being part of Gen-Z, I grew up amidst the digital revolution, which profoundly shaped my understanding of the crucial role photos, videos, and audio play in defining our identities and connecting us with others. This insight, combined with my personal quest for tangible memories, became the driving force behind The Visual Book.</p><p>The idea truly took shape during my university years in the UK, where I envisioned a product that would revolutionise traditional memory preservation.</p>",
+        "letter_quote": "\"Hi there, I wanted to share with you something very close to my heart – The Visual Book. In my home, these aren't just books; they're cherished collections of my dad's life, my graduation, and moments with friends and family.\"",
+        "letter_text": "<p>Creating The Visual Book has been a journey of love and remembrance. My vision for The Visual Book is to offer easy-to-use, beautifully designed products that bring innovation to how we preserve and display our most treasured stories and memories.</p><p>The Visual Book was conceived to blend the digital with the physical, creating a medium where memories are not just stored but felt and relived. It stands as a testament to bridging generational gaps, allowing me to connect with the essence of my father and offering others the chance to do the same with their loved ones.</p>",
+        "founder_name": "Aisha Shafii Ndayako",
+        "sustainability_image": "shopify://shop_images/PerfectGiftIdea-Videoalbums.jpg",
+        "sustainability_heading": "Sustainable design",
+        "sustainability_text": "<p>Sustainability is at the heart of our mission. We aim to minimize waste in every aspect of our production.</p><p>Understanding the environmental impact of single-use packaging, we've designed our packaging to be more than just a disposable shell but an essential and attractive part of the product itself.</p><p>We envision our customers using this packaging as a stylish and functional element in their homes, aligning with our commitment to eco-friendly practices and thoughtful design.</p>",
+        "sustainability_link_text": "",
+        "sustainability_link": ""
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_about_TRkzf8"
   ]
 }
