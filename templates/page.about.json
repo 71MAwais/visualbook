@@ -76,10 +76,24 @@
         "sustainability_link_text": "",
         "sustainability_link": ""
       }
+    },
+    "landing_shop_G8mr34": {
+      "type": "Landing-shop",
+      "name": "Shop Carousel",
+      "settings": {
+        "subtitle": "Curated Essentials",
+        "title": "Shop the Collection",
+        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
     }
   },
   "order": [
     "main",
-    "visual_about_rmRLYz"
+    "visual_about_rmRLYz",
+    "landing_shop_G8mr34"
   ]
 }
