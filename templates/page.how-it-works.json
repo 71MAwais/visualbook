@@ -25,11 +25,6 @@
         "padding_bottom": 60
       }
     },
-    "how_it_works_journey_qMGC9m": {
-      "type": "how-it-works-journey",
-      "name": "How It Works - Journey",
-      "settings": {}
-    },
     "shop": {
       "type": "Landing-shop",
       "settings": {
@@ -60,11 +55,175 @@
         "btn_bg_color": "#1c1c1c",
         "btn_text_color": "#ffffff"
       }
+    },
+    "how_it_works_journey_FpKBAx": {
+      "type": "how-it-works-journey",
+      "blocks": {
+        "classic_step_t4FXrY": {
+          "type": "classic_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"20\" y=\"25\" width=\"60\" height=\"40\" rx=\"2\"></rect><rect x=\"25\" y=\"30\" width=\"50\" height=\"30\"></rect><path d=\"M10 65 L90 65 L90 68 L10 68 Z\" fill=\"#1a1a1a\" stroke=\"none\"></path><path d=\"M85 66 L110 66 L110 45 L120 45\"></path><rect x=\"120\" y=\"25\" width=\"60\" height=\"40\"></rect><path d=\"M150 25 L150 65\"></path><rect x=\"155\" y=\"35\" width=\"20\" height=\"15\"></rect><circle cx=\"158\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"162\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"166\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"170\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle></svg>",
+            "step_label": "Step 01",
+            "title": "Connect",
+            "text": "To setup your Classic Visual Book, seamlessly connect it to your computer using the provided USB cable.",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "classic_step_8MeELr": {
+          "type": "classic_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"50\" y=\"25\" width=\"90\" height=\"50\"></rect><path d=\"M95 25 L95 75\"></path><rect x=\"105\" y=\"35\" width=\"30\" height=\"20\"></rect><path d=\"M110 40 L110 50 L115 50 L115 40 Z\"></path><path d=\"M110 42 L115 42 M110 45 L115 45 M110 48 L115 48\"></path><path d=\"M118 42 L128 42 L128 50 L118 50 Z\"></path><path d=\"M118 50 L123 45 L128 48\"></path><circle cx=\"108\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"114\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"120\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"126\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"132\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle></svg>",
+            "step_label": "Step 02",
+            "title": "Curate",
+            "text": "Sort photos and videos into folders. Add, delete, or organize your cherished content with effortless drag-and-drop.",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "classic_step_yBGMFV": {
+          "type": "classic_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"70\" y=\"45\" width=\"50\" height=\"40\" rx=\"2\"></rect><rect x=\"68\" y=\"35\" width=\"54\" height=\"10\" rx=\"1\"></rect><path d=\"M95 35 L95 85\"></path><path d=\"M95 35 C 80 15, 60 25, 90 35\"></path><path d=\"M95 35 C 110 15, 130 25, 100 35\"></path><rect x=\"50\" y=\"10\" width=\"40\" height=\"20\" transform=\"rotate(-15 70 20)\"></rect><text x=\"56\" y=\"22\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" transform=\"rotate(-15 70 20)\" font-family=\"sans-serif\">THE VISUAL BOOK</text><path d=\"M115 45 L118 52 L125 52 L119 57 L121 64 L115 60 L109 64 L111 57 L105 52 L112 52 Z\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path><path d=\"M60 40 L62 44 L66 44 L63 47 L64 51 L60 49 L56 51 L57 47 L54 44 L58 44 Z\" transform=\"scale(0.7) translate(30, 20)\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path><path d=\"M100 10 L102 14 L106 14 L103 17 L104 21 L100 19 L96 21 L97 17 L94 14 L98 14 Z\" transform=\"scale(0.8) translate(10, 0)\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path></svg>",
+            "step_label": "Step 03",
+            "title": "Gift-Ready",
+            "text": "Opt for our complimentary pre-loading service. Your Book arrives in our signature box, ready to showcase memories instantly.",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "classic_step_W7Rhd8": {
+          "type": "classic_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"40\" y=\"25\" width=\"100\" height=\"50\"></rect><path d=\"M90 25 L90 75\"></path><rect x=\"100\" y=\"32\" width=\"30\" height=\"20\"></rect><path d=\"M110 37 L120 42 L110 47 Z\" fill=\"#1a1a1a\" stroke=\"none\"></path><circle cx=\"104\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"110\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"116\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"122\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"128\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle></svg>",
+            "step_label": "Support",
+            "title": "Video Formatting",
+            "text": "Ensure flawless playback. Use our built-in converter to instantly optimize any video file for your Visual Book.",
+            "button_text": "Use Converter",
+            "button_link": ""
+          }
+        },
+        "audio_step_7V46rz": {
+          "type": "audio_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><text x=\"70\" y=\"115\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">From:</text><circle cx=\"125\" cy=\"70\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"120\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"130\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"125\" cy=\"76\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">REC</text><path d=\"M142 110 L142 125 C142 127 140 128 138 128 L135 128 L135 145 C135 150 145 150 150 145 L150 130 C155 130 155 120 150 120 C150 115 145 110 142 110\" fill=\"#ffffff\" stroke=\"#1a1a1a\"></path><path d=\"M138 128 L142 128\"></path><path d=\"M145 125 L145 130\"></path></svg>",
+            "step_label": "Step 01",
+            "title": "Press & Speak",
+            "text": "Simply hold down the record button and capture your heartfelt message."
+          }
+        },
+        "audio_step_wmEXnM": {
+          "type": "audio_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><path d=\"M110 85 L110 65 M115 90 L115 60 M120 95 L120 55 M125 100 L125 50 M130 95 L130 55 M135 90 L135 60 M140 85 L140 65\" stroke=\"#c4b09e\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\" fill=\"#c4b09e\" stroke=\"none\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#fff\" stroke=\"none\" font-family=\"sans-serif\">REC</text></svg>",
+            "step_label": "Step 02",
+            "title": "Capture Audio",
+            "text": "The built-in microphone records crisp, clear audio up to 60 seconds long."
+          }
+        },
+        "audio_step_HFdNW3": {
+          "type": "audio_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><text x=\"70\" y=\"115\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">From:</text><circle cx=\"125\" cy=\"70\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"120\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"130\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"125\" cy=\"76\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">REC</text><path d=\"M112 110 L112 125 C112 127 110 128 108 128 L105 128 L105 145 C105 150 115 150 120 145 L120 130 C125 130 125 120 120 120 C120 115 115 110 112 110\" fill=\"#ffffff\" stroke=\"#1a1a1a\"></path><path d=\"M108 128 L112 128\"></path><path d=\"M115 125 L115 130\"></path></svg>",
+            "step_label": "Step 03",
+            "title": "Listen & Relive",
+            "text": "Press play to listen. Not quite right? You can re-record infinitely until it's perfect."
+          }
+        },
+        "smart_step_hJLqWt": {
+          "type": "smart_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><rect x=\"80\" y=\"50\" width=\"50\" height=\"90\" rx=\"4\" transform=\"rotate(20 105 95)\" fill=\"#ffffff\"></rect><rect x=\"85\" y=\"55\" width=\"40\" height=\"80\" rx=\"2\" transform=\"rotate(20 105 95)\"></rect><rect x=\"95\" y=\"80\" width=\"20\" height=\"20\" rx=\"2\" transform=\"rotate(20 105 95)\" fill=\"#c4b09e\" stroke=\"none\"></rect><path d=\"M102 85 L102 95 L110 90 Z\" transform=\"rotate(20 105 95)\" fill=\"#fff\" stroke=\"none\"></path><path d=\"M80 140 C 60 130, 60 100, 80 80 C 85 75, 90 85, 80 95 C 75 100, 75 110, 85 120\"></path><path d=\"M110 135 C 130 140, 140 120, 120 110\"></path><path d=\"M115 120 C 130 125, 135 105, 120 100\"></path><path d=\"M120 105 C 130 110, 135 90, 125 85\"></path><path d=\"M110 85 C 115 80, 130 90, 115 100\"></path></svg>",
+            "title": "Download App",
+            "text": "Get the free companion application on your smartphone or tablet for total control."
+          }
+        },
+        "smart_step_LHpMT7": {
+          "type": "smart_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"80\" width=\"80\" height=\"50\" fill=\"#ffffff\"></rect><path d=\"M70 80 L70 130\"></path><rect x=\"75\" y=\"85\" width=\"30\" height=\"25\"></rect><circle cx=\"78\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"84\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"90\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"96\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><path d=\"M125 75 Q 110 50 85 65\" stroke=\"#c4b09e\" stroke-dasharray=\"4,4\"></path><path d=\"M85 65 L92 60 M85 65 L90 70\" stroke=\"#c4b09e\"></path><rect x=\"130\" y=\"60\" width=\"30\" height=\"55\" rx=\"3\" transform=\"rotate(-15 145 87)\" fill=\"#ffffff\"></rect><rect x=\"133\" y=\"63\" width=\"24\" height=\"49\" rx=\"2\" transform=\"rotate(-15 145 87)\"></rect><path d=\"M130 110 C 120 100, 110 100, 120 85\"></path><path d=\"M140 115 C 160 120, 160 100, 150 95\"></path><path d=\"M145 105 C 160 110, 160 90, 155 85\"></path></svg>",
+            "title": "Sync Seamlessly",
+            "text": "Follow guided steps to connect to Wi-Fi and wirelessly transfer your memories in seconds."
+          }
+        },
+        "smart_step_3WGfgA": {
+          "type": "smart_step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><circle cx=\"100\" cy=\"100\" r=\"45\" fill=\"#ffffff\"></circle><path d=\"M100 55 C 120 55, 120 145, 100 145\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M100 55 C 80 55, 80 145, 100 145\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M55 100 L145 100\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M90 75 L120 70 L115 110 L90 75\" stroke=\"#c4b09e\" stroke-dasharray=\"2,2\"></path><circle cx=\"90\" cy=\"75\" r=\"6\" fill=\"#ffffff\"></circle><circle cx=\"90\" cy=\"73\" r=\"1.5\" fill=\"#1a1a1a\" stroke=\"none\"></circle><path d=\"M87 78 C 87 76, 93 76, 93 78\"></path><circle cx=\"115\" cy=\"110\" r=\"6\" fill=\"#ffffff\"></circle><circle cx=\"115\" cy=\"108\" r=\"1.5\" fill=\"#1a1a1a\" stroke=\"none\"></circle><path d=\"M112 113 C 112 111, 118 111, 118 113\"></path><circle cx=\"120\" cy=\"70\" r=\"8\" fill=\"#ffffff\"></circle><rect x=\"116\" y=\"67\" width=\"8\" height=\"6\"></rect></svg>",
+            "title": "Share Globally",
+            "text": "Invite family to contribute directly to your Book from anywhere in the world, effortlessly."
+          }
+        },
+        "experience_card_kNqj7i": {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "basic",
+            "top_badge": "",
+            "icon_name": "mdi:microphone-outline",
+            "subtitle": "Audio",
+            "title": "Greetings Card",
+            "features": "One-button intuitive recording\nInfinite re-recordability\nInstant, crystal-clear playback\nAn unforgettable gift format\nNo computer required",
+            "button_text": "Shop Now",
+            "button_link": ""
+          }
+        },
+        "experience_card_pEAEPB": {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "highlight",
+            "top_badge": "Signature",
+            "icon_name": "mdi:book-open-page-variant-outline",
+            "subtitle": "Classic",
+            "title": "Visual Book",
+            "features": "Direct USB computer connection\nSimple drag-and-drop curation\nPresented in a luxury gift box\nFree bespoke pre-loading service\nComplimentary video formatting tool",
+            "button_text": "Shop Classic",
+            "button_link": ""
+          }
+        },
+        "experience_card_9aaAby": {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "disabled",
+            "top_badge": "Coming Soon",
+            "icon_name": "mdi:wifi",
+            "subtitle": "Smart",
+            "title": "Visual Book",
+            "features": "Dedicated free companion app\nWireless Wi-Fi connectivity\nInstant global sharing capabilities\nUnlimited secure cloud storage\nCollaborative family albums",
+            "button_text": "Join Waitlist",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "classic_step_t4FXrY",
+        "classic_step_8MeELr",
+        "classic_step_yBGMFV",
+        "classic_step_W7Rhd8",
+        "audio_step_7V46rz",
+        "audio_step_wmEXnM",
+        "audio_step_HFdNW3",
+        "smart_step_hJLqWt",
+        "smart_step_LHpMT7",
+        "smart_step_3WGfgA",
+        "experience_card_kNqj7i",
+        "experience_card_pEAEPB",
+        "experience_card_9aaAby"
+      ],
+      "name": "How It Works - Journey",
+      "settings": {
+        "classic_heading": "Classic Visual Book",
+        "audio_heading": "Audio Greetings Card",
+        "smart_heading": "Smart Visual Book",
+        "smart_badge": "Coming Soon",
+        "tiers_subheading": "Choose Your Experience",
+        "tiers_heading_1": "Three Ways to",
+        "tiers_heading_2": "Remember"
+      }
     }
   },
   "order": [
     "how_it_works_hero_At4fwT",
-    "how_it_works_journey_qMGC9m",
+    "how_it_works_journey_FpKBAx",
     "shop",
     "how_it_works_support_rhThdj"
   ]

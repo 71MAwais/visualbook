@@ -12,12 +12,29 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "visual_track_rKJLyd": {
+      "type": "visual-track",
+      "name": "Track Order Page",
+      "settings": {
+        "subheading": "Order Status",
+        "description": "Enter your tracking number or order details below to see the latest updates on your Visual Book’s journey.",
+        "tracking_html": "",
+        "contact_link": ""
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_track_rKJLyd"
   ]
 }

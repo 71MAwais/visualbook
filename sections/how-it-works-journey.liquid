@@ -22,301 +22,176 @@
 </style>
 
 <div class="vb-journey">
+  
+  {%- comment -%} ================= CLASSIC VISUAL BOOK ================= {%- endcomment -%}
   <section id="classic" class="py-32 bg-white">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12">
       <div class="mb-20 flex flex-col items-center text-center">
-        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">Classic Visual Book</h2>
+        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">{{ section.settings.classic_heading }}</h2>
         <div class="h-px w-16 reveal delay-100" style="background-color: #c4b09e;"></div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
         
-        <div class="reveal step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-stone rounded-2xl h-56 mb-8 flex items-center justify-center p-6 transition-colors duration-500">
-            <svg viewBox="0 0 200 100" class="w-full h-full line-art">
-              <rect x="20" y="25" width="60" height="40" rx="2" />
-              <rect x="25" y="30" width="50" height="30" />
-              <path d="M10 65 L90 65 L90 68 L10 68 Z" fill="#1a1a1a" stroke="none" />
-              <path d="M85 66 L110 66 L110 45 L120 45" />
-              <rect x="120" y="25" width="60" height="40" />
-              <path d="M150 25 L150 65" />
-              <rect x="155" y="35" width="20" height="15" />
-              <circle cx="158" cy="58" r="1" fill="#1a1a1a"/><circle cx="162" cy="58" r="1" fill="#1a1a1a"/><circle cx="166" cy="58" r="1" fill="#1a1a1a"/><circle cx="170" cy="58" r="1" fill="#1a1a1a"/>
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block">Step 01</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium">Connect</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">To setup your Classic Visual Book, seamlessly connect it to your computer using the provided USB cable.</p>
-        </div>
-
-        <div class="reveal delay-100 step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-stone rounded-2xl h-56 mb-8 flex items-center justify-center p-6 transition-colors duration-500">
-            <svg viewBox="0 0 200 100" class="w-full h-full line-art">
-              <rect x="50" y="25" width="90" height="50" />
-              <path d="M95 25 L95 75" />
-              <rect x="105" y="35" width="30" height="20" />
-              <path d="M110 40 L110 50 L115 50 L115 40 Z" />
-              <path d="M110 42 L115 42 M110 45 L115 45 M110 48 L115 48" />
-              <path d="M118 42 L128 42 L128 50 L118 50 Z" />
-              <path d="M118 50 L123 45 L128 48" />
-              <circle cx="108" cy="65" r="1.5" fill="#1a1a1a"/><circle cx="114" cy="65" r="1.5" fill="#1a1a1a"/><circle cx="120" cy="65" r="1.5" fill="#1a1a1a"/><circle cx="126" cy="65" r="1.5" fill="#1a1a1a"/><circle cx="132" cy="65" r="1.5" fill="#1a1a1a"/>
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block">Step 02</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium">Curate</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">Sort photos and videos into folders. Add, delete, or organize your cherished content with effortless drag-and-drop.</p>
-        </div>
-
-        <div class="reveal delay-200 step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-stone rounded-2xl h-56 mb-8 flex items-center justify-center p-6 transition-colors duration-500">
-            <svg viewBox="0 0 200 100" class="w-full h-full line-art">
-              <rect x="70" y="45" width="50" height="40" rx="2" />
-              <rect x="68" y="35" width="54" height="10" rx="1" />
-              <path d="M95 35 L95 85" />
-              <path d="M95 35 C 80 15, 60 25, 90 35" />
-              <path d="M95 35 C 110 15, 130 25, 100 35" />
-              <rect x="50" y="10" width="40" height="20" transform="rotate(-15 70 20)" />
-              <text x="56" y="22" font-size="3" fill="#1a1a1a" stroke="none" transform="rotate(-15 70 20)" font-family="sans-serif">THE VISUAL BOOK</text>
-              <path d="M115 45 L118 52 L125 52 L119 57 L121 64 L115 60 L109 64 L111 57 L105 52 L112 52 Z" stroke="none" fill="#1a1a1a" opacity="0.1"/>
-              <path d="M60 40 L62 44 L66 44 L63 47 L64 51 L60 49 L56 51 L57 47 L54 44 L58 44 Z" transform="scale(0.7) translate(30, 20)" stroke="none" fill="#1a1a1a" opacity="0.1"/>
-              <path d="M100 10 L102 14 L106 14 L103 17 L104 21 L100 19 L96 21 L97 17 L94 14 L98 14 Z" transform="scale(0.8) translate(10, 0)" stroke="none" fill="#1a1a1a" opacity="0.1"/>
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block">Step 03</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium">Gift-Ready</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">Opt for our complimentary pre-loading service. Your Book arrives in our signature box, ready to showcase memories instantly.</p>
-        </div>
-
-        <div class="reveal delay-300 step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-stone rounded-2xl h-56 mb-8 flex items-center justify-center p-6 transition-colors duration-500">
-            <svg viewBox="0 0 200 100" class="w-full h-full line-art">
-              <rect x="40" y="25" width="100" height="50" />
-              <path d="M90 25 L90 75" />
-              <rect x="100" y="32" width="30" height="20" />
-              <path d="M110 37 L120 42 L110 47 Z" fill="#1a1a1a" stroke="none"/>
-              <circle cx="104" cy="63" r="1.5" fill="#1a1a1a"/><circle cx="110" cy="63" r="1.5" fill="#1a1a1a"/><circle cx="116" cy="63" r="1.5" fill="#1a1a1a"/><circle cx="122" cy="63" r="1.5" fill="#1a1a1a"/><circle cx="128" cy="63" r="1.5" fill="#1a1a1a"/>
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block">Support</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium">Video Formatting</h3>
-          <p class="text-sm text-muted leading-relaxed font-light mb-4">Ensure flawless playback. Use our built-in converter to instantly optimize any video file for your Visual Book.</p>
-          <button id="openModalBtn" class="flex items-center gap-2 text-[11px] uppercase tracking-widest text-black font-semibold group mt-auto hover:opacity-70 transition-colors">
-            Use Converter <span class="iconify group-hover:translate-x-1 transition-transform" data-icon="mdi:arrow-right"></span>
-          </button>
-        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'classic_step' %}
+            <div class="reveal step-card flex flex-col cursor-default" style="transition-delay: {{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+              <div class="line-art-container bg-stone rounded-2xl h-56 mb-8 flex items-center justify-center p-6 transition-colors duration-500 overflow-hidden relative">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: class: 'w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105', loading: 'lazy' }}
+                {% elsif block.settings.custom_svg != blank %}
+                  {{ block.settings.custom_svg }}
+                {% endif %}
+              </div>
+              <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block">{{ block.settings.step_label }}</span>
+              <h3 class="font-serif text-xl mb-3 text-black font-medium">{{ block.settings.title }}</h3>
+              <p class="text-sm text-muted leading-relaxed font-light {% if block.settings.button_text != blank %}mb-4{% endif %}">{{ block.settings.text }}</p>
+              
+              {% if block.settings.button_text != blank %}
+                <a href="{{ block.settings.button_link }}" class="flex items-center gap-2 text-[11px] uppercase tracking-widest text-black font-semibold group mt-auto hover:opacity-70 transition-colors">
+                  {{ block.settings.button_text }} <span class="iconify group-hover:translate-x-1 transition-transform" data-icon="mdi:arrow-right"></span>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        
       </div>
     </div>
   </section>
 
+  {%- comment -%} ================= AUDIO GREETINGS CARD ================= {%- endcomment -%}
   <section id="audio" class="py-32 bg-offWhite border-t-custom">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12">
       <div class="mb-20 flex flex-col items-center text-center">
-        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">Audio Greetings Card</h2>
+        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">{{ section.settings.audio_heading }}</h2>
         <div class="h-px w-16 reveal delay-100" style="background-color: #c4b09e;"></div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-        <div class="reveal step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-white rounded-2xl h-64 mb-8 flex items-end justify-center p-6 border-custom shadow-luxury transition-all duration-500">
-            <svg viewBox="0 0 200 150" class="w-full h-full line-art">
-              <rect x="30" y="40" width="130" height="90" fill="#fcfcfc"/>
-              <path d="M95 40 L95 130" />
-              <rect x="40" y="50" width="45" height="70" rx="2" />
-              <text x="43" y="58" font-size="4" fill="#1a1a1a" stroke="none" font-family="sans-serif">To:</text>
-              <text x="70" y="115" font-size="4" fill="#1a1a1a" stroke="none" font-family="sans-serif">From:</text>
-              <circle cx="125" cy="70" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="120" cy="73" r="1" fill="#1a1a1a" stroke="none"/><circle cx="130" cy="73" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="125" cy="76" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="110" cy="110" r="4" />
-              <text x="106" y="111" font-size="3" fill="#1a1a1a" stroke="none" font-family="sans-serif">PLAY</text>
-              <circle cx="140" cy="110" r="4" />
-              <text x="136" y="111" font-size="3" fill="#1a1a1a" stroke="none" font-family="sans-serif">REC</text>
-              <path d="M142 110 L142 125 C142 127 140 128 138 128 L135 128 L135 145 C135 150 145 150 150 145 L150 130 C155 130 155 120 150 120 C150 115 145 110 142 110" fill="#ffffff" stroke="#1a1a1a"/>
-              <path d="M138 128 L142 128" />
-              <path d="M145 125 L145 130" />
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block text-center">Step 01</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium text-center">Press & Speak</h3>
-          <p class="text-sm text-muted leading-relaxed font-light text-center px-4">Simply hold down the record button and capture your heartfelt message.</p>
-        </div>
-        <div class="reveal delay-100 step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-white rounded-2xl h-64 mb-8 flex items-end justify-center p-6 border-custom shadow-luxury transition-all duration-500">
-            <svg viewBox="0 0 200 150" class="w-full h-full line-art">
-              <rect x="30" y="40" width="130" height="90" fill="#fcfcfc"/>
-              <path d="M95 40 L95 130" />
-              <rect x="40" y="50" width="45" height="70" rx="2" />
-              <text x="43" y="58" font-size="4" fill="#1a1a1a" stroke="none" font-family="sans-serif">To:</text>
-              <path d="M110 85 L110 65 M115 90 L115 60 M120 95 L120 55 M125 100 L125 50 M130 95 L130 55 M135 90 L135 60 M140 85 L140 65" stroke="#c4b09e" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="110" cy="110" r="4" />
-              <text x="106" y="111" font-size="3" fill="#1a1a1a" stroke="none" font-family="sans-serif">PLAY</text>
-              <circle cx="140" cy="110" r="4" fill="#c4b09e" stroke="none"/>
-              <text x="136" y="111" font-size="3" fill="#fff" stroke="none" font-family="sans-serif">REC</text>
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block text-center">Step 02</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium text-center">Capture Audio</h3>
-          <p class="text-sm text-muted leading-relaxed font-light text-center px-4">The built-in microphone records crisp, clear audio up to 60 seconds long.</p>
-        </div>
-        <div class="reveal delay-200 step-card flex flex-col cursor-default">
-          <div class="line-art-container bg-white rounded-2xl h-64 mb-8 flex items-end justify-center p-6 border-custom shadow-luxury transition-all duration-500">
-            <svg viewBox="0 0 200 150" class="w-full h-full line-art">
-              <rect x="30" y="40" width="130" height="90" fill="#fcfcfc"/>
-              <path d="M95 40 L95 130" />
-              <rect x="40" y="50" width="45" height="70" rx="2" />
-              <text x="43" y="58" font-size="4" fill="#1a1a1a" stroke="none" font-family="sans-serif">To:</text>
-              <text x="70" y="115" font-size="4" fill="#1a1a1a" stroke="none" font-family="sans-serif">From:</text>
-              <circle cx="125" cy="70" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="120" cy="73" r="1" fill="#1a1a1a" stroke="none"/><circle cx="130" cy="73" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="125" cy="76" r="1" fill="#1a1a1a" stroke="none"/>
-              <circle cx="110" cy="110" r="4" />
-              <text x="106" y="111" font-size="3" fill="#1a1a1a" stroke="none" font-family="sans-serif">PLAY</text>
-              <circle cx="140" cy="110" r="4" />
-              <text x="136" y="111" font-size="3" fill="#1a1a1a" stroke="none" font-family="sans-serif">REC</text>
-              <path d="M112 110 L112 125 C112 127 110 128 108 128 L105 128 L105 145 C105 150 115 150 120 145 L120 130 C125 130 125 120 120 120 C120 115 115 110 112 110" fill="#ffffff" stroke="#1a1a1a"/>
-              <path d="M108 128 L112 128" />
-              <path d="M115 125 L115 130" />
-            </svg>
-          </div>
-          <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block text-center">Step 03</span>
-          <h3 class="font-serif text-xl mb-3 text-black font-medium text-center">Listen & Relive</h3>
-          <p class="text-sm text-muted leading-relaxed font-light text-center px-4">Press play to listen. Not quite right? You can re-record infinitely until it's perfect.</p>
-        </div>
+        
+        {% for block in section.blocks %}
+          {% if block.type == 'audio_step' %}
+            <div class="reveal step-card flex flex-col cursor-default" style="transition-delay: {{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+              <div class="line-art-container bg-white rounded-2xl h-64 mb-8 flex items-end justify-center p-6 border-custom shadow-luxury transition-all duration-500 overflow-hidden relative">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: class: 'w-full h-full object-contain transition-transform duration-500 group-hover:scale-105', loading: 'lazy' }}
+                {% elsif block.settings.custom_svg != blank %}
+                  {{ block.settings.custom_svg }}
+                {% endif %}
+              </div>
+              <span class="text-[10px] tracking-[0.2em] uppercase text-gold font-semibold mb-3 block text-center">{{ block.settings.step_label }}</span>
+              <h3 class="font-serif text-xl mb-3 text-black font-medium text-center">{{ block.settings.title }}</h3>
+              <p class="text-sm text-muted leading-relaxed font-light text-center px-4">{{ block.settings.text }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+
       </div>
     </div>
   </section>
 
+  {%- comment -%} ================= SMART VISUAL BOOK ================= {%- endcomment -%}
   <section id="smart" class="py-32 bg-white border-t-custom">
     <div class="max-w-[1400px] mx-auto px-6 md:px-12">
       <div class="mb-16 flex flex-col items-center text-center">
-        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">Smart Visual Book</h2>
-        <span class="reveal delay-100 text-[10px] font-semibold tracking-[0.3em] uppercase text-muted block mb-4">Coming Soon</span>
+        <h2 class="reveal font-serif text-3xl md:text-4xl text-black tracking-wide font-medium mb-4">{{ section.settings.smart_heading }}</h2>
+        {% if section.settings.smart_badge != blank %}
+          <span class="reveal delay-100 text-[10px] font-semibold tracking-[0.3em] uppercase text-muted block mb-4">{{ section.settings.smart_badge }}</span>
+        {% endif %}
         <div class="h-px w-16 reveal delay-200" style="background-color: #c4b09e;"></div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="reveal step-card bg-offWhite p-12 flex flex-col items-center text-center rounded-2xl border-custom hover-shadow-luxury transition-shadow duration-500">
-          <div class="h-40 w-full mb-8 flex items-center justify-center">
-             <svg viewBox="0 0 200 200" class="w-full h-full line-art">
-              <rect x="80" y="50" width="50" height="90" rx="4" transform="rotate(20 105 95)" fill="#ffffff" />
-              <rect x="85" y="55" width="40" height="80" rx="2" transform="rotate(20 105 95)" />
-              <rect x="95" y="80" width="20" height="20" rx="2" transform="rotate(20 105 95)" fill="#c4b09e" stroke="none" />
-              <path d="M102 85 L102 95 L110 90 Z" transform="rotate(20 105 95)" fill="#fff" stroke="none" />
-              <path d="M80 140 C 60 130, 60 100, 80 80 C 85 75, 90 85, 80 95 C 75 100, 75 110, 85 120" />
-              <path d="M110 135 C 130 140, 140 120, 120 110" />
-              <path d="M115 120 C 130 125, 135 105, 120 100" />
-              <path d="M120 105 C 130 110, 135 90, 125 85" />
-              <path d="M110 85 C 115 80, 130 90, 115 100" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-2xl mb-4 text-black font-medium">Download App</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">Get the free companion application on your smartphone or tablet for total control.</p>
-        </div>
-        <div class="reveal delay-100 step-card bg-offWhite p-12 flex flex-col items-center text-center rounded-2xl border-custom hover-shadow-luxury transition-shadow duration-500">
-          <div class="h-40 w-full mb-8 flex items-center justify-center">
-             <svg viewBox="0 0 200 200" class="w-full h-full line-art">
-              <rect x="30" y="80" width="80" height="50" fill="#ffffff" />
-              <path d="M70 80 L70 130" />
-              <rect x="75" y="85" width="30" height="25" />
-              <circle cx="78" cy="120" r="1.5" fill="#1a1a1a"/><circle cx="84" cy="120" r="1.5" fill="#1a1a1a"/><circle cx="90" cy="120" r="1.5" fill="#1a1a1a"/><circle cx="96" cy="120" r="1.5" fill="#1a1a1a"/>
-              <path d="M125 75 Q 110 50 85 65" stroke="#c4b09e" stroke-dasharray="4,4" />
-              <path d="M85 65 L92 60 M85 65 L90 70" stroke="#c4b09e"/>
-              <rect x="130" y="60" width="30" height="55" rx="3" transform="rotate(-15 145 87)" fill="#ffffff" />
-              <rect x="133" y="63" width="24" height="49" rx="2" transform="rotate(-15 145 87)" />
-              <path d="M130 110 C 120 100, 110 100, 120 85" />
-              <path d="M140 115 C 160 120, 160 100, 150 95" />
-              <path d="M145 105 C 160 110, 160 90, 155 85" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-2xl mb-4 text-black font-medium">Sync Seamlessly</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">Follow guided steps to connect to Wi-Fi and wirelessly transfer your memories in seconds.</p>
-        </div>
-        <div class="reveal delay-200 step-card bg-offWhite p-12 flex flex-col items-center text-center rounded-2xl border-custom hover-shadow-luxury transition-shadow duration-500">
-          <div class="h-40 w-full mb-8 flex items-center justify-center">
-            <svg viewBox="0 0 200 200" class="w-full h-full line-art">
-              <circle cx="100" cy="100" r="45" fill="#ffffff" />
-              <path d="M100 55 C 120 55, 120 145, 100 145" stroke-width="0.8" opacity="0.5"/>
-              <path d="M100 55 C 80 55, 80 145, 100 145" stroke-width="0.8" opacity="0.5"/>
-              <path d="M55 100 L145 100" stroke-width="0.8" opacity="0.5"/>
-              <path d="M90 75 L120 70 L115 110 L90 75" stroke="#c4b09e" stroke-dasharray="2,2" />
-              <circle cx="90" cy="75" r="6" fill="#ffffff"/>
-              <circle cx="90" cy="73" r="1.5" fill="#1a1a1a" stroke="none"/>
-              <path d="M87 78 C 87 76, 93 76, 93 78" />
-              <circle cx="115" cy="110" r="6" fill="#ffffff"/>
-              <circle cx="115" cy="108" r="1.5" fill="#1a1a1a" stroke="none"/>
-              <path d="M112 113 C 112 111, 118 111, 118 113" />
-              <circle cx="120" cy="70" r="8" fill="#ffffff"/>
-              <rect x="116" y="67" width="8" height="6" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-2xl mb-4 text-black font-medium">Share Globally</h3>
-          <p class="text-sm text-muted leading-relaxed font-light">Invite family to contribute directly to your Book from anywhere in the world, effortlessly.</p>
-        </div>
+        
+        {% for block in section.blocks %}
+          {% if block.type == 'smart_step' %}
+            <div class="reveal step-card bg-offWhite p-12 flex flex-col items-center text-center rounded-2xl border-custom hover-shadow-luxury transition-shadow duration-500" style="transition-delay: {{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+              <div class="h-40 w-full mb-8 flex items-center justify-center overflow-hidden">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: class: 'w-full h-full object-contain transition-transform duration-500 group-hover:scale-105', loading: 'lazy' }}
+                {% elsif block.settings.custom_svg != blank %}
+                  {{ block.settings.custom_svg }}
+                {% endif %}
+              </div>
+              <h3 class="font-serif text-2xl mb-4 text-black font-medium">{{ block.settings.title }}</h3>
+              <p class="text-sm text-muted leading-relaxed font-light">{{ block.settings.text }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+
       </div>
     </div>
   </section>
 
+  {%- comment -%} ================= CHOOSE YOUR EXPERIENCE ================= {%- endcomment -%}
   <section class="py-32 bg-stone text-black relative overflow-hidden">
     <div class="absolute top-0 right-0 w-[800px] h-[800px] opacity-10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none" style="background-color: #eaddcf;"></div>
     
     <div class="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
       <div class="text-center mb-24">
-        <span class="reveal block text-[10px] font-semibold tracking-[0.3em] uppercase text-gold mb-4">Choose Your Experience</span>
+        <span class="reveal block text-[10px] font-semibold tracking-[0.3em] uppercase text-gold mb-4">{{ section.settings.tiers_subheading }}</span>
         <h2 class="reveal delay-100 font-serif text-5xl md:text-6xl text-black">
-          Three Ways to <span class="italic text-gold font-light">Remember</span>
+          {{ section.settings.tiers_heading_1 }} <span class="italic text-gold font-light">{{ section.settings.tiers_heading_2 }}</span>
         </h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
         
-        <div class="reveal flex flex-col bg-white rounded-3xl p-10 shadow-luxury border-custom hover-shadow-luxury transition-shadow duration-500">
-          <div class="w-14 h-14 rounded-full bg-offWhite border-custom flex items-center justify-center mb-8">
-            <span class="iconify text-gold text-2xl" data-icon="mdi:microphone-outline"></span>
-          </div>
-          <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold mb-2 block">Audio</span>
-          <h3 class="font-serif text-3xl text-black mb-8">Greetings Card</h3>
-          <ul class="space-y-4 mb-12 flex-1">
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> One-button intuitive recording</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Infinite re-recordability</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Instant, crystal-clear playback</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> An unforgettable gift format</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> No computer required</li>
-          </ul>
-          <button class="w-full py-4 rounded bg-white text-black text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors" style="border: 1px solid #1a1a1a;" onmouseover="this.style.backgroundColor='#1a1a1a'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='#fff'; this.style.color='#1a1a1a';">Shop Now</button>
-        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'experience_card' %}
+            
+            {%- comment -%} Styling logic based on card_style {%- endcomment -%}
+            {% assign card_classes = "bg-white rounded-3xl p-10 border-custom transition-shadow duration-500 relative flex flex-col" %}
+            {% assign button_classes = "w-full py-4 rounded text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors text-center block" %}
+            
+            {% if block.settings.card_style == 'highlight' %}
+              {% assign card_classes = card_classes | append: " transform md:-translate-y-6" %}
+              {% assign button_classes = button_classes | append: " bg-[#1a1a1a] text-white hover:bg-[#333]" %}
+            {% elsif block.settings.card_style == 'disabled' %}
+              {% assign card_classes = card_classes | append: " shadow-luxury hover-shadow-luxury" %}
+              {% assign button_classes = button_classes | append: " bg-white text-muted border border-[#eaeaea] hover:border-[#1a1a1a] hover:text-[#1a1a1a]" %}
+            {% else %}
+              {% assign card_classes = card_classes | append: " shadow-luxury hover-shadow-luxury" %}
+              {% assign button_classes = button_classes | append: " bg-white text-black border border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white" %}
+            {% endif %}
 
-        <div class="reveal delay-100 flex flex-col bg-white rounded-3xl p-10 border-custom relative transform md:-translate-y-6" style="box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08);">
-          <div class="absolute top-8 right-8 text-[9px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full text-gold" style="background-color: rgba(196,176,158,0.1); border: 1px solid rgba(196,176,158,0.2);">Signature</div>
-          <div class="w-14 h-14 rounded-full bg-offWhite border-custom flex items-center justify-center mb-8">
-            <span class="iconify text-gold text-2xl" data-icon="mdi:book-open-page-variant-outline"></span>
-          </div>
-          <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold mb-2 block">Classic</span>
-          <h3 class="font-serif text-3xl text-black mb-8">Visual Book</h3>
-          <ul class="space-y-4 mb-12 flex-1">
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Direct USB computer connection</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Simple drag-and-drop curation</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Presented in a luxury gift box</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Free bespoke pre-loading service</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Complimentary video formatting tool</li>
-          </ul>
-          <button class="w-full py-4 rounded text-white text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors" style="background-color: #1a1a1a;" onmouseover="this.style.backgroundColor='#333';" onmouseout="this.style.backgroundColor='#1a1a1a';">Shop Classic</button>
-        </div>
+            <div class="reveal {{ card_classes }}" style="transition-delay: {{ forloop.index0 | times: 100 }}ms; {% if block.settings.card_style == 'highlight' %}box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08);{% endif %}" {{ block.shopify_attributes }}>
+              
+              {% if block.settings.top_badge != blank %}
+                {% if block.settings.card_style == 'highlight' %}
+                  <div class="absolute top-8 right-8 text-[9px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full text-gold" style="background-color: rgba(196,176,158,0.1); border: 1px solid rgba(196,176,158,0.2);">{{ block.settings.top_badge }}</div>
+                {% else %}
+                  <div class="absolute top-8 right-8 text-[9px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full" style="background-color: #f3f4f6; color: #6b7280;">{{ block.settings.top_badge }}</div>
+                {% endif %}
+              {% endif %}
 
-        <div class="reveal delay-200 flex flex-col bg-white rounded-3xl p-10 shadow-luxury border-custom relative hover-shadow-luxury transition-shadow duration-500">
-          <div class="absolute top-8 right-8 text-[9px] font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full" style="background-color: #f3f4f6; color: #6b7280;">Coming Soon</div>
-          <div class="w-14 h-14 rounded-full bg-offWhite border-custom flex items-center justify-center mb-8">
-            <span class="iconify text-gold text-2xl" data-icon="mdi:wifi"></span>
-          </div>
-          <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold mb-2 block">Smart</span>
-          <h3 class="font-serif text-3xl text-black mb-8">Visual Book</h3>
-          <ul class="space-y-4 mb-12 flex-1">
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Dedicated free companion app</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Wireless Wi-Fi connectivity</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Instant global sharing capabilities</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Unlimited secure cloud storage</li>
-            <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed"><span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> Collaborative family albums</li>
-          </ul>
-          <button class="w-full py-4 rounded bg-white text-muted text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors" style="border: 1px solid #eaeaea;" onmouseover="this.style.borderColor='#1a1a1a'; this.style.color='#1a1a1a';" onmouseout="this.style.borderColor='#eaeaea'; this.style.color='#737373';">Join Waitlist</button>
-        </div>
+              <div class="w-14 h-14 rounded-full bg-offWhite border-custom flex items-center justify-center mb-8">
+                <span class="iconify text-gold text-2xl" data-icon="{{ block.settings.icon_name }}"></span>
+              </div>
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold mb-2 block">{{ block.settings.subtitle }}</span>
+              <h3 class="font-serif text-3xl text-black mb-8">{{ block.settings.title }}</h3>
+              
+              <ul class="space-y-4 mb-12 flex-1">
+                {% assign features = block.settings.features | newline_to_br | split: '<br />' %}
+                {% for feature in features %}
+                  {% assign clean_feature = feature | strip %}
+                  {% if clean_feature != blank %}
+                    <li class="flex items-start gap-3 text-[13px] text-muted font-light leading-relaxed">
+                      <span class="iconify text-gold text-lg flex-shrink-0 mt-0.5" data-icon="mdi:check"></span> {{ clean_feature }}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+              
+              <a href="{{ block.settings.button_link }}" class="{{ button_classes }}">
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+
+          {% endif %}
+        {% endfor %}
+
       </div>
     </div>
   </section>
+
 </div>
 
 <script>
@@ -338,10 +213,197 @@
 {% schema %}
 {
   "name": "How It Works - Journey",
-  "settings": [],
+  "settings": [
+    { "type": "header", "content": "Classic Section" },
+    { "type": "text", "id": "classic_heading", "label": "Heading", "default": "Classic Visual Book" },
+    { "type": "header", "content": "Audio Section" },
+    { "type": "text", "id": "audio_heading", "label": "Heading", "default": "Audio Greetings Card" },
+    { "type": "header", "content": "Smart Section" },
+    { "type": "text", "id": "smart_heading", "label": "Heading", "default": "Smart Visual Book" },
+    { "type": "text", "id": "smart_badge", "label": "Badge Text", "default": "Coming Soon" },
+    { "type": "header", "content": "Tiers Section" },
+    { "type": "text", "id": "tiers_subheading", "label": "Subheading", "default": "Choose Your Experience" },
+    { "type": "text", "id": "tiers_heading_1", "label": "Heading Part 1", "default": "Three Ways to" },
+    { "type": "text", "id": "tiers_heading_2", "label": "Heading Part 2 (Italic)", "default": "Remember" }
+  ],
+  "blocks": [
+    {
+      "type": "classic_step",
+      "name": "Classic Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Upload Image" },
+        { "type": "html", "id": "custom_svg", "label": "Custom SVG (Overrides Image if blank)" },
+        { "type": "text", "id": "step_label", "label": "Step Label" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" },
+        { "type": "text", "id": "button_text", "label": "Button Text" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
+      ]
+    },
+    {
+      "type": "audio_step",
+      "name": "Audio Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Upload Image" },
+        { "type": "html", "id": "custom_svg", "label": "Custom SVG" },
+        { "type": "text", "id": "step_label", "label": "Step Label" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "smart_step",
+      "name": "Smart Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Upload Image" },
+        { "type": "html", "id": "custom_svg", "label": "Custom SVG" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "experience_card",
+      "name": "Experience Card",
+      "settings": [
+        { "type": "select", "id": "card_style", "label": "Style", "options": [ { "value": "basic", "label": "Basic" }, { "value": "highlight", "label": "Highlight" }, { "value": "disabled", "label": "Disabled/Coming Soon" } ], "default": "basic" },
+        { "type": "text", "id": "top_badge", "label": "Top Badge" },
+        { "type": "text", "id": "icon_name", "label": "Iconify Icon Name" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "features", "label": "Features (One per line)" },
+        { "type": "text", "id": "button_text", "label": "Button Text" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "How It Works - Journey"
+      "name": "How It Works - Journey",
+      "blocks": [
+        {
+          "type": "classic_step",
+          "settings": {
+            "step_label": "Step 01",
+            "title": "Connect",
+            "text": "To setup your Classic Visual Book, seamlessly connect it to your computer using the provided USB cable.",
+            "custom_svg": "<svg viewBox='0 0 200 100' class='w-full h-full line-art'><rect x='20' y='25' width='60' height='40' rx='2' /><rect x='25' y='30' width='50' height='30' /><path d='M10 65 L90 65 L90 68 L10 68 Z' fill='#1a1a1a' stroke='none' /><path d='M85 66 L110 66 L110 45 L120 45' /><rect x='120' y='25' width='60' height='40' /><path d='M150 25 L150 65' /><rect x='155' y='35' width='20' height='15' /><circle cx='158' cy='58' r='1' fill='#1a1a1a'/><circle cx='162' cy='58' r='1' fill='#1a1a1a'/><circle cx='166' cy='58' r='1' fill='#1a1a1a'/><circle cx='170' cy='58' r='1' fill='#1a1a1a'/></svg>"
+          }
+        },
+        {
+          "type": "classic_step",
+          "settings": {
+            "step_label": "Step 02",
+            "title": "Curate",
+            "text": "Sort photos and videos into folders. Add, delete, or organize your cherished content with effortless drag-and-drop.",
+            "custom_svg": "<svg viewBox='0 0 200 100' class='w-full h-full line-art'><rect x='50' y='25' width='90' height='50' /><path d='M95 25 L95 75' /><rect x='105' y='35' width='30' height='20' /><path d='M110 40 L110 50 L115 50 L115 40 Z' /><path d='M110 42 L115 42 M110 45 L115 45 M110 48 L115 48' /><path d='M118 42 L128 42 L128 50 L118 50 Z' /><path d='M118 50 L123 45 L128 48' /><circle cx='108' cy='65' r='1.5' fill='#1a1a1a'/><circle cx='114' cy='65' r='1.5' fill='#1a1a1a'/><circle cx='120' cy='65' r='1.5' fill='#1a1a1a'/><circle cx='126' cy='65' r='1.5' fill='#1a1a1a'/><circle cx='132' cy='65' r='1.5' fill='#1a1a1a'/></svg>"
+          }
+        },
+        {
+          "type": "classic_step",
+          "settings": {
+            "step_label": "Step 03",
+            "title": "Gift-Ready",
+            "text": "Opt for our complimentary pre-loading service. Your Book arrives in our signature box, ready to showcase memories instantly.",
+            "custom_svg": "<svg viewBox='0 0 200 100' class='w-full h-full line-art'><rect x='70' y='45' width='50' height='40' rx='2' /><rect x='68' y='35' width='54' height='10' rx='1' /><path d='M95 35 L95 85' /><path d='M95 35 C 80 15, 60 25, 90 35' /><path d='M95 35 C 110 15, 130 25, 100 35' /><rect x='50' y='10' width='40' height='20' transform='rotate(-15 70 20)' /><text x='56' y='22' font-size='3' fill='#1a1a1a' stroke='none' transform='rotate(-15 70 20)' font-family='sans-serif'>THE VISUAL BOOK</text><path d='M115 45 L118 52 L125 52 L119 57 L121 64 L115 60 L109 64 L111 57 L105 52 L112 52 Z' stroke='none' fill='#1a1a1a' opacity='0.1'/><path d='M60 40 L62 44 L66 44 L63 47 L64 51 L60 49 L56 51 L57 47 L54 44 L58 44 Z' transform='scale(0.7) translate(30, 20)' stroke='none' fill='#1a1a1a' opacity='0.1'/><path d='M100 10 L102 14 L106 14 L103 17 L104 21 L100 19 L96 21 L97 17 L94 14 L98 14 Z' transform='scale(0.8) translate(10, 0)' stroke='none' fill='#1a1a1a' opacity='0.1'/></svg>"
+          }
+        },
+        {
+          "type": "classic_step",
+          "settings": {
+            "step_label": "Support",
+            "title": "Video Formatting",
+            "text": "Ensure flawless playback. Use our built-in converter to instantly optimize any video file for your Visual Book.",
+            "button_text": "Use Converter",
+            "custom_svg": "<svg viewBox='0 0 200 100' class='w-full h-full line-art'><rect x='40' y='25' width='100' height='50' /><path d='M90 25 L90 75' /><rect x='100' y='32' width='30' height='20' /><path d='M110 37 L120 42 L110 47 Z' fill='#1a1a1a' stroke='none'/><circle cx='104' cy='63' r='1.5' fill='#1a1a1a'/><circle cx='110' cy='63' r='1.5' fill='#1a1a1a'/><circle cx='116' cy='63' r='1.5' fill='#1a1a1a'/><circle cx='122' cy='63' r='1.5' fill='#1a1a1a'/><circle cx='128' cy='63' r='1.5' fill='#1a1a1a'/></svg>"
+          }
+        },
+        {
+          "type": "audio_step",
+          "settings": {
+            "step_label": "Step 01",
+            "title": "Press & Speak",
+            "text": "Simply hold down the record button and capture your heartfelt message.",
+            "custom_svg": "<svg viewBox='0 0 200 150' class='w-full h-full line-art'><rect x='30' y='40' width='130' height='90' fill='#fcfcfc'/><path d='M95 40 L95 130' /><rect x='40' y='50' width='45' height='70' rx='2' /><text x='43' y='58' font-size='4' fill='#1a1a1a' stroke='none' font-family='sans-serif'>To:</text><text x='70' y='115' font-size='4' fill='#1a1a1a' stroke='none' font-family='sans-serif'>From:</text><circle cx='125' cy='70' r='1' fill='#1a1a1a' stroke='none'/><circle cx='120' cy='73' r='1' fill='#1a1a1a' stroke='none'/><circle cx='130' cy='73' r='1' fill='#1a1a1a' stroke='none'/><circle cx='125' cy='76' r='1' fill='#1a1a1a' stroke='none'/><circle cx='110' cy='110' r='4' /><text x='106' y='111' font-size='3' fill='#1a1a1a' stroke='none' font-family='sans-serif'>PLAY</text><circle cx='140' cy='110' r='4' /><text x='136' y='111' font-size='3' fill='#1a1a1a' stroke='none' font-family='sans-serif'>REC</text><path d='M142 110 L142 125 C142 127 140 128 138 128 L135 128 L135 145 C135 150 145 150 150 145 L150 130 C155 130 155 120 150 120 C150 115 145 110 142 110' fill='#ffffff' stroke='#1a1a1a'/><path d='M138 128 L142 128' /><path d='M145 125 L145 130' /></svg>"
+          }
+        },
+        {
+          "type": "audio_step",
+          "settings": {
+            "step_label": "Step 02",
+            "title": "Capture Audio",
+            "text": "The built-in microphone records crisp, clear audio up to 60 seconds long.",
+            "custom_svg": "<svg viewBox='0 0 200 150' class='w-full h-full line-art'><rect x='30' y='40' width='130' height='90' fill='#fcfcfc'/><path d='M95 40 L95 130' /><rect x='40' y='50' width='45' height='70' rx='2' /><text x='43' y='58' font-size='4' fill='#1a1a1a' stroke='none' font-family='sans-serif'>To:</text><path d='M110 85 L110 65 M115 90 L115 60 M120 95 L120 55 M125 100 L125 50 M130 95 L130 55 M135 90 L135 60 M140 85 L140 65' stroke='#c4b09e' stroke-width='1.5' stroke-linecap='round'/><circle cx='110' cy='110' r='4' /><text x='106' y='111' font-size='3' fill='#1a1a1a' stroke='none' font-family='sans-serif'>PLAY</text><circle cx='140' cy='110' r='4' fill='#c4b09e' stroke='none'/><text x='136' y='111' font-size='3' fill='#fff' stroke='none' font-family='sans-serif'>REC</text></svg>"
+          }
+        },
+        {
+          "type": "audio_step",
+          "settings": {
+            "step_label": "Step 03",
+            "title": "Listen & Relive",
+            "text": "Press play to listen. Not quite right? You can re-record infinitely until it's perfect.",
+            "custom_svg": "<svg viewBox='0 0 200 150' class='w-full h-full line-art'><rect x='30' y='40' width='130' height='90' fill='#fcfcfc'/><path d='M95 40 L95 130' /><rect x='40' y='50' width='45' height='70' rx='2' /><text x='43' y='58' font-size='4' fill='#1a1a1a' stroke='none' font-family='sans-serif'>To:</text><text x='70' y='115' font-size='4' fill='#1a1a1a' stroke='none' font-family='sans-serif'>From:</text><circle cx='125' cy='70' r='1' fill='#1a1a1a' stroke='none'/><circle cx='120' cy='73' r='1' fill='#1a1a1a' stroke='none'/><circle cx='130' cy='73' r='1' fill='#1a1a1a' stroke='none'/><circle cx='125' cy='76' r='1' fill='#1a1a1a' stroke='none'/><circle cx='110' cy='110' r='4' /><text x='106' y='111' font-size='3' fill='#1a1a1a' stroke='none' font-family='sans-serif'>PLAY</text><circle cx='140' cy='110' r='4' /><text x='136' y='111' font-size='3' fill='#1a1a1a' stroke='none' font-family='sans-serif'>REC</text><path d='M112 110 L112 125 C112 127 110 128 108 128 L105 128 L105 145 C105 150 115 150 120 145 L120 130 C125 130 125 120 120 120 C120 115 115 110 112 110' fill='#ffffff' stroke='#1a1a1a'/><path d='M108 128 L112 128' /><path d='M115 125 L115 130' /></svg>"
+          }
+        },
+        {
+          "type": "smart_step",
+          "settings": {
+            "title": "Download App",
+            "text": "Get the free companion application on your smartphone or tablet for total control.",
+            "custom_svg": "<svg viewBox='0 0 200 200' class='w-full h-full line-art'><rect x='80' y='50' width='50' height='90' rx='4' transform='rotate(20 105 95)' fill='#ffffff' /><rect x='85' y='55' width='40' height='80' rx='2' transform='rotate(20 105 95)' /><rect x='95' y='80' width='20' height='20' rx='2' transform='rotate(20 105 95)' fill='#c4b09e' stroke='none' /><path d='M102 85 L102 95 L110 90 Z' transform='rotate(20 105 95)' fill='#fff' stroke='none' /><path d='M80 140 C 60 130, 60 100, 80 80 C 85 75, 90 85, 80 95 C 75 100, 75 110, 85 120' /><path d='M110 135 C 130 140, 140 120, 120 110' /><path d='M115 120 C 130 125, 135 105, 120 100' /><path d='M120 105 C 130 110, 135 90, 125 85' /><path d='M110 85 C 115 80, 130 90, 115 100' /></svg>"
+          }
+        },
+        {
+          "type": "smart_step",
+          "settings": {
+            "title": "Sync Seamlessly",
+            "text": "Follow guided steps to connect to Wi-Fi and wirelessly transfer your memories in seconds.",
+            "custom_svg": "<svg viewBox='0 0 200 200' class='w-full h-full line-art'><rect x='30' y='80' width='80' height='50' fill='#ffffff' /><path d='M70 80 L70 130' /><rect x='75' y='85' width='30' height='25' /><circle cx='78' cy='120' r='1.5' fill='#1a1a1a'/><circle cx='84' cy='120' r='1.5' fill='#1a1a1a'/><circle cx='90' cy='120' r='1.5' fill='#1a1a1a'/><circle cx='96' cy='120' r='1.5' fill='#1a1a1a'/><path d='M125 75 Q 110 50 85 65' stroke='#c4b09e' stroke-dasharray='4,4' /><path d='M85 65 L92 60 M85 65 L90 70' stroke='#c4b09e'/><rect x='130' y='60' width='30' height='55' rx='3' transform='rotate(-15 145 87)' fill='#ffffff' /><rect x='133' y='63' width='24' height='49' rx='2' transform='rotate(-15 145 87)' /><path d='M130 110 C 120 100, 110 100, 120 85' /><path d='M140 115 C 160 120, 160 100, 150 95' /><path d='M145 105 C 160 110, 160 90, 155 85' /></svg>"
+          }
+        },
+        {
+          "type": "smart_step",
+          "settings": {
+            "title": "Share Globally",
+            "text": "Invite family to contribute directly to your Book from anywhere in the world, effortlessly.",
+            "custom_svg": "<svg viewBox='0 0 200 200' class='w-full h-full line-art'><circle cx='100' cy='100' r='45' fill='#ffffff' /><path d='M100 55 C 120 55, 120 145, 100 145' stroke-width='0.8' opacity='0.5'/><path d='M100 55 C 80 55, 80 145, 100 145' stroke-width='0.8' opacity='0.5'/><path d='M55 100 L145 100' stroke-width='0.8' opacity='0.5'/><path d='M90 75 L120 70 L115 110 L90 75' stroke='#c4b09e' stroke-dasharray='2,2' /><circle cx='90' cy='75' r='6' fill='#ffffff'/><circle cx='90' cy='73' r='1.5' fill='#1a1a1a' stroke='none'/><path d='M87 78 C 87 76, 93 76, 93 78' /><circle cx='115' cy='110' r='6' fill='#ffffff'/><circle cx='115' cy='108' r='1.5' fill='#1a1a1a' stroke='none'/><path d='M112 113 C 112 111, 118 111, 118 113' /><circle cx='120' cy='70' r='8' fill='#ffffff'/><rect x='116' y='67' width='8' height='6' /></svg>"
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "basic",
+            "icon_name": "mdi:microphone-outline",
+            "subtitle": "Audio",
+            "title": "Greetings Card",
+            "features": "One-button intuitive recording\nInfinite re-recordability\nInstant, crystal-clear playback\nAn unforgettable gift format\nNo computer required",
+            "button_text": "Shop Now"
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "highlight",
+            "top_badge": "Signature",
+            "icon_name": "mdi:book-open-page-variant-outline",
+            "subtitle": "Classic",
+            "title": "Visual Book",
+            "features": "Direct USB computer connection\nSimple drag-and-drop curation\nPresented in a luxury gift box\nFree bespoke pre-loading service\nComplimentary video formatting tool",
+            "button_text": "Shop Classic"
+          }
+        },
+        {
+          "type": "experience_card",
+          "settings": {
+            "card_style": "disabled",
+            "top_badge": "Coming Soon",
+            "icon_name": "mdi:wifi",
+            "subtitle": "Smart",
+            "title": "Visual Book",
+            "features": "Dedicated free companion app\nWireless Wi-Fi connectivity\nInstant global sharing capabilities\nUnlimited secure cloud storage\nCollaborative family albums",
+            "button_text": "Join Waitlist"
+          }
+        }
+      ]
     }
   ]
 }

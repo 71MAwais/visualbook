@@ -12,21 +12,60 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
       }
     },
-    "visual_help_C89zcd": {
-      "type": "visual-help",
+    "visual_fa_qs_8haKR8": {
+      "type": "visual-FAQs",
+      "blocks": {
+        "faq_Raegmy": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+          }
+        },
+        "faq_NcaHnM": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+          }
+        },
+        "faq_d4AigA": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_Raegmy",
+        "faq_NcaHnM",
+        "faq_d4AigA"
+      ],
       "name": "Visual FAQ",
       "settings": {
         "subheading": "Support",
-        "title": "Common Questions"
+        "title": "Common Questions",
+        "show_contact": true,
+        "contact_heading": "Require assistance?",
+        "contact_text": "Our dedicated concierge team is available to ensure your Visual Book is perfectly curated and configured for your special moments.",
+        "contact_button_text": "Contact Concierge",
+        "contact_link": "shopify://pages/contact"
       }
     }
   },
   "order": [
     "main",
-    "visual_help_C89zcd"
+    "visual_fa_qs_8haKR8"
   ]
 }

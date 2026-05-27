@@ -21,6 +21,21 @@
         </details>
       {% endfor %}
     </div>
+
+    {% if section.settings.show_contact %}
+      <div class="text-center mt-32 pt-10">
+        <h3 class="text-2xl md:text-3xl font-serif text-[#1a1a1a] mb-6">{{ section.settings.contact_heading }}</h3>
+        <p class="text-[#737373] font-light text-sm md:text-base max-w-lg mx-auto mb-10 leading-relaxed">
+          {{ section.settings.contact_text }}
+        </p>
+        {% if section.settings.contact_link != blank and section.settings.contact_button_text != blank %}
+          <a href="{{ section.settings.contact_link }}" class="inline-block bg-[#1a1a1a] text-white text-[11px] font-semibold uppercase tracking-[0.2em] py-4 px-10 hover:bg-[#333333] transition duration-300">
+            {{ section.settings.contact_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
   </div>
 </section>
 
@@ -28,8 +43,51 @@
 {
   "name": "Visual FAQ",
   "settings": [
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Support" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Common Questions" }
+    { 
+      "type": "text", 
+      "id": "subheading", 
+      "label": "Subheading", 
+      "default": "Support" 
+    },
+    { 
+      "type": "text", 
+      "id": "title", 
+      "label": "Heading", 
+      "default": "Common Questions" 
+    },
+    {
+      "type": "header",
+      "content": "Contact / Assistance Block"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact",
+      "label": "Show Assistance Block",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact Heading",
+      "default": "Require assistance?"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_text",
+      "label": "Contact Text",
+      "default": "Our dedicated concierge team is available to ensure your Visual Book is perfectly curated and configured for your special moments."
+    },
+    {
+      "type": "text",
+      "id": "contact_button_text",
+      "label": "Button Label",
+      "default": "Contact Concierge"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Button Link"
+    }
   ],
   "blocks": [
     {

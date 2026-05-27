@@ -11,13 +11,31 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "C",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "visual_contact_C3EfeL": {
+      "type": "visual-contact",
+      "name": "Contact Page",
+      "settings": {
+        "subheading": "Client Concierge",
+        "title": "We are here for you.",
+        "description": "Whether you have a quick question or need detailed assistance with a bespoke order, choose the channel that suits you best.",
+        "whatsapp_link": ""
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_contact_C3EfeL"
   ]
 }

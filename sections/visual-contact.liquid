@@ -1,0 +1,385 @@
+<div class="bg-[#fafafa] min-h-[85vh] text-[#1a1a1a] antialiased pb-24">
+  
+  {%- comment -%} Page Hero with Dynamic Page Title {%- endcomment -%}
+  <div class="bg-white pt-8 pb-12 md:pt-12 md:pb-20 border-b border-[#eaeaea]">
+    <div class="max-w-[1000px] mx-auto px-6 md:px-12 text-center">
+      
+      <h1 class="text-4xl md:text-5xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
+        {{ page.title | default: 'Contact' }}
+      </h1>
+      
+      <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#c4b09e] mb-4 block">
+        {{ section.settings.hero_subheading | default: 'Get in Touch' }}
+      </span>
+      
+      <h2 class="text-2xl md:text-3xl font-serif mb-4 text-[#1a1a1a] tracking-tight">
+        {{ section.settings.hero_title | default: 'How can we assist you?' }}
+      </h2>
+      
+      <p class="text-sm text-[#555555] font-light leading-relaxed max-w-2xl mx-auto">
+        {{ section.settings.hero_description | default: 'From order support and styling advice to retail partnerships and press inquiries, our dedicated teams are at your service.' }}
+      </p>
+    </div>
+  </div>
+
+  {%- comment -%} Contact Channels (Top Grid) {%- endcomment -%}
+  <div class="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="group flex flex-col items-start bg-white border border-[#e5e5e5] p-8 hover:border-[#25D366] transition-colors duration-500 relative overflow-hidden h-full">
+        <div class="absolute top-0 right-0 w-16 h-16 bg-[#25D366]/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+        <div class="w-10 h-10 rounded-full bg-[#fafafa] border border-[#e5e5e5] flex items-center justify-center mb-5 text-[#1a1a1a] group-hover:text-[#25D366] transition-colors z-10">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.482-1.459-1.656-1.756-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51h-.57c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .1 5.492.098 12.05c0 2.091.546 4.133 1.585 5.934L0 24l6.196-1.626c1.737.94 3.682 1.436 5.672 1.437h.004c6.553 0 11.956-5.492 11.959-12.05a11.84 11.84 0 00-3.364-8.461"/></svg>
+        </div>
+        <div class="flex items-center gap-3 mb-2 z-10">
+          <h3 class="font-serif text-xl text-[#1a1a1a]">{{ section.settings.whatsapp_title | default: 'WhatsApp' }}</h3>
+          <span class="text-[8px] font-bold tracking-[0.2em] uppercase text-[#25D366] bg-[#25D366]/10 px-2 py-0.5">{{ section.settings.whatsapp_badge | default: 'Fast' }}</span>
+        </div>
+        <p class="text-sm text-[#555555] font-light mb-6 z-10 flex-grow">{{ section.settings.whatsapp_text | default: 'For quick, informal queries and rapid responses regarding your order or our products.' }}</p>
+        <a href="{{ section.settings.whatsapp_link | default: '#' }}" target="_blank" class="text-[10px] font-semibold uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-1 hover:text-[#25D366] hover:border-[#25D366] transition-colors z-10">
+          {{ section.settings.whatsapp_btn_text | default: 'Message Us' }}
+        </a>
+      </div>
+
+      <div class="group flex flex-col items-start bg-white border border-[#e5e5e5] p-8 hover:border-[#1a1a1a] transition-colors duration-500 relative h-full">
+        <div class="w-10 h-10 rounded-full bg-[#fafafa] border border-[#e5e5e5] flex items-center justify-center mb-5 text-[#1a1a1a] group-hover:text-white group-hover:bg-[#1a1a1a] transition-colors z-10">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <h3 class="font-serif text-xl text-[#1a1a1a] mb-2 z-10">{{ section.settings.chat_title | default: 'Live Chat' }}</h3>
+        <p class="text-sm text-[#555555] font-light mb-6 z-10 flex-grow">{{ section.settings.chat_text | default: 'Chat directly with our concierge team via Shopify Inbox while you browse our collections.' }}</p>
+        
+        <button type="button" id="TriggerShopifyChat" class="text-[10px] font-semibold uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-1 hover:text-[#737373] hover:border-[#737373] transition-colors z-10">
+          {{ section.settings.chat_btn_text | default: 'Open Chat' }}
+        </button>
+      </div>
+
+      <div class="bg-white border border-[#e5e5e5] p-8 h-full">
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-[#e5e5e5]">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[#c4b09e]"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <h3 class="font-serif text-xl text-[#1a1a1a]">{{ section.settings.dir_title | default: 'Directory' }}</h3>
+        </div>
+        
+        <ul class="space-y-4">
+          <li class="flex flex-col">
+            <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">{{ section.settings.dir_label_1 | default: 'Customer Care' }}</span>
+            <a href="mailto:{{ section.settings.email_support }}" class="text-sm text-[#555555] font-light hover:text-[#c4b09e] transition-colors">{{ section.settings.email_support }}</a>
+          </li>
+          <li class="flex flex-col">
+            <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">{{ section.settings.dir_label_2 | default: 'Press & PR' }}</span>
+            <a href="mailto:{{ section.settings.email_marketing }}" class="text-sm text-[#555555] font-light hover:text-[#c4b09e] transition-colors">{{ section.settings.email_marketing }}</a>
+          </li>
+          <li class="flex flex-col">
+            <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">{{ section.settings.dir_label_3 | default: 'Retail & Accounting' }}</span>
+            <a href="mailto:{{ section.settings.email_finance }}" class="text-sm text-[#555555] font-light hover:text-[#c4b09e] transition-colors">{{ section.settings.email_finance }}</a>
+          </li>
+          <li class="flex flex-col pt-3 mt-1 border-t border-[#e5e5e5]">
+            <span class="text-[8px] font-semibold tracking-[0.15em] uppercase text-[#a39d93]">{{ section.settings.dir_label_4 | default: 'General Inquiries' }}</span>
+            <a href="mailto:{{ section.settings.email_info }}" class="text-xs text-[#a39d93] font-light hover:text-[#1a1a1a] transition-colors">{{ section.settings.email_info }}</a>
+          </li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+
+  {%- comment -%} Smart Contact Form {%- endcomment -%}
+  <div class="max-w-[800px] mx-auto px-6">
+    <div class="bg-white p-8 md:p-12 border border-[#e5e5e5]">
+      
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-serif text-[#1a1a1a] mb-3">{{ section.settings.form_title | default: 'Send a Message' }}</h2>
+        <p class="text-sm text-[#555555] font-light">{{ section.settings.form_subtitle | default: 'Select your inquiry type to ensure your message reaches the correct department.' }}</p>
+      </div>
+
+      {%- form 'contact', id: 'SmartContactForm' -%}
+        
+        {%- if form.posted_successfully? -%}
+          <div class="bg-[#25D366]/10 border border-[#25D366] text-[#1a1a1a] p-4 text-sm text-center mb-8 flex items-center justify-center gap-2">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#25D366" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Thank you! Your message has been sent successfully.
+          </div>
+        {%- elsif form.errors -%}
+          <div class="bg-red-50 border border-red-200 text-red-600 p-4 text-sm text-center mb-8">
+            Please adjust the following fields: {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="mb-5">
+          <label for="ContactForm-type" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">I am contacting regarding <span class="text-[#c4b09e]">*</span></label>
+          <div class="relative">
+            <select id="ContactForm-type" name="contact[Inquiry_Type]" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors appearance-none cursor-pointer rounded-none">
+              <option value="Customer Support" selected>Customer Support & Orders</option>
+              <option value="Retail & Wholesale">Retail & Wholesale Partnerships</option>
+              <option value="Press, Media & PR">Press, Media & PR</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-[#1a1a1a]">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label for="ContactForm-name" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Full Name <span class="text-[#c4b09e]">*</span></label>
+            <input type="text" id="ContactForm-name" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="Jane Doe" required>
+          </div>
+          <div>
+            <label for="ContactForm-email" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Email Address <span class="text-[#c4b09e]">*</span></label>
+            <input type="email" id="ContactForm-email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="jane@example.com" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label for="ContactForm-phone" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Phone Number</label>
+            <input type="tel" id="ContactForm-phone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="+1 (555) 000-0000">
+          </div>
+          
+          <div id="OrderNumberContainer" class="transition-opacity duration-300">
+            <label for="ContactForm-order" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Order Number</label>
+            <input type="text" id="ContactForm-order" name="contact[Order_Number]" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="#1001">
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <label for="ContactForm-body" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Your Message <span class="text-[#c4b09e]">*</span></label>
+          <textarea id="ContactForm-body" name="contact[body]" rows="5" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors resize-none rounded-none placeholder-[#a39d93]" placeholder="How can we help you?" required>{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#333333] transition-colors duration-300">
+          {{ section.settings.form_btn_text | default: 'Submit Inquiry' }}
+        </button>
+        
+      {%- endform -%}
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- 1. Smart Form Logic ---
+    const inquirySelect = document.getElementById('ContactForm-type');
+    const orderNumberContainer = document.getElementById('OrderNumberContainer');
+    const orderInput = document.getElementById('ContactForm-order');
+
+    function toggleOrderField() {
+      if (inquirySelect.value === 'Customer Support') {
+        orderNumberContainer.style.opacity = '1';
+        orderNumberContainer.style.pointerEvents = 'auto';
+      } else {
+        orderNumberContainer.style.opacity = '0.3';
+        orderNumberContainer.style.pointerEvents = 'none';
+        orderInput.value = ''; // Clear value so it doesn't send
+      }
+    }
+    toggleOrderField();
+    inquirySelect.addEventListener('change', toggleOrderField);
+
+
+    // --- 2. Shopify Inbox Chat Trigger Logic ---
+    const chatTriggerBtn = document.getElementById('TriggerShopifyChat');
+    
+    if(chatTriggerBtn) {
+      chatTriggerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Method 1: Try to click the native Shopify Chat app bubble if it exists in the DOM
+        const chatApp = document.querySelector('shopify-chat-app');
+        if (chatApp && chatApp.shadowRoot) {
+          const chatButton = chatApp.shadowRoot.querySelector('.chat-button, button');
+          if (chatButton) {
+            chatButton.click();
+            return;
+          }
+        }
+        
+        // Method 2: Try to target the older iframe method Shopify used to use
+        const chatIframe = document.getElementById('dummy-chat-button-iframe');
+        if (chatIframe) {
+           chatIframe.style.display = 'block'; // Failsafe fallback
+           // We can't always click inside due to cross-origin, but we can alert the user
+           alert("Please click the Chat bubble at the bottom right of your screen.");
+           return;
+        }
+
+        // Failsafe: If no chat app is detected, let them know.
+        alert("Live chat is currently unavailable. Please use the WhatsApp or Email options!");
+      });
+    }
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Smart Contact Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_subheading",
+      "label": "Subheading",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Heading",
+      "default": "How can we assist you?"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "From order support and styling advice to retail partnerships and press inquiries, our dedicated teams are at your service."
+    },
+    {
+      "type": "header",
+      "content": "WhatsApp Box"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_title",
+      "label": "Title",
+      "default": "WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_badge",
+      "label": "Badge",
+      "default": "Fast"
+    },
+    {
+      "type": "textarea",
+      "id": "whatsapp_text",
+      "label": "Description",
+      "default": "For quick, informal queries and rapid responses regarding your order or our products."
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_btn_text",
+      "label": "Button Text",
+      "default": "Message Us"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_link",
+      "label": "WhatsApp Link",
+      "info": "Example: https://wa.me/1234567890"
+    },
+    {
+      "type": "header",
+      "content": "Live Chat Box"
+    },
+    {
+      "type": "text",
+      "id": "chat_title",
+      "label": "Title",
+      "default": "Live Chat"
+    },
+    {
+      "type": "textarea",
+      "id": "chat_text",
+      "label": "Description",
+      "default": "Chat directly with our concierge team via Shopify Inbox while you browse our collections."
+    },
+    {
+      "type": "text",
+      "id": "chat_btn_text",
+      "label": "Button Text",
+      "default": "Open Chat"
+    },
+    {
+      "type": "header",
+      "content": "Directory Box"
+    },
+    {
+      "type": "text",
+      "id": "dir_title",
+      "label": "Directory Title",
+      "default": "Directory"
+    },
+    {
+      "type": "text",
+      "id": "dir_label_1",
+      "label": "Label 1",
+      "default": "Customer Care"
+    },
+    {
+      "type": "text",
+      "id": "email_support",
+      "label": "Customer Care Email",
+      "default": "support@visualbook.com"
+    },
+    {
+      "type": "text",
+      "id": "dir_label_2",
+      "label": "Label 2",
+      "default": "Press & PR"
+    },
+    {
+      "type": "text",
+      "id": "email_marketing",
+      "label": "Press & PR Email",
+      "default": "marketing@thevisualbook.com"
+    },
+    {
+      "type": "text",
+      "id": "dir_label_3",
+      "label": "Label 3",
+      "default": "Retail & Accounting"
+    },
+    {
+      "type": "text",
+      "id": "email_finance",
+      "label": "Retail & Accounting Email",
+      "default": "finance@thevisualbook.com"
+    },
+    {
+      "type": "text",
+      "id": "dir_label_4",
+      "label": "Label 4",
+      "default": "General Inquiries"
+    },
+    {
+      "type": "text",
+      "id": "email_info",
+      "label": "General Inquiries Email",
+      "default": "info@thevisualbook.com"
+    },
+    {
+      "type": "header",
+      "content": "Form Section"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Heading",
+      "default": "Send a Message"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form Subtitle",
+      "default": "Select your inquiry type to ensure your message reaches the correct department."
+    },
+    {
+      "type": "text",
+      "id": "form_btn_text",
+      "label": "Submit Button Text",
+      "default": "Submit Inquiry"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Smart Contact Page"
+    }
+  ]
+}
+{% endschema %}

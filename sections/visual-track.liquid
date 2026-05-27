@@ -1,0 +1,105 @@
+<div class="bg-[#fafafa] min-h-[85vh] text-[#1a1a1a] antialiased pb-24">
+  
+  {%- comment -%} Page Hero {%- endcomment -%}
+  <div class="bg-white pt-12 pb-16 md:pt-16 md:pb-24 border-b border-[#eaeaea]">
+    <div class="max-w-[800px] mx-auto px-6 text-center">
+      <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#c4b09e] mb-4 block">
+        {{ section.settings.subheading | default: 'Order Status' }}
+      </span>
+      <h1 class="text-4xl md:text-5xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
+        {{ page.title | default: 'Track Your Order' }}
+      </h1>
+      <p class="text-sm text-[#555555] font-light leading-relaxed max-w-xl mx-auto">
+        {{ section.settings.description | default: 'Enter your tracking number or order details below to see the latest updates on your Visual Book’s journey.' }}
+      </p>
+    </div>
+  </div>
+
+  {%- comment -%} Tracking App Container & Info {%- endcomment -%}
+  <div class="max-w-[900px] mx-auto px-6 py-16 md:py-24">
+    
+    <div class="bg-white p-8 md:p-14 border border-[#e5e5e5] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.03)] mb-16">
+      
+      {%- if section.settings.tracking_html != blank -%}
+        <div class="tracking-app-wrapper">
+          {{ section.settings.tracking_html }}
+        </div>
+      {%- else -%}
+        <div class="text-center py-10 border-2 border-dashed border-[#eaeaea]">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#c4b09e" stroke-width="1.5" class="mx-auto mb-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <h3 class="font-serif text-xl text-[#1a1a1a] mb-2">Tracking Widget Goes Here</h3>
+          <p class="text-xs text-[#737373] max-w-md mx-auto">Please paste your tracking app's HTML snippet into the section settings on the right.</p>
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <div class="bg-transparent border border-[#eaeaea] p-8 text-center flex flex-col items-center justify-center">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-4 text-[#1a1a1a]"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <h3 class="font-serif text-lg text-[#1a1a1a] mb-2">Crafting Timeline</h3>
+        <p class="text-xs text-[#555555] font-light leading-relaxed">
+          Please remember that bespoke orders require <strong>5-7 business days</strong> to craft and assemble before they are handed over to our shipping couriers.
+        </p>
+      </div>
+
+      <div class="bg-transparent border border-[#eaeaea] p-8 text-center flex flex-col items-center justify-center">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-4 text-[#1a1a1a]"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <h3 class="font-serif text-lg text-[#1a1a1a] mb-2">Need Assistance?</h3>
+        <p class="text-xs text-[#555555] font-light leading-relaxed mb-4">
+          If your tracking number isn't updating or you have questions about your delivery, our concierge team is ready to help.
+        </p>
+        <a href="{{ section.settings.contact_link | default: '/pages/contact' }}" class="text-[10px] font-bold uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-1 hover:text-[#c4b09e] hover:border-[#c4b09e] transition-colors">
+          Contact Concierge
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Track Order Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Order Status"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Enter your tracking number or order details below to see the latest updates on your Visual Book’s journey."
+    },
+    {
+      "type": "header",
+      "content": "Tracking App Integration"
+    },
+    {
+      "type": "html",
+      "id": "tracking_html",
+      "label": "Tracking App HTML/Snippet",
+      "info": "Paste the embed code provided by your tracking app (e.g. Track123, AfterShip) here."
+    },
+    {
+      "type": "header",
+      "content": "Support Fallback"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact Page Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Track Order Page"
+    }
+  ]
+}
+{% endschema %}

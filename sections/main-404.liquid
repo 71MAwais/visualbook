@@ -1,23 +1,63 @@
-<style type="text/css">
-  .template-404 .title + * {
-    margin-top: 1rem;
-  }
-
-  @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
-    }
-  }
-</style>
-
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+<div class="min-h-[75vh] flex flex-col items-center justify-center bg-white text-[#1a1a1a] px-6 py-32">
+  <div class="max-w-2xl mx-auto text-center">
+    
+    <span class="text-[10px] font-semibold tracking-[0.3em] uppercase text-[#c4b09e] mb-6 block">
+      {{ section.settings.subheading | default: 'Error 404' }}
+    </span>
+    
+    <h1 class="text-6xl md:text-8xl font-serif mb-8 text-[#1a1a1a]">
+      {{ section.settings.title | default: 'Page Not Found' }}
+    </h1>
+    
+    <p class="text-base md:text-lg text-[#737373] font-light leading-relaxed mb-12 max-w-lg mx-auto">
+      {{ section.settings.text | default: 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.' }}
+    </p>
+    
+    <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="inline-block bg-[#1a1a1a] text-white text-[11px] font-semibold uppercase tracking-[0.2em] py-4 px-10 hover:bg-[#c4b09e] transition-colors duration-300">
+      {{ section.settings.button_text | default: 'Return to Shop' }}
+    </a>
+    
+  </div>
 </div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Error 404"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Page Not Found"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "Return to Shop"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "404 Page"
+    }
+  ]
+}
+{% endschema %}
