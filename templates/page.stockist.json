@@ -73,10 +73,10 @@
         "filter_all_text": "All Locations",
         "filter_physical_text": "Physical Stores",
         "filter_online_text": "Online Partners",
-        "show_retail_contact": false,
+        "show_retail_contact": true,
         "retail_text": "Interested in becoming a retail partner?",
         "retail_btn_text": "Contact Us",
-        "retail_btn_link": ""
+        "retail_btn_link": "shopify://pages/contact"
       }
     }
   },
