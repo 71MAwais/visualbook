@@ -16,6 +16,129 @@
 
 <div class="customer order section-{{ section.id }}-padding">
   <div>
+  {%- comment -%} 
+  =========================================
+  LUXURY ORDER TRACKING LOGIC & TIMELINE
+  =========================================
+{%- endcomment -%}
+
+{%- assign order_created_seconds = order.created_at | date: '%s' | times: 1 -%}
+{%- assign current_seconds = 'now' | date: '%s' | times: 1 -%}
+{%- assign order_age_seconds = current_seconds | minus: order_created_seconds -%}
+{%- assign ten_days_seconds = 10 | times: 24 | times: 60 | times: 60 -%}
+
+{%- comment -%} Determine State {%- endcomment -%}
+{%- assign is_delivered = false -%}
+{%- assign is_dispatched = false -%}
+
+{%- if order.fulfillment_status == 'fulfilled' -%}
+  {%- assign is_dispatched = true -%}
+  {%- if order_age_seconds > ten_days_seconds -%}
+    {%- assign is_delivered = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Expected Date Logic (Fallback to 10 days from order if metafield is empty) {%- endcomment -%}
+{%- if order.metafields.custom.expected_date != blank -%}
+  {%- assign expected_delivery = order.metafields.custom.expected_date | date: "%B %d, %Y" -%}
+{%- else -%}
+  {%- assign expected_delivery = order_created_seconds | plus: ten_days_seconds | date: "%B %d, %Y" -%}
+{%- endif -%}
+
+<div class="max-w-[900px] mx-auto mb-16 mt-8">
+  <div class="bg-white border border-[#eaeaea] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.03)]">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#eaeaea] pb-6 mb-8 gap-4">
+      <div>
+        <h2 class="font-serif text-3xl text-[#1a1a1a] mb-2">Order Status</h2>
+        <p class="text-sm text-[#737373] font-light">Order {{ order.name }} • Placed on {{ order.created_at | date: "%B %d, %Y" }}</p>
+      </div>
+      <div class="text-left md:text-right">
+        <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#c4b09e] mb-1">Expected Delivery</p>
+        <p class="text-lg text-[#1a1a1a]">{{ expected_delivery }}</p>
+      </div>
+    </div>
+
+    {%- comment -%} Custom Manual Note from Admin Metafield {%- endcomment -%}
+    {%- if order.metafields.custom.delivery_note != blank -%}
+      <div class="bg-[#faf8f5] border border-[#c4b09e]/30 p-5 mb-10 flex items-start gap-4">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#c4b09e" stroke-width="1.5" class="mt-0.5 flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <div>
+          <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] block mb-1">Update from our team</span>
+          <p class="text-sm text-[#555555] font-light leading-relaxed">{{ order.metafields.custom.delivery_note }}</p>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Status Stepper Timeline {%- endcomment -%}
+    <div class="relative mt-8">
+      
+      <div class="absolute left-[15px] top-0 bottom-0 w-px bg-[#eaeaea] md:left-0 md:right-0 md:top-[15px] md:bottom-auto md:h-px md:w-full z-0"></div>
+      
+      <div class="absolute left-[15px] top-0 w-px bg-[#1a1a1a] transition-all duration-1000 md:left-0 md:top-[15px] md:h-px z-0" 
+           style="{% if is_delivered %}height: 100%; md:width: 100%;{% elsif is_dispatched %}height: 50%; md:height: 1px; md:width: 50%;{% else %}height: 15%; md:height: 1px; md:width: 15%;{% endif %}">
+      </div>
+
+      <div class="flex flex-col md:flex-row justify-between relative z-10 gap-8 md:gap-0">
+        
+        <div class="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-3 flex-1">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-white bg-[#1a1a1a] text-white flex-shrink-0">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="md:mt-2">
+            <h4 class="text-sm font-semibold text-[#1a1a1a]">In Process</h4>
+            <p class="text-xs text-[#737373] font-light mt-1 max-w-[200px] md:mx-auto">Your bespoke Visual Book is currently being crafted and videos are being processed.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-3 flex-1">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-white flex-shrink-0 transition-colors duration-500 {% if is_dispatched %}bg-[#1a1a1a] text-white{% else %}bg-[#fafafa] border-[#eaeaea] text-[#d1d1d1]{% endif %}">
+            {% if is_dispatched %}
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            {% else %}
+              <span class="w-2 h-2 rounded-full bg-[#d1d1d1]"></span>
+            {% endif %}
+          </div>
+          <div class="md:mt-2">
+            <h4 class="text-sm font-semibold {% if is_dispatched %}text-[#1a1a1a]{% else %}text-[#a39d93]{% endif %}">Dispatched</h4>
+            <p class="text-xs text-[#737373] font-light mt-1 max-w-[200px] md:mx-auto">
+              {%- if is_dispatched -%}
+                Handed over to courier. 
+                {%- if order.line_items.first.fulfillment.tracking_url -%}
+                  <br><a href="{{ order.line_items.first.fulfillment.tracking_url }}" target="_blank" class="text-[#c4b09e] underline hover:text-[#1a1a1a] inline-block mt-1">Track on their website</a>
+                {%- endif -%}
+              {%- else -%}
+                Pending completion.
+              {%- endif -%}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-3 flex-1">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-white flex-shrink-0 transition-colors duration-500 {% if is_delivered %}bg-[#1a1a1a] text-white{% else %}bg-[#fafafa] border-[#eaeaea] text-[#d1d1d1]{% endif %}">
+            {% if is_delivered %}
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            {% else %}
+              <span class="w-2 h-2 rounded-full bg-[#d1d1d1]"></span>
+            {% endif %}
+          </div>
+          <div class="md:mt-2">
+            <h4 class="text-sm font-semibold {% if is_delivered %}text-[#1a1a1a]{% else %}text-[#a39d93]{% endif %}">Delivered</h4>
+            <p class="text-xs text-[#737373] font-light mt-1 max-w-[200px] md:mx-auto">
+              {%- if is_delivered -%}
+                Enjoy your memories.
+              {%- else -%}
+                Awaiting delivery.
+              {%- endif -%}
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+</div>
     <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
     <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
   </div>

@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "",
+        "text_alignment": "center",
+        "title_size_desktop": 4,
+        "title_size_mobile": 2.5,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "visual_policies_jxefwd": {
+      "type": "visual-policies",
+      "name": "Visual Policies",
+      "settings": {
+        "subheading": "Our Commitments",
+        "description": "Everything you need to know about our crafting timelines, global shipping, and commitment to your satisfaction.",
+        "shipping_title": "Shipping Policy",
+        "shipping_content": "<p><strong>Crafting Timeline:</strong> Standard bespoke orders take 5-7 business days to craft and assemble. We meticulously prepare each Visual Book to ensure it meets our unrivaled quality standards.</p><p><strong>Delivery Times:</strong> Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally. You will receive a tracking link via email the moment your order is handed over to our trusted courier partners.</p>",
+        "returns_title": "Returns & Exchanges",
+        "returns_content": "<p>We stand behind the artisanship of The Visual Book. We gladly offer a <strong>30-day return policy</strong> for eligible items.</p><ul><li>Items must be returned unused, in their original condition, and in the original signature packaging.</li><li>Due to the bespoke nature of pre-loaded or fully personalized corporate orders, these items are non-refundable unless faulty.</li></ul><p>To initiate a return, please contact our concierge team with your order number. A return shipping fee may apply depending on your location.</p>",
+        "warranty_title": "1-Year Warranty",
+        "warranty_content": "<p>Your memories are designed to last. Every Visual Book comes with a comprehensive <strong>1-year limited warranty</strong> covering manufacturing defects and internal hardware faults.</p><p>If you experience any technical difficulties (such as screen malfunctions or charging issues) within the first year of purchase, please reach out to us. We will swiftly repair or replace the unit to ensure your cherished moments remain preserved.</p>",
+        "support_title": "Still have questions?",
+        "support_text": "Our concierge team is available to assist you with any specific inquiries regarding shipping, returns, or warranty claims.",
+        "support_btn": "Contact Concierge",
+        "support_link": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "visual_policies_jxefwd"
+  ]
+}

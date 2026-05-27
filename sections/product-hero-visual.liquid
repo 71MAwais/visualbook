@@ -116,13 +116,9 @@
 
         <div class="lg:col-span-6 mt-6 lg:mt-0 relative z-20 lg:pl-4 xl:pl-6 pb-20 lg:pb-0">
             
-            <div class="flex items-center space-x-2.5 mb-3">
-                <div class="flex space-x-[1px] text-amber-400" aria-hidden="true">
-                    {% for i in (1..5) %}<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
-                </div>
-                <a href="#reviews" class="focus-ring text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors rounded-sm">
-                    {{ section.settings.review_text | default: "4.9 (128 Reviews)" }}
-                </a>
+            {%- comment -%} Judge.me Star Badge {%- endcomment -%}
+            <div class="mb-3">
+                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
             </div>
 
             <h1 class="text-3xl md:text-4xl font-serif font-medium text-stone-900 mb-3 leading-[1.15]">
@@ -187,7 +183,7 @@
                   {% endunless %}
                 {% endif %}
 
-                {%- comment -%} TOGGLE MEDIA UPLOAD {%- endcomment -%}
+                {%- comment -%} MEDIA UPLOAD {%- endcomment -%}
                 {% if section.settings.show_media_upload %}
                 <div class="mb-6 mt-6 relative z-40">
                     <label for="media-upload" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer" tabindex="0">
@@ -199,7 +195,30 @@
                 </div>
                 {% endif %}
 
-                {%- comment -%} TOGGLE BACKGROUND SONG {%- endcomment -%}
+                {%- comment -%} NEW: BOOK TITLE & DATE (Specific to Personalized Book) {%- endcomment -%}
+                <div class="mb-6 relative z-40">
+                    <div class="flex justify-between items-end mb-2">
+                        <label for="book-title" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest">
+                            Book Title <span class="text-[#c4b09e]">*</span> 
+                            <span class="text-stone-500 font-normal normal-case tracking-normal">(3 words max)</span>
+                        </label>
+                        <span id="book-title-counter" class="text-[10px] text-stone-500 font-medium">0/30</span>
+                    </div>
+                    <input type="text" name="properties[Book Title]" id="book-title" maxlength="30" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. Our Wedding Day" required>
+                    <p id="book-title-error" class="hidden text-red-500 text-xs mt-1 font-medium">Maximum 3 words allowed.</p>
+                </div>
+
+                <div class="mb-6 relative z-40">
+                    <div class="flex justify-between items-end mb-2">
+                        <label for="book-date" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest">
+                            Date <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span>
+                        </label>
+                        <span id="book-date-counter" class="text-[10px] text-stone-500 font-medium">0/14</span>
+                    </div>
+                    <input type="text" name="properties[Date]" id="book-date" maxlength="14" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. 12.10.2024">
+                </div>
+
+                {%- comment -%} BACKGROUND SONG {%- endcomment -%}
                 {% if section.settings.show_bg_song %}
                 <div class="mb-6 relative z-40">
                     <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">Background Song <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
@@ -272,6 +291,12 @@
             
         </div>
     </div>
+
+    {%- comment -%} Judge.me Full Reviews Widget Block {%- endcomment -%}
+    <div class="mt-24 w-full border-t border-stone-200 pt-16" id="reviews">
+        {% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true, product: product %}
+    </div>
+
 </main>
 
 <div id="all-modals">
@@ -511,7 +536,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// --- 2. AJAX Add to Cart & Animation ---
+    // --- 1.5 NEW Custom Fields Logic (Title & Date) ---
+    const titleInput = document.getElementById('book-title');
+    const titleCounter = document.getElementById('book-title-counter');
+    const titleError = document.getElementById('book-title-error');
+
+    if(titleInput && titleCounter) {
+        titleInput.addEventListener('input', function(e) {
+            let val = this.value;
+            let words = val.trim().split(/\s+/).filter(w => w.length > 0);
+            
+            if (words.length > 3) {
+                let allowedWords = words.slice(0, 3).join(" ");
+                if (val.endsWith(' ')) allowedWords += ' '; // Preserve trailing space for natural typing
+                this.value = allowedWords;
+                titleError?.classList.remove('hidden');
+            } else {
+                titleError?.classList.add('hidden');
+            }
+            titleCounter.textContent = `${this.value.length}/30`;
+        });
+    }
+
+    const dateInput = document.getElementById('book-date');
+    const dateCounter = document.getElementById('book-date-counter');
+    
+    if(dateInput && dateCounter) {
+        dateInput.addEventListener('input', function() {
+            dateCounter.textContent = `${this.value.length}/14`;
+        });
+    }
+
+
+    // --- 2. AJAX Add to Cart & Animation ---
     const mainForm = document.querySelector('form[data-type="add-to-cart-form"]');
     if (mainForm) {
         mainForm.addEventListener('submit', function(e) {
@@ -892,12 +949,6 @@ document.addEventListener('DOMContentLoaded', () => {
       "id": "show_dynamic_checkout",
       "label": "Show dynamic checkout buttons",
       "default": true
-    },
-    {
-      "type": "text",
-      "id": "review_text",
-      "label": "Review Text",
-      "default": "4.9 (128 Reviews)"
     },
     {
       "type": "header",

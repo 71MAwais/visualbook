@@ -1,0 +1,227 @@
+<div class="bg-[#fafafa] min-h-[85vh] text-[#1a1a1a] antialiased pb-24 font-sans">
+  
+  {%- comment -%} Page Hero {%- endcomment -%}
+  <div class="bg-white pt-16 pb-20 md:pt-24 md:pb-28 border-b border-[#eaeaea]">
+    <div class="max-w-[800px] mx-auto px-6 text-center">
+      <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#c4b09e] mb-5 block">
+        {{ section.settings.subheading | default: 'Companion Tool' }}
+      </span>
+      <h1 class="text-4xl md:text-6xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
+        {{ page.title | default: 'Video Formatter' }}
+      </h1>
+      <p class="text-sm text-[#555555] font-light leading-relaxed max-w-xl mx-auto">
+        {{ section.settings.description | default: 'Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book.' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="max-w-[1000px] mx-auto px-6 py-16 md:py-24">
+    <div class="flex flex-col lg:flex-row gap-12">
+      
+      {%- comment -%} Left Column: Specs & Info {%- endcomment -%}
+      <div class="w-full lg:w-1/3">
+        <div class="bg-white border border-[#eaeaea] p-8 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.02)] h-full">
+          <h3 class="font-serif text-2xl text-[#1a1a1a] mb-6">Optimal Specs</h3>
+          <p class="text-sm text-[#555555] font-light mb-8 leading-relaxed">Your video will be automatically converted to meet these exact hardware specifications for seamless playback.</p>
+          
+          <ul class="space-y-5 border-t border-[#eaeaea] pt-6">
+            <li class="flex justify-between items-center">
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Format</span>
+              <span class="text-sm text-[#737373]">MP4 (H.264)</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Resolution</span>
+              <span class="text-sm text-[#737373]">HD (1280x720)</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Audio</span>
+              <span class="text-sm text-[#737373]">AAC Stereo</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Max Size</span>
+              <span class="text-sm text-[#737373]">2 GB</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} Right Column: Upload & Convert Tool {%- endcomment -%}
+      <div class="w-full lg:w-2/3">
+        <div class="bg-white border border-[#eaeaea] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.03)] h-full flex flex-col justify-center">
+          
+          <div id="DropZone" class="relative border-2 border-dashed border-[#d1d1d1] hover:border-[#c4b09e] hover:bg-[#faf8f5] transition-all duration-300 p-12 text-center cursor-pointer group">
+            <input type="file" id="VideoInput" accept="video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            
+            <div class="w-16 h-16 mx-auto bg-[#fafafa] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#1a1a1a" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <h3 class="font-serif text-xl text-[#1a1a1a] mb-2">Drag & Drop your video here</h3>
+            <p class="text-xs text-[#737373] font-light">or click to browse your files (MOV, AVI, MKV, etc.)</p>
+          </div>
+
+          <div id="ProcessingState" class="hidden text-center py-8">
+            <div class="w-16 h-16 mx-auto border-2 border-[#eaeaea] border-t-[#c4b09e] rounded-full animate-spin mb-6"></div>
+            <h3 class="font-serif text-2xl text-[#1a1a1a] mb-2" id="StatusText">Uploading Video...</h3>
+            <p class="text-sm text-[#737373] font-light mb-6">Please do not close this tab. This may take a few minutes.</p>
+            
+            <div class="w-full bg-[#eaeaea] h-1 rounded-full overflow-hidden">
+              <div id="ProgressBar" class="bg-[#1a1a1a] h-full w-0 transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <div id="SuccessState" class="hidden text-center py-8">
+            <div class="w-16 h-16 mx-auto bg-[#25D366]/10 rounded-full flex items-center justify-center mb-6">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#25D366" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="font-serif text-3xl text-[#1a1a1a] mb-3">Conversion Complete</h3>
+            <p class="text-sm text-[#737373] font-light mb-8">Your video is now perfectly formatted for The Visual Book.</p>
+            
+            <a id="DownloadBtn" href="#" download="VisualBook_Formatted_Video.mp4" class="inline-block w-full md:w-auto bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#c4b09e] transition-colors duration-300 mb-4">
+              Download Video
+            </a>
+            <br>
+            <button id="ConvertAnotherBtn" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a39d93] hover:text-[#1a1a1a] transition-colors underline">
+              Convert Another File
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropZone = document.getElementById('DropZone');
+  const videoInput = document.getElementById('VideoInput');
+  const processingState = document.getElementById('ProcessingState');
+  const successState = document.getElementById('SuccessState');
+  const statusText = document.getElementById('StatusText');
+  const progressBar = document.getElementById('ProgressBar');
+  const downloadBtn = document.getElementById('DownloadBtn');
+  const convertAnotherBtn = document.getElementById('ConvertAnotherBtn');
+
+  // URL to your secure backend (Vercel/Netlify/Make)
+  const BACKEND_CONVERT_URL = 'YOUR_BACKEND_API_URL_HERE'; 
+
+  // UI State Management
+  function showProcessing(text, progress) {
+    dropZone.classList.add('hidden');
+    successState.classList.add('hidden');
+    processingState.classList.remove('hidden');
+    statusText.innerText = text;
+    progressBar.style.width = progress + '%';
+  }
+
+  function showSuccess(downloadUrl) {
+    processingState.classList.add('hidden');
+    successState.classList.remove('hidden');
+    downloadBtn.href = downloadUrl;
+  }
+
+  function resetUI() {
+    videoInput.value = '';
+    processingState.classList.add('hidden');
+    successState.classList.add('hidden');
+    dropZone.classList.remove('hidden');
+  }
+
+  // File handling
+  videoInput.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      handleFileUpload(e.target.files);
+    }
+  });
+
+  convertAnotherBtn.addEventListener('click', resetUI);
+
+  // --- THE CLOUDCONVERT LOGIC ---
+  async function handleFileUpload(file) {
+    if (file.size > 2147483648) { // 2GB limit
+      alert("File is too large. Maximum size is 2GB.");
+      resetUI();
+      return;
+    }
+
+    showProcessing('Initiating conversion...', 10);
+
+    try {
+      /* ======================================================
+      INTEGRATION INSTRUCTIONS FOR STORE OWNER
+      ======================================================
+      Because you cannot put your CloudConvert API key here, 
+      you must send the file to a secure middleman (like Make.com 
+      or a Vercel Serverless Function).
+      
+      The flow:
+      1. This JS sends the video file to your Backend.
+      2. Your Backend securely talks to CloudConvert, 
+         sets the specs (720p, MP4), and waits for it to finish.
+      3. Your Backend returns the final Download URL to this JS.
+      ======================================================
+      */
+
+      // Simulated API Call (Replace this block with actual Fetch to your backend)
+      let formData = new FormData();
+      formData.append('video', file);
+
+      showProcessing('Uploading & Converting...', 40);
+
+      // --- UNCOMMENT AND USE THIS WHEN BACKEND IS READY ---
+      /*
+      const response = await fetch(BACKEND_CONVERT_URL, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      
+      if(data.status === 'success') {
+         showProcessing('Finalizing...', 100);
+         setTimeout(() => showSuccess(data.downloadUrl), 500);
+      } else {
+         throw new Error("Conversion failed");
+      }
+      */
+
+      // Simulated 3-second delay for previewing the UI
+      setTimeout(() => { showProcessing('Converting to MP4 720p...', 75); }, 1000);
+      setTimeout(() => { showProcessing('Finalizing...', 100); }, 2500);
+      setTimeout(() => { 
+        showSuccess('#'); // Replace '#' with actual download URL
+      }, 3000);
+
+    } catch (error) {
+      alert("An error occurred during conversion. Please try again.");
+      console.error(error);
+      resetUI();
+    }
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Video Formatter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Companion Tool"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Formatter Tool"
+    }
+  ]
+}
+{% endschema %}

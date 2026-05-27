@@ -15,24 +15,16 @@
       "settings": {
         "top_heading": "",
         "bottom_heading": "",
-        "custom_title": "C",
+        "custom_title": "",
         "text_alignment": "center",
         "title_size_desktop": 4,
         "title_size_mobile": 2.5,
         "padding_top": 28,
         "padding_bottom": 28
       }
-    },
-    "visual_contact_C3EfeL": {
-      "type": "visual-contact",
-      "name": "Contact Page",
-      "settings": {
-        "whatsapp_link": ""
-      }
     }
   },
   "order": [
-    "main",
-    "visual_contact_C3EfeL"
+    "main"
   ]
 }

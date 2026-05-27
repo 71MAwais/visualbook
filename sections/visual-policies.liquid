@@ -1,0 +1,272 @@
+<div class="bg-white min-h-[85vh] text-[#1a1a1a] antialiased pb-24 font-sans">
+  
+  {%- comment -%} Page Hero {%- endcomment -%}
+  <div class="bg-[#fafafa] pt-16 pb-20 md:pt-24 md:pb-28">
+    <div class="max-w-[800px] mx-auto px-6 text-center">
+      <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#c4b09e] mb-5 block">
+        {{ section.settings.subheading | default: 'Our Commitments' }}
+      </span>
+      <h1 class="text-4xl md:text-6xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
+        {{ page.title | default: 'Shipping & Returns' }}
+      </h1>
+      <p class="text-sm text-[#555555] font-light leading-relaxed max-w-xl mx-auto">
+        {{ section.settings.description | default: 'Everything you need to know about our crafting timelines, global shipping logistics, and our commitment to your satisfaction.' }}
+      </p>
+    </div>
+  </div>
+
+  {%- comment -%} Page Navigation (Non-Sticky) {%- endcomment -%}
+  <div class="bg-white border-y border-[#eaeaea] hidden md:block">
+    <div class="max-w-[1000px] mx-auto px-6 flex justify-center gap-12 py-5">
+      <a href="#shipping" class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] hover:text-[#c4b09e] transition-colors">Shipping</a>
+      <a href="#returns" class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] hover:text-[#c4b09e] transition-colors">Returns</a>
+      <a href="#warranty" class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] hover:text-[#c4b09e] transition-colors">Warranty</a>
+      <a href="#contact" class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] hover:text-[#c4b09e] transition-colors">Contact</a>
+    </div>
+  </div>
+
+  {%- comment -%} Main Content Container {%- endcomment -%}
+  <div class="max-w-[1000px] mx-auto px-6 py-16 md:py-24 space-y-24">
+    
+    {%- comment -%} ================= SHIPPING SECTION ================= {%- endcomment -%}
+    <div id="shipping" class="scroll-mt-16">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-serif text-[#1a1a1a] mb-4">Shipping Logistics</h2>
+        <p class="text-[11px] uppercase tracking-widest text-[#737373] italic">All shipping timeframes apply after processing.</p>
+      </div>
+
+      <div class="bg-[#faf8f5] border border-[#e5e5e5] p-8 md:p-12 mb-8 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-1 h-full bg-[#c4b09e]"></div>
+        <h3 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-6 flex items-center gap-2">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Processing Times
+        </h3>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h4 class="font-serif text-lg text-[#1a1a1a] mb-2">Standard Orders</h4>
+            <p class="text-sm font-light text-[#555555] leading-relaxed">Orders that do not require a video upload will be processed within <strong>24 hours</strong> (excluding bank holidays and weekends).</p>
+          </div>
+          <div>
+            <h4 class="font-serif text-lg text-[#1a1a1a] mb-2">Bespoke / Upload Orders</h4>
+            <p class="text-sm font-light text-[#555555] leading-relaxed">Orders that require a file upload need <strong>2–5 working days</strong> to process, depending on the number of files and our video editor's workload.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        
+        <div class="border border-[#e5e5e5] p-8 flex flex-col hover:border-[#1a1a1a] transition-colors duration-300">
+          <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-4 border-b border-[#eaeaea] pb-4">United Kingdom</h4>
+          <ul class="space-y-3 text-sm font-light text-[#555555] mb-6 flex-grow">
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> UK orders are sent via Royal Mail 48-Hour Tracked.</li>
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Audio cards are sent via Royal Mail 1st or 2nd Class.</li>
+          </ul>
+          <div class="bg-[#fafafa] p-3 text-xs text-[#737373] italic border-l-2 border-[#1a1a1a]">
+            Audio card-only orders are not shipped outside the UK.
+          </div>
+        </div>
+
+        <div class="border border-[#e5e5e5] p-8 flex flex-col hover:border-[#1a1a1a] transition-colors duration-300">
+          <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-4 border-b border-[#eaeaea] pb-4">Europe</h4>
+          <ul class="space-y-3 text-sm font-light text-[#555555] mb-6 flex-grow">
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Shipping to EU countries is £6.99.</li>
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Delivery takes 3–11 working days.</li>
+          </ul>
+          <div class="bg-[#fafafa] p-3 text-xs text-[#737373] italic border-l-2 border-[#1a1a1a]">
+            In rare instances, customs may hold items for longer and charge duties. Longer delivery times are only expected during customs holds.
+          </div>
+        </div>
+
+        <div class="border border-[#e5e5e5] p-8 hover:border-[#1a1a1a] transition-colors duration-300">
+          <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-4 border-b border-[#eaeaea] pb-4">USA, Canada, Australia & NZ</h4>
+          <ul class="space-y-3 text-sm font-light text-[#555555]">
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Delivery takes 3–7 working days.</li>
+          </ul>
+        </div>
+
+        <div class="border border-[#e5e5e5] p-8 hover:border-[#1a1a1a] transition-colors duration-300">
+          <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-4 border-b border-[#eaeaea] pb-4">Middle East</h4>
+          <ul class="space-y-3 text-sm font-light text-[#555555]">
+            <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Delivery takes 3–7 working days.</li>
+          </ul>
+        </div>
+
+        <div class="border border-[#e5e5e5] p-8 md:col-span-2 hover:border-[#1a1a1a] transition-colors duration-300">
+          <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-4 border-b border-[#eaeaea] pb-4">Nigeria</h4>
+          <div class="grid md:grid-cols-2 gap-6">
+            <ul class="space-y-3 text-sm font-light text-[#555555]">
+              <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> We ship to Nigeria once a month, door-to-door to Abuja and Lagos.</li>
+              <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Shipping cost: £30.</li>
+            </ul>
+            <ul class="space-y-3 text-sm font-light text-[#555555]">
+              <li class="flex items-start gap-2"><span class="text-[#c4b09e] mt-1 text-[10px]">✦</span> Items are dispatched every last Friday of the month and received within 7 days of dispatch.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-[#1a1a1a] text-white p-8 md:col-span-2 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-2 text-[#c4b09e]">Rest of the World</h4>
+            <p class="text-sm font-light leading-relaxed">We ship worldwide via FedEx or DHL. Please contact us for custom shipping costs and estimated delivery times.</p>
+          </div>
+          <a href="#contact" class="flex-shrink-0 bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] px-8 py-3 hover:bg-[#c4b09e] hover:text-white transition-colors duration-300">
+            Contact Us
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="border-[#eaeaea]">
+
+    {%- comment -%} ================= RETURNS SECTION ================= {%- endcomment -%}
+    <div id="returns" class="scroll-mt-16 max-w-[800px] mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-serif text-[#1a1a1a] mb-4">{{ section.settings.returns_title | default: 'Returns & Exchanges' }}</h2>
+      </div>
+      <div class="prose prose-sm md:prose-base prose-p:text-[#555555] prose-p:font-light prose-p:leading-loose prose-headings:font-serif prose-headings:text-[#1a1a1a] prose-a:text-[#1a1a1a] prose-a:font-semibold prose-a:underline prose-a:decoration-[#c4b09e] prose-a:underline-offset-4 hover:prose-a:text-[#c4b09e] prose-strong:text-[#1a1a1a] prose-strong:font-medium prose-ul:text-[#555555] prose-ul:font-light prose-li:my-2 max-w-none">
+        {{ section.settings.returns_content }}
+      </div>
+    </div>
+
+    <hr class="border-[#eaeaea]">
+
+    {%- comment -%} ================= WARRANTY SECTION ================= {%- endcomment -%}
+    <div id="warranty" class="scroll-mt-16 max-w-[800px] mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-serif text-[#1a1a1a] mb-4">{{ section.settings.warranty_title | default: '1-Year Warranty' }}</h2>
+      </div>
+      <div class="prose prose-sm md:prose-base prose-p:text-[#555555] prose-p:font-light prose-p:leading-loose prose-headings:font-serif prose-headings:text-[#1a1a1a] prose-a:text-[#1a1a1a] prose-a:font-semibold prose-a:underline prose-a:decoration-[#c4b09e] prose-a:underline-offset-4 hover:prose-a:text-[#c4b09e] prose-strong:text-[#1a1a1a] prose-strong:font-medium max-w-none">
+        {{ section.settings.warranty_content }}
+      </div>
+    </div>
+
+  </div>
+
+  {%- comment -%} ================= INLINE CONTACT FORM ================= {%- endcomment -%}
+  <div id="contact" class="scroll-mt-16 border-t border-[#eaeaea] bg-[#faf8f5] py-20 md:py-28">
+    <div class="max-w-[800px] mx-auto px-6">
+      
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-serif text-[#1a1a1a] mb-4">Still have questions?</h2>
+        <p class="text-sm text-[#555555] font-light">Whether it's about a specific policy, tracking your shipment, or initiating a return, our concierge team is here to assist you.</p>
+      </div>
+
+      <div class="bg-white border border-[#e5e5e5] p-8 md:p-12 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.05)]">
+        {%- form 'contact', id: 'PoliciesContactForm' -%}
+          
+          {%- if form.posted_successfully? -%}
+            <div class="bg-[#25D366]/10 border border-[#25D366] text-[#1a1a1a] p-4 text-sm text-center mb-8 flex items-center justify-center gap-2">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#25D366" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Thank you! Your message has been sent successfully.
+            </div>
+          {%- elsif form.errors -%}
+            <div class="bg-red-50 border border-red-200 text-red-600 p-4 text-sm text-center mb-8">
+              Please adjust the following fields: {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[Inquiry_Type]" value="Shipping & Returns Page Inquiry">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div>
+              <label for="ContactForm-name" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Full Name <span class="text-[#c4b09e]">*</span></label>
+              <input type="text" id="ContactForm-name" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" class="w-full bg-[#fafafa] border border-[#eaeaea] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="Jane Doe" required>
+            </div>
+            <div>
+              <label for="ContactForm-email" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Email Address <span class="text-[#c4b09e]">*</span></label>
+              <input type="email" id="ContactForm-email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="w-full bg-[#fafafa] border border-[#eaeaea] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="jane@example.com" required>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label for="ContactForm-order" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Order Number (If applicable)</label>
+            <input type="text" id="ContactForm-order" name="contact[Order_Number]" class="w-full bg-[#fafafa] border border-[#eaeaea] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors rounded-none placeholder-[#a39d93]" placeholder="#1001">
+          </div>
+
+          <div class="mb-8">
+            <label for="ContactForm-body" class="block text-[10px] font-bold text-[#1a1a1a] uppercase tracking-widest mb-2">Your Message <span class="text-[#c4b09e]">*</span></label>
+            <textarea id="ContactForm-body" name="contact[body]" rows="5" class="w-full bg-[#fafafa] border border-[#eaeaea] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors resize-none rounded-none placeholder-[#a39d93]" placeholder="How can we help you?" required>{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#c4b09e] transition-colors duration-300">
+            Submit Inquiry
+          </button>
+          
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  html { scroll-behavior: smooth; }
+  /* Base styles to ensure Shopify Rich Text Editor outputs correctly inside our design */
+  .prose ul { list-style-type: none; padding-left: 0; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+  .prose ul li { position: relative; padding-left: 1.5rem; }
+  .prose ul li::before { content: '✦'; color: #c4b09e; font-size: 10px; position: absolute; left: 0; top: 0.4rem; }
+  .prose h3 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #1a1a1a; font-weight: normal; }
+  .prose p { margin-bottom: 1.5rem; }
+</style>
+
+{% schema %}
+{
+  "name": "Visual Policies",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page Hero"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our Commitments"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Everything you need to know about our crafting timelines, global shipping logistics, and our commitment to your satisfaction."
+    },
+    {
+      "type": "header",
+      "content": "Returns Policy"
+    },
+    {
+      "type": "text",
+      "id": "returns_title",
+      "label": "Returns Title",
+      "default": "Returns & Exchanges"
+    },
+    {
+      "type": "richtext",
+      "id": "returns_content",
+      "label": "Returns Content",
+      "default": "<p>We stand behind the artisanship of The Visual Book. We gladly offer a <strong>30-day return policy</strong> for eligible items.</p><ul><li>Items must be returned unused, in their original condition, and in the original signature packaging.</li><li>Due to the bespoke nature of pre-loaded or fully personalized corporate orders, these items are non-refundable unless faulty.</li></ul><p>To initiate a return, please contact our concierge team with your order number. A return shipping fee may apply depending on your location.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Warranty Policy"
+    },
+    {
+      "type": "text",
+      "id": "warranty_title",
+      "label": "Warranty Title",
+      "default": "1-Year Warranty"
+    },
+    {
+      "type": "richtext",
+      "id": "warranty_content",
+      "label": "Warranty Content",
+      "default": "<p>Your memories are designed to last. Every Visual Book comes with a comprehensive <strong>1-year limited warranty</strong> covering manufacturing defects and internal hardware faults.</p><p>If you experience any technical difficulties (such as screen malfunctions or charging issues) within the first year of purchase, please reach out to us. We will swiftly repair or replace the unit to ensure your cherished moments remain preserved.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Visual Policies"
+    }
+  ]
+}
+{% endschema %}
