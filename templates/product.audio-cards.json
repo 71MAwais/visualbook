@@ -172,7 +172,7 @@
       "settings": {
         "subtitle": "Testimonials",
         "title": "From our Customers",
-        "show_rating": true,
+        "show_rating": false,
         "fallback_review_count": "0",
         "autoplay_speed": 3
       }
