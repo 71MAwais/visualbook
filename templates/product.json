@@ -129,12 +129,28 @@
         "hide_section": false,
         "show_variants": true,
         "show_media_upload": true,
+        "enable_custom_fields": true,
+        "target_product": "personalized-books",
         "show_bg_song": true,
         "show_dynamic_checkout": true,
-        "review_text": "4.9 (128 Reviews)",
         "features_text": "<ul><li>Up to 6-Hour Video & Photo Capacity</li><li>One-Click Video/Photo Switch</li><li>Simple Drag & Drop Setup</li><li>Personal Gift/Keepsake</li><li>Complimentary Pre-Loading & Professional Editing</li></ul>",
         "design_text": "<ul><li>Premium Soft Linen Material</li><li>Gold Foil Stamp Debossed</li><li>Cream-Beige Linen Cover</li><li>Book Size: 210 x 148 x 13.5 mm</li><li>Packaged Size: 27 x 19 x 4.8 cm</li><li>Packaged Weight: 0.855 kg</li><li>In the Box: Classic Visual Book, USB Cable, User Manual, Guide Warranty Card</li></ul>",
-        "tech_text": "<ul><li>IPS 1280 x 800 HD Display</li><li>8GB Storage Capacity</li><li>2500mAh Lithium Battery</li><li>16:9 Aspect Ratio</li><li>Buttons: Videos, Photos, Play, Pause, Volume Up/Down, Mute, Previous, Next</li><li>Magnetic/Light/Motion Sensor Power Switch</li></ul>"
+        "tech_text": "<ul><li>IPS 1280 x 800 HD Display</li><li>8GB Storage Capacity</li><li>2500mAh Lithium Battery</li><li>16:9 Aspect Ratio</li><li>Buttons: Videos, Photos, Play, Pause, Volume Up/Down, Mute, Previous, Next</li><li>Magnetic/Light/Motion Sensor Power Switch</li></ul>",
+        "support_btn_text": "Contact Live Support for Help",
+        "support_modal_title": "How can we help?",
+        "support_modal_text": "Our concierge team is available 24/7 to assist you with your Visual Book.",
+        "support_email_text": "Email Support",
+        "support_contact_text": "Visit Contact Page",
+        "award_btn_text": "Our Awards",
+        "award_modal_title": "Award-Winning Quality",
+        "award_modal_text": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.",
+        "award_badge_text": "Ships in 24 hours",
+        "discount_btn_text": "Get $5 Cashback",
+        "discount_modal_title": "Unlock $5 Cashback",
+        "discount_modal_text": "Complete any of the tasks below to automatically apply your discount at checkout.",
+        "discount_task1": "Follow us on Instagram",
+        "discount_task2": "Share with a friend",
+        "discount_task3": "Join our Newsletter"
       }
     },
     "product_experience1_r74Bzr": {
@@ -247,8 +263,8 @@
       ],
       "name": "Product Experience Unified",
       "settings": {
-        "bg_color": "#FAFAFA",
-        "accent_color": "#B8906B",
+        "bg_color": "#fafafa",
+        "accent_color": "#b8906b",
         "subtitle": "Technology",
         "heading": "The Visualbook Experience",
         "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
