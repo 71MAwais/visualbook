@@ -531,6 +531,9 @@
   .-mt-8 {
     margin-top: calc(var(--spacing) * -8);
   }
+  .-mt-10 {
+    margin-top: calc(var(--spacing) * -10);
+  }
   .mt-0 {
     margin-top: calc(var(--spacing) * 0);
   }
@@ -997,6 +1000,9 @@
   .w-\[110px\] {
     width: 110px;
   }
+  .w-\[600px\] {
+    width: 600px;
+  }
   .w-\[800px\] {
     width: 800px;
   }
@@ -1229,6 +1235,9 @@
   }
   .resize-none {
     resize: none;
+  }
+  .resize-y {
+    resize: vertical;
   }
   .snap-x {
     scroll-snap-type: x var(--tw-scroll-snap-strictness);
@@ -1627,6 +1636,9 @@
   }
   .border-\[\#FAFAFA\] {
     border-color: #FAFAFA;
+  }
+  .border-\[\#c4b09e\] {
+    border-color: #c4b09e;
   }
   .border-\[\#c4b09e\]\/30 {
     border-color: color-mix(in oklab, #c4b09e 30%, transparent);
@@ -2878,6 +2890,10 @@
     --tw-shadow: 0 10px 40px -10px var(--tw-shadow-color, rgba(0,0,0,0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .shadow-\[0_10px_40px_-15px_rgba\(0\,0\,0\,0\.05\)\] {
+    --tw-shadow: 0 10px 40px -15px var(--tw-shadow-color, rgba(0,0,0,0.05));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
   .shadow-\[0_20px_50px_-10px_rgba\(0\,0\,0\,0\.05\)\] {
     --tw-shadow: 0 20px 50px -10px var(--tw-shadow-color, rgba(0,0,0,0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -2909,6 +2925,12 @@
   .ring-2 {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-\[\#181615\]\/20 {
+    --tw-shadow-color: color-mix(in srgb, #181615 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, #181615 20%, transparent) var(--tw-shadow-alpha), transparent);
+    }
   }
   .shadow-stone-300 {
     --tw-shadow-color: oklch(86.9% 0.005 56.366);
@@ -5116,6 +5138,11 @@
       padding-bottom: calc(var(--spacing) * 28);
     }
   }
+  .md\:pb-32 {
+    @media (width >= 48rem) {
+      padding-bottom: calc(var(--spacing) * 32);
+    }
+  }
   .md\:text-center {
     @media (width >= 48rem) {
       text-align: center;
@@ -5689,6 +5716,12 @@
     @media (width >= 64rem) {
       font-size: var(--text-6xl);
       line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+  .lg\:text-7xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-7xl);
+      line-height: var(--tw-leading, var(--text-7xl--line-height));
     }
   }
   .lg\:text-\[40px\] {

@@ -1,49 +1,185 @@
-<section class="w-full bg-[#111111] py-32 px-4 sm:px-6">
-  <div class="text-center mb-20 max-w-3xl mx-auto">
-    <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#c4b09e] mb-4">{{ section.settings.subheading }}</p>
-    <h2 class="text-4xl md:text-5xl font-serif text-white">{{ section.settings.title }}</h2>
-  </div>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 max-w-screen-2xl mx-auto gap-4">
-    {% for block in section.blocks %}
-      <div class="relative group overflow-hidden bg-[#1a1a1a] aspect-[4/5] cursor-pointer">
-        {% if block.settings.image != blank %}
-          <img src="{{ block.settings.image | img_url: '800x' }}" class="w-full h-full object-cover opacity-70 transition duration-1000 group-hover:scale-105 group-hover:opacity-100" alt="{{ block.settings.name }}">
-        {% else %}
-          <div class="w-full h-full bg-[#222]"></div>
-        {% endif %}
-        
-        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div class="w-12 h-12 rounded-full border border-white flex items-center justify-center text-white">
-            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
+{%- comment -%} sections/page-join-family.liquid {%- endcomment -%}
 
-        <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
-          <p class="text-white text-[10px] font-bold uppercase tracking-[0.2em]">{{ block.settings.name }}</p>
+<style>
+    #join-family-{{ section.id }} {
+        font-family: var(--font-sans, 'Inter', sans-serif);
+    }
+    #join-family-{{ section.id }} .font-serif {
+        font-family: var(--font-display, 'Cormorant Garamond', serif);
+    }
+    .focus-ring:focus-visible {
+        outline: 2px solid #181615;
+        outline-offset: 2px;
+    }
+    .form-input {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 16px;
+        font-size: 14.5px;
+        background: #FAFAFA;
+        color: #181615;
+        transition: all 0.3s ease;
+    }
+    .form-input:focus {
+        border-color: #181615;
+        background: #ffffff;
+        outline: none;
+        box-shadow: 0 0 0 1px #181615;
+    }
+</style>
+
+<div id="join-family-{{ section.id }}" class="w-full bg-[#FAFAFA] overflow-hidden">
+    
+    {%- comment -%} HERO SECTION {%- endcomment -%}
+    <div class="relative w-full py-20 md:py-32 px-5 text-center flex flex-col items-center bg-[#F5F3F0]">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#c4b09e]/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <span class="block text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase text-[#c4b09e] mb-4">
+                {{ section.settings.subtitle }}
+            </span>
+            <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-light text-[#181615] mb-6 leading-tight tracking-tight">
+                {{ section.settings.title }}
+            </h1>
+            <p class="text-[15px] md:text-base text-stone-600 font-light leading-relaxed max-w-2xl mx-auto">
+                {{ section.settings.description }}
+            </p>
         </div>
-      </div>
-    {% endfor %}
-  </div>
-</section>
+    </div>
+
+    {%- comment -%} PERKS GRID {%- endcomment -%}
+    <div class="max-w-[1200px] mx-auto px-5 py-16 md:py-24 relative z-20 -mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            
+            <div class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 transition-transform duration-500">
+                <div class="w-14 h-14 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6 text-[#181615]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <h3 class="font-serif text-xl text-[#181615] font-medium mb-3">Early Access</h3>
+                <p class="text-[13.5px] text-stone-500 font-light leading-relaxed">Be the first to experience and shop our newest product releases before the public.</p>
+            </div>
+
+            <div class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 transition-transform duration-500">
+                <div class="w-14 h-14 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6 text-[#181615]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                </div>
+                <h3 class="font-serif text-xl text-[#181615] font-medium mb-3">Premium Support</h3>
+                <p class="text-[13.5px] text-stone-500 font-light leading-relaxed">Unlock priority order handling and direct access to our premium concierge chat support.</p>
+            </div>
+
+            <div class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 transition-transform duration-500">
+                <div class="w-14 h-14 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6 text-[#181615]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                </div>
+                <h3 class="font-serif text-xl text-[#181615] font-medium mb-3">20% Extra Discount</h3>
+                <p class="text-[13.5px] text-stone-500 font-light leading-relaxed">Receive exclusive discount coupons including a permanent 20% off all future orders.</p>
+            </div>
+
+            <div class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 transition-transform duration-500">
+                <div class="w-14 h-14 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-6 text-[#181615]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <h3 class="font-serif text-xl text-[#181615] font-medium mb-3">Get Featured</h3>
+                <p class="text-[13.5px] text-stone-500 font-light leading-relaxed">We will beautifully publish your story on our website and tag you across our socials.</p>
+            </div>
+
+        </div>
+    </div>
+
+    {%- comment -%} SUBMISSION FORM {%- endcomment -%}
+    <div class="max-w-[800px] mx-auto px-5 pb-24 md:pb-32">
+        <div class="bg-white border border-stone-200 shadow-2xl rounded-2xl p-8 md:p-12 lg:p-16">
+            
+            <div class="text-center mb-10">
+                <h2 class="font-serif text-3xl md:text-4xl text-[#181615] mb-3">Share Your Story</h2>
+                <p class="text-[14px] text-stone-500 font-light">Fill out the form below with your details and a link to your unboxing or reaction video.</p>
+            </div>
+
+            {% form 'contact', id: 'join-family-form' %}
+                {% if form.posted_successfully? %}
+                    <div class="bg-[#F5F3F0] border border-[#c4b09e] text-[#181615] p-6 rounded-xl text-center mb-8">
+                        <svg class="w-8 h-8 mx-auto mb-3 text-[#181615]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <h3 class="font-serif text-2xl mb-2">Thank you for sharing!</h3>
+                        <p class="font-light text-[14px]">Your story has been securely sent to our curation team. If selected, we will be in touch shortly with your exclusive perks.</p>
+                    </div>
+                {% endif %}
+
+                {{ form.errors | default_errors }}
+
+                <div class="space-y-6">
+                    <input type="hidden" name="contact[tags]" value="visual_book_family, story_submission">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="ContactFormName" class="block text-[11px] font-bold text-[#181615] uppercase tracking-widest mb-2">Name <span class="text-[#c4b09e]">*</span></label>
+                            <input type="text" id="ContactFormName" name="contact[name]" class="focus-ring form-input" placeholder="Your full name" required>
+                        </div>
+                        <div>
+                            <label for="ContactFormEmail" class="block text-[11px] font-bold text-[#181615] uppercase tracking-widest mb-2">Email <span class="text-[#c4b09e]">*</span></label>
+                            <input type="email" id="ContactFormEmail" name="contact[email]" class="focus-ring form-input" placeholder="Your email address" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="ContactFormSocial" class="block text-[11px] font-bold text-[#181615] uppercase tracking-widest mb-2">Instagram / TikTok Handle</label>
+                        <input type="text" id="ContactFormSocial" name="contact[social_handle]" class="focus-ring form-input" placeholder="@yourhandle">
+                    </div>
+
+                    <div>
+                        <label for="ContactFormVideo" class="block text-[11px] font-bold text-[#181615] uppercase tracking-widest mb-2">Video Link <span class="text-[#c4b09e]">*</span></label>
+                        <p class="text-xs text-stone-500 mb-2 font-light">Paste a Google Drive, Dropbox, iCloud, or WeTransfer link here. Make sure permissions are set to "Anyone with the link can view".</p>
+                        <input type="url" id="ContactFormVideo" name="contact[video_link]" class="focus-ring form-input" placeholder="https://..." required>
+                    </div>
+
+                    <div>
+                        <label for="ContactFormStory" class="block text-[11px] font-bold text-[#181615] uppercase tracking-widest mb-2">The Story Behind the Book <span class="text-[#c4b09e]">*</span></label>
+                        <textarea rows="5" id="ContactFormStory" name="contact[body]" class="focus-ring form-input resize-y" placeholder="Tell us who the book was for, what the occasion was, and how they reacted..." required></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="focus-ring w-full bg-[#181615] text-white rounded-lg px-8 py-5 font-bold uppercase text-[12px] tracking-[0.15em] hover:bg-stone-800 transition-colors shadow-lg shadow-[#181615]/20 cursor-pointer">
+                            Submit My Story & Video
+                        </button>
+                    </div>
+                    
+                    <p class="text-[11px] text-stone-400 font-light text-center px-4">
+                        By submitting this form, you grant The Visual Book permission to review your content and potentially use it across our marketing channels.
+                    </p>
+                </div>
+            {% endform %}
+
+        </div>
+    </div>
+</div>
 
 {% schema %}
 {
-  "name": "Visual Family (Community)",
+  "name": "Join Family Page",
   "settings": [
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Community" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Real Moments" }
-  ],
-  "blocks": [
     {
-      "type": "member",
-      "name": "Instagram Post",
-      "settings": [
-        { "type": "image_picker", "id": "image", "label": "Photo" },
-        { "type": "text", "id": "name", "label": "Handle", "default": "@THE_VISUAL_BOOK" }
-      ]
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "The Visual Book"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Join the Family"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Share your unboxing, your reaction, and your beautiful story with us. If selected to be featured on our socials and website, you'll unlock an exclusive tier of VIP rewards."
     }
   ],
-  "presets": [{ "name": "Visual Family (Community)" }]
+  "presets": [
+    {
+      "name": "Join Family Form"
+    }
+  ]
 }
 {% endschema %}

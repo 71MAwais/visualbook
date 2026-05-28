@@ -12,55 +12,23 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "top_heading": "",
+        "bottom_heading": "",
+        "custom_title": "Join Visual Book Family",
+        "text_alignment": "center",
+        "title_size_desktop": 3.5,
+        "title_size_mobile": 2,
         "padding_top": 28,
         "padding_bottom": 28
       }
     },
     "visual_family_WNXLwA": {
       "type": "visual-family",
-      "blocks": {
-        "member_96q3aA": {
-          "type": "member",
-          "settings": {
-            "name": "@THE_VISUAL_BOOK"
-          }
-        },
-        "member_7CKHk9": {
-          "type": "member",
-          "settings": {
-            "name": "@THE_VISUAL_BOOK"
-          }
-        },
-        "member_MKtQKN": {
-          "type": "member",
-          "settings": {
-            "name": "@THE_VISUAL_BOOK"
-          }
-        },
-        "member_3RtUq7": {
-          "type": "member",
-          "settings": {
-            "name": "@THE_VISUAL_BOOK"
-          }
-        },
-        "member_ineRWx": {
-          "type": "member",
-          "settings": {
-            "name": "@THE_VISUAL_BOOK"
-          }
-        }
-      },
-      "block_order": [
-        "member_96q3aA",
-        "member_7CKHk9",
-        "member_MKtQKN",
-        "member_3RtUq7",
-        "member_ineRWx"
-      ],
       "name": "Visual Family (Community)",
       "settings": {
-        "subheading": "Community",
-        "title": "Real Moments"
+        "subtitle": "The Visual Book",
+        "title": "Real Moments",
+        "description": "Share your unboxing, your reaction, and your beautiful story with us. If selected to be featured on our socials and website, you'll unlock an exclusive tier of VIP rewards."
       }
     }
   },
