@@ -2,7 +2,7 @@
 
 <style>
     /* Safely hide Judge.me default widgets to prevent UI clutter */
-   .jdgm-hidden-reviews {
+    .jdgm-hidden-reviews {
         position: absolute!important;
         left: -99999px!important;
         top: 0!important;
@@ -12,8 +12,8 @@
         overflow: hidden;
     }
 
-    #judgeme-widget-mount.jdgm-widget,
-    #judgeme-widget-mount.jdgm-all-reviews-widget {
+    #jdgm-widget-mount.jdgm-widget,
+    #jdgm-widget-mount.jdgm-all-reviews-widget {
         display: block!important;
         position: relative!important;
         left: 0!important;
@@ -30,7 +30,7 @@
         font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
 
-    /* Custom Review Card Glassmorphism & Hover States (From Product Design) */
+    /* Custom Review Card Glassmorphism & Hover States */
     .review-card {
         transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
@@ -251,7 +251,7 @@
 <visual-reviews class="block w-full" data-autoplay-speed="{{ section.settings.autoplay_speed }}">
     <section id="visual-reviews-{{ section.id }}" class="w-full bg-[#FAFAFA] py-12 md:py-16 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50">
 
-        {%- comment -%} HEADER (Using Product Style) {%- endcomment -%}
+        {%- comment -%} HEADER {%- endcomment -%}
         <div class="w-full text-center pb-8 px-5 flex-shrink-0 z-10">
             <p class="font-script text-[#181615] text-[24px] md:text-[28px] mb-1 md:mb-2 leading-none">{{ section.settings.subtitle }}</p>
             <h2 class="font-serif text-[32px] md:text-[40px] text-stone-950 tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
@@ -279,7 +279,6 @@
 
         {%- comment -%} CAROUSEL TRACK {%- endcomment -%}
         <div class="w-full relative group/carousel max-w-[1600px] mx-auto flex items-center">
-            
             <div class="absolute top-0 left-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none transition-opacity duration-300"></div>
             <div class="absolute top-0 right-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none transition-opacity duration-300"></div>
             
@@ -300,24 +299,9 @@
     </section>
 
     {%- comment -%} 
-      THE HIDDEN JUDGE.ME BACKEND (Strictly All Reviews / Store Reviews)
+      MODAL UI WITH NATIVE JUDGE.ME WIDGET INSIDE
+      We no longer move DOM via Javascript. We render it exactly where it belongs.
     {%- endcomment -%}
-    <div class="jdgm-hidden-reviews js-hidden-reviews">
-        <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
-            {{ shop.metafields.judgeme.all_reviews_header }}
-            <div class='jdgm-all-reviews__body'>
-                {% assign prefix = 'all_reviews_' %}
-                {% for count in (0..65535) %}
-                    {% assign metafield_key = prefix | append: count %}
-                    {% assign current_metafield = shop.metafields.judgeme[metafield_key] %}
-                    {% unless current_metafield %} {% break %} {% endunless %}
-                    {{ current_metafield }}
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    {%- comment -%} MODAL UI {%- endcomment -%}
     <div class="js-judgeme-modal-wrapper relative z-50">
         <div class="js-judgeme-full-modal fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/80 backdrop-blur-md opacity-0 transition-opacity duration-300 px-4 py-10" role="dialog" aria-modal="true">
             
@@ -327,8 +311,19 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
 
-                <div class="w-full mt-4" id="judgeme-widget-mount">
-                    <div class="js-judgeme-widget-mount"></div>
+                <div class="w-full mt-4" id="jdgm-widget-mount">
+                    <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
+                        {{ shop.metafields.judgeme.all_reviews_header }}
+                        <div class='jdgm-all-reviews__body'>
+                            {% assign prefix = 'all_reviews_' %}
+                            {% for count in (0..65535) %}
+                                {% assign metafield_key = prefix | append: count %}
+                                {% assign current_metafield = shop.metafields.judgeme[metafield_key] %}
+                                {% unless current_metafield %} {% break %} {% endunless %}
+                                {{ current_metafield }}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -341,8 +336,6 @@ if (!customElements.get('visual-reviews')) {
     class VisualReviews extends HTMLElement {
         constructor() {
             super();
-            this.hiddenReviews = this.querySelector('.js-hidden-reviews');
-            this.widgetMount = this.querySelector('.js-judgeme-widget-mount');
             this.modalWrapper = this.querySelector('.js-judgeme-modal-wrapper');
             this.fullModal = this.querySelector('.js-judgeme-full-modal');
             this.modalContent = this.querySelector('.js-judgeme-modal-content');
@@ -442,10 +435,11 @@ if (!customElements.get('visual-reviews')) {
         }
 
         initMutationObserver() {
-            if (!this.hiddenReviews) return;
+            const mount = document.getElementById('jdgm-widget-mount');
+            if (!mount) return;
 
             const checkAndExtract = () => {
-                const rawReviews = this.hiddenReviews.querySelectorAll('.jdgm-rev');
+                const rawReviews = mount.querySelectorAll('.jdgm-rev');
                 if (rawReviews.length > 0) {
                     this.extractJudgeMeReviews(rawReviews);
                     return true;
@@ -459,19 +453,15 @@ if (!customElements.get('visual-reviews')) {
                 if (checkAndExtract()) obs.disconnect();
             });
             
-            observer.observe(this.hiddenReviews, { childList: true, subtree: true });
+            observer.observe(mount, { childList: true, subtree: true });
 
-            if (window.jdgm && typeof window.jdgm.refreshBadges === 'function') {
-                try { window.jdgm.refreshBadges(); } catch(e) {}
-            }
-            
             window.addEventListener('jdgm.doneSetup', () => {
                 checkAndExtract();
             });
             
             setTimeout(() => {
                 observer.disconnect();
-                if (!checkAndExtract()) this.extractJudgeMeReviews();
+                if (!checkAndExtract()) this.extractJudgeMeReviews(mount.querySelectorAll('.jdgm-rev'));
             }, 10000);
         }
 
@@ -486,25 +476,16 @@ if (!customElements.get('visual-reviews')) {
                 this.modalContent.classList.remove('scale-95', 'opacity-0');
             });
 
-            if (this.widgetMount && this.hiddenReviews && !this.widgetMount.hasChildNodes()) {
-                while (this.hiddenReviews.firstChild) {
-                    this.widgetMount.appendChild(this.hiddenReviews.firstChild);
-                }
-            }
-
+            // Auto-trigger the form safely
             let tries = 0;
             const reviewInterval = setInterval(() => {
-                const writeReviewBtn = this.widgetMount ? this.widgetMount.querySelector('.jdgm-write-store-rev-btn,.jdgm-write-rev-link') : null;
-                const formWrapper = this.widgetMount ? this.widgetMount.querySelector('.jdgm-form-wrapper') : null;
+                const writeReviewBtn = document.querySelector('#jdgm-widget-mount .jdgm-write-store-rev-btn, #jdgm-widget-mount .jdgm-write-rev-link');
                 
                 if (writeReviewBtn) {
                     clearInterval(reviewInterval);
                     if (!writeReviewBtn.classList.contains('jdgm-opened')) {
                         writeReviewBtn.click();
                     }
-                } else if (formWrapper) {
-                    clearInterval(reviewInterval);
-                    formWrapper.style.display = 'block';
                 }
                 
                 tries++;
@@ -519,12 +500,6 @@ if (!customElements.get('visual-reviews')) {
             this.modalContent.classList.add('scale-95', 'opacity-0');
 
             setTimeout(() => {
-                if (this.hiddenReviews && this.widgetMount) {
-                    while (this.widgetMount.firstChild) {
-                        this.hiddenReviews.appendChild(this.widgetMount.firstChild);
-                    }
-                }
-                
                 this.fullModal.classList.add('hidden');
                 this.fullModal.classList.remove('flex');
             }, 300);
@@ -559,7 +534,7 @@ if (!customElements.get('visual-reviews')) {
                                 <div class="flex items-center gap-1 mb-3">
                                     ${starsHtml}
                                 </div>
-                                ${title ? `<h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">${title}</h3>` : ''}
+                                ${title ? `<h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight truncate w-full" title="${title}">${title}</h3>` : ''}
                                 <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">"${body}"</p>
                             </div>
                             <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
@@ -700,7 +675,7 @@ if (!customElements.get('visual-reviews')) {
 
         adjustSpacers() {
             if (!this.isCarouselEnabled) return;
-            const firstCard = this.cardContainer.children[0];
+            const firstCard = this.cardContainer.children;
             if (!firstCard) return;
 
             const cardWidth = firstCard.offsetWidth || 340;
