@@ -859,6 +859,9 @@
   .max-h-\[60vh\] {
     max-height: 60vh;
   }
+  .max-h-\[90vh\] {
+    max-height: 90vh;
+  }
   .max-h-\[140px\] {
     max-height: 140px;
   }
@@ -1917,6 +1920,12 @@
     background-color: color-mix(in srgb, oklch(21.6% 0.006 56.043) 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-stone-900) 60%, transparent);
+    }
+  }
+  .bg-stone-900\/70 {
+    background-color: color-mix(in srgb, oklch(21.6% 0.006 56.043) 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-stone-900) 70%, transparent);
     }
   }
   .bg-stone-950 {
@@ -4813,6 +4822,11 @@
   .md\:p-8 {
     @media (width >= 48rem) {
       padding: calc(var(--spacing) * 8);
+    }
+  }
+  .md\:p-10 {
+    @media (width >= 48rem) {
+      padding: calc(var(--spacing) * 10);
     }
   }
   .md\:p-12 {

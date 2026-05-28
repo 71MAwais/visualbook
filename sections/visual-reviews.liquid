@@ -1,6 +1,20 @@
 {% comment %} sections/visual-reviews.liquid {% endcomment %}
 
 <style>
+    /* Completely Hide Default Judge.me Widgets from rendering */
+    .jdgm-widget,
+    .jdgm-prev-badge,
+    .jdgm-rev-widg,
+    .jdgm-all-reviews-widget {
+        display: none !important;
+    }
+
+    /* Keep the injected widget visible inside our modal */
+    #judgeme-widget-mount .jdgm-widget,
+    #judgeme-widget-mount .jdgm-rev-widg {
+        display: block !important;
+    }
+
     /* Section Fonts */
     #visual-reviews-{{ section.id }} {
         font-family: var(--font-sans, 'Inter', sans-serif);
@@ -9,7 +23,7 @@
         font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
 
-    /* Carousel Center Focus Effects (Matched to Shop) */
+    /* Carousel Center Focus Effects */
     .review-card {
         transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
@@ -33,9 +47,10 @@
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
     }
+    
+    /* FIXED: Better Mobile Dragging (Removed scroll-behavior: auto !important) */
     #reviews-track.dragging {
         cursor: grabbing;
-        scroll-behavior: auto !important; 
         scroll-snap-type: none !important; 
     }
     
@@ -59,7 +74,6 @@
         transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* Only apply hover effects on desktop (devices with a real mouse) */
     @media (hover: hover) and (pointer: fine) {
         .review-arrow:hover {
             color: #0c0a09;
@@ -69,24 +83,58 @@
         }
     }
 
-    /* Active press state for all devices */
     .review-arrow:active {
         transform: translate3d(0, -50%, 0) scale(0.92);
     }
 </style>
 
-<section id="visual-reviews-{{ section.id }}" class="w-full bg-[#FAFAFA] py-8 md:py-12 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50">
+{%- comment -%} 
+  DYNAMIC RATING EXTRACTION:
+  If on a product page, grab product stats. If anywhere else, grab store stats.
+{%- endcomment -%}
+{%- if product != blank -%}
+  {%- assign jm_badge = product.metafields.judgeme.badge -%}
+  {%- assign rating_val = jm_badge | split: "data-average-rating='" | last | split: "'" | first | default: '5.0' -%}
+  {%- assign review_count = jm_badge | split: "data-number-of-reviews='" | last | split: "'" | first | default: '0' -%}
+{%- else -%}
+  {%- assign rating_val = shop.metafields.judgeme.all_reviews_rating | round: 1 | default: '5.0' -%}
+  {%- assign review_count = shop.metafields.judgeme.all_reviews_count | default: '0' -%}
+  {%- if review_count == '0' -%}
+      {%- assign jm_all_badge = shop.metafields.judgeme.all_reviews_badge -%}
+      {%- assign rating_val = jm_all_badge | split: "data-average-rating='" | last | split: "'" | first | default: '5.0' -%}
+      {%- assign review_count = jm_all_badge | split: "data-number-of-reviews='" | last | split: "'" | first | default: '0' -%}
+  {%- endif -%}
+{%- endif -%}
 
-    <div class="w-full text-center pb-6 px-5 flex-shrink-0 z-10">
+{%- comment -%} Fallback if app hasn't synced yet {%- endcomment -%}
+{%- if review_count == '0' or review_count == blank or review_count == '0.0' -%}
+  {%- assign rating_val = "5.0" -%}
+  {%- assign review_count = section.settings.fallback_review_count | default: "0" -%}
+{%- endif -%}
+
+<section id="visual-reviews-{{ section.id }}" class="w-full bg-[#FAFAFA] py-12 md:py-16 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50">
+
+    <div class="w-full text-center pb-8 px-5 flex-shrink-0 z-10">
         <p class="font-script text-[#181615] text-[24px] md:text-[28px] mb-1 md:mb-2 leading-none">{{ section.settings.subtitle }}</p>
         <h2 class="font-serif text-[32px] md:text-[40px] text-stone-950 tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
         
         {% if section.settings.show_rating %}
-        <div class="flex items-center justify-center gap-1 mt-3">
-            {% for i in (1..5) %}
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="#181615" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            {% endfor %}
-            <span class="ml-2 text-[12px] text-stone-500 font-semibold">{{ section.settings.rating_text }}</span>
+        <div class="flex flex-col items-center justify-center gap-3 mt-4">
+            <div class="flex items-center gap-1">
+                {%- assign rating_floor = rating_val | floor -%}
+                {% for i in (1..5) %}
+                    {% if i <= rating_floor %}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#181615" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% else %}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#E5E5E5" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endif %}
+                {% endfor %}
+                <span class="ml-2 text-[13px] text-stone-600 font-semibold">{{ rating_val }} / 5 — {{ review_count }} Reviews</span>
+            </div>
+
+            <button type="button" id="open-judgeme-modal-btn" class="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a] pb-0.5 hover:text-[#c4b09e] hover:border-[#c4b09e] transition-colors duration-300">
+                Write a Review / Read All
+            </button>
         </div>
         {% endif %}
     </div>
@@ -105,268 +153,442 @@
 
         <div id="reviews-track" class="flex overflow-x-auto hide-scrollbar w-full cursor-grab items-center py-6 relative">
             <div id="start-spacer" class="shrink-0 w-[50vw]"></div>
-            <div id="review-card-container" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full"></div>
+            <div id="review-card-container" class="flex gap-4 md:gap-6 items-stretch shrink-0 h-full">
+                </div>
             <div id="end-spacer" class="shrink-0 w-[50vw]"></div>
         </div>
     </div>
 
 </section>
 
-<div id="reviews-data" class="hidden">
-    {% for block in section.blocks %}
-        <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
-            <div>
-                <div class="flex items-center gap-1 mb-3">
-                    {% for i in (1..5) %}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= block.settings.stars %}#181615{% else %}#E5E5E5{% endif %}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    {% endfor %}
-                </div>
-                <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">{{ block.settings.title }}</h3>
-                <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">{{ block.settings.text }}</p>
-            </div>
-            <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
-                <div class="flex flex-col">
-                    <span class="text-[13px] font-bold text-stone-950 tracking-wide">{{ block.settings.author }}</span>
-                    {% if block.settings.verified %}
-                        <span class="text-[10px] font-medium text-[#181615]/70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
-                    {% endif %}
-                </div>
-                {% if block.settings.verified %}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                {% endif %}
-            </div>
+
+{%- comment -%} 
+  FIX 8: Move Judge.me widget OUTSIDE hidden modal.
+  This ensures Judge.me scripts find it normally on page load! 
+{%- endcomment -%}
+<div style="display:none;" id="jdgm-hidden-reviews">
+    {%- if product != blank -%}
+        {% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true, product: product %}
+    {%- else -%}
+        {% render 'judgeme_widgets', widget_type: 'judgeme_all_reviews_widget', concierge_install: true %}
+    {%- endif -%}
+</div>
+
+
+{%- comment -%} 
+  FIX 2: Valid Tailwind class z- for the modal wrapper 
+{%- endcomment -%}
+<div id="judgeme-modal-wrapper" class="relative z-">
+    <div id="judgeme-full-modal" class="fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/70 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4 py-10" role="dialog" aria-modal="true">
+        
+        <div id="judgeme-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 md:p-10 relative transform scale-95 opacity-0 transition-all duration-300 custom-scrollbar">
+            
+            <button id="close-judgeme-modal-btn" type="button" aria-label="Close review modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors z-50 bg-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <div class="mt-4" id="judgeme-widget-mount"></div>
+
         </div>
-    {% else %}
-        {% for i in (1..3) %}
-            <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
-                <div>
-                    <div class="flex items-center gap-1 mb-3">
-                        {% for j in (1..5) %}<svg width="16" height="16" viewBox="0 0 24 24" fill="#181615" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
-                    </div>
-                    <h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">Beautifully Crafted</h3>
-                    <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">Add a review in the Shopify customizer.</p>
-                </div>
-                <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center">
-                    <div class="flex flex-col">
-                        <span class="text-[13px] font-bold text-stone-950 tracking-wide">Customer Name</span>
-                        <span class="text-[10px] font-medium text-[#181615]/70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>
-                    </div>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                </div>
-            </div>
-        {% endfor %}
-    {% endfor %}
+    </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const scrollContainer = document.getElementById('reviews-track');
+
+    // Move modal wrapper to body
+    const modalWrapper = document.getElementById('judgeme-modal-wrapper');
+    if (modalWrapper && document.body) {
+        document.body.appendChild(modalWrapper);
+    }
+
     const cardContainer = document.getElementById('review-card-container');
-    const prevBtn = document.getElementById('review-prev');
-    const nextBtn = document.getElementById('review-next');
-    const dataCards = Array.from(document.getElementById('reviews-data').children);
+    const fullModal = document.getElementById('judgeme-full-modal');
+    const modalContent = document.getElementById('judgeme-modal-content');
+    const openModalBtn = document.getElementById('open-judgeme-modal-btn');
+    const closeModalBtn = document.getElementById('close-judgeme-modal-btn');
     
-    let totalOriginal = dataCards.length;
-    let isJumping = false;
-    let isTouching = false; 
-    let scrollTimeout = null;
-    // --- SMART AUTO SCROLL LOGIC ---
-    let autoScrollTimer = null;
-    let isInteracting = false;
-    let isDown = false;
-    const AUTO_SCROLL_DELAY = {{ section.settings.autoplay_speed | default: 3 }} * 1000;
+    // FIX 7: Prevent duplicate event listeners and init
+    let carouselInitialized = false;
+    
+    // ============================================
+    // MODAL LOGIC (Write a Review) - FIX 4
+    // ============================================
+    function openReviewModal() {
+        if (!fullModal || !modalContent) return;
 
-    function queueNextAutoScroll() {
-        clearTimeout(autoScrollTimer);
-        // Do not auto scroll if user is interacting, jumping, dragging, or if disabled
-        if (isInteracting || totalOriginal === 0 || isJumping || isDown || isTouching || AUTO_SCROLL_DELAY === 0) return;
-        autoScrollTimer = setTimeout(() => {
-            if (isInteracting || isJumping || isDown || isTouching) return;
-            const active = document.querySelector('.review-card.active-card');
-            if (active) {
-                scrollToCard(parseInt(active.dataset.index) + 1);
-            }
-        }, AUTO_SCROLL_DELAY);
-    }
-    // ----------------------------
+        fullModal.classList.remove('hidden');
+        fullModal.classList.add('flex');
 
-    if (totalOriginal === 0) return;
-    // Loop 3 times to recreate infinite scrolling logic
-    for (let i = 0; i < 3; i++) {
-        dataCards.forEach((cardTemplate, idx) => {
-            const clone = cardTemplate.cloneNode(true);
-            clone.dataset.index = (i * totalOriginal) + idx;
-            clone.dataset.realIndex = idx;
-            clone.addEventListener('click', () => {
-                scrollToCard(parseInt(clone.dataset.index));
-                queueNextAutoScroll(); // Reset timer on manual click
-            });
-            cardContainer.appendChild(clone);
+        requestAnimationFrame(() => {
+            fullModal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95', 'opacity-0');
         });
-    }
 
-    function adjustSpacers() {
-        if (!cardContainer.children.length) return;
-        const cardWidth = cardContainer.children.offsetWidth || 340;
-        const containerWidth = scrollContainer.clientWidth;
-        const space = (containerWidth / 2) - (cardWidth / 2);
-        document.getElementById('start-spacer').style.width = `${space}px`;
-        document.getElementById('end-spacer').style.width = `${space}px`;
-    }
-
-    window.addEventListener('resize', () => {
-        adjustSpacers();
-        const activeCard = document.querySelector('.review-card.active-card');
-        if (activeCard) {
-            jumpToIndexSilently(parseInt(activeCard.dataset.index));
-        }
-    });
-
-    function scrollToCard(index) {
-        const cards = Array.from(cardContainer.children);
-        if (!cards[index]) return;
-        const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
-        const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
-        scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' }); // Explicit smooth scroll
-    }
-
-    function jumpToIndexSilently(index) {
-        isJumping = true;
-        scrollContainer.style.scrollSnapType = 'none'; // Prevent browser from fighting JS
+        // Transplant the initialized Judge.me widget into the modal
+        const hiddenReviews = document.getElementById('jdgm-hidden-reviews');
+        const widgetMount = document.getElementById('judgeme-widget-mount');
         
-        const cards = Array.from(cardContainer.children);
-        cards.forEach(c => c.style.transition = 'none'); // Disable scale animation temporarily
+        if (hiddenReviews && widgetMount && hiddenReviews.innerHTML.trim() !== '') {
+            widgetMount.innerHTML = hiddenReviews.innerHTML;
+            hiddenReviews.innerHTML = ''; // Empty the old container
+        }
 
-        if (cards[index]) {
+        // Wait until Judge.me fully initializes before clicking "Write a review"
+        let tries = 0;
+        const reviewInterval = setInterval(() => {
+            const writeReviewBtn = document.querySelector('.jdgm-write-rev-link');
+            
+            if (writeReviewBtn) {
+                clearInterval(reviewInterval);
+                if (!writeReviewBtn.classList.contains('jdgm-opened')) {
+                    writeReviewBtn.click();
+                }
+            }
+            
+            tries++;
+            if (tries > 20) {
+                clearInterval(reviewInterval);
+            }
+        }, 300);
+    }
+
+    function closeReviewModal() {
+        if (!fullModal || !modalContent) return;
+        fullModal.classList.add('opacity-0');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            fullModal.classList.add('hidden');
+            fullModal.classList.remove('flex');
+        }, 300);
+    }
+
+    if(openModalBtn) openModalBtn.addEventListener('click', openReviewModal);
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeReviewModal);
+    if(fullModal) fullModal.addEventListener('click', (e) => { if(e.target === fullModal) closeReviewModal(); });
+
+    // ============================================
+    // DYNAMIC EXTRACTION LOGIC
+    // ============================================
+    function extractJudgeMeReviews(reviewsNodeList) {
+        if (!cardContainer) return;
+        cardContainer.innerHTML = ''; 
+        
+        if (reviewsNodeList && reviewsNodeList.length > 0) {
+            const reviewsArray = Array.from(reviewsNodeList).slice(0, 15); // Max 15 for performance
+            
+            reviewsArray.forEach(rev => {
+                const author = rev.querySelector('.jdgm-rev__author')?.innerText.trim() || 'Verified Buyer';
+                const title = rev.querySelector('.jdgm-rev__title')?.innerText.trim() || '';
+                const body = rev.querySelector('.jdgm-rev__body')?.innerText.trim() || '';
+                const ratingEl = rev.querySelector('.jdgm-rev__rating');
+                const ratingScore = ratingEl ? parseInt(ratingEl.getAttribute('data-score')) || 5 : 5;
+                const isVerified = !!rev.querySelector('.jdgm-rev__buyer-badge');
+
+                let starsHtml = '';
+                for(let i=1; i<=5; i++) {
+                    let fill = i <= ratingScore ? '#181615' : '#E5E5E5';
+                    starsHtml += `<svg width="16" height="16" viewBox="0 0 24 24" fill="${fill}" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+                }
+
+                const verifiedHtml = isVerified ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="#16a34a" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>` : '';
+                const verifiedText = isVerified ? `<span class="text-[10px] font-medium text-[#181615]/70 mt-0.5 uppercase tracking-widest">Verified Buyer</span>` : '';
+
+                const cardHtml = `
+                    <div class="review-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-between bg-white border border-stone-200 p-6 rounded-[6px]">
+                        <div>
+                            <div class="flex items-center gap-1 mb-3">
+                                ${starsHtml}
+                            </div>
+                            ${title ? `<h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">${title}</h3>` : ''}
+                            <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">${body}</p>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="text-[13px] font-bold text-stone-950 tracking-wide">${author}</span>
+                                ${verifiedText}
+                            </div>
+                            ${verifiedHtml}
+                        </div>
+                    </div>
+                `;
+                cardContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+            
+            if (reviewsArray.length > 1) {
+                initCarousel();
+            } else {
+                // If only 1 review, center it safely
+                const startSpacer = document.getElementById('start-spacer');
+                const endSpacer = document.getElementById('end-spacer');
+                if(startSpacer) startSpacer.style.width = 'calc(50vw - 170px)';
+                if(endSpacer) endSpacer.style.width = 'calc(50vw - 170px)';
+            }
+
+        } else {
+            // Empty State
+            cardContainer.innerHTML = `
+                <div class="review-card active-card flex-shrink-0 w-[75vw] sm:w-[300px] md:w-[340px] snap-center flex flex-col justify-center items-center text-center bg-white border border-stone-200 p-8 rounded-[6px]">
+                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mb-4">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#181615" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    </div>
+                    <h3 class="text-[16px] font-bold text-stone-950 mb-2">No reviews yet</h3>
+                    <p class="text-[13px] text-stone-500 font-normal mb-6">Be the first to share your experience with us.</p>
+                    <button type="button" onclick="document.getElementById('open-judgeme-modal-btn')?.click()" class="bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] py-3 px-6 hover:bg-[#c4b09e] transition-colors">Write a Review</button>
+                </div>
+            `;
+            const startSpacer = document.getElementById('start-spacer');
+            const endSpacer = document.getElementById('end-spacer');
+            if(startSpacer) startSpacer.style.width = 'calc(50vw - 170px)';
+            if(endSpacer) endSpacer.style.width = 'calc(50vw - 170px)';
+        }
+    }
+
+    // FIX 3: Wait for Judge.me completely before polling DOM
+    function waitForJudgeMeReviews() {
+        let attempts = 0;
+        const interval = setInterval(() => {
+            const rawReviews = document.querySelectorAll('.jdgm-rev');
+            
+            if (rawReviews.length > 0) {
+                clearInterval(interval);
+                extractJudgeMeReviews(rawReviews);
+                return;
+            }
+
+            attempts++;
+            if (attempts >= 60) { // 15 seconds
+                clearInterval(interval);
+                extractJudgeMeReviews([]);
+            }
+        }, 250);
+    }
+    
+    waitForJudgeMeReviews();
+
+    // ============================================
+    // CAROUSEL LOGIC
+    // ============================================
+    function initCarousel() {
+        if (carouselInitialized) return;
+        carouselInitialized = true;
+
+        const scrollContainer = document.getElementById('reviews-track');
+        const prevBtn = document.getElementById('review-prev');
+        const nextBtn = document.getElementById('review-next');
+        if(!cardContainer || !scrollContainer) return;
+
+        const dataCards = Array.from(cardContainer.children);
+        let totalOriginal = dataCards.length;
+        let isJumping = false;
+        let isTouching = false; 
+        let scrollTimeout = null;
+        let autoScrollTimer = null;
+        let isInteracting = false;
+        let isDown = false;
+        const AUTO_SCROLL_DELAY = {{ section.settings.autoplay_speed | default: 3 }} * 1000;
+
+        if (totalOriginal === 0) return;
+
+        function queueNextAutoScroll() {
+            clearTimeout(autoScrollTimer);
+            if (isInteracting || totalOriginal === 0 || isJumping || isDown || isTouching || AUTO_SCROLL_DELAY === 0) return;
+            autoScrollTimer = setTimeout(() => {
+                if (isInteracting || isJumping || isDown || isTouching) return;
+                const active = document.querySelector('.review-card.active-card');
+                if (active) {
+                    scrollToCard(parseInt(active.dataset.index) + 1);
+                }
+            }, AUTO_SCROLL_DELAY);
+        }
+
+        cardContainer.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            dataCards.forEach((cardTemplate, idx) => {
+                const clone = cardTemplate.cloneNode(true);
+                clone.dataset.index = (i * totalOriginal) + idx;
+                clone.dataset.realIndex = idx;
+                clone.addEventListener('click', () => {
+                    scrollToCard(parseInt(clone.dataset.index));
+                    queueNextAutoScroll();
+                });
+                cardContainer.appendChild(clone);
+            });
+        }
+
+        // FIX 1: Safer Spacers 
+        function adjustSpacers() {
+            const firstCard = cardContainer.children;
+            if (!firstCard) return;
+
+            const cardWidth = firstCard.offsetWidth || 340;
+            const containerWidth = scrollContainer.clientWidth;
+            const space = (containerWidth / 2) - (cardWidth / 2);
+
+            const startSpacer = document.getElementById('start-spacer');
+            const endSpacer = document.getElementById('end-spacer');
+            if(startSpacer) startSpacer.style.width = `${space}px`;
+            if(endSpacer) endSpacer.style.width = `${space}px`;
+        }
+
+        window.addEventListener('resize', () => {
+            adjustSpacers();
+            const activeCard = document.querySelector('.review-card.active-card');
+            if (activeCard) {
+                jumpToIndexSilently(parseInt(activeCard.dataset.index));
+            }
+        });
+
+        function scrollToCard(index) {
+            const cards = Array.from(cardContainer.children);
+            if (!cards[index]) return;
             const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
             const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
-            scrollContainer.scrollLeft = scrollPos;
-            
-            cards.forEach(c => c.classList.remove('active-card'));
-            cards[index].classList.add('active-card');
+            scrollContainer.scrollTo({ left: scrollPos, behavior: 'smooth' }); 
         }
-        
-        void scrollContainer.offsetWidth; // Force layout repaint instantly
-        
-        requestAnimationFrame(() => {
-            cards.forEach(c => c.style.transition = '');
-            scrollContainer.style.scrollSnapType = 'x mandatory';
-            
-            setTimeout(() => { 
-                isJumping = false; 
-                queueNextAutoScroll();
-            }, 50);
-        });
-    }
 
-    function handleScroll() {
-        if (isJumping || totalOriginal === 0) return;
+        function jumpToIndexSilently(index) {
+            isJumping = true;
+            scrollContainer.style.scrollSnapType = 'none'; 
+            
+            const cards = Array.from(cardContainer.children);
+            cards.forEach(c => c.style.transition = 'none'); 
+
+            if (cards[index]) {
+                const cardCenter = cards[index].offsetLeft + (cards[index].offsetWidth / 2);
+                const scrollPos = cardCenter - (scrollContainer.clientWidth / 2);
+                scrollContainer.scrollLeft = scrollPos;
+                
+                cards.forEach(c => c.classList.remove('active-card'));
+                cards[index].classList.add('active-card');
+            }
+            
+            void scrollContainer.offsetWidth; 
+            
+            requestAnimationFrame(() => {
+                cards.forEach(c => c.style.transition = '');
+                scrollContainer.style.scrollSnapType = 'x mandatory';
+                
+                setTimeout(() => { 
+                    isJumping = false; 
+                    queueNextAutoScroll();
+                }, 50);
+            });
+        }
+
+        function handleScroll() {
+            if (isJumping || totalOriginal === 0) return;
+            const cards = Array.from(cardContainer.children);
+            const containerCenter = scrollContainer.scrollLeft + (scrollContainer.clientWidth / 2);
+            
+            let minDiff = Infinity;
+            let closestIndex = 0;
+            cards.forEach((card, i) => {
+                const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+                const diff = Math.abs(containerCenter - cardCenter);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestIndex = i;
+                }
+            });
+
+            cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (isTouching || isDown) return;
+
+                if (closestIndex < totalOriginal || closestIndex >= totalOriginal * 2) {
+                    const safeIndex = (closestIndex % totalOriginal) + totalOriginal;
+                    jumpToIndexSilently(safeIndex);
+                } else {
+                    queueNextAutoScroll(); 
+                }
+            }, 250); 
+        }
+
+        scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
+        scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown && !isTouching) queueNextAutoScroll(); });
+        
+        scrollContainer.addEventListener('touchstart', () => { 
+            isTouching = true; 
+            isInteracting = true;
+            clearTimeout(autoScrollTimer); 
+        }, { passive: true });
+        scrollContainer.addEventListener('touchend', () => { 
+            isTouching = false; 
+            isInteracting = false;
+            handleScroll(); 
+        }, { passive: true });
+        scrollContainer.addEventListener('touchcancel', () => { 
+            isTouching = false; 
+            isInteracting = false;
+        }, { passive: true });
+        scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+
+        if (prevBtn) prevBtn.addEventListener('click', () => {
+            clearTimeout(autoScrollTimer);
+            const active = document.querySelector('.review-card.active-card');
+            if (active) scrollToCard(parseInt(active.dataset.index) - 1);
+        });
+        if (nextBtn) nextBtn.addEventListener('click', () => {
+            clearTimeout(autoScrollTimer);
+            const active = document.querySelector('.review-card.active-card');
+            if (active) scrollToCard(parseInt(active.dataset.index) + 1);
+        });
+        
+        let startX, scrollLeft;
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isInteracting = true;
+            clearTimeout(autoScrollTimer);
+            scrollContainer.classList.add('dragging');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+        });
+        scrollContainer.addEventListener('mouseleave', () => { 
+            if(isDown) {
+                isDown = false; 
+                isInteracting = false;
+                scrollContainer.classList.remove('dragging'); 
+                handleScroll(); 
+            }
+        });
+        scrollContainer.addEventListener('mouseup', () => { 
+            if(isDown) {
+                isDown = false; 
+                isInteracting = false;
+                scrollContainer.classList.remove('dragging'); 
+                handleScroll(); 
+            }
+        });
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+        
+        adjustSpacers();
+        
+        isJumping = true;
+        scrollContainer.style.scrollSnapType = 'none';
         const cards = Array.from(cardContainer.children);
-        const containerCenter = scrollContainer.scrollLeft + (scrollContainer.clientWidth / 2);
         
-        let minDiff = Infinity;
-        let closestIndex = 0;
-        cards.forEach((card, i) => {
-            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-            const diff = Math.abs(containerCenter - cardCenter);
-            if (diff < minDiff) {
-                minDiff = diff;
-                closestIndex = i;
-            }
+        // FIX 5: Prevent crash if missing
+        if (!cards[totalOriginal]) return;
+
+        const initialPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
+        scrollContainer.scrollLeft = initialPos;
+        cards[totalOriginal].classList.add('active-card');
+        requestAnimationFrame(() => {
+            scrollContainer.style.scrollSnapType = 'x mandatory';
+            isJumping = false;
+            queueNextAutoScroll();
         });
-
-        cards.forEach((card, i) => card.classList.toggle('active-card', i === closestIndex));
-
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            if (isTouching || isDown) return;
-
-            if (closestIndex < totalOriginal || closestIndex >= totalOriginal * 2) {
-                const safeIndex = (closestIndex % totalOriginal) + totalOriginal;
-                jumpToIndexSilently(safeIndex);
-            } else {
-                queueNextAutoScroll(); // Queue next slide if sitting safely in the middle set
-            }
-        }, 250); // Generous debounce ensures smooth scroll is entirely finished
     }
 
-    // --- PAUSE AUTO SCROLL ON INTERACTION ---
-    scrollContainer.addEventListener('mouseenter', () => { isInteracting = true; clearTimeout(autoScrollTimer); });
-    scrollContainer.addEventListener('mouseleave', () => { isInteracting = false; if (!isDown && !isTouching) queueNextAutoScroll(); });
-    // MOBILE TOUCH LISTENERS
-    scrollContainer.addEventListener('touchstart', () => { 
-        isTouching = true; 
-        isInteracting = true;
-        clearTimeout(autoScrollTimer); 
-    }, { passive: true });
-    scrollContainer.addEventListener('touchend', () => { 
-        isTouching = false; 
-        isInteracting = false;
-        handleScroll(); 
-    }, { passive: true });
-    scrollContainer.addEventListener('touchcancel', () => { 
-        isTouching = false; 
-        isInteracting = false;
-    }, { passive: true });
-    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
-
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-        clearTimeout(autoScrollTimer);
-        const active = document.querySelector('.review-card.active-card');
-        if (active) scrollToCard(parseInt(active.dataset.index) - 1);
-    });
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        clearTimeout(autoScrollTimer);
-        const active = document.querySelector('.review-card.active-card');
-        if (active) scrollToCard(parseInt(active.dataset.index) + 1);
-    });
-    // DESKTOP Drag to scroll
-    let startX, scrollLeft;
-    scrollContainer.addEventListener('mousedown', (e) => {
-        isDown = true;
-        isInteracting = true;
-        clearTimeout(autoScrollTimer);
-        scrollContainer.classList.add('dragging');
-        startX = e.pageX - scrollContainer.offsetLeft;
-        scrollLeft = scrollContainer.scrollLeft;
-    });
-    scrollContainer.addEventListener('mouseleave', () => { 
-        if(isDown) {
-            isDown = false; 
-            isInteracting = false;
-            scrollContainer.classList.remove('dragging'); 
-            handleScroll(); 
-        }
-    });
-    scrollContainer.addEventListener('mouseup', () => { 
-        if(isDown) {
-            isDown = false; 
-            isInteracting = false;
-            scrollContainer.classList.remove('dragging'); 
-            handleScroll(); 
-        }
-    });
-    scrollContainer.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - scrollContainer.offsetLeft;
-        const walk = (x - startX) * 2;
-        scrollContainer.scrollLeft = scrollLeft - walk;
-    });
-    // Initialize layout and jump to middle set safely
-    adjustSpacers();
-    
-    isJumping = true;
-    scrollContainer.style.scrollSnapType = 'none';
-    const cards = Array.from(cardContainer.children);
-    const initialPos = cards[totalOriginal].offsetLeft + (cards[totalOriginal].offsetWidth / 2) - (scrollContainer.clientWidth / 2);
-    scrollContainer.scrollLeft = initialPos;
-    cards[totalOriginal].classList.add('active-card');
-    requestAnimationFrame(() => {
-        scrollContainer.style.scrollSnapType = 'x mandatory';
-        isJumping = false;
-        queueNextAutoScroll();
-    });
 });
 </script>
 
@@ -377,7 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Testimonials" },
     { "type": "text", "id": "title", "label": "Heading", "default": "From our Customers" },
     { "type": "checkbox", "id": "show_rating", "label": "Show Aggregate Rating", "default": true },
-    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9 / 5 — 2,400+ Reviews" },
+    { "type": "text", "id": "fallback_review_count", "label": "Fallback Review Count", "default": "0", "info": "Shows if store/product has 0 reviews yet." },
     { 
       "type": "range", 
       "id": "autoplay_speed", 
@@ -389,28 +611,9 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": 3 
     }
   ],
-  "blocks": [
-    {
-      "type": "review",
-      "name": "Manual Review Card",
-      "settings": [
-        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Star Rating", "default": 5 },
-        { "type": "text", "id": "title", "label": "Review Title", "default": "Absolutely Beautiful" },
-        { "type": "textarea", "id": "text", "label": "Review Text", "default": "The craftsmanship is unmatched.\nIt truly feels like a modern heirloom for our family." },
-        { "type": "text", "id": "author", "label": "Author Name", "default": "Sarah M." },
-        { "type": "checkbox", "id": "verified", "label": "Show Verified Badge", "default": true }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Reviews",
-      "blocks": [
-        { "type": "review" },
-        { "type": "review" },
-        { "type": "review" },
-        { "type": "review" }
-      ]
+      "name": "Automated Judge.me Reviews"
     }
   ]
 }
