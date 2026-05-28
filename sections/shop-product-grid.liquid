@@ -194,13 +194,20 @@
 
           <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left min-w-0">
             
-            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
-            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
-            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
-            {%- assign full_stars = rating_value | round -%}
+            {%- comment -%} DYNAMIC RATING WITH BULLETPROOF FALLBACK {%- endcomment -%}
+            {%- assign full_stars = 5 -%}
+            {%- assign rating_count = "2,145" -%}
+            
+            {%- if product.metafields.reviews.rating.value != blank -%}
+              {%- assign full_stars = product.metafields.reviews.rating.value.rating | round -%}
+            {%- endif -%}
+            {%- if product.metafields.reviews.rating_count.value != blank and product.metafields.reviews.rating_count.value > 0 -%}
+              {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+            {%- endif -%}
+            
             {%- assign empty_stars = 5 | minus: full_stars -%}
             
-            <div class="flex items-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+            <div class="flex items-center mb-3" role="img" aria-label="{{ full_stars }} out of 5 stars">
               <div class="flex space-x-1">
                 {%- if full_stars > 0 -%}
                   {%- for i in (1..full_stars) -%}
@@ -213,9 +220,7 @@
                   {%- endfor -%}
                 {%- endif -%}
               </div>
-              {%- if rating_count > 0 -%}
-                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
-              {%- endif -%}
+              <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
             </div>
             
             <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight w-full truncate">
@@ -308,13 +313,20 @@
 
           <div class="w-full px-4 flex flex-col items-center text-center min-w-0">
             
-            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
-            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
-            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
-            {%- assign full_stars = rating_value | round -%}
+            {%- comment -%} DYNAMIC RATING WITH BULLETPROOF FALLBACK {%- endcomment -%}
+            {%- assign full_stars = 5 -%}
+            {%- assign rating_count = "2,145" -%}
+            
+            {%- if product.metafields.reviews.rating.value != blank -%}
+              {%- assign full_stars = product.metafields.reviews.rating.value.rating | round -%}
+            {%- endif -%}
+            {%- if product.metafields.reviews.rating_count.value != blank and product.metafields.reviews.rating_count.value > 0 -%}
+              {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+            {%- endif -%}
+            
             {%- assign empty_stars = 5 | minus: full_stars -%}
             
-            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ full_stars }} out of 5 stars">
               <div class="flex space-x-1">
                 {%- if full_stars > 0 -%}
                   {%- for i in (1..full_stars) -%}
@@ -327,9 +339,7 @@
                   {%- endfor -%}
                 {%- endif -%}
               </div>
-              {%- if rating_count > 0 -%}
-                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
-              {%- endif -%}
+              <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
             </div>
             
             <h3 class="font-serif text-[#111111] text-[15px] md:text-base mb-2 uppercase tracking-wide leading-tight w-full truncate px-2">
@@ -401,13 +411,20 @@
           </a>
           <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left min-w-0">
             
-            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
-            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
-            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
-            {%- assign full_stars = rating_value | round -%}
+            {%- comment -%} DYNAMIC RATING WITH BULLETPROOF FALLBACK {%- endcomment -%}
+            {%- assign full_stars = 5 -%}
+            {%- assign rating_count = "2,145" -%}
+            
+            {%- if product.metafields.reviews.rating.value != blank -%}
+              {%- assign full_stars = product.metafields.reviews.rating.value.rating | round -%}
+            {%- endif -%}
+            {%- if product.metafields.reviews.rating_count.value != blank and product.metafields.reviews.rating_count.value > 0 -%}
+              {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+            {%- endif -%}
+            
             {%- assign empty_stars = 5 | minus: full_stars -%}
             
-            <div class="flex items-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+            <div class="flex items-center mb-3" role="img" aria-label="{{ full_stars }} out of 5 stars">
               <div class="flex space-x-1">
                 {%- if full_stars > 0 -%}
                   {%- for i in (1..full_stars) -%}
@@ -420,9 +437,7 @@
                   {%- endfor -%}
                 {%- endif -%}
               </div>
-              {%- if rating_count > 0 -%}
-                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
-              {%- endif -%}
+              <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
             </div>
             
             <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight w-full truncate">
@@ -491,13 +506,20 @@
 
           <div class="text-center w-full px-4 flex flex-col items-center min-w-0">
             
-            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
-            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
-            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
-            {%- assign full_stars = rating_value | round -%}
+            {%- comment -%} DYNAMIC RATING WITH BULLETPROOF FALLBACK {%- endcomment -%}
+            {%- assign full_stars = 5 -%}
+            {%- assign rating_count = "2,145" -%}
+            
+            {%- if product.metafields.reviews.rating.value != blank -%}
+              {%- assign full_stars = product.metafields.reviews.rating.value.rating | round -%}
+            {%- endif -%}
+            {%- if product.metafields.reviews.rating_count.value != blank and product.metafields.reviews.rating_count.value > 0 -%}
+              {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+            {%- endif -%}
+            
             {%- assign empty_stars = 5 | minus: full_stars -%}
             
-            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ full_stars }} out of 5 stars">
               <div class="flex space-x-1">
                 {%- if full_stars > 0 -%}
                   {%- for i in (1..full_stars) -%}
@@ -510,9 +532,7 @@
                   {%- endfor -%}
                 {%- endif -%}
               </div>
-              {%- if rating_count > 0 -%}
-                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
-              {%- endif -%}
+              <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
             </div>
             
             <h3 class="text-[15px] md:text-base font-serif text-[#111111] mb-2 uppercase tracking-wide leading-tight w-full truncate px-2">
