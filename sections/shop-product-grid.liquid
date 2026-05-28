@@ -1,21 +1,21 @@
 <style>
-    /* Accessibility Focus Utility */
-    .focus-ring { outline: none; }
-    .focus-ring:focus-visible { outline: 2px solid #1c1917; outline-offset: 2px; }
-    
-    /* Hide scrollbar for tabs on mobile if they overflow */
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Subtle float animation for featured product */
-    @keyframes subtleLift {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-8px); }
-        100% { transform: translateY(0px); }
-    }
-    .hover-lift:hover {
-        animation: subtleLift 3s ease-in-out infinite;
-    }
+  /* Accessibility Focus Utility */
+  .focus-ring { outline: none; }
+  .focus-ring:focus-visible { outline: 2px solid #1c1917; outline-offset: 2px; }
+  
+  /* Hide scrollbar for tabs on mobile if they overflow */
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Subtle float animation for featured product */
+  @keyframes subtleLift {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+  }
+  .hover-lift:hover {
+      animation: subtleLift 3s ease-in-out infinite;
+  }
 </style>
 
 {%- comment -%} ==========================================
@@ -193,11 +193,29 @@
           </a>
 
           <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-            <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
-              {% for i in (1..5) %}
-              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              {% endfor %}
-              <span class="text-[12px] text-stone-500 ml-2">(2,145)</span>
+            
+            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
+            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
+            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
+            {%- assign full_stars = rating_value | round -%}
+            {%- assign empty_stars = 5 | minus: full_stars -%}
+            
+            <div class="flex items-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+              <div class="flex space-x-1">
+                {%- if full_stars > 0 -%}
+                  {%- for i in (1..full_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if empty_stars > 0 -%}
+                  {%- for i in (1..empty_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              {%- if rating_count > 0 -%}
+                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
+              {%- endif -%}
             </div>
             
             <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight">
@@ -289,10 +307,29 @@
           </a>
 
           <div class="w-full px-4 flex flex-col items-center text-center">
-            <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
-              {% for i in (1..5) %}
-              <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              {% endfor %}
+            
+            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
+            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
+            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
+            {%- assign full_stars = rating_value | round -%}
+            {%- assign empty_stars = 5 | minus: full_stars -%}
+            
+            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+              <div class="flex space-x-1">
+                {%- if full_stars > 0 -%}
+                  {%- for i in (1..full_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if empty_stars > 0 -%}
+                  {%- for i in (1..empty_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              {%- if rating_count > 0 -%}
+                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
+              {%- endif -%}
             </div>
             
             <h3 class="font-serif text-[#111111] text-[15px] md:text-base mb-2 uppercase tracking-wide leading-tight">
@@ -363,10 +400,31 @@
             </div>
           </a>
           <div class="w-full lg:w-[45%] p-8 lg:p-14 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-            <div class="flex space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
-              {% for i in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
-              <span class="text-[12px] text-stone-500 ml-2">(2,145)</span>
+            
+            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
+            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
+            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
+            {%- assign full_stars = rating_value | round -%}
+            {%- assign empty_stars = 5 | minus: full_stars -%}
+            
+            <div class="flex items-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+              <div class="flex space-x-1">
+                {%- if full_stars > 0 -%}
+                  {%- for i in (1..full_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if empty_stars > 0 -%}
+                  {%- for i in (1..empty_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              {%- if rating_count > 0 -%}
+                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
+              {%- endif -%}
             </div>
+            
             <h3 class="font-serif text-[#111111] text-2xl md:text-3xl mb-3 leading-tight"><a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a></h3>
             <p class="text-stone-500 text-[14px] md:text-[15px] font-light leading-relaxed mb-6 max-w-md">Our signature design. The perfect blank canvas for weddings, anniversaries, and life's most elegant milestones.</p>
             <div class="flex items-center gap-4 mb-8">
@@ -430,9 +488,31 @@
           </a>
 
           <div class="text-center w-full px-4 flex flex-col items-center">
-            <div class="flex justify-center space-x-1 mb-3" role="img" aria-label="5 out of 5 stars">
-              {% for i in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>{% endfor %}
+            
+            {%- comment -%} DYNAMIC RATING {%- endcomment -%}
+            {%- assign rating_value = product.metafields.reviews.rating.value | default: 5.0 -%}
+            {%- assign rating_count = product.metafields.reviews.rating_count | default: 0 -%}
+            {%- assign full_stars = rating_value | round -%}
+            {%- assign empty_stars = 5 | minus: full_stars -%}
+            
+            <div class="flex items-center justify-center mb-3" role="img" aria-label="{{ rating_value }} out of 5 stars">
+              <div class="flex space-x-1">
+                {%- if full_stars > 0 -%}
+                  {%- for i in (1..full_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if empty_stars > 0 -%}
+                  {%- for i in (1..empty_stars) -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5 text-[#C5A059]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              {%- if rating_count > 0 -%}
+                <span class="text-[12px] text-stone-500 ml-2">({{ rating_count }})</span>
+              {%- endif -%}
             </div>
+            
             <h3 class="text-[15px] md:text-base font-serif text-[#111111] mb-2 uppercase tracking-wide leading-tight"><a href="{{ product.url }}" class="focus-ring hover:text-[#C5A059] transition-colors">{{ product.title }}</a></h3>
             <p class="text-[14px] md:text-[15px] text-[#111111] mb-8 font-medium">{{ product.price | money }}</p>
             
