@@ -1,27 +1,6 @@
 {%- comment -%} sections/visual-reviews.liquid {%- endcomment -%}
 
 <style>
-    /* Safely hide Judge.me default widgets to prevent UI clutter */
-   .jdgm-hidden-reviews {
-        position: absolute!important;
-        left: -99999px!important;
-        top: 0!important;
-        opacity: 0!important;
-        pointer-events: none!important;
-        height: 1px;
-        overflow: hidden;
-    }
-
-    #judgeme-widget-mount.jdgm-widget,
-    #judgeme-widget-mount.jdgm-all-reviews-widget {
-        display: block!important;
-        position: relative!important;
-        left: 0!important;
-        opacity: 1!important;
-        pointer-events: auto!important;
-        height: auto;
-    }
-
     /* Section Fonts */
     #visual-reviews-{{ section.id }} {
         font-family: var(--font-sans, 'Inter', sans-serif);
@@ -30,7 +9,7 @@
         font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
 
-    /* Custom Review Card Glassmorphism & Hover States (From Product Design) */
+    /* Custom Review Card Carousel Styling */
     .review-card {
         transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
@@ -46,44 +25,20 @@
         box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
         border-color: #e5e5e5;
     }
-    
     .reviews-track {
-        -webkit-user-select: none;
-        user-select: none;
+        -webkit-user-select: none; user-select: none;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
     }
-    .reviews-track.dragging {
-        cursor: grabbing;
-        scroll-snap-type: none!important; 
-    }
-    
+    .reviews-track.dragging { cursor: grabbing; scroll-snap-type: none!important; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    .line-clamp-4 {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;  
-        overflow: hidden;
-    }
+    .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .static-mode {
-        overflow: visible!important;
-        touch-action: auto!important;
-        scroll-snap-type: none!important;
-        cursor: default!important;
-    }
-    .static-container {
-        flex-wrap: wrap!important;
-        justify-content: center!important;
-        gap: 1.5rem !important;
-        width: 100%!important;
-    }
-    .static-card {
-        margin: 0 !important;
-        cursor: default!important;
-    }
+    /* Static Grid Mode for fewer reviews */
+    .static-mode { overflow: visible!important; touch-action: auto!important; scroll-snap-type: none!important; cursor: default!important; }
+    .static-container { flex-wrap: wrap!important; justify-content: center!important; gap: 1.5rem !important; width: 100%!important; }
+    .static-card { margin: 0 !important; cursor: default!important; }
 
     .review-arrow {
         transform: translate3d(0, -50%, 0);
@@ -92,149 +47,69 @@
         transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     @media (hover: hover) and (pointer: fine) {
-        .review-arrow:hover {
-            color: #0c0a09;
-            border-color: #0c0a09;
-            background-color: #ffffff;
-            transform: translate3d(0, -50%, 0) scale(1.05);
-        }
+        .review-arrow:hover { color: #0c0a09; border-color: #0c0a09; background-color: #ffffff; transform: translate3d(0, -50%, 0) scale(1.05); }
     }
-    .review-arrow:active {
-        transform: translate3d(0, -50%, 0) scale(0.92);
-    }
+    .review-arrow:active { transform: translate3d(0, -50%, 0) scale(0.92); }
 
     /* ========================================================
-       MODAL OVERRIDE: Destroys Judge.me filters and review list
+       FULL-SCREEN JUDGE.ME MODAL (WITH NATIVE REVIEWS VISIBLE)
        ======================================================== */
-    #jdgm-widget-mount .jdgm-widget {
+    body.judgeme-modal-open { overflow: hidden !important; }
+
+    .visual-review-modal {
+        position: fixed; inset: 0; z-index: 999999;
+        background-color: #ffffff;
+        overflow-y: auto; overflow-x: hidden;
+        opacity: 0; pointer-events: none; visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .visual-review-modal.is-open {
+        opacity: 1; pointer-events: auto; visibility: visible;
+    }
+
+    /* Sticky Cancel Button */
+    .visual-review-close {
+        position: fixed; top: 16px; right: 16px; z-index: 9999999;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 50%;
+        padding: 12px; cursor: pointer; color: #111111;
+        transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    @media (min-width: 768px) {
+        .visual-review-close { top: 24px; right: 24px; }
+    }
+    .visual-review-close:hover { background: #f5f5f5; transform: scale(1.05); }
+
+    /* Ensure Judge.me modal container looks beautiful */
+    #jdgm-modal-mount {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    #jdgm-modal-mount .jdgm-widget {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
-    
-    #jdgm-widget-mount .jdgm-rev-widg__summary,
-    #jdgm-widget-mount .jdgm-sort-dropdown,
-    #jdgm-widget-mount .jdgm-widget-actions,
-    #jdgm-widget-mount .jdgm-rev-widg__reviews,
-    #jdgm-widget-mount .jdgm-close-form,
-    #jdgm-widget-mount .jdgm-paginate,
-    #jdgm-widget-mount .jdgm-rev-widg__title-container,
-    #jdgm-widget-mount .jdgm-filter-container,
-    #jdgm-widget-mount .jdgm-all-reviews-rating {
-        display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
+
+    /* Modernize Judge.me Inputs inside Modal */
+    #jdgm-modal-mount input[type="text"], 
+    #jdgm-modal-mount input[type="email"], 
+    #jdgm-modal-mount textarea {
+        border: 1px solid #e5e5e5 !important; border-radius: 8px !important; padding: 14px 16px !important;
+        width: 100% !important; font-size: 15px !important; box-shadow: none !important;
+        background: #fdfdfd !important; color: #111111 !important; box-sizing: border-box !important;
+    }
+    #jdgm-modal-mount input:focus, #jdgm-modal-mount textarea:focus { 
+        border-color: #111111 !important; background: #ffffff !important; outline: none !important; 
+    }
+    #jdgm-modal-mount .jdgm-submit-rev {
+        background-color: #111111 !important; color: #ffffff !important; border-radius: 8px !important;
+        padding: 16px 24px !important; text-transform: uppercase !important; letter-spacing: 0.1em !important;
+        font-weight: 700 !important; font-size: 12px !important; width: 100% !important; border: none !important; 
     }
 
-    #jdgm-widget-mount .jdgm-form-wrapper {
-        display: block !important;
-        position: static !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        clip: auto !important;
-        height: auto !important;
-        max-height: none !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        background: transparent !important;
-    }
-
-    #jdgm-widget-mount .jdgm-form {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 16px !important;
-    }
-    #jdgm-widget-mount .jdgm-form__fieldset {
-        margin: 0 !important;
-        border: none !important;
-        padding: 0 !important;
-    }
-    #jdgm-widget-mount .jdgm-form__title {
-        font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-        font-size: 28px !important;
-        color: #111111 !important;
-        margin-bottom: 12px !important;
-        text-align: center !important;
-        font-weight: 500 !important;
-    }
-    #jdgm-widget-mount .jdgm-form label {
-        display: block !important;
-        font-weight: 700 !important;
-        font-size: 11px !important;
-        color: #111111 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        margin-bottom: 6px !important;
-    }
-    #jdgm-widget-mount input[type="text"], 
-    #jdgm-widget-mount input[type="email"], 
-    #jdgm-widget-mount textarea {
-        border: 1px solid #e5e5e5 !important;
-        border-radius: 8px !important;
-        padding: 14px 16px !important;
-        width: 100% !important;
-        font-size: 14px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: none !important;
-        background: #fdfdfd !important;
-        color: #111111 !important;
-        font-family: var(--font-sans, 'Inter', sans-serif) !important;
-        box-sizing: border-box !important;
-    }
-    #jdgm-widget-mount input:focus, 
-    #jdgm-widget-mount textarea:focus {
-        border-color: #111111 !important;
-        background: #ffffff !important;
-        outline: none !important;
-        box-shadow: 0 0 0 1px #111111 !important;
-    }
-    #jdgm-widget-mount textarea {
-        min-height: 120px !important;
-        resize: vertical !important;
-    }
-    #jdgm-widget-mount .jdgm-submit-rev {
-        background-color: #111111 !important;
-        color: #ffffff !important;
-        border-radius: 8px !important;
-        padding: 16px 24px !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        width: 100% !important;
-        transition: opacity 0.2s ease !important;
-        border: none !important;
-        cursor: pointer !important;
-        margin-top: 10px !important;
-        font-family: var(--font-sans, 'Inter', sans-serif) !important;
-    }
-    #jdgm-widget-mount .jdgm-submit-rev:hover {
-        opacity: 0.8 !important;
-    }
-
-    #jdgm-widget-mount .jdgm-form__rating {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        margin-bottom: 8px !important;
-    }
-    #jdgm-widget-mount .jdgm-form__rating-label {
-        font-weight: 700 !important;
-        font-size: 11px !important;
-        color: #111111 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        margin-bottom: 8px !important;
-        text-align: center !important;
-    }
-    #jdgm-widget-mount .jdgm-form__rating-stars {
-        display: inline-flex !important;
-        gap: 6px !important;
-    }
+    /* Hidden element purely for data harvesting the carousel */
+    .jdgm-hidden-reviews { position: absolute!important; left: -99999px!important; top: 0!important; opacity: 0!important; pointer-events: none!important; height: 1px; overflow: hidden; }
 </style>
 
 {%- comment -%} 
@@ -251,7 +126,7 @@
 <visual-reviews class="block w-full" data-autoplay-speed="{{ section.settings.autoplay_speed }}">
     <section id="visual-reviews-{{ section.id }}" class="w-full bg-[#FAFAFA] py-12 md:py-16 flex flex-col items-center select-none overflow-hidden border-y border-stone-100/50">
 
-        {%- comment -%} HEADER (Using Product Style) {%- endcomment -%}
+        {%- comment -%} HEADER {%- endcomment -%}
         <div class="w-full text-center pb-8 px-5 flex-shrink-0 z-10">
             <p class="font-script text-[#181615] text-[24px] md:text-[28px] mb-1 md:mb-2 leading-none">{{ section.settings.subtitle }}</p>
             <h2 class="font-serif text-[32px] md:text-[40px] text-stone-950 tracking-tight leading-[1.1]">{{ section.settings.title }}</h2>
@@ -271,7 +146,7 @@
                 </div>
 
                 <button type="button" class="js-open-judgeme-modal-btn mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a] pb-0.5 hover:text-[#c4b09e] hover:border-[#c4b09e] transition-colors duration-300 cursor-pointer">
-                    Write a Review / Read All
+                    Read All / Write Review
                 </button>
             </div>
             {% endif %}
@@ -279,7 +154,6 @@
 
         {%- comment -%} CAROUSEL TRACK {%- endcomment -%}
         <div class="w-full relative group/carousel max-w-[1600px] mx-auto flex items-center">
-            
             <div class="absolute top-0 left-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none transition-opacity duration-300"></div>
             <div class="absolute top-0 right-0 w-[10vw] md:w-[20vw] h-full bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none transition-opacity duration-300"></div>
             
@@ -300,8 +174,33 @@
     </section>
 
     {%- comment -%} 
-      THE HIDDEN JUDGE.ME BACKEND (Strictly All Reviews / Store Reviews)
+      FULL-SCREEN MODAL UI
+      We inject a secondary Judge.me widget here safely. It will behave perfectly normally.
     {%- endcomment -%}
+    <div class="visual-review-modal js-judgeme-full-modal" role="dialog" aria-modal="true">
+        <button type="button" aria-label="Close modal" class="visual-review-close js-close-judgeme-modal-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <div class="w-full min-h-screen py-24 px-6 relative">
+            <div id="jdgm-modal-mount">
+                <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
+                    {{ shop.metafields.judgeme.all_reviews_header }}
+                    <div class='jdgm-all-reviews__body'>
+                        {% assign prefix = 'all_reviews_' %}
+                        {% for count in (0..65535) %}
+                            {% assign metafield_key = prefix | append: count %}
+                            {% assign current_metafield = shop.metafields.judgeme[metafield_key] %}
+                            {% unless current_metafield %} {% break %} {% endunless %}
+                            {{ current_metafield }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {%- comment -%} Hidden data source for extracting existing review cards {%- endcomment -%}
     <div class="jdgm-hidden-reviews js-hidden-reviews">
         <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
             {{ shop.metafields.judgeme.all_reviews_header }}
@@ -316,24 +215,6 @@
             </div>
         </div>
     </div>
-
-    {%- comment -%} MODAL UI {%- endcomment -%}
-    <div class="js-judgeme-modal-wrapper relative z-50">
-        <div class="js-judgeme-full-modal fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/80 backdrop-blur-md opacity-0 transition-opacity duration-300 px-4 py-10" role="dialog" aria-modal="true">
-            
-            <div class="js-judgeme-modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 md:p-10 relative transform scale-95 opacity-0 transition-all duration-300 custom-scrollbar">
-                
-                <button type="button" aria-label="Close review modal" class="js-close-judgeme-modal-btn absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors z-50 bg-white cursor-pointer">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-
-                <div class="w-full mt-4" id="judgeme-widget-mount">
-                    <div class="js-judgeme-widget-mount"></div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 </visual-reviews>
 
 <script>
@@ -341,14 +222,8 @@ if (!customElements.get('visual-reviews')) {
     class VisualReviews extends HTMLElement {
         constructor() {
             super();
-            this.hiddenReviews = this.querySelector('.js-hidden-reviews');
-            this.widgetMount = this.querySelector('.js-judgeme-widget-mount');
-            this.modalWrapper = this.querySelector('.js-judgeme-modal-wrapper');
             this.fullModal = this.querySelector('.js-judgeme-full-modal');
-            this.modalContent = this.querySelector('.js-judgeme-modal-content');
-            this.openModalBtn = this.querySelector('.js-open-judgeme-modal-btn');
-            this.closeModalBtn = this.querySelector('.js-close-judgeme-modal-btn');
-            
+            this.hiddenReviews = this.querySelector('.js-hidden-reviews');
             this.cardContainer = this.querySelector('.js-review-card-container');
             this.scrollContainer = this.querySelector('.js-reviews-track');
             this.prevBtn = this.querySelector('.js-review-prev');
@@ -373,24 +248,34 @@ if (!customElements.get('visual-reviews')) {
         }
 
         connectedCallback() {
-            if (this.modalWrapper && document.body) {
-                document.body.appendChild(this.modalWrapper);
+            // Safely detach modal from its parent and append to document body for unblocked z-index
+            if (this.fullModal && document.body) {
+                document.body.appendChild(this.fullModal);
             }
             this.bindEvents();
             this.initMutationObserver();
         }
 
         disconnectedCallback() {
-            if (this.modalWrapper && this.modalWrapper.parentNode) {
-                this.modalWrapper.parentNode.removeChild(this.modalWrapper);
+            if (this.fullModal && this.fullModal.parentNode) {
+                this.fullModal.parentNode.removeChild(this.fullModal);
             }
             clearTimeout(this.autoScrollTimer);
         }
 
         bindEvents() {
-            if(this.openModalBtn) this.openModalBtn.addEventListener('click', () => this.openReviewModal());
-            if(this.closeModalBtn) this.closeModalBtn.addEventListener('click', () => this.closeReviewModal());
-            if(this.fullModal) this.fullModal.addEventListener('click', (e) => { if(e.target === this.fullModal) this.closeReviewModal(); });
+            // Event delegation for opening the modal (works for dynamically generated buttons too)
+            this.addEventListener('click', (e) => {
+                if (e.target.closest('.js-open-judgeme-modal-btn')) {
+                    this.openReviewModal();
+                }
+            });
+
+            // Bind the close button directly from the modal reference
+            if (this.fullModal) {
+                const closeBtn = this.fullModal.querySelector('.js-close-judgeme-modal-btn');
+                if (closeBtn) closeBtn.addEventListener('click', () => this.closeReviewModal());
+            }
 
             window.addEventListener('resize', () => {
                 if (this.originalReviewCardsHtml.length > 0) {
@@ -410,6 +295,7 @@ if (!customElements.get('visual-reviews')) {
                 }
             });
 
+            // Standard Carousel Event Listeners
             if (this.scrollContainer) {
                 this.scrollContainer.addEventListener('mouseenter', () => { if (!this.isCarouselEnabled) return; this.isInteracting = true; clearTimeout(this.autoScrollTimer); });
                 this.scrollContainer.addEventListener('mouseleave', () => { if (!this.isCarouselEnabled) return; this.isInteracting = false; if (!this.isDown && !this.isTouching) this.queueNextAutoScroll(); });
@@ -461,73 +347,24 @@ if (!customElements.get('visual-reviews')) {
             
             observer.observe(this.hiddenReviews, { childList: true, subtree: true });
 
-            if (window.jdgm && typeof window.jdgm.refreshBadges === 'function') {
-                try { window.jdgm.refreshBadges(); } catch(e) {}
-            }
-            
-            window.addEventListener('jdgm.doneSetup', () => {
-                checkAndExtract();
-            });
+            window.addEventListener('jdgm.doneSetup', () => checkAndExtract());
             
             setTimeout(() => {
                 observer.disconnect();
-                if (!checkAndExtract()) this.extractJudgeMeReviews();
+                if (!checkAndExtract()) this.extractJudgeMeReviews(this.hiddenReviews.querySelectorAll('.jdgm-rev'));
             }, 10000);
         }
 
         openReviewModal() {
-            if (!this.fullModal || !this.modalContent) return;
-
-            this.fullModal.classList.remove('hidden');
-            this.fullModal.classList.add('flex');
-
-            requestAnimationFrame(() => {
-                this.fullModal.classList.remove('opacity-0');
-                this.modalContent.classList.remove('scale-95', 'opacity-0');
-            });
-
-            if (this.widgetMount && this.hiddenReviews && !this.widgetMount.hasChildNodes()) {
-                while (this.hiddenReviews.firstChild) {
-                    this.widgetMount.appendChild(this.hiddenReviews.firstChild);
-                }
-            }
-
-            let tries = 0;
-            const reviewInterval = setInterval(() => {
-                const writeReviewBtn = this.widgetMount ? this.widgetMount.querySelector('.jdgm-write-store-rev-btn,.jdgm-write-rev-link') : null;
-                const formWrapper = this.widgetMount ? this.widgetMount.querySelector('.jdgm-form-wrapper') : null;
-                
-                if (writeReviewBtn) {
-                    clearInterval(reviewInterval);
-                    if (!writeReviewBtn.classList.contains('jdgm-opened')) {
-                        writeReviewBtn.click();
-                    }
-                } else if (formWrapper) {
-                    clearInterval(reviewInterval);
-                    formWrapper.style.display = 'block';
-                }
-                
-                tries++;
-                if (tries > 20) clearInterval(reviewInterval);
-            }, 300);
+            if (!this.fullModal) return;
+            document.body.classList.add('judgeme-modal-open');
+            this.fullModal.classList.add('is-open');
         }
 
         closeReviewModal() {
-            if (!this.fullModal || !this.modalContent) return;
-            
-            this.fullModal.classList.add('opacity-0');
-            this.modalContent.classList.add('scale-95', 'opacity-0');
-
-            setTimeout(() => {
-                if (this.hiddenReviews && this.widgetMount) {
-                    while (this.widgetMount.firstChild) {
-                        this.hiddenReviews.appendChild(this.widgetMount.firstChild);
-                    }
-                }
-                
-                this.fullModal.classList.add('hidden');
-                this.fullModal.classList.remove('flex');
-            }, 300);
+            if (!this.fullModal) return;
+            document.body.classList.remove('judgeme-modal-open');
+            this.fullModal.classList.remove('is-open');
         }
 
         extractJudgeMeReviews(reviewsNodeList) {
@@ -559,7 +396,7 @@ if (!customElements.get('visual-reviews')) {
                                 <div class="flex items-center gap-1 mb-3">
                                     ${starsHtml}
                                 </div>
-                                ${title ? `<h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight">${title}</h3>` : ''}
+                                ${title ? `<h3 class="text-[16px] font-bold text-stone-950 mb-2 leading-tight whitespace-nowrap overflow-hidden text-ellipsis w-full" title="${title}">${title}</h3>` : ''}
                                 <p class="text-[14px] text-stone-500 font-normal leading-relaxed line-clamp-4">"${body}"</p>
                             </div>
                             <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
@@ -601,7 +438,7 @@ if (!customElements.get('visual-reviews')) {
                         </div>
                         <h3 class="text-[16px] font-bold text-stone-950 mb-2">No reviews yet</h3>
                         <p class="text-[13px] text-stone-500 font-normal mb-6">Be the first to share your experience with us.</p>
-                        <button type="button" onclick="document.querySelector('.js-open-judgeme-modal-btn')?.click()" class="bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] py-3 px-6 hover:bg-[#c4b09e] transition-colors cursor-pointer rounded-sm">Write a Review</button>
+                        <button type="button" class="js-open-judgeme-modal-btn bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] py-3 px-6 hover:bg-[#c4b09e] transition-colors cursor-pointer rounded-sm">Write a Review</button>
                     </div>
                 `;
                 return;
@@ -700,7 +537,7 @@ if (!customElements.get('visual-reviews')) {
 
         adjustSpacers() {
             if (!this.isCarouselEnabled) return;
-            const firstCard = this.cardContainer.children[0];
+            const firstCard = this.cardContainer.children;
             if (!firstCard) return;
 
             const cardWidth = firstCard.offsetWidth || 340;
