@@ -107,14 +107,31 @@
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
+        "fallback_review_count": "128",
         "show_variants": false,
         "show_media_upload": false,
+        "enable_custom_fields": false,
+        "target_product": "",
         "show_bg_song": false,
         "show_dynamic_checkout": true,
-        "review_text": "4.9 (128 Reviews)",
         "features_text": "<ul><li>Advanced Audio Technology</li><li>Record Personalised Voice Messages</li><li>60-Second Record Capability</li><li>Re-record Flexibility</li><li>Timeless Emotional Memento</li><li>Premium Textured Paper</li></ul>",
         "design_text": "<ul><li>Card Size: 210 x 150 mm</li><li>Battery: Torque Cell (AG10)</li><li>Textured Coated Paper</li><li>Foil Stamp Writing</li><li>Packaged Size: 229 x 162 mm</li><li>Packaged Weight: 65 g</li><li>Box Contents: Audio Card, Envelope, Wax Seal</li></ul>",
-        "tech_text": "<ul><li><strong>Start Recording</strong>: Press record button, hear a beep.</li><li><strong>Record</strong>: Speak or play audio.</li><li><strong>Stop Recording</strong>: Press record button again, hear two beeps.</li><li><strong>Playback</strong>: Press play button to listen.</li><li><strong>Re-Record</strong>: Follow steps again to replace recording.</li></ul>"
+        "tech_text": "<ul><li><strong>Start Recording</strong>: Press record button, hear a beep.</li><li><strong>Record</strong>: Speak or play audio.</li><li><strong>Stop Recording</strong>: Press record button again, hear two beeps.</li><li><strong>Playback</strong>: Press play button to listen.</li><li><strong>Re-Record</strong>: Follow steps again to replace recording.</li></ul>",
+        "support_btn_text": "Contact Live Support for Help",
+        "support_modal_title": "How can we help?",
+        "support_modal_text": "Our concierge team is available 24/7 to assist you with your Visual Book.",
+        "support_email_text": "Email Support",
+        "support_contact_text": "Visit Contact Page",
+        "award_btn_text": "Our Awards",
+        "award_modal_title": "Award-Winning Quality",
+        "award_modal_text": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.",
+        "award_badge_text": "Ships in 24 hours",
+        "discount_btn_text": "Get $5",
+        "discount_modal_title": "Unlock $5",
+        "discount_modal_text": "Complete any of the tasks below to automatically apply your discount at checkout.",
+        "discount_task1": "Follow us on Instagram",
+        "discount_task2": "Share with a friend",
+        "discount_task3": "Join our Newsletter"
       }
     },
     "product_experience1_xizDKV": {
@@ -142,11 +159,22 @@
       ],
       "name": "Product Experience Unified",
       "settings": {
-        "bg_color": "#FAFAFA",
-        "accent_color": "#B8906B",
+        "bg_color": "#fafafa",
+        "accent_color": "#b8906b",
         "subtitle": "Technology",
         "heading": "The Visualbook Experience",
         "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
+      }
+    },
+    "product_review_4KjB4F": {
+      "type": "product-review",
+      "name": "Product Reviews Section",
+      "settings": {
+        "subtitle": "Testimonials",
+        "title": "From our Customers",
+        "show_rating": true,
+        "fallback_review_count": "0",
+        "autoplay_speed": 3
       }
     },
     "landing_shop_8w6YGV": {
@@ -168,6 +196,7 @@
     "related-products",
     "product_hero_visual_RfgfJ9",
     "product_experience1_xizDKV",
+    "product_review_4KjB4F",
     "landing_shop_8w6YGV"
   ]
 }
