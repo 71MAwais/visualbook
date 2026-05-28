@@ -31,6 +31,7 @@
         "classic_step_t4FXrY": {
           "type": "classic_step",
           "settings": {
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-07_8c26d5e4-6c4e-40ef-95f0-c393f48c00ca.png",
             "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"20\" y=\"25\" width=\"60\" height=\"40\" rx=\"2\"></rect><rect x=\"25\" y=\"30\" width=\"50\" height=\"30\"></rect><path d=\"M10 65 L90 65 L90 68 L10 68 Z\" fill=\"#1a1a1a\" stroke=\"none\"></path><path d=\"M85 66 L110 66 L110 45 L120 45\"></path><rect x=\"120\" y=\"25\" width=\"60\" height=\"40\"></rect><path d=\"M150 25 L150 65\"></path><rect x=\"155\" y=\"35\" width=\"20\" height=\"15\"></rect><circle cx=\"158\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"162\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"166\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle><circle cx=\"170\" cy=\"58\" r=\"1\" fill=\"#1a1a1a\"></circle></svg>",
             "step_label": "Step 01",
             "title": "Connect",
@@ -42,6 +43,7 @@
         "classic_step_8MeELr": {
           "type": "classic_step",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design-24.png",
             "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"50\" y=\"25\" width=\"90\" height=\"50\"></rect><path d=\"M95 25 L95 75\"></path><rect x=\"105\" y=\"35\" width=\"30\" height=\"20\"></rect><path d=\"M110 40 L110 50 L115 50 L115 40 Z\"></path><path d=\"M110 42 L115 42 M110 45 L115 45 M110 48 L115 48\"></path><path d=\"M118 42 L128 42 L128 50 L118 50 Z\"></path><path d=\"M118 50 L123 45 L128 48\"></path><circle cx=\"108\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"114\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"120\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"126\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"132\" cy=\"65\" r=\"1.5\" fill=\"#1a1a1a\"></circle></svg>",
             "step_label": "Step 02",
             "title": "Curate",
@@ -53,6 +55,7 @@
         "classic_step_yBGMFV": {
           "type": "classic_step",
           "settings": {
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
             "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"70\" y=\"45\" width=\"50\" height=\"40\" rx=\"2\"></rect><rect x=\"68\" y=\"35\" width=\"54\" height=\"10\" rx=\"1\"></rect><path d=\"M95 35 L95 85\"></path><path d=\"M95 35 C 80 15, 60 25, 90 35\"></path><path d=\"M95 35 C 110 15, 130 25, 100 35\"></path><rect x=\"50\" y=\"10\" width=\"40\" height=\"20\" transform=\"rotate(-15 70 20)\"></rect><text x=\"56\" y=\"22\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" transform=\"rotate(-15 70 20)\" font-family=\"sans-serif\">THE VISUAL BOOK</text><path d=\"M115 45 L118 52 L125 52 L119 57 L121 64 L115 60 L109 64 L111 57 L105 52 L112 52 Z\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path><path d=\"M60 40 L62 44 L66 44 L63 47 L64 51 L60 49 L56 51 L57 47 L54 44 L58 44 Z\" transform=\"scale(0.7) translate(30, 20)\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path><path d=\"M100 10 L102 14 L106 14 L103 17 L104 21 L100 19 L96 21 L97 17 L94 14 L98 14 Z\" transform=\"scale(0.8) translate(10, 0)\" stroke=\"none\" fill=\"#1a1a1a\" opacity=\"0.1\"></path></svg>",
             "step_label": "Step 03",
             "title": "Gift-Ready",
@@ -64,6 +67,7 @@
         "classic_step_W7Rhd8": {
           "type": "classic_step",
           "settings": {
+            "image": "shopify://shop_images/NO_FILE.png",
             "custom_svg": "<svg viewbox=\"0 0 200 100\" class=\"w-full h-full line-art\"><rect x=\"40\" y=\"25\" width=\"100\" height=\"50\"></rect><path d=\"M90 25 L90 75\"></path><rect x=\"100\" y=\"32\" width=\"30\" height=\"20\"></rect><path d=\"M110 37 L120 42 L110 47 Z\" fill=\"#1a1a1a\" stroke=\"none\"></path><circle cx=\"104\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"110\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"116\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"122\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"128\" cy=\"63\" r=\"1.5\" fill=\"#1a1a1a\"></circle></svg>",
             "step_label": "Support",
             "title": "Video Formatting",
