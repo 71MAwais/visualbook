@@ -1903,6 +1903,12 @@
   .bg-stone-100 {
     background-color: var(--color-stone-100);
   }
+  .bg-stone-100\/90 {
+    background-color: color-mix(in srgb, oklch(97% 0.001 106.424) 90%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-stone-100) 90%, transparent);
+    }
+  }
   .bg-stone-200 {
     background-color: var(--color-stone-200);
   }
@@ -3636,6 +3642,13 @@
       }
     }
   }
+  .hover\:bg-stone-200 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-stone-200);
+      }
+    }
+  }
   .hover\:bg-stone-800 {
     &:hover {
       @media (hover: hover) {
@@ -4203,6 +4216,11 @@
   .md\:top-1\/2 {
     @media (width >= 48rem) {
       top: calc(1 / 2 * 100%);
+    }
+  }
+  .md\:top-8 {
+    @media (width >= 48rem) {
+      top: calc(var(--spacing) * 8);
     }
   }
   .md\:top-\[15px\] {

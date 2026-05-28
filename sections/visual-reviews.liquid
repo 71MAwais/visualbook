@@ -9,7 +9,7 @@
         font-family: var(--font-display, 'Cormorant Garamond', serif);
     }
 
-    /* Custom Review Card Glassmorphism & Hover States */
+    /* Custom Review Card */
     .review-card {
         transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
@@ -83,16 +83,19 @@
     }
 
     /* ========================================================
-       THE ULTIMATE JUDGE.ME FORM ISOLATOR
-       Nukes all UI elements except the Write A Review form
+       FULL SCREEN MODAL & JUDGE.ME FORM OVERRIDES
        ======================================================== */
+    body.judgeme-modal-open {
+        overflow: hidden !important; /* Prevents background scrolling */
+    }
+
     #jdgm-widget-mount .jdgm-widget {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
     
-    /* Aggressively hide everything we don't want */
+    /* Aggressively hide all non-form elements */
     #jdgm-widget-mount .jdgm-all-reviews__header,
     #jdgm-widget-mount .jdgm-all-reviews__body,
     #jdgm-widget-mount .jdgm-histogram,
@@ -135,7 +138,7 @@
     #jdgm-widget-mount .jdgm-form {
         display: flex !important;
         flex-direction: column !important;
-        gap: 16px !important;
+        gap: 20px !important;
     }
     #jdgm-widget-mount .jdgm-form__fieldset {
         margin: 0 !important;
@@ -145,9 +148,9 @@
     #jdgm-widget-mount .jdgm-form__title {
         display: block !important;
         font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-        font-size: 28px !important;
+        font-size: 36px !important;
         color: #111111 !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 24px !important;
         text-align: center !important;
         font-weight: 500 !important;
     }
@@ -158,16 +161,16 @@
         color: #111111 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.1em !important;
-        margin-bottom: 6px !important;
+        margin-bottom: 8px !important;
     }
     #jdgm-widget-mount input[type="text"], 
     #jdgm-widget-mount input[type="email"], 
     #jdgm-widget-mount textarea {
         border: 1px solid #e5e5e5 !important;
         border-radius: 8px !important;
-        padding: 14px 16px !important;
+        padding: 16px 20px !important;
         width: 100% !important;
-        font-size: 14px !important;
+        font-size: 15px !important;
         transition: all 0.2s ease !important;
         box-shadow: none !important;
         background: #fdfdfd !important;
@@ -183,14 +186,14 @@
         box-shadow: 0 0 0 1px #111111 !important;
     }
     #jdgm-widget-mount textarea {
-        min-height: 120px !important;
+        min-height: 140px !important;
         resize: vertical !important;
     }
     #jdgm-widget-mount .jdgm-submit-rev {
         background-color: #111111 !important;
         color: #ffffff !important;
         border-radius: 8px !important;
-        padding: 16px 24px !important;
+        padding: 18px 24px !important;
         text-transform: uppercase !important;
         letter-spacing: 0.1em !important;
         font-weight: 700 !important;
@@ -199,7 +202,7 @@
         transition: opacity 0.2s ease !important;
         border: none !important;
         cursor: pointer !important;
-        margin-top: 10px !important;
+        margin-top: 16px !important;
         font-family: var(--font-sans, 'Inter', sans-serif) !important;
     }
     #jdgm-widget-mount .jdgm-submit-rev:hover {
@@ -210,7 +213,7 @@
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 16px !important;
     }
     #jdgm-widget-mount .jdgm-form__rating-label {
         font-weight: 700 !important;
@@ -218,12 +221,23 @@
         color: #111111 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.1em !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 12px !important;
         text-align: center !important;
     }
     #jdgm-widget-mount .jdgm-form__rating-stars {
         display: inline-flex !important;
-        gap: 6px !important;
+        gap: 8px !important;
+    }
+
+    /* Hidden element purely for data harvesting */
+    .jdgm-hidden-reviews {
+        position: absolute!important;
+        left: -99999px!important;
+        top: 0!important;
+        opacity: 0!important;
+        pointer-events: none!important;
+        height: 1px;
+        overflow: hidden;
     }
 </style>
 
@@ -289,20 +303,18 @@
     </section>
 
     {%- comment -%} 
-      MODAL UI WITH NATIVE JUDGE.ME WIDGET INSIDE
-      We no longer move DOM via Javascript. We render it exactly where it belongs.
-      A hidden version runs normally below it to harvest the carousel cards.
+      FULL-SCREEN MODAL UI
     {%- endcomment -%}
-    <div class="js-judgeme-modal-wrapper relative z-50">
-        <div class="js-judgeme-full-modal fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/80 backdrop-blur-md opacity-0 transition-opacity duration-300 px-4 py-10" role="dialog" aria-modal="true">
+    <div class="js-judgeme-modal-wrapper relative z-">
+        <div class="js-judgeme-full-modal fixed inset-0 hidden bg-white opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
             
-            <div class="js-judgeme-modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 md:p-10 relative transform scale-95 opacity-0 transition-all duration-300 custom-scrollbar">
-                
-                <button type="button" aria-label="Close review modal" class="js-close-judgeme-modal-btn absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors z-50 bg-white cursor-pointer">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+            <button type="button" aria-label="Close review modal" class="js-close-judgeme-modal-btn fixed top-6 right-6 md:top-8 md:right-8 p-3 text-stone-500 hover:text-stone-900 bg-stone-100/90 backdrop-blur-md hover:bg-stone-200 rounded-full transition-all z- cursor-pointer shadow-sm">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
 
-                <div class="w-full mt-4" id="jdgm-widget-mount">
+            <div class="js-judgeme-modal-content w-full h-full overflow-y-auto px-6 py-24 md:py-32 relative transform translate-y-4 opacity-0 transition-all duration-300 custom-scrollbar flex justify-center items-start">
+                
+                <div class="w-full max-w-2xl bg-white" id="jdgm-widget-mount">
                     <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
                         {{ shop.metafields.judgeme.all_reviews_header }}
                         <div class='jdgm-all-reviews__body'>
@@ -391,7 +403,6 @@ if (!customElements.get('visual-reviews')) {
         bindEvents() {
             if(this.openModalBtn) this.openModalBtn.addEventListener('click', () => this.openReviewModal());
             if(this.closeModalBtn) this.closeModalBtn.addEventListener('click', () => this.closeReviewModal());
-            if(this.fullModal) this.fullModal.addEventListener('click', (e) => { if(e.target === this.fullModal) this.closeReviewModal(); });
 
             window.addEventListener('resize', () => {
                 if (this.originalReviewCardsHtml.length > 0) {
@@ -475,12 +486,13 @@ if (!customElements.get('visual-reviews')) {
         openReviewModal() {
             if (!this.fullModal || !this.modalContent) return;
 
+            document.body.classList.add('judgeme-modal-open');
             this.fullModal.classList.remove('hidden');
-            this.fullModal.classList.add('flex');
+            this.fullModal.classList.add('block');
 
             requestAnimationFrame(() => {
                 this.fullModal.classList.remove('opacity-0');
-                this.modalContent.classList.remove('scale-95', 'opacity-0');
+                this.modalContent.classList.remove('translate-y-4', 'opacity-0');
             });
             
             // Try to force Judge.me to open the form if it requires a click
@@ -493,12 +505,13 @@ if (!customElements.get('visual-reviews')) {
         closeReviewModal() {
             if (!this.fullModal || !this.modalContent) return;
             
+            document.body.classList.remove('judgeme-modal-open');
             this.fullModal.classList.add('opacity-0');
-            this.modalContent.classList.add('scale-95', 'opacity-0');
+            this.modalContent.classList.add('translate-y-4', 'opacity-0');
 
             setTimeout(() => {
                 this.fullModal.classList.add('hidden');
-                this.fullModal.classList.remove('flex');
+                this.fullModal.classList.remove('block');
             }, 300);
         }
 
