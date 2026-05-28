@@ -271,51 +271,14 @@
         "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
       }
     },
-    "visual_reviews_iaHWcf": {
-      "type": "visual-reviews",
-      "blocks": {
-        "review_9AAy4F": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched.\nIt truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        },
-        "review_HrWUCY": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched.\nIt truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        },
-        "review_rCjkQy": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched.\nIt truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        }
-      },
-      "block_order": [
-        "review_9AAy4F",
-        "review_HrWUCY",
-        "review_rCjkQy"
-      ],
-      "name": "Reviews",
+    "product_review_wbmqa7": {
+      "type": "product-review",
+      "name": "Product Reviews Section",
       "settings": {
         "subtitle": "Testimonials",
         "title": "From our Customers",
         "show_rating": true,
-        "fallback_review_count": "128",
+        "fallback_review_count": "0",
         "autoplay_speed": 3
       }
     },
@@ -338,7 +301,7 @@
     "related-products",
     "product_hero_visual_RfgfJ9",
     "product_experience1_r74Bzr",
-    "visual_reviews_iaHWcf",
+    "product_review_wbmqa7",
     "landing_shop_8w6YGV"
   ]
 }
