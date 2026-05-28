@@ -52,14 +52,14 @@
     .review-arrow:active { transform: translate3d(0, -50%, 0) scale(0.92); }
 
     /* ========================================================
-       FULL-SCREEN JUDGE.ME MODAL - ISOLATION & STYLING
+       FULL-SCREEN JUDGE.ME MODAL (WITH NATIVE REVIEWS VISIBLE)
        ======================================================== */
     body.judgeme-modal-open { overflow: hidden !important; }
 
     .visual-review-modal {
         position: fixed; inset: 0; z-index: 999999;
         background-color: #ffffff;
-        overflow-y: auto;
+        overflow-y: auto; overflow-x: hidden;
         opacity: 0; pointer-events: none; visibility: hidden;
         transition: opacity 0.3s ease, visibility 0.3s ease;
     }
@@ -69,74 +69,46 @@
 
     /* Sticky Cancel Button */
     .visual-review-close {
-        position: fixed; top: 24px; right: 24px; z-index: 9999999;
-        background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 50%;
+        position: fixed; top: 16px; right: 16px; z-index: 9999999;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 50%;
         padding: 12px; cursor: pointer; color: #111111;
-        transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-    .visual-review-close:hover { background: #e5e5e5; transform: scale(1.05); }
+    @media (min-width: 768px) {
+        .visual-review-close { top: 24px; right: 24px; }
+    }
+    .visual-review-close:hover { background: #f5f5f5; transform: scale(1.05); }
 
-    /* Nuke all Judge.me elements EXCEPT the form wrapper */
-    #jdgm-modal-mount .jdgm-all-reviews__header,
-    #jdgm-modal-mount .jdgm-all-reviews__body,
-    #jdgm-modal-mount .jdgm-histogram,
-    #jdgm-modal-mount .jdgm-temp-hidden,
-    #jdgm-modal-mount .jdgm-medals-wrapper,
-    #jdgm-modal-mount .jdgm-sort-dropdown-arrow,
-    #jdgm-modal-mount .jdgm-sort-dropdown,
-    #jdgm-modal-mount .jdgm-row-actions,
-    #jdgm-modal-mount .jdgm-paginate,
-    #jdgm-modal-mount .jdgm-filter-container,
-    #jdgm-modal-mount .jdgm-rev-widg__summary,
-    #jdgm-modal-mount .jdgm-rev-widg__title,
-    #jdgm-modal-mount .jdgm-close-form {
-        display: none !important; opacity: 0 !important; visibility: hidden !important;
-        pointer-events: none !important; height: 0 !important; margin: 0 !important;
-        padding: 0 !important; border: none !important;
+    /* Ensure Judge.me modal container looks beautiful */
+    #jdgm-modal-mount {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    #jdgm-modal-mount .jdgm-widget {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
-    /* Force the Form Wrapper to ALWAYS show */
-    #jdgm-modal-mount .jdgm-form-wrapper {
-        display: block !important; position: static !important;
-        visibility: visible !important; opacity: 1 !important;
-        height: auto !important; max-height: none !important; clip: auto !important;
-        border: none !important; padding: 0 !important; margin: 0 !important;
-        background: transparent !important;
-    }
-
-    /* Beautiful Form Styling */
-    #jdgm-modal-mount .jdgm-form { display: flex !important; flex-direction: column !important; gap: 20px !important; }
-    #jdgm-modal-mount .jdgm-form__fieldset { margin: 0 !important; border: none !important; padding: 0 !important; }
-    #jdgm-modal-mount .jdgm-form__title {
-        display: block !important; font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-        font-size: 36px !important; color: #111111 !important; margin-bottom: 8px !important;
-        text-align: center !important; font-weight: 500 !important;
-    }
-    #jdgm-modal-mount .jdgm-form label {
-        display: block !important; font-weight: 700 !important; font-size: 11px !important;
-        color: #111111 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin-bottom: 8px !important;
-    }
-    #jdgm-modal-mount input[type="text"], #jdgm-modal-mount input[type="email"], #jdgm-modal-mount textarea {
-        border: 1px solid #e5e5e5 !important; border-radius: 8px !important; padding: 16px 20px !important;
-        width: 100% !important; font-size: 15px !important; transition: all 0.2s ease !important;
+    /* Modernize Judge.me Inputs inside Modal */
+    #jdgm-modal-mount input[type="text"], 
+    #jdgm-modal-mount input[type="email"], 
+    #jdgm-modal-mount textarea {
+        border: 1px solid #e5e5e5 !important; border-radius: 8px !important; padding: 14px 16px !important;
+        width: 100% !important; font-size: 15px !important; box-shadow: none !important;
         background: #fdfdfd !important; color: #111111 !important; box-sizing: border-box !important;
     }
-    #jdgm-modal-mount input:focus, #jdgm-modal-mount textarea:focus { border-color: #111111 !important; background: #ffffff !important; outline: none !important; box-shadow: 0 0 0 1px #111111 !important; }
-    #jdgm-modal-mount textarea { min-height: 140px !important; resize: vertical !important; }
-    
+    #jdgm-modal-mount input:focus, #jdgm-modal-mount textarea:focus { 
+        border-color: #111111 !important; background: #ffffff !important; outline: none !important; 
+    }
     #jdgm-modal-mount .jdgm-submit-rev {
         background-color: #111111 !important; color: #ffffff !important; border-radius: 8px !important;
-        padding: 18px 24px !important; text-transform: uppercase !important; letter-spacing: 0.1em !important;
-        font-weight: 700 !important; font-size: 13px !important; width: 100% !important;
-        border: none !important; cursor: pointer !important; margin-top: 16px !important; transition: opacity 0.2s ease !important;
+        padding: 16px 24px !important; text-transform: uppercase !important; letter-spacing: 0.1em !important;
+        font-weight: 700 !important; font-size: 12px !important; width: 100% !important; border: none !important; 
     }
-    #jdgm-modal-mount .jdgm-submit-rev:hover { opacity: 0.8 !important; }
 
-    #jdgm-modal-mount .jdgm-form__rating { display: flex !important; flex-direction: column !important; align-items: center !important; margin-bottom: 24px !important; }
-    #jdgm-modal-mount .jdgm-form__rating-label { font-weight: 700 !important; font-size: 11px !important; color: #111111 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin-bottom: 12px !important; text-align: center !important; }
-    #jdgm-modal-mount .jdgm-form__rating-stars { display: inline-flex !important; gap: 8px !important; }
-
-    /* Hidden element purely for data harvesting */
+    /* Hidden element purely for data harvesting the carousel */
     .jdgm-hidden-reviews { position: absolute!important; left: -99999px!important; top: 0!important; opacity: 0!important; pointer-events: none!important; height: 1px; overflow: hidden; }
 </style>
 
@@ -174,7 +146,7 @@
                 </div>
 
                 <button type="button" class="js-open-judgeme-modal-btn mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a] pb-0.5 hover:text-[#c4b09e] hover:border-[#c4b09e] transition-colors duration-300 cursor-pointer">
-                    Write a Review
+                    Read All / Write Review
                 </button>
             </div>
             {% endif %}
@@ -203,15 +175,15 @@
 
     {%- comment -%} 
       FULL-SCREEN MODAL UI
-      We inject a secondary Judge.me widget here safely, and style it to ONLY show the form.
+      We inject a secondary Judge.me widget here safely. It will behave perfectly normally.
     {%- endcomment -%}
     <div class="visual-review-modal js-judgeme-full-modal" role="dialog" aria-modal="true">
-        <button type="button" aria-label="Cancel review" class="visual-review-close js-close-judgeme-modal-btn">
+        <button type="button" aria-label="Close modal" class="visual-review-close js-close-judgeme-modal-btn">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
 
-        <div class="w-full min-h-screen flex items-center justify-center py-24 px-6 relative">
-            <div class="w-full max-w-xl" id="jdgm-modal-mount">
+        <div class="w-full min-h-screen py-24 px-6 relative">
+            <div id="jdgm-modal-mount">
                 <div class="jdgm-widget jdgm-all-reviews-widget" data-from-snippet="true">
                     {{ shop.metafields.judgeme.all_reviews_header }}
                     <div class='jdgm-all-reviews__body'>
@@ -251,9 +223,6 @@ if (!customElements.get('visual-reviews')) {
         constructor() {
             super();
             this.fullModal = this.querySelector('.js-judgeme-full-modal');
-            this.openModalBtns = this.querySelectorAll('.js-open-judgeme-modal-btn');
-            this.closeModalBtns = this.querySelectorAll('.js-close-judgeme-modal-btn');
-            
             this.hiddenReviews = this.querySelector('.js-hidden-reviews');
             this.cardContainer = this.querySelector('.js-review-card-container');
             this.scrollContainer = this.querySelector('.js-reviews-track');
@@ -279,7 +248,7 @@ if (!customElements.get('visual-reviews')) {
         }
 
         connectedCallback() {
-            // Move modal to body so z-index works perfectly globally
+            // Safely detach modal from its parent and append to document body for unblocked z-index
             if (this.fullModal && document.body) {
                 document.body.appendChild(this.fullModal);
             }
@@ -295,8 +264,18 @@ if (!customElements.get('visual-reviews')) {
         }
 
         bindEvents() {
-            this.openModalBtns.forEach(btn => btn.addEventListener('click', () => this.openReviewModal()));
-            this.closeModalBtns.forEach(btn => btn.addEventListener('click', () => this.closeReviewModal()));
+            // Event delegation for opening the modal (works for dynamically generated buttons too)
+            this.addEventListener('click', (e) => {
+                if (e.target.closest('.js-open-judgeme-modal-btn')) {
+                    this.openReviewModal();
+                }
+            });
+
+            // Bind the close button directly from the modal reference
+            if (this.fullModal) {
+                const closeBtn = this.fullModal.querySelector('.js-close-judgeme-modal-btn');
+                if (closeBtn) closeBtn.addEventListener('click', () => this.closeReviewModal());
+            }
 
             window.addEventListener('resize', () => {
                 if (this.originalReviewCardsHtml.length > 0) {
@@ -378,15 +357,8 @@ if (!customElements.get('visual-reviews')) {
 
         openReviewModal() {
             if (!this.fullModal) return;
-
             document.body.classList.add('judgeme-modal-open');
             this.fullModal.classList.add('is-open');
-
-            // Force Judge.me to open the form if it requires a click
-            const writeReviewBtn = document.querySelector('#jdgm-modal-mount .jdgm-write-rev-link');
-            if (writeReviewBtn && !writeReviewBtn.classList.contains('jdgm-opened')) {
-                writeReviewBtn.click();
-            }
         }
 
         closeReviewModal() {
@@ -469,8 +441,6 @@ if (!customElements.get('visual-reviews')) {
                         <button type="button" class="js-open-judgeme-modal-btn bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] py-3 px-6 hover:bg-[#c4b09e] transition-colors cursor-pointer rounded-sm">Write a Review</button>
                     </div>
                 `;
-                // Rebind new button
-                this.querySelectorAll('.js-open-judgeme-modal-btn').forEach(btn => btn.addEventListener('click', () => this.openReviewModal()));
                 return;
             }
 
