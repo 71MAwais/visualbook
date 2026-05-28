@@ -402,60 +402,12 @@
     },
     "visual_reviews_AedeeH": {
       "type": "visual-reviews",
-      "blocks": {
-        "review_XhAk6j": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        },
-        "review_a46mnX": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        },
-        "review_hc9T4J": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        },
-        "review_CfcdDK": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "title": "Absolutely Beautiful",
-            "text": "The craftsmanship is unmatched. It truly feels like a modern heirloom for our family.",
-            "author": "Sarah M.",
-            "verified": true
-          }
-        }
-      },
-      "block_order": [
-        "review_XhAk6j",
-        "review_a46mnX",
-        "review_hc9T4J",
-        "review_CfcdDK"
-      ],
       "name": "Reviews",
       "settings": {
         "subtitle": "Testimonials",
         "title": "From our Customers",
         "show_rating": true,
-        "rating_text": "4.9 / 5 — 2,400+ Reviews",
+        "fallback_review_count": "0",
         "autoplay_speed": 3
       }
     },
@@ -573,29 +525,29 @@
         "faq_r9JLp7": {
           "type": "faq",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
+            "question": "1. Do you ship internationally, and how long does delivery take?",
+            "answer": "Yes, we offer worldwide shipping. Domestic orders typically arrive within 3 to 5 business days, while international shipping can take anywhere from 7 to 14 business days depending on your location and local customs processing. Once your order ships, you will receive a confirmation email with a tracking link. For full delivery timelines and regional rates, please visit our Shipping and Return page."
           }
         },
         "faq_DQ3mRb": {
           "type": "faq",
           "settings": {
-            "question": "Can I change the videos after I receive the book?",
-            "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
+            "question": "2. What is your return and exchange policy?",
+            "answer": "We want you to be completely satisfied with your purchase. If your book arrives damaged or you simply change your mind, we accept returns and exchanges within 14 days of delivery. Items must be in their original, unopened condition. Please note that return shipping costs are the responsibility of the customer unless the item arrived defective. For step-by-step instructions on how to initiate a return, please review our Shipping and Return page."
           }
         },
         "faq_jtR68e": {
           "type": "faq",
           "settings": {
-            "question": "How long does the battery last?",
-            "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
+            "question": "3. Can I change or cancel my order after placing it?",
+            "answer": "We process orders very quickly to ensure prompt delivery. If you need to make a change or cancel your order, you can cancel it provided that our team has not yet started working on it. Once our team has begun processing and preparing your order, we are unable to modify or cancel it."
           }
         },
         "faq_FpTzqV": {
           "type": "faq",
           "settings": {
-            "question": "Is there a limit to how many videos I can upload?",
-            "answer": "The standard Visual Book includes 8GB of internal memory, which comfortably holds about 2-3 hours of high-definition video or thousands of photos."
+            "question": "How can I contact customer support?",
+            "answer": "We offer a few ways to get in touch depending on how quickly you need a response:\n\nWhatsApp Fast Line: For the fastest response to urgent inquiries, please message us on WhatsApp at [Insert WhatsApp Number Here].\n\nLive Chat: For normal response times during business hours, simply click the chat bubble in the bottom right corner of your screen to use our Shopify Inbox.\n\nEmail: You can also email us anytime at [Insert Email Address Here].\n\nFor more specific inquiries, wholesale questions, or further details, please visit our Contact Us page."
           }
         }
       },
