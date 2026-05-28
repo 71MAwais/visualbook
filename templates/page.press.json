@@ -26,45 +26,59 @@
     "visual_press_iFEr37": {
       "type": "visual-press",
       "blocks": {
+        "press_article_NG7cpP": {
+          "type": "press_article",
+          "settings": {
+            "logo": "shopify://shop_images/1D60BDB6-6588-4107-8A61-ADE205ADAD5A.jpg",
+            "publication_name": "We Are The City",
+            "article_title": "Inspirational Woman: Aisha Shafii Ndayako | Founder, The Visual Book",
+            "excerpt": "Aisha Shafii Ndayako is Founder of the visual book. Here, she talks to us about building her business, what she hopes to achieve in the future and shares advice for her younger self.",
+            "link": "https://wearethecity.com/inspirational-woman-aisha-shafii-ndayako-founder-the-visual-book/"
+          }
+        },
         "press_article_bMxKhh": {
           "type": "press_article",
           "settings": {
+            "logo": "shopify://shop_images/YOUmag-logo-black.png",
             "publication_name": "Vogue",
             "article_title": "Meet the generation side hustle",
-            "excerpt": "Today's 20-somethings know how to spin plates. Charlotte Vossen meets savvy Gen Zs making their projects pay, highlighting the stunning craftsmanship of The Visual Book.",
-            "link": ""
+            "excerpt": "Today's 20-somethings know how to spin plates.Charlotte Vossen meets savvy Gen Zs making their projects pay",
+            "link": "https://www.mailplus.co.uk/edition/you/you-feature/225063/meet-generation-side-hustle?collection=13168&contentLayout=YOU+magazine%3Futm_source%3DInstagram&utm_medium=Social&utm_campaign=organic_instagram&fbclid=PAAaa8Cfl7JKgl6JvDv3OS6xkx9X8xYmP_rWre9eSXHWOEweL4_1qU5QP41Lc_aem_ASc_Lu_19Q3qe1G1px10YP4hKuS4SO2Dh_i6CCL6HILaAvG1A8FUHRKoHXgLSXVQ-wQ"
           }
         },
         "press_article_gL6Ybr": {
           "type": "press_article",
           "settings": {
-            "publication_name": "Vogue",
-            "article_title": "Meet the generation side hustle",
+            "logo": "shopify://shop_images/8D27E707-1FA2-472E-B92F-E02EC383046C.png",
+            "publication_name": "Reader Digest",
+            "article_title": "Down To Business: The Visual Book",
             "excerpt": "Today's 20-somethings know how to spin plates. Charlotte Vossen meets savvy Gen Zs making their projects pay, highlighting the stunning craftsmanship of The Visual Book.",
-            "link": ""
+            "link": "https://www.readersdigest.co.uk/inspire/down-to-business/down-to-business-the-visual-book?fbclid=PAAaZwhVFl_n0No6oCi0Hk5NaNeBF_K-ezAxf2ozfoXaDQ2DvQ2VjrQmPn0lk_aem_ASE-hV69l8lmX2BuNwaSk6doEvesZJDQirO6pJuGcyWyHaCFJ5RNin8cZrN5zNO6F3A"
           }
         },
         "press_article_3qWicM": {
           "type": "press_article",
           "settings": {
-            "logo": "shopify://shop_images/Reader_s-Digest-Logo_svg.png",
-            "publication_name": "Reader's Digest",
-            "article_title": "Down To Business: The Visual Book",
-            "excerpt": "Reader's Digest spoke to Aisha, founder of multi-media photo album that allows users to record their videos, The Visual Book.",
-            "link": "#"
+            "logo": "shopify://shop_images/0614A2F3-8369-4575-AD58-3153664CA48E.jpg",
+            "publication_name": "TechRound",
+            "article_title": "A Chat with Aisha Nadayako, Founder at The Visual Book",
+            "excerpt": "In November 2021, I had the idea and began the process of finding manufacturers, selecting a suitable company name, and so on. In April 2022, the company was founded and registered.",
+            "link": "https://techround.co.uk/interviews/a-chat-with-aisha-nadayako-the-visual-book/"
           }
         },
         "press_article_qAQWL7": {
           "type": "press_article",
           "settings": {
-            "publication_name": "Reader's Digest",
-            "article_title": "Down To Business: The Visual Book",
-            "excerpt": "Reader's Digest spoke to Aisha, founder of multi-media photo album that allows users to record their videos, The Visual Book.",
-            "link": "#"
+            "logo": "shopify://shop_images/14347522-4D8A-4DBE-93AF-B612A1975F24.png",
+            "publication_name": "London Daily.News",
+            "article_title": "",
+            "excerpt": "The Visual Book: an innovative new brand that’s taking traditional photo books to new heights, with their linen-bound video books that display old memories.",
+            "link": "https://www.londondaily.news/the-visual-book/"
           }
         }
       },
       "block_order": [
+        "press_article_NG7cpP",
         "press_article_bMxKhh",
         "press_article_gL6Ybr",
         "press_article_3qWicM",
@@ -77,10 +91,14 @@
         "description": "Discover the latest features, interviews, and mentions of The Visual Book from leading publications around the world.",
         "read_more_text": "Read Article",
         "show_media_card": true,
+        "media_bg_color": "#181615",
+        "media_text_color": "#ffffff",
         "media_title": "Press & Media Inquiries",
         "media_text": "For press releases, high-resolution imagery, and media kits, please reach out to our communications team.",
-        "media_btn_text": "Download Media Kit",
-        "media_btn_link": ""
+        "media_btn_text_1": "Download Media Kit",
+        "media_btn_link_1": "",
+        "media_btn_text_2": "Book an Interview",
+        "media_btn_link_2": ""
       }
     }
   },
