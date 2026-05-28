@@ -48,7 +48,7 @@
         <h3 class="font-serif text-xl text-[#1a1a1a] mb-2 z-10">{{ section.settings.chat_title | default: 'Live Chat' }}</h3>
         <p class="text-sm text-[#555555] font-light mb-6 z-10 flex-grow">{{ section.settings.chat_text | default: 'Chat directly with our concierge team via Shopify Inbox while you browse our collections.' }}</p>
         
-        <button type="button" id="TriggerShopifyChat" class="text-[10px] font-semibold uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-1 hover:text-[#737373] hover:border-[#737373] transition-colors z-10">
+        <button type="button" id="TriggerShopifyChat" class="text-[10px] font-semibold uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-1 hover:text-[#737373] hover:border-[#737373] transition-colors z-10 cursor-pointer">
           {{ section.settings.chat_btn_text | default: 'Open Chat' }}
         </button>
       </div>
@@ -147,7 +147,7 @@
           <textarea id="ContactForm-body" name="contact[body]" rows="5" class="w-full bg-white border border-[#d1d1d1] text-sm text-[#1a1a1a] py-3 px-4 outline-none focus:border-[#1a1a1a] transition-colors resize-none rounded-none placeholder-[#a39d93]" placeholder="How can we help you?" required>{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
         </div>
 
-        <button type="submit" class="w-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#333333] transition-colors duration-300">
+        <button type="submit" class="w-full bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#333333] transition-colors duration-300 cursor-pointer">
           {{ section.settings.form_btn_text | default: 'Submit Inquiry' }}
         </button>
         
@@ -160,118 +160,53 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  // =========================================
-  // SMART CONTACT FORM LOGIC
-  // =========================================
+  // =========================
+  // Smart Form Logic
+  // =========================
   const inquirySelect = document.getElementById('ContactForm-type');
   const orderNumberContainer = document.getElementById('OrderNumberContainer');
   const orderInput = document.getElementById('ContactForm-order');
 
   function toggleOrderField() {
-
     if (!inquirySelect) return;
 
-    const isSupport =
-      inquirySelect.value === 'Customer Support';
-
-    if (orderNumberContainer) {
-
-      orderNumberContainer.style.opacity =
-        isSupport ? '1' : '0.35';
-
-      orderNumberContainer.style.pointerEvents =
-        isSupport ? 'auto' : 'none';
-
-    }
-
-    if (!isSupport && orderInput) {
-      orderInput.value = '';
+    if (inquirySelect.value === 'Customer Support') {
+      if (orderNumberContainer) {
+        orderNumberContainer.style.opacity = '1';
+        orderNumberContainer.style.pointerEvents = 'auto';
+      }
+    } else {
+      if (orderNumberContainer) {
+        orderNumberContainer.style.opacity = '0.3';
+        orderNumberContainer.style.pointerEvents = 'none';
+      }
+      if (orderInput) {
+        orderInput.value = '';
+      }
     }
   }
 
-  // Initial run
   toggleOrderField();
 
-  // Change listener
   if (inquirySelect) {
-    inquirySelect.addEventListener(
-      'change',
-      toggleOrderField
-    );
+    inquirySelect.addEventListener('change', toggleOrderField);
   }
 
-  // =========================================
-  // SHOPIFY INBOX CHAT BUTTON
-  // =========================================
-  const chatButton =
-    document.getElementById('TriggerShopifyChat');
+  // =========================
+  // Official Shopify Inbox Trigger
+  // =========================
+  const chatTriggerBtn = document.getElementById('TriggerShopifyChat');
 
-  if (!chatButton) return;
+  if (chatTriggerBtn) {
+    chatTriggerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
 
-  chatButton.addEventListener('click', function (e) {
-
-    e.preventDefault();
-
-    // Add loading state
-    chatButton.classList.add('opacity-70');
-    chatButton.style.pointerEvents = 'none';
-
-    // -----------------------------------------
-    // METHOD 1
-    // Official Shopify Inbox Event
-    // -----------------------------------------
-    try {
-
+      // Dispatch the global custom event that Shopify Inbox listens for
       document.dispatchEvent(
         new CustomEvent('shopify:inbox:open')
       );
-
-    } catch (err) {
-      console.log('Inbox event failed', err);
-    }
-
-    // -----------------------------------------
-    // METHOD 2
-    // Backup launcher click
-    // -----------------------------------------
-    setTimeout(function () {
-
-      const launcher =
-        document.querySelector('[aria-label*="chat"]') ||
-        document.querySelector('[aria-label*="Chat"]') ||
-        document.querySelector('iframe[src*="shopifycloud"]');
-
-      if (launcher) {
-
-        if (launcher.tagName === 'IFRAME') {
-
-          launcher.style.display = 'block';
-
-        } else {
-
-          launcher.click();
-
-        }
-
-      } else {
-
-        console.log(
-          'Shopify Inbox widget not detected'
-        );
-
-        alert(
-          'Live chat is still loading. Please wait a few seconds and try again.'
-        );
-
-      }
-
-      // Restore button
-      chatButton.classList.remove('opacity-70');
-      chatButton.style.pointerEvents = 'auto';
-
-    }, 800);
-
-  });
+    });
+  }
 
 });
 </script>
