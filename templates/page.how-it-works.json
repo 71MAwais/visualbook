@@ -79,6 +79,7 @@
         "audio_step_7V46rz": {
           "type": "audio_step",
           "settings": {
+            "image": "shopify://shop_images/audiocards-03.png",
             "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><text x=\"70\" y=\"115\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">From:</text><circle cx=\"125\" cy=\"70\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"120\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"130\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"125\" cy=\"76\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">REC</text><path d=\"M142 110 L142 125 C142 127 140 128 138 128 L135 128 L135 145 C135 150 145 150 150 145 L150 130 C155 130 155 120 150 120 C150 115 145 110 142 110\" fill=\"#ffffff\" stroke=\"#1a1a1a\"></path><path d=\"M138 128 L142 128\"></path><path d=\"M145 125 L145 130\"></path></svg>",
             "step_label": "Step 01",
             "title": "Press & Speak",
@@ -88,6 +89,7 @@
         "audio_step_wmEXnM": {
           "type": "audio_step",
           "settings": {
+            "image": "shopify://shop_images/audiocards-06.png",
             "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><path d=\"M110 85 L110 65 M115 90 L115 60 M120 95 L120 55 M125 100 L125 50 M130 95 L130 55 M135 90 L135 60 M140 85 L140 65\" stroke=\"#c4b09e\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\" fill=\"#c4b09e\" stroke=\"none\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#fff\" stroke=\"none\" font-family=\"sans-serif\">REC</text></svg>",
             "step_label": "Step 02",
             "title": "Capture Audio",
@@ -97,6 +99,7 @@
         "audio_step_HFdNW3": {
           "type": "audio_step",
           "settings": {
+            "image": "shopify://shop_images/audiocards-04.png",
             "custom_svg": "<svg viewbox=\"0 0 200 150\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"40\" width=\"130\" height=\"90\" fill=\"#fcfcfc\"></rect><path d=\"M95 40 L95 130\"></path><rect x=\"40\" y=\"50\" width=\"45\" height=\"70\" rx=\"2\"></rect><text x=\"43\" y=\"58\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">To:</text><text x=\"70\" y=\"115\" font-size=\"4\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">From:</text><circle cx=\"125\" cy=\"70\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"120\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"130\" cy=\"73\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"125\" cy=\"76\" r=\"1\" fill=\"#1a1a1a\" stroke=\"none\"></circle><circle cx=\"110\" cy=\"110\" r=\"4\"></circle><text x=\"106\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">PLAY</text><circle cx=\"140\" cy=\"110\" r=\"4\"></circle><text x=\"136\" y=\"111\" font-size=\"3\" fill=\"#1a1a1a\" stroke=\"none\" font-family=\"sans-serif\">REC</text><path d=\"M112 110 L112 125 C112 127 110 128 108 128 L105 128 L105 145 C105 150 115 150 120 145 L120 130 C125 130 125 120 120 120 C120 115 115 110 112 110\" fill=\"#ffffff\" stroke=\"#1a1a1a\"></path><path d=\"M108 128 L112 128\"></path><path d=\"M115 125 L115 130\"></path></svg>",
             "step_label": "Step 03",
             "title": "Listen & Relive",
