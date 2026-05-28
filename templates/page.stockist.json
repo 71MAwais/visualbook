@@ -22,66 +22,131 @@
         "padding_bottom": 28
       }
     },
-    "visual_stockists_hMLVHw": {
+    "visual_stockists_CyQ96Y": {
       "type": "visual-stockists",
       "blocks": {
-        "physical_fP9C8k": {
+        "physical_irWxer": {
           "type": "physical",
           "settings": {
-            "location_tag": "New York, USA",
-            "store_name": "The Artful Page",
-            "address_1": "123 Gallery Row, Chelsea",
-            "address_2": "New York, NY 10001",
-            "phone": "(212) 555-0198",
+            "location_tag": "London, UK",
+            "store_name": "Selfridges & Co.",
+            "address_1": "400 Oxford Street",
+            "address_2": "London W1A 1AB",
             "link_text": "Get Directions",
-            "link_url": ""
+            "link_url": "https://www.selfridges.com"
           }
         },
-        "physical_mihzcW": {
+        "physical_7Jtaxx": {
           "type": "physical",
           "settings": {
-            "location_tag": "New York, USA",
-            "store_name": "The Artful Page",
-            "address_1": "123 Gallery Row, Chelsea",
-            "address_2": "New York, NY 10001",
-            "phone": "(212) 555-0198",
+            "location_tag": "Berlin, Germany",
+            "store_name": "KaDeWe",
+            "address_1": "Tauentzienstraße 21–24",
+            "address_2": "10789 Berlin",
             "link_text": "Get Directions",
-            "link_url": ""
+            "link_url": "https://store.kadewe.de/"
           }
         },
-        "online_LEyXYh": {
+        "physical_TBe3ah": {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Milan, Italy",
+            "store_name": "Rinascente",
+            "address_1": "P.za del Duomo, 20121",
+            "address_2": "Milano MI, Italy",
+            "link_text": "Get Directions",
+            "link_url": "https://www.rinascente.it/"
+          }
+        },
+        "physical_8r8WV9": {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Rome, Italy",
+            "store_name": "Rinascente",
+            "address_1": "Via del Tritone, 61, 00187",
+            "address_2": "Roma RM, Italy",
+            "link_text": "Get Directions",
+            "link_url": "https://www.rinascente.it/"
+          }
+        },
+        "physical_9f6F9j": {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Abuja, Nigeria",
+            "store_name": "ZARI",
+            "address_1": "4th Floor, Twentyonepark",
+            "address_2": "163 Adetokunbo Ademola Crescent, Wuse 2",
+            "link_text": "Get Directions",
+            "link_url": "https://zari.ng"
+          }
+        },
+        "online_wYpLBk": {
           "type": "online",
           "settings": {
             "location_tag": "Global Shipping",
-            "store_name": "Curated Print Co.",
-            "description": "An online marketplace for independent publishers and contemporary art books.",
+            "store_name": "The Visual Book",
+            "description": "Our dedicated official website for a seamless online shopping experience.",
             "link_text": "Shop Online",
-            "link_url": ""
+            "link_url": "https://thevisualbook.com"
+          }
+        },
+        "online_G8kwCK": {
+          "type": "online",
+          "settings": {
+            "location_tag": "Global Shipping",
+            "store_name": "Selfridges & Co.",
+            "description": "Shop The Visual Book online through Selfridges for global delivery.",
+            "link_text": "Shop Online",
+            "link_url": "https://www.selfridges.com"
+          }
+        },
+        "online_gTzKDG": {
+          "type": "online",
+          "settings": {
+            "location_tag": "UK & Global Shipping",
+            "store_name": "Amazon",
+            "description": "Available on Amazon UK for fast domestic and international shipping.",
+            "link_text": "Shop Online",
+            "link_url": "https://www.amazon.co.uk"
+          }
+        },
+        "online_dnmaFA": {
+          "type": "online",
+          "settings": {
+            "location_tag": "Nigeria Delivery",
+            "store_name": "ZARI",
+            "description": "Localized online service and seamless delivery options within Nigeria.",
+            "link_text": "Shop Online",
+            "link_url": "https://zari.ng"
           }
         }
       },
       "block_order": [
-        "physical_fP9C8k",
-        "physical_mihzcW",
-        "online_LEyXYh"
+        "physical_irWxer",
+        "physical_7Jtaxx",
+        "physical_TBe3ah",
+        "physical_8r8WV9",
+        "physical_9f6F9j",
+        "online_wYpLBk",
+        "online_G8kwCK",
+        "online_gTzKDG",
+        "online_dnmaFA"
       ],
       "name": "Visual Book Stockists",
       "settings": {
         "heading": "Where to find us",
-        "description": "Discover our curated collection of visual books in person or online through our trusted network of global retail partners and galleries.",
+        "description": "<p>The Visual Book is available exclusively through a select group of esteemed retailers. For online purchases, visit our dedicated site at thevisualbook.com, as well as selfridges.com and amazon.co.uk for a seamless shopping experience. For those who prefer an in-person/store experience, The Visual Book can be found at Selfridges in London, UK; KaDeWe in Berlin, Germany; and Rinascente in both Rome and Milan, Italy. Additionally, our Nigerian customers are warmly invited to shop at zari.ng for localized service and delivery options.</p>",
         "show_filters": true,
         "filter_all_text": "All Locations",
         "filter_physical_text": "Physical Stores",
         "filter_online_text": "Online Partners",
-        "show_retail_contact": true,
-        "retail_text": "Interested in becoming a retail partner?",
-        "retail_btn_text": "Contact Us",
-        "retail_btn_link": "shopify://pages/contact"
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
     "main",
-    "visual_stockists_hMLVHw"
+    "visual_stockists_CyQ96Y"
   ]
 }
