@@ -160,86 +160,118 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  // =========================
-  // Smart Form Logic
-  // =========================
+  // =========================================
+  // SMART CONTACT FORM LOGIC
+  // =========================================
   const inquirySelect = document.getElementById('ContactForm-type');
   const orderNumberContainer = document.getElementById('OrderNumberContainer');
   const orderInput = document.getElementById('ContactForm-order');
 
   function toggleOrderField() {
+
     if (!inquirySelect) return;
 
-    if (inquirySelect.value === 'Customer Support') {
-      if (orderNumberContainer) {
-        orderNumberContainer.style.opacity = '1';
-        orderNumberContainer.style.pointerEvents = 'auto';
-      }
-    } else {
-      if (orderNumberContainer) {
-        orderNumberContainer.style.opacity = '0.3';
-        orderNumberContainer.style.pointerEvents = 'none';
-      }
-      if (orderInput) {
-        orderInput.value = '';
-      }
+    const isSupport =
+      inquirySelect.value === 'Customer Support';
+
+    if (orderNumberContainer) {
+
+      orderNumberContainer.style.opacity =
+        isSupport ? '1' : '0.35';
+
+      orderNumberContainer.style.pointerEvents =
+        isSupport ? 'auto' : 'none';
+
+    }
+
+    if (!isSupport && orderInput) {
+      orderInput.value = '';
     }
   }
 
+  // Initial run
   toggleOrderField();
 
+  // Change listener
   if (inquirySelect) {
-    inquirySelect.addEventListener('change', toggleOrderField);
+    inquirySelect.addEventListener(
+      'change',
+      toggleOrderField
+    );
   }
 
-  // =========================
-  // Live Chat Trigger Logic
-  // =========================
-  const chatTriggerBtn = document.getElementById('TriggerShopifyChat');
+  // =========================================
+  // SHOPIFY INBOX CHAT BUTTON
+  // =========================================
+  const chatButton =
+    document.getElementById('TriggerShopifyChat');
 
-  if (chatTriggerBtn) {
-    chatTriggerBtn.addEventListener('click', function (e) {
-      e.preventDefault();
+  if (!chatButton) return;
 
-      // 1. Tidio API (If you ever switch to Tidio)
-      if (window.tidioChatApi) {
-        window.tidioChatApi.open();
-        return;
+  chatButton.addEventListener('click', function (e) {
+
+    e.preventDefault();
+
+    // Add loading state
+    chatButton.classList.add('opacity-70');
+    chatButton.style.pointerEvents = 'none';
+
+    // -----------------------------------------
+    // METHOD 1
+    // Official Shopify Inbox Event
+    // -----------------------------------------
+    try {
+
+      document.dispatchEvent(
+        new CustomEvent('shopify:inbox:open')
+      );
+
+    } catch (err) {
+      console.log('Inbox event failed', err);
+    }
+
+    // -----------------------------------------
+    // METHOD 2
+    // Backup launcher click
+    // -----------------------------------------
+    setTimeout(function () {
+
+      const launcher =
+        document.querySelector('[aria-label*="chat"]') ||
+        document.querySelector('[aria-label*="Chat"]') ||
+        document.querySelector('iframe[src*="shopifycloud"]');
+
+      if (launcher) {
+
+        if (launcher.tagName === 'IFRAME') {
+
+          launcher.style.display = 'block';
+
+        } else {
+
+          launcher.click();
+
+        }
+
+      } else {
+
+        console.log(
+          'Shopify Inbox widget not detected'
+        );
+
+        alert(
+          'Live chat is still loading. Please wait a few seconds and try again.'
+        );
+
       }
 
-      // 2. Gorgias API (If you ever switch to Gorgias)
-      if (window.GorgiasChat) {
-        window.GorgiasChat.open();
-        return;
-      }
+      // Restore button
+      chatButton.classList.remove('opacity-70');
+      chatButton.style.pointerEvents = 'auto';
 
-      // 3. Legacy Shopify API (Rarely works on 2.0, but safe to keep)
-      if (window.Shopify && window.Shopify.Chat && typeof window.Shopify.Chat.toggle === 'function') {
-        window.Shopify.Chat.toggle();
-        return;
-      }
+    }, 800);
 
-      // 4. Modern Shopify Inbox Workaround
-      // Since we cannot force-click the secure iframe, we check if the iframe exists on the page.
-      const shopifyInboxExists = document.getElementById('shopify-chat') || document.getElementById('dummy-chat-button-iframe');
-      
-      if (shopifyInboxExists) {
-        // Change the button text temporarily to guide the user
-        const originalText = chatTriggerBtn.innerText;
-        chatTriggerBtn.innerText = "Click bubble bottom right ↘";
-        chatTriggerBtn.classList.add('text-[#25D366]', 'border-[#25D366]');
-        
-        setTimeout(() => {
-          chatTriggerBtn.innerText = originalText;
-          chatTriggerBtn.classList.remove('text-[#25D366]', 'border-[#25D366]');
-        }, 4000);
-        return;
-      }
-
-      // 5. Final fallback if chat hasn't loaded yet or isn't installed
-      alert('Live chat is currently loading or unavailable. Please use the contact form below.');
-    });
-  }
+  });
 
 });
 </script>
