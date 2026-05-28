@@ -101,7 +101,7 @@
         {%- comment -%} DETAILS COLUMN {%- endcomment -%}
         <div class="lg:col-span-6 mt-6 lg:mt-0 relative z-20 lg:pl-4 xl:pl-6 pb-20 lg:pb-0">
             
-            {%- comment -%} DYNAMIC JUDGE.ME EXTRACTION (Bypasses third-party app block) {%- endcomment -%}
+            {%- comment -%} DYNAMIC JUDGE.ME EXTRACTION {%- endcomment -%}
             {%- assign jm_badge = product.metafields.judgeme.badge -%}
             {%- assign rating_val = jm_badge | split: "data-average-rating='" | last | split: "'" | first | default: '5.0' -%}
             {%- assign review_count = jm_badge | split: "data-number-of-reviews='" | last | split: "'" | first | default: '0' -%}
@@ -111,19 +111,19 @@
               {%- assign review_count = section.settings.fallback_review_count | default: "128" -%}
             {%- endif -%}
 
-            <div class="flex items-center gap-2 mb-3 w-fit group">
-                <div class="flex gap-0.5 text-[#c4b09e]">
+            <div class="flex items-center gap-2 mb-4 w-fit group cursor-pointer" onclick="document.querySelector('.js-open-judgeme-modal-btn')?.click() || document.getElementById('open-judgeme-modal-btn')?.click()">
+                <div class="flex items-center gap-1">
                     {%- assign rating_floor = rating_val | floor -%}
                     {%- for i in (1..5) -%}
                         {%- if i <= rating_floor -%}
-                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         {%- else -%}
-                            <svg class="w-3.5 h-3.5 fill-current opacity-30" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#E5E5E5" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         {%- endif -%}
                     {%- endfor -%}
                 </div>
-                <span class="text-[11px] font-bold tracking-[0.1em] text-stone-500 transition-colors uppercase">
-                    {{ rating_val }} / 5 ({{ review_count }} REVIEWS)
+                <span class="text-[13px] font-semibold text-stone-600 border-b border-transparent group-hover:border-stone-400 transition-colors">
+                    {{ rating_val }} / 5 ({{ review_count }} Reviews)
                 </span>
             </div>
 
@@ -307,9 +307,9 @@
   FIXED Z-INDEX MODALS CONTAINER 
   (Teleports to body to override any hidden parent z-indexes)
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-">
+<div id="all-modals-container" class="relative z-[99999]">
     
-    <div id="support-modal" class="fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -332,7 +332,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -353,7 +353,7 @@
         </div>
     </div>
 
-    <div id="discount-modal" class="fixed inset-0 hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
+    <div id="discount-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
         <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -409,14 +409,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const rawVariants = document.getElementById('VisualProductVariants').textContent.trim();
     const productVariants = (rawVariants && rawVariants !== 'null') ? JSON.parse(rawVariants) : [];
-    
+
     const formatMoney = (cents) => {
         if (typeof cents === 'string') cents = cents.replace('.', '');
         let value = '';
         const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
         const formatString = shopMoneyFormat.match(placeholderRegex);
-        
-        switch (formatString) {
+
+        switch (formatString[1]) {
             case 'amount': value = (cents / 100).toFixed(2); break;
             case 'amount_no_decimals': value = (cents / 100).toFixed(0); break;
             case 'amount_with_comma_separator': value = (cents / 100).toFixed(2).replace('.', ','); break;
@@ -446,10 +446,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
-            const qty = parseInt(qtyInputs.value) || 1;
+            const qty = parseInt(qtyInputs[0].value) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
             
             priceDisplays.forEach(el => el.textContent = formattedPrice);
@@ -470,11 +470,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
                 });
+                
                 if (targetThumbIndex !== -1) {
                     const carousel = document.getElementById('main-image-carousel');
                     const width = carousel.offsetWidth;
@@ -513,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            let val = parseInt(qtyInputs.value) || 1;
+            let val = parseInt(qtyInputs[0].value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
             qtyInputs.forEach(inp => inp.value = val);
@@ -532,7 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  fileInput.click();
              }
         });
-        
         fileInput.addEventListener('change', function() {
             if(this.files && this.files.length > 0) {
                 uploadStatus.textContent = `${this.files.length} file(s) selected`;
@@ -568,7 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dateInput = document.getElementById('book-date');
     const dateCounter = document.getElementById('book-date-counter');
-    
     if(dateInput && dateCounter) {
         dateInput.addEventListener('input', function() {
             dateCounter.textContent = `${this.value.length}/14`;
@@ -644,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }, 150);
                         }, 2500);
                     }
-                }, 800); 
+                }, 800);
             })
             .catch((error) => {
                 console.error('Error adding to cart:', error);
@@ -690,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const thumbnails = document.querySelectorAll('.thumbnail-btn');
     const sliderProgress = document.getElementById('slider-progress');
     let currentIndex = 0;
-
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -699,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { root: carousel, threshold: 0.6 });
-
+    
     slides.forEach(slide => observer.observe(slide));
 
     function updateThumbnailState(index) {
@@ -726,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const width = carousel.offsetWidth;
         carousel.scrollBy({ left: -width, behavior: 'smooth' });
     });
-
+    
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
             const width = carousel.offsetWidth;
@@ -777,6 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 6. Tab Selection ---
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(b => {
@@ -784,6 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 b.classList.add('border-transparent', 'text-stone-500', 'font-medium');
                 b.setAttribute('aria-selected', 'false');
             });
+            
             btn.classList.add('border-stone-900', 'text-stone-900', 'font-bold');
             btn.classList.remove('border-transparent', 'text-stone-500', 'font-medium');
             btn.setAttribute('aria-selected', 'true');
@@ -832,16 +833,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 8. Accessible Modal Logic ---
     let lastActiveElement = null;
-
+    
     function openModalEl(modalEl, contentEl, triggerEl) {
         lastActiveElement = triggerEl || document.activeElement;
         modalEl.classList.remove('hidden');
         modalEl.classList.add('flex');
         
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements;
+        const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
-
+        
         modalEl.addEventListener('keydown', function(e) {
             let isTabPressed = e.key === 'Tab';
             if (!isTabPressed) { return; }
@@ -857,7 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-
+        
         setTimeout(() => {
             modalEl.classList.remove('opacity-0');
             contentEl.classList.remove('scale-95', 'opacity-0');
@@ -868,6 +869,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModalEl(modalEl, contentEl) {
         modalEl.classList.add('opacity-0');
         contentEl.classList.add('scale-95', 'opacity-0');
+        
         setTimeout(() => {
             modalEl.classList.add('hidden');
             modalEl.classList.remove('flex');
