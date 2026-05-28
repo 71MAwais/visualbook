@@ -136,27 +136,6 @@
     },
     "product_experience1_xizDKV": {
       "type": "product-experience1",
-      "blocks": {
-        "experience_card_GHf9Q7": {
-          "type": "experience_card",
-          "settings": {
-            "card_title": "",
-            "card_desc": "",
-            "card_action_text": "Discover how",
-            "tab1_btn": "",
-            "tab1_heading": "",
-            "tab1_desc": "",
-            "tab2_btn": "",
-            "tab2_heading": "",
-            "tab2_desc": "",
-            "button_label": "Add to Cart",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "experience_card_GHf9Q7"
-      ],
       "name": "Product Experience Unified",
       "settings": {
         "bg_color": "#fafafa",
