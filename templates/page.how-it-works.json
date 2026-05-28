@@ -25,37 +25,6 @@
         "padding_bottom": 60
       }
     },
-    "shop": {
-      "type": "Landing-shop",
-      "settings": {
-        "subtitle": "SHOP THE COLLECTION",
-        "title": "Curated Collections",
-        "text": "",
-        "tab_1_label": "Video Book",
-        "collection_1": "classic-visual-books",
-        "tab_2_label": "Audio Cards",
-        "collection_2": "audio-greetings-card"
-      }
-    },
-    "how_it_works_support_rhThdj": {
-      "type": "how-it-works-support",
-      "name": "How It Works - Support",
-      "settings": {
-        "faq_badge": "Client Care",
-        "faq_heading": "Common Questions",
-        "cta_heading": "Require Personal Assistance?",
-        "cta_subheading": "Our dedicated concierge team is at your service to ensure your VisualBook is perfectly curated for your special moments.",
-        "btn_label": "Contact Concierge",
-        "btn_link": "shopify://pages/contact",
-        "bg_color_faq": "#ffffff",
-        "bg_color_cta": "#f3f3f3",
-        "heading_color": "#1c1c1c",
-        "text_color": "#595959",
-        "accent_color": "#c4b09e",
-        "btn_bg_color": "#1c1c1c",
-        "btn_text_color": "#ffffff"
-      }
-    },
     "how_it_works_journey_FpKBAx": {
       "type": "how-it-works-journey",
       "blocks": {
@@ -218,6 +187,37 @@
         "tiers_subheading": "Choose Your Experience",
         "tiers_heading_1": "Three Ways to",
         "tiers_heading_2": "Remember"
+      }
+    },
+    "shop": {
+      "type": "Landing-shop",
+      "settings": {
+        "subtitle": "SHOP THE COLLECTION",
+        "title": "Curated Collections",
+        "text": "",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
+    },
+    "how_it_works_support_rhThdj": {
+      "type": "how-it-works-support",
+      "name": "How It Works - Support",
+      "settings": {
+        "faq_badge": "Client Care",
+        "faq_heading": "Common Questions",
+        "cta_heading": "Require Personal Assistance?",
+        "cta_subheading": "Our dedicated Client Advisors are available to assist you by Whatsapp, email, or live chat. We invite you to contact us with any questions regarding your Visual Book, bespoke orders, or general inquiries.",
+        "btn_label": "Contact Us",
+        "btn_link": "shopify://pages/contact",
+        "bg_color_faq": "#ffffff",
+        "bg_color_cta": "#f3f3f3",
+        "heading_color": "#1c1c1c",
+        "text_color": "#595959",
+        "accent_color": "#c4b09e",
+        "btn_bg_color": "#1c1c1c",
+        "btn_text_color": "#ffffff"
       }
     }
   },
