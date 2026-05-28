@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "top_heading": "",
         "bottom_heading": "",
@@ -22,50 +23,79 @@
         "padding_bottom": 28
       }
     },
-    "visual_fa_qs_8haKR8": {
+    "visual_fa_qs_KBn8YY": {
       "type": "visual-FAQs",
       "blocks": {
-        "faq_Raegmy": {
-          "type": "faq",
+        "category_UrycgG": {
+          "type": "category",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+            "title": "Category Title"
           }
         },
-        "faq_NcaHnM": {
+        "faq_rD9MbX": {
           "type": "faq",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+            "question": "Do you ship internationally, and how long does delivery take?",
+            "answer": "<p>Yes, we offer worldwide shipping. Domestic orders typically arrive within 3 to 5 business days, while international shipping can take anywhere from 7 to 14 business days depending on your location and local customs processing. Once your order ships, you will receive a confirmation email with a tracking link. For full delivery timelines and regional rates, please visit our Shipping and Return page.</p>"
           }
         },
-        "faq_d4AigA": {
+        "category_EXGC8W": {
+          "type": "category",
+          "settings": {
+            "title": "Shipping & Returns"
+          }
+        },
+        "faq_menzPV": {
           "type": "faq",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally.</p>"
+            "question": "What is your return and exchange policy?",
+            "answer": "<p>We want you to be completely satisfied with your purchase. If your book arrives damaged or you simply change your mind, we accept returns and exchanges within 14 days of delivery. Items must be in their original, unopened condition. Please note that return shipping costs are the responsibility of the customer unless the item arrived defective. For step-by-step instructions on how to initiate a return, please review our Shipping and Return page.</p>"
+          }
+        },
+        "category_fHWkJK": {
+          "type": "category",
+          "settings": {
+            "title": "Orders & Support"
+          }
+        },
+        "faq_jeqeRc": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change or cancel my order after placing it?",
+            "answer": "<p>We process orders very quickly to ensure prompt delivery. If you need to make a change or cancel your order, you can cancel it provided that our team has not yet started working on it. Once our team has begun processing and preparing your order, we are unable to modify or cancel it.</p>"
+          }
+        },
+        "faq_jGWyJ3": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I contact customer support?",
+            "answer": "<p><strong>WhatsApp Fast Line:</strong> For the fastest response to urgent inquiries, please message us on WhatsApp at [Insert Number].<br><br><strong>Live Chat:</strong> For normal response times during business hours, simply click the chat bubble in the bottom right corner of your screen to use our Shopify Inbox.<br><br><strong>Email:</strong> You can also email us anytime at [Insert Email].</p>"
           }
         }
       },
       "block_order": [
-        "faq_Raegmy",
-        "faq_NcaHnM",
-        "faq_d4AigA"
+        "category_UrycgG",
+        "faq_rD9MbX",
+        "category_EXGC8W",
+        "faq_menzPV",
+        "category_fHWkJK",
+        "faq_jeqeRc",
+        "faq_jGWyJ3"
       ],
       "name": "Visual FAQ",
       "settings": {
         "subheading": "Support",
-        "title": "Common Questions",
+        "title": "Frequently Asked Questions",
         "show_contact": true,
-        "contact_heading": "Require assistance?",
-        "contact_text": "Our dedicated concierge team is available to ensure your Visual Book is perfectly curated and configured for your special moments.",
-        "contact_button_text": "Contact Concierge",
+        "contact_heading": "Contact Client Services",
+        "contact_text": "Our dedicated Client Advisors are available to assist you by Whatsapp, email, or live chat. We invite you to contact us with any questions regarding your Visual Book, bespoke orders, or general inquiries.",
+        "contact_button_text": "Contact Us",
         "contact_link": "shopify://pages/contact"
       }
     }
   },
   "order": [
     "main",
-    "visual_fa_qs_8haKR8"
+    "visual_fa_qs_KBn8YY"
   ]
 }
