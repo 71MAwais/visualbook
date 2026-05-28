@@ -1,79 +1,79 @@
-<style>
-  /* Minimal scoped animation to avoid any global conflicts */
-  .stockist-card { opacity: 0; }
-  .stockist-card.card-enter { animation: stockistFadeIn 0.4s ease-out forwards; }
+{% style %}
+  /* Minimal scoped animation for the staggered fade-in */
+  .stockist-card { opacity: 0; transform: translateY(15px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+  .stockist-card.card-enter { opacity: 1; transform: translateY(0); }
   .stockist-hide { display: none !important; }
-  
-  @keyframes stockistFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
+{% endstyle %}
 
-<div class="w-full bg-[#fafafa] py-10 md:py-16">
+<section class="w-full bg-[#fafafa]" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   
-  <header class="px-6 text-center max-w-3xl mx-auto mb-10 md:mb-16">
-    <h1 class="text-5xl md:text-6xl font-serif text-[#181615] mb-4">{{ section.settings.heading }}</h1>
-    <p class="text-lg text-gray-600 font-sans font-light leading-relaxed">
-      {{ section.settings.description }}
-    </p>
+  <header class="px-6 text-center max-w-4xl mx-auto mb-12 md:mb-16">
+    {% if section.settings.heading != blank %}
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-[#181615] mb-6 tracking-tight">
+        {{ section.settings.heading | escape }}
+      </h1>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <div class="text-base md:text-lg text-gray-600 font-sans font-light leading-relaxed">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
   </header>
 
   <main class="max-w-7xl mx-auto px-6 w-full">
     
     {% if section.settings.show_filters %}
-      <div class="flex justify-center gap-4 mb-10 border-b border-gray-200 pb-px overflow-x-auto whitespace-nowrap">
-        <button onclick="filterStockists('all')" id="btn-all" class="stockist-tab-btn active px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-[#181615] text-[#181615] transition-all">
-          {{ section.settings.filter_all_text }}
+      <div class="flex justify-center gap-2 md:gap-6 mb-12 border-b border-gray-200 pb-px overflow-x-auto whitespace-nowrap hide-scrollbar">
+        <button onclick="filterStockists('all')" id="btn-all" class="stockist-tab-btn active px-4 md:px-6 py-3 font-sans font-medium text-xs md:text-sm uppercase tracking-widest border-b-2 border-[#181615] text-[#181615] hover:text-black transition-all">
+          {{ section.settings.filter_all_text | escape }}
         </button>
-        <button onclick="filterStockists('physical')" id="btn-physical" class="stockist-tab-btn px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
-          {{ section.settings.filter_physical_text }}
+        <button onclick="filterStockists('physical')" id="btn-physical" class="stockist-tab-btn px-4 md:px-6 py-3 font-sans font-medium text-xs md:text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
+          {{ section.settings.filter_physical_text | escape }}
         </button>
-        <button onclick="filterStockists('online')" id="btn-online" class="stockist-tab-btn px-6 py-3 font-sans font-medium text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
-          {{ section.settings.filter_online_text }}
+        <button onclick="filterStockists('online')" id="btn-online" class="stockist-tab-btn px-4 md:px-6 py-3 font-sans font-medium text-xs md:text-sm uppercase tracking-widest border-b-2 border-transparent text-gray-400 hover:text-[#181615] transition-all">
+          {{ section.settings.filter_online_text | escape }}
         </button>
       </div>
     {% endif %}
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stockist-container">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="stockist-container">
       
       {% for block in section.blocks %}
         {% case block.type %}
           
           {% when 'physical' %}
-            <div class="stockist-card physical bg-white p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-sm" {{ block.shopify_attributes }}>
-              <div class="flex items-start justify-between mb-3">
-                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400">{{ block.settings.location_tag }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <div class="stockist-card physical bg-white p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full rounded-xl group" {{ block.shopify_attributes }}>
+              <div class="flex items-start justify-between mb-4">
+                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400 group-hover:text-gray-600 transition-colors">{{ block.settings.location_tag | escape }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:stroke-gray-400 transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               </div>
-              <h3 class="text-xl font-serif text-[#181615] mb-2">{{ block.settings.store_name }}</h3>
-              <div class="text-sm font-sans text-gray-500 font-light flex-grow space-y-1 mb-6">
-                {% if block.settings.address_1 != blank %}<p>{{ block.settings.address_1 }}</p>{% endif %}
-                {% if block.settings.address_2 != blank %}<p>{{ block.settings.address_2 }}</p>{% endif %}
-                {% if block.settings.phone != blank %}<p class="pt-1 text-[#181615] font-medium">{{ block.settings.phone }}</p>{% endif %}
+              <h3 class="text-2xl font-serif text-[#181615] mb-3">{{ block.settings.store_name | escape }}</h3>
+              <div class="text-sm font-sans text-gray-500 font-light flex-grow space-y-1.5 mb-8">
+                {% if block.settings.address_1 != blank %}<p>{{ block.settings.address_1 | escape }}</p>{% endif %}
+                {% if block.settings.address_2 != blank %}<p>{{ block.settings.address_2 | escape }}</p>{% endif %}
               </div>
               {% if block.settings.link_url != blank %}
-                <a href="{{ block.settings.link_url }}" target="_blank" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-[#181615] border-b border-[#181615] pb-1 w-max hover:text-gray-500 hover:border-gray-500 transition-colors">
-                  {{ block.settings.link_text }} 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                <a href="{{ block.settings.link_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-[#181615] border-b border-[#181615] pb-1 w-max hover:text-gray-500 hover:border-gray-500 transition-colors">
+                  {{ block.settings.link_text | escape }} 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
               {% endif %}
             </div>
 
           {% when 'online' %}
-            <div class="stockist-card online bg-[#181615] text-white p-6 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full rounded-sm" {{ block.shopify_attributes }}>
-              <div class="flex items-start justify-between mb-3">
-                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400">{{ block.settings.location_tag }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <div class="stockist-card online bg-[#181615] text-white p-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full rounded-xl group" {{ block.shopify_attributes }}>
+              <div class="flex items-start justify-between mb-4">
+                <span class="text-xs font-sans font-semibold tracking-widest uppercase text-gray-400 group-hover:text-gray-300 transition-colors">{{ block.settings.location_tag | escape }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:stroke-gray-300 transition-colors"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
               </div>
-              <h3 class="text-xl font-serif text-white mb-2">{{ block.settings.store_name }}</h3>
-              <div class="text-sm font-sans text-gray-300 font-light flex-grow space-y-1 mb-6">
-                <p>{{ block.settings.description }}</p>
+              <h3 class="text-2xl font-serif text-white mb-3">{{ block.settings.store_name | escape }}</h3>
+              <div class="text-sm font-sans text-gray-300 font-light flex-grow space-y-1.5 mb-8 leading-relaxed">
+                <p>{{ block.settings.description | escape }}</p>
               </div>
               {% if block.settings.link_url != blank %}
-                <a href="{{ block.settings.link_url }}" target="_blank" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-white border-b border-white pb-1 w-max hover:text-gray-400 hover:border-gray-400 transition-colors">
-                  {{ block.settings.link_text }} 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                <a href="{{ block.settings.link_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-sans font-medium text-white border-b border-white pb-1 w-max hover:text-gray-300 hover:border-gray-300 transition-colors">
+                  {{ block.settings.link_text | escape }} 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
               {% endif %}
             </div>
@@ -82,38 +82,26 @@
       {% endfor %}
 
     </div>
-
-    {% if section.settings.show_retail_contact %}
-      <div class="mt-16 pt-10 border-t border-gray-200 text-center max-w-2xl mx-auto">
-        {% if section.settings.retail_text != blank %}
-          <p class="text-2xl font-serif text-[#181615] mb-6">{{ section.settings.retail_text | escape }}</p>
-        {% endif %}
-        {% if section.settings.retail_btn_link != blank and section.settings.retail_btn_text != blank %}
-          <a href="{{ section.settings.retail_btn_link }}" class="inline-block px-8 py-3 bg-[#181615] text-white text-sm font-sans font-medium uppercase tracking-widest hover:bg-gray-800 transition-colors rounded-sm">
-            {{ section.settings.retail_btn_text | escape }}
-          </a>
-        {% endif %}
-      </div>
-    {% endif %}
-
   </main>
-</div>
+</section>
 
 <script>
+  // Initial staggered fade in
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.stockist-card');
     cards.forEach((card, index) => {
       setTimeout(() => {
         card.classList.add('card-enter');
-      }, 50 * index);
+      }, 75 * index);
     });
   });
 
+  // Filtering logic
   function filterStockists(type) {
     const cards = document.querySelectorAll('.stockist-card');
     const btns = document.querySelectorAll('.stockist-tab-btn');
 
-    // Update buttons
+    // Update button active states
     btns.forEach(btn => {
       if (btn.id === `btn-${type}`) {
         btn.classList.add('border-[#181615]', 'text-[#181615]');
@@ -124,19 +112,27 @@
       }
     });
 
-    // Update cards
+    // Animate cards out, filter, then animate back in
     let visibleIndex = 0;
     cards.forEach((card) => {
       card.classList.remove('card-enter');
-      card.classList.add('stockist-hide');
       
-      if (type === 'all' || card.classList.contains(type)) {
-        setTimeout(() => {
+      // Slight delay to allow fade out before hiding
+      setTimeout(() => {
+        card.classList.add('stockist-hide');
+        
+        if (type === 'all' || card.classList.contains(type)) {
           card.classList.remove('stockist-hide');
-          card.classList.add('card-enter');
-        }, 50 * visibleIndex); 
-        visibleIndex++;
-      }
+          
+          // Force a reflow so the transition re-triggers
+          void card.offsetWidth; 
+          
+          setTimeout(() => {
+            card.classList.add('card-enter');
+          }, 75 * visibleIndex); 
+          visibleIndex++;
+        }
+      }, 200); // Matches CSS transition time somewhat
     });
   }
 </script>
@@ -152,10 +148,10 @@
       "default": "Where to find us"
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "description",
       "label": "Description",
-      "default": "Discover our curated collection of visual books in person or online through our trusted network of global retail partners and galleries."
+      "default": "<p>The Visual Book is available exclusively through a select group of esteemed retailers...</p>"
     },
     {
       "type": "header",
@@ -187,31 +183,27 @@
     },
     {
       "type": "header",
-      "content": "Retail Inquiries"
+      "content": "Section Padding"
     },
     {
-      "type": "checkbox",
-      "id": "show_retail_contact",
-      "label": "Show Retail Contact CTA",
-      "default": false
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
     },
     {
-      "type": "text",
-      "id": "retail_text",
-      "label": "Prompt Text",
-      "default": "Interested in becoming a retail partner?"
-    },
-    {
-      "type": "text",
-      "id": "retail_btn_text",
-      "label": "Button Text",
-      "default": "Contact Us"
-    },
-    {
-      "type": "url",
-      "id": "retail_btn_link",
-      "label": "Button Link",
-      "info": "Select your contact page here."
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
     }
   ],
   "blocks": [
@@ -223,31 +215,23 @@
           "type": "text",
           "id": "location_tag",
           "label": "Location Tag",
-          "default": "New York, USA"
+          "default": "City, Country"
         },
         {
           "type": "text",
           "id": "store_name",
           "label": "Store Name",
-          "default": "The Artful Page"
+          "default": "Store Name"
         },
         {
           "type": "text",
           "id": "address_1",
-          "label": "Address Line 1",
-          "default": "123 Gallery Row, Chelsea"
+          "label": "Address Line 1"
         },
         {
           "type": "text",
           "id": "address_2",
-          "label": "Address Line 2",
-          "default": "New York, NY 10001"
-        },
-        {
-          "type": "text",
-          "id": "phone",
-          "label": "Phone Number",
-          "default": "(212) 555-0198"
+          "label": "Address Line 2"
         },
         {
           "type": "text",
@@ -276,13 +260,12 @@
           "type": "text",
           "id": "store_name",
           "label": "Store Name",
-          "default": "Curated Print Co."
+          "default": "Online Store"
         },
         {
           "type": "textarea",
           "id": "description",
-          "label": "Store Description",
-          "default": "An online marketplace for independent publishers and contemporary art books."
+          "label": "Store Description"
         },
         {
           "type": "text",
@@ -301,10 +284,105 @@
   "presets": [
     {
       "name": "Visual Book Stockists",
+      "settings": {
+        "description": "<p>The Visual Book is available exclusively through a select group of esteemed retailers. For online purchases, visit our dedicated site at thevisualbook.com, as well as selfridges.com and amazon.co.uk for a seamless shopping experience. For those who prefer an in-person/store experience, The Visual Book can be found at Selfridges in London, UK; KaDeWe in Berlin, Germany; and Rinascente in both Rome and Milan, Italy. Additionally, our Nigerian customers are warmly invited to shop at zari.ng for localized service and delivery options.</p>"
+      },
       "blocks": [
-        { "type": "physical" },
-        { "type": "physical" },
-        { "type": "online" }
+        {
+          "type": "physical",
+          "settings": {
+            "location_tag": "London, UK",
+            "store_name": "Selfridges & Co.",
+            "address_1": "400 Oxford Street",
+            "address_2": "London W1A 1AB",
+            "link_text": "Get Directions",
+            "link_url": "https://www.selfridges.com"
+          }
+        },
+        {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Berlin, Germany",
+            "store_name": "KaDeWe",
+            "address_1": "Tauentzienstraße 21–24",
+            "address_2": "10789 Berlin",
+            "link_text": "Get Directions",
+            "link_url": "https://store.kadewe.de/"
+          }
+        },
+        {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Milan, Italy",
+            "store_name": "Rinascente",
+            "address_1": "P.za del Duomo, 20121",
+            "address_2": "Milano MI, Italy",
+            "link_text": "Get Directions",
+            "link_url": "https://www.rinascente.it/"
+          }
+        },
+        {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Rome, Italy",
+            "store_name": "Rinascente",
+            "address_1": "Via del Tritone, 61, 00187",
+            "address_2": "Roma RM, Italy",
+            "link_text": "Get Directions",
+            "link_url": "https://www.rinascente.it/"
+          }
+        },
+        {
+          "type": "physical",
+          "settings": {
+            "location_tag": "Abuja, Nigeria",
+            "store_name": "ZARI",
+            "address_1": "4th Floor, Twentyonepark",
+            "address_2": "163 Adetokunbo Ademola Crescent, Wuse 2",
+            "link_text": "Get Directions",
+            "link_url": "https://zari.ng"
+          }
+        },
+        {
+          "type": "online",
+          "settings": {
+            "location_tag": "Global Shipping",
+            "store_name": "The Visual Book",
+            "description": "Our dedicated official website for a seamless online shopping experience.",
+            "link_text": "Shop Online",
+            "link_url": "https://thevisualbook.com"
+          }
+        },
+        {
+          "type": "online",
+          "settings": {
+            "location_tag": "Global Shipping",
+            "store_name": "Selfridges & Co.",
+            "description": "Shop The Visual Book online through Selfridges for global delivery.",
+            "link_text": "Shop Online",
+            "link_url": "https://www.selfridges.com"
+          }
+        },
+        {
+          "type": "online",
+          "settings": {
+            "location_tag": "UK & Global Shipping",
+            "store_name": "Amazon",
+            "description": "Available on Amazon UK for fast domestic and international shipping.",
+            "link_text": "Shop Online",
+            "link_url": "https://www.amazon.co.uk"
+          }
+        },
+        {
+          "type": "online",
+          "settings": {
+            "location_tag": "Nigeria Delivery",
+            "store_name": "ZARI",
+            "description": "Localized online service and seamless delivery options within Nigeria.",
+            "link_text": "Shop Online",
+            "link_url": "https://zari.ng"
+          }
+        }
       ]
     }
   ]
