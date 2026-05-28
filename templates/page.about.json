@@ -29,6 +29,7 @@
         "feature_Jj3Uxx": {
           "type": "feature",
           "settings": {
+            "icon_image": "shopify://shop_images/Unknown_18237229-0fb8-4029-b5d8-7aa07c01a6c2.png",
             "title": "British Design",
             "text": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology."
           }
@@ -36,6 +37,7 @@
         "feature_nUgxwY": {
           "type": "feature",
           "settings": {
+            "icon_image": "shopify://shop_images/Unknown-2_2b482fba-cb21-4b30-8e94-6a34eb8d02b8.png",
             "title": "Eco-Friendly Quality",
             "text": "Built to last with sustainable materials, preserving your memories and the planet."
           }
@@ -43,6 +45,7 @@
         "feature_RR43Kz": {
           "type": "feature",
           "settings": {
+            "icon_image": "shopify://shop_images/no_bg_sat_icons_how_it_works-03.png",
             "title": "Timeless Keepsake",
             "text": "A beautiful heirloom designed to be passed down through generations."
           }
@@ -50,6 +53,7 @@
         "feature_xjVqWd": {
           "type": "feature",
           "settings": {
+            "icon_image": "shopify://shop_images/3141738.png",
             "title": "Desbossed Foil",
             "text": "Luxurious finishing touches that elevate your book into a premium work of art."
           }
