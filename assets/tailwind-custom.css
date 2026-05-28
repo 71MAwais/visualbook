@@ -1128,6 +1128,10 @@
     --tw-translate-y: calc(var(--spacing) * 2);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+  .translate-y-4 {
+    --tw-translate-y: calc(var(--spacing) * 4);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .scale-95 {
     --tw-scale-x: 95%;
     --tw-scale-y: 95%;
@@ -1678,6 +1682,9 @@
   }
   .bg-\[\#1a1a1a\] {
     background-color: #1a1a1a;
+  }
+  .bg-\[\#25D366\] {
+    background-color: #25D366;
   }
   .bg-\[\#25D366\]\/5 {
     background-color: color-mix(in oklab, #25D366 5%, transparent);
@@ -3454,6 +3461,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: #1a1a1a;
+      }
+    }
+  }
+  .hover\:bg-\[\#20b858\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #20b858;
       }
     }
   }
