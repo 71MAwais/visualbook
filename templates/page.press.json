@@ -26,6 +26,16 @@
     "visual_press_iFEr37": {
       "type": "visual-press",
       "blocks": {
+        "press_article_3CEbtQ": {
+          "type": "press_article",
+          "settings": {
+            "logo": "shopify://shop_images/8FE5E138-40F3-4211-A5B1-B79968DADEF0.webp",
+            "publication_name": "Gramersi",
+            "article_title": "The Visual Book: Taking Traditional Photo Books To New Heights",
+            "excerpt": "An innovative new brand that’s taking traditional photo books to new heights. The Visual Book was created by a young, Nigerian-born entrepreneur, named Aisha.",
+            "link": "https://gramersi.com/2022/08/04/the-visual-book-taking-traditional-photo-books-to-new-heights/"
+          }
+        },
         "press_article_NG7cpP": {
           "type": "press_article",
           "settings": {
@@ -78,6 +88,7 @@
         }
       },
       "block_order": [
+        "press_article_3CEbtQ",
         "press_article_NG7cpP",
         "press_article_bMxKhh",
         "press_article_gL6Ybr",
