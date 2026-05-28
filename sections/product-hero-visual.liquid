@@ -1,6 +1,6 @@
 {% comment %}
   Section: visual-product-hero.liquid
-  Description: Custom Tailwind product section with square responsive gallery, scrollable description, AJAX cart animation, fixed rich text, and editable interactive modals.
+  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, and editable interactive modals.
 {% endcomment %}
 
 {% unless section.settings.hide_section %}
@@ -101,9 +101,30 @@
         {%- comment -%} DETAILS COLUMN {%- endcomment -%}
         <div class="lg:col-span-6 mt-6 lg:mt-0 relative z-20 lg:pl-4 xl:pl-6 pb-20 lg:pb-0">
             
-            {%- comment -%} ONLY SHOWS THE STARS - FULL WIDGET REMOVED AT BOTTOM {%- endcomment -%}
-            <div class="mb-3">
-                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
+            {%- comment -%} DYNAMIC JUDGE.ME EXTRACTION (Bypasses third-party app block) {%- endcomment -%}
+            {%- assign jm_badge = product.metafields.judgeme.badge -%}
+            {%- assign rating_val = jm_badge | split: "data-average-rating='" | last | split: "'" | first | default: '5.0' -%}
+            {%- assign review_count = jm_badge | split: "data-number-of-reviews='" | last | split: "'" | first | default: '0' -%}
+            
+            {%- if review_count == '0' or review_count == blank or review_count == '0.0' -%}
+              {%- assign rating_val = "5.0" -%}
+              {%- assign review_count = section.settings.fallback_review_count | default: "128" -%}
+            {%- endif -%}
+
+            <div class="flex items-center gap-2 mb-3 w-fit group">
+                <div class="flex gap-0.5 text-[#c4b09e]">
+                    {%- assign rating_floor = rating_val | floor -%}
+                    {%- for i in (1..5) -%}
+                        {%- if i <= rating_floor -%}
+                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        {%- else -%}
+                            <svg class="w-3.5 h-3.5 fill-current opacity-30" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+                <span class="text-[11px] font-bold tracking-[0.1em] text-stone-500 transition-colors uppercase">
+                    {{ rating_val }} / 5 ({{ review_count }} REVIEWS)
+                </span>
             </div>
 
             <h1 class="text-3xl md:text-4xl font-serif font-medium text-stone-900 mb-3 leading-[1.15]">
@@ -900,6 +921,17 @@ document.addEventListener('DOMContentLoaded', () => {
       "id": "hide_section",
       "label": "Hide this section completely",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Fallback Review Settings"
+    },
+    {
+      "type": "text",
+      "id": "fallback_review_count",
+      "label": "Fallback Review Count",
+      "default": "128",
+      "info": "This number will show if the product has 0 reviews in Judge.me yet."
     },
     {
       "type": "header",

@@ -158,59 +158,97 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- 1. Smart Form Logic ---
-    const inquirySelect = document.getElementById('ContactForm-type');
-    const orderNumberContainer = document.getElementById('OrderNumberContainer');
-    const orderInput = document.getElementById('ContactForm-order');
+document.addEventListener('DOMContentLoaded', function () {
 
-    function toggleOrderField() {
-      if (inquirySelect.value === 'Customer Support') {
+  // =========================
+  // Smart Form Logic
+  // =========================
+  const inquirySelect = document.getElementById('ContactForm-type');
+  const orderNumberContainer = document.getElementById('OrderNumberContainer');
+  const orderInput = document.getElementById('ContactForm-order');
+
+  function toggleOrderField() {
+    if (!inquirySelect) return;
+
+    if (inquirySelect.value === 'Customer Support') {
+      if (orderNumberContainer) {
         orderNumberContainer.style.opacity = '1';
         orderNumberContainer.style.pointerEvents = 'auto';
-      } else {
+      }
+    } else {
+      if (orderNumberContainer) {
         orderNumberContainer.style.opacity = '0.3';
         orderNumberContainer.style.pointerEvents = 'none';
-        orderInput.value = ''; // Clear value so it doesn't send
+      }
+      if (orderInput) {
+        orderInput.value = '';
       }
     }
-    toggleOrderField();
+  }
+
+  toggleOrderField();
+
+  if (inquirySelect) {
     inquirySelect.addEventListener('change', toggleOrderField);
+  }
 
+  // =========================
+  // Shopify Inbox Trigger
+  // =========================
+  const chatTriggerBtn = document.getElementById('TriggerShopifyChat');
 
-    // --- 2. Shopify Inbox Chat Trigger Logic ---
-    const chatTriggerBtn = document.getElementById('TriggerShopifyChat');
-    
-    if(chatTriggerBtn) {
-      chatTriggerBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Method 1: Try to click the native Shopify Chat app bubble if it exists in the DOM
-        const chatApp = document.querySelector('shopify-chat-app');
-        if (chatApp && chatApp.shadowRoot) {
-          const chatButton = chatApp.shadowRoot.querySelector('.chat-button, button');
-          if (chatButton) {
-            chatButton.click();
-            return;
-          }
-        }
-        
-        // Method 2: Try to target the older iframe method Shopify used to use
-        const chatIframe = document.getElementById('dummy-chat-button-iframe');
-        if (chatIframe) {
-           chatIframe.style.display = 'block'; // Failsafe fallback
-           // We can't always click inside due to cross-origin, but we can alert the user
-           alert("Please click the Chat bubble at the bottom right of your screen.");
-           return;
-        }
+  if (chatTriggerBtn) {
 
-        // Failsafe: If no chat app is detected, let them know.
-        alert("Live chat is currently unavailable. Please use the WhatsApp or Email options!");
-      });
-    }
+    chatTriggerBtn.addEventListener('click', function (e) {
+      e.preventDefault();
 
-  });
+      // Method 1 — New Shopify Inbox API
+      if (window.Shopify && window.Shopify.Chat && typeof window.Shopify.Chat.toggle === 'function') {
+        window.Shopify.Chat.toggle();
+        return;
+      }
+      
+      if (window.Shopify && window.Shopify.Chat && typeof window.Shopify.Chat.open === 'function') {
+        window.Shopify.Chat.open();
+        return;
+      }
+
+      // Method 2 — Trigger actual launcher button
+      const launcherButton =
+        document.querySelector('#ShopifyChat button') ||
+        document.querySelector('.shopify-chat__button') ||
+        document.querySelector('[aria-label="Open chat"]') ||
+        document.querySelector('[aria-label*="chat"]');
+
+      if (launcherButton) {
+        launcherButton.click();
+        return;
+      }
+
+      // Method 3 — Trigger iframe container
+      const iframeContainer =
+        document.querySelector('#ShopifyChat') ||
+        document.querySelector('iframe[src*="shopifycloud"]');
+
+      if (iframeContainer) {
+        iframeContainer.style.display = 'block';
+
+        iframeContainer.dispatchEvent(
+          new Event('click', { bubbles: true })
+        );
+
+        return;
+      }
+
+      // Final fallback
+      console.log('Shopify Inbox not loaded yet');
+
+      alert('Chat is still loading. Please wait a few seconds and try again.');
+    });
+
+  }
+
+});
 </script>
 
 {% schema %}
