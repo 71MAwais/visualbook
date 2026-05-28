@@ -109,6 +109,7 @@
         "smart_step_hJLqWt": {
           "type": "smart_step",
           "settings": {
+            "image": "shopify://shop_images/saturday_icons_how_it_works_vb-08.png",
             "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><rect x=\"80\" y=\"50\" width=\"50\" height=\"90\" rx=\"4\" transform=\"rotate(20 105 95)\" fill=\"#ffffff\"></rect><rect x=\"85\" y=\"55\" width=\"40\" height=\"80\" rx=\"2\" transform=\"rotate(20 105 95)\"></rect><rect x=\"95\" y=\"80\" width=\"20\" height=\"20\" rx=\"2\" transform=\"rotate(20 105 95)\" fill=\"#c4b09e\" stroke=\"none\"></rect><path d=\"M102 85 L102 95 L110 90 Z\" transform=\"rotate(20 105 95)\" fill=\"#fff\" stroke=\"none\"></path><path d=\"M80 140 C 60 130, 60 100, 80 80 C 85 75, 90 85, 80 95 C 75 100, 75 110, 85 120\"></path><path d=\"M110 135 C 130 140, 140 120, 120 110\"></path><path d=\"M115 120 C 130 125, 135 105, 120 100\"></path><path d=\"M120 105 C 130 110, 135 90, 125 85\"></path><path d=\"M110 85 C 115 80, 130 90, 115 100\"></path></svg>",
             "title": "Download App",
             "text": "Get the free companion application on your smartphone or tablet for total control."
@@ -117,6 +118,7 @@
         "smart_step_LHpMT7": {
           "type": "smart_step",
           "settings": {
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-05.png",
             "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><rect x=\"30\" y=\"80\" width=\"80\" height=\"50\" fill=\"#ffffff\"></rect><path d=\"M70 80 L70 130\"></path><rect x=\"75\" y=\"85\" width=\"30\" height=\"25\"></rect><circle cx=\"78\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"84\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"90\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><circle cx=\"96\" cy=\"120\" r=\"1.5\" fill=\"#1a1a1a\"></circle><path d=\"M125 75 Q 110 50 85 65\" stroke=\"#c4b09e\" stroke-dasharray=\"4,4\"></path><path d=\"M85 65 L92 60 M85 65 L90 70\" stroke=\"#c4b09e\"></path><rect x=\"130\" y=\"60\" width=\"30\" height=\"55\" rx=\"3\" transform=\"rotate(-15 145 87)\" fill=\"#ffffff\"></rect><rect x=\"133\" y=\"63\" width=\"24\" height=\"49\" rx=\"2\" transform=\"rotate(-15 145 87)\"></rect><path d=\"M130 110 C 120 100, 110 100, 120 85\"></path><path d=\"M140 115 C 160 120, 160 100, 150 95\"></path><path d=\"M145 105 C 160 110, 160 90, 155 85\"></path></svg>",
             "title": "Sync Seamlessly",
             "text": "Follow guided steps to connect to Wi-Fi and wirelessly transfer your memories in seconds."
@@ -125,6 +127,7 @@
         "smart_step_3WGfgA": {
           "type": "smart_step",
           "settings": {
+            "image": "shopify://shop_images/no_bg_sat_icons_how_it_works-06.png",
             "custom_svg": "<svg viewbox=\"0 0 200 200\" class=\"w-full h-full line-art\"><circle cx=\"100\" cy=\"100\" r=\"45\" fill=\"#ffffff\"></circle><path d=\"M100 55 C 120 55, 120 145, 100 145\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M100 55 C 80 55, 80 145, 100 145\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M55 100 L145 100\" stroke-width=\"0.8\" opacity=\"0.5\"></path><path d=\"M90 75 L120 70 L115 110 L90 75\" stroke=\"#c4b09e\" stroke-dasharray=\"2,2\"></path><circle cx=\"90\" cy=\"75\" r=\"6\" fill=\"#ffffff\"></circle><circle cx=\"90\" cy=\"73\" r=\"1.5\" fill=\"#1a1a1a\" stroke=\"none\"></circle><path d=\"M87 78 C 87 76, 93 76, 93 78\"></path><circle cx=\"115\" cy=\"110\" r=\"6\" fill=\"#ffffff\"></circle><circle cx=\"115\" cy=\"108\" r=\"1.5\" fill=\"#1a1a1a\" stroke=\"none\"></circle><path d=\"M112 113 C 112 111, 118 111, 118 113\"></path><circle cx=\"120\" cy=\"70\" r=\"8\" fill=\"#ffffff\"></circle><rect x=\"116\" y=\"67\" width=\"8\" height=\"6\"></rect></svg>",
             "title": "Share Globally",
             "text": "Invite family to contribute directly to your Book from anywhere in the world, effortlessly."
