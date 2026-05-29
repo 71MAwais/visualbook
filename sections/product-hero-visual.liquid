@@ -1,6 +1,6 @@
 {% comment %}
   Section: visual-product-hero.liquid
-  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, and editable interactive modals.
+  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, UploadKit integration, and editable interactive modals.
 {% endcomment %}
 
 {% unless section.settings.hide_section %}
@@ -36,6 +36,9 @@
     .visual-prose p { margin-bottom: 0.75rem !important; }
     .visual-prose p:last-child { margin-bottom: 0 !important; }
     .visual-prose strong, .visual-prose b { font-weight: 600 !important; color: #1a1a1a !important; }
+
+    /* UploadKit Integration CSS */
+    .uploadkit-button { display: none !important; }
 </style>
 
 <script id="VisualMoneyFormat" type="application/json">
@@ -144,9 +147,9 @@
 
             <div class="mb-8" id="product-tabs">
                 <div class="flex border-b border-stone-200 mb-4 relative overflow-x-auto hide-scrollbar whitespace-nowrap" role="tablist" aria-label="Product Details Tabs">
-                    <button type="button" role="tab" aria-selected="true" aria-controls="tabpanel-features" id="tab-features-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-bold border-b-2 border-stone-900 text-stone-900 transition-colors cursor-pointer" data-tab="features">Features</button>
-                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-design" id="tab-design-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="design">Design & Build</button>
-                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-technical" id="tab-technical-btn" class="focus-ring tab-btn pb-3 pr-4 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="technical">Technical</button>
+                    <button type="button" role="tab" aria-selected="true" aria-controls="tabpanel-features" id="tab-features-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-bold border-b-2 border-stone-900 text-stone-900 transition-colors cursor-pointer" data-tab="features">{{ section.settings.tab_1_title | default: 'Features' }}</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-design" id="tab-design-btn" class="focus-ring tab-btn pb-3 mr-8 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="design">{{ section.settings.tab_2_title | default: 'Design & Build' }}</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="tabpanel-technical" id="tab-technical-btn" class="focus-ring tab-btn pb-3 pr-4 text-[13px] font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-900 transition-colors cursor-pointer" data-tab="technical">{{ section.settings.tab_3_title | default: 'Technical' }}</button>
                 </div>
                 
                 <div class="tab-content visual-prose text-[13.5px] text-stone-700 leading-relaxed font-light" id="tabpanel-features" role="tabpanel" tabindex="0">{{ section.settings.features_text }}</div>
@@ -183,15 +186,16 @@
                   {% endunless %}
                 {% endif %}
 
-                {%- comment -%} MEDIA UPLOAD {%- endcomment -%}
+                {%- comment -%} MEDIA UPLOAD (UploadKit Integration) {%- endcomment -%}
                 {% if section.settings.show_media_upload %}
                 <div class="mb-6 mt-6 relative z-40">
-                    <label for="media-upload" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer" tabindex="0">
+                    <div onclick="document.querySelector('.uploadkit-button')?.click()" tabindex="0" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer">
                         <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">Upload Photos & Videos <span class="text-stone-500 font-normal">(Optional)</span></span>
-                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">We'll pre-load them for you</span>
-                    </label>
-                    <input type="file" name="properties[Media Upload]" id="media-upload" class="sr-only" multiple accept="image/*,video/*" tabindex="-1">
+                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">{{ section.settings.upload_title | default: 'Upload Photos & Videos' }} <span class="text-stone-500 font-normal">{{ section.settings.upload_subtitle | default: '(Optional)' }}</span></span>
+                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">{{ section.settings.upload_help_text | default: 'Click to open UploadKit' }}</span>
+                    </div>
+                    
+                    <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
                 </div>
                 {% endif %}
 
@@ -207,31 +211,31 @@
                 <div class="mb-6 relative z-40">
                     <div class="flex justify-between items-end mb-2">
                         <label for="book-title" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest">
-                            Book Title <span class="text-[#c4b09e]">*</span> 
-                            <span class="text-stone-500 font-normal normal-case tracking-normal">(3 words max)</span>
+                            {{ section.settings.book_title_label | default: 'Book Title' }} <span class="text-[#c4b09e]">*</span> 
+                            <span class="text-stone-500 font-normal normal-case tracking-normal">{{ section.settings.book_title_sub | default: '(3 words max)' }}</span>
                         </label>
                         <span id="book-title-counter" class="text-[10px] text-stone-500 font-medium">0/30</span>
                     </div>
-                    <input type="text" name="properties[Book Title]" id="book-title" maxlength="30" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. Our Wedding Day" required>
+                    <input type="text" name="properties[Book Title]" id="book-title" maxlength="30" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.book_title_placeholder | default: 'e.g. Our Wedding Day' }}" required>
                     <p id="book-title-error" class="hidden text-red-500 text-xs mt-1 font-medium">Maximum 3 words allowed.</p>
                 </div>
 
                 <div class="mb-6 relative z-40">
                     <div class="flex justify-between items-end mb-2">
                         <label for="book-date" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest">
-                            Date <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span>
+                            {{ section.settings.date_label | default: 'Date' }} <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span>
                         </label>
                         <span id="book-date-counter" class="text-[10px] text-stone-500 font-medium">0/14</span>
                     </div>
-                    <input type="text" name="properties[Date]" id="book-date" maxlength="14" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. 12.10.2024">
+                    <input type="text" name="properties[Date]" id="book-date" maxlength="14" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.date_placeholder | default: 'e.g. 12.10.2024' }}">
                 </div>
                 {%- endif -%}
 
                 {%- comment -%} BACKGROUND SONG {%- endcomment -%}
                 {% if section.settings.show_bg_song %}
                 <div class="mb-6 relative z-40">
-                    <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">Background Song <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
-                    <input type="text" name="properties[Background Song]" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="e.g. Perfect by Ed Sheeran">
+                    <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">{{ section.settings.song_label | default: 'Background Song' }} <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
+                    <input type="text" name="properties[Background Song]" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.song_placeholder | default: 'e.g. Perfect by Ed Sheeran' }}">
                 </div>
                 {% endif %}
 
@@ -246,7 +250,7 @@
                         <button type="submit" name="add" class="focus-ring product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
                             <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-transform duration-300 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
-                                    Add to Cart <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                    {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                                 {%- else -%}
                                     Sold Out
                                 {%- endif -%}
@@ -276,15 +280,16 @@
                         <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.award_btn_text | default: 'Our Awards' }}</span>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </button>
-                    <button type="button" id="discount-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
-                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.discount_btn_text | default: 'Get $5 / €5 Off' }}</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                    <button type="button" id="cashback-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
+                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.cashback_btn_text | default: 'Get $7 Cashback' }}</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
                     </button>
                 </div>
             </div>
 
             <div class="divide-y divide-stone-200 border-t border-stone-200 mt-4 relative z-30" id="accordion-container">
                 {% for block in section.blocks %}
+                {% if block.type == 'accordion' %}
                 <div class="accordion-item" {{ block.shopify_attributes }}>
                     <button type="button" aria-expanded="false" aria-controls="accordion-content-{{ block.id }}" class="focus-ring accordion-btn flex justify-between items-center w-full py-4 text-left font-semibold text-[13px] text-stone-900 uppercase tracking-widest group touch-manipulation cursor-pointer rounded-sm">
                         <span>{{ block.settings.title }}</span>
@@ -296,6 +301,7 @@
                         <div class="pb-5 pr-4">{{ block.settings.content }}</div>
                     </div>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
             
@@ -322,10 +328,11 @@
                 <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.support_modal_text | default: 'Our concierge team is available 24/7 to assist you with your Visual Book.' }}</p>
             </div>
             <div class="space-y-3">
-                <a href="mailto:{{ shop.email }}" class="focus-ring w-full bg-stone-900 text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 transition-colors">
-                    {{ section.settings.support_email_text | default: 'Email Support' }}
+                <a href="https://wa.me/{{ section.settings.support_whatsapp_number | remove: '+' | remove: ' ' | default: '1234567890' }}" target="_blank" class="focus-ring w-full bg-[#25D366] text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-[#128C7E] transition-colors">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    {{ section.settings.support_whatsapp_text | default: 'Contact on WhatsApp' }}
                 </a>
-                <a href="/pages/contact" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
+                <a href="{{ section.settings.support_contact_url | default: '/pages/contact' }}" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
                     {{ section.settings.support_contact_text | default: 'Visit Contact Page' }}
                 </a>
             </div>
@@ -337,12 +344,29 @@
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div class="mb-6">
+            <div class="mb-4">
                 <div class="w-14 h-14 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-5 text-[#C5A059] shadow-sm" aria-hidden="true">
                     <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                 </div>
-                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-3">{{ section.settings.award_modal_title | default: 'Award-Winning Quality' }}</h3>
-                <p class="text-[13px] text-stone-600 font-light leading-relaxed px-2">{{ section.settings.award_modal_text | default: 'Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.' }}</p>
+                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-4">{{ section.settings.award_modal_title | default: 'Our Achievements' }}</h3>
+                
+                <ul class="text-left space-y-3 mb-6 px-1">
+                    {%- assign has_awards = false -%}
+                    {%- for block in section.blocks -%}
+                        {%- if block.type == 'award' -%}
+                            {%- assign has_awards = true -%}
+                            <li class="flex items-start gap-2.5 text-[13.5px] text-stone-700 font-medium leading-tight">
+                                <svg class="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                <a href="{{ block.settings.award_link | default: '#' }}" target="_blank" class="hover:text-[#111111] transition-colors underline decoration-stone-300 underline-offset-4 hover:decoration-[#C5A059]">
+                                    {{ block.settings.award_title }}
+                                </a>
+                            </li>
+                        {%- endif -%}
+                    {%- endfor -%}
+                    {%- if has_awards == false -%}
+                        <li class="text-[13px] text-stone-500 italic text-center">No awards added yet. Add them in the theme editor!</li>
+                    {%- endif -%}
+                </ul>
             </div>
             <div class="flex justify-center border-t border-stone-100 pt-5">
                 <div class="bg-stone-50 text-stone-700 border border-stone-200 rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm">
@@ -353,40 +377,43 @@
         </div>
     </div>
 
-    <div id="discount-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
-        <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
-            <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
+    <div id="cashback-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
+        <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
+            <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div class="text-center mb-6">
+            <div class="text-center mb-5">
                 <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
                 </div>
-                <h3 id="discount-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.discount_modal_title | default: 'Unlock $5 / €5 Off' }}</h3>
-                <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.discount_modal_text | default: 'Complete any of the tasks below to automatically apply your discount at checkout.' }}</p>
+                <h3 id="cashback-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.cashback_modal_title | default: 'Unlock $8 Cashback' }}</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.cashback_modal_text | default: 'Follow the rules below to get your cashback and a chance to win a giftcard!' }}</p>
             </div>
-            <div class="space-y-3">
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-pink-600 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        {{ section.settings.discount_task1 | default: 'Follow us on Instagram' }}
-                    </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                        {{ section.settings.discount_task2 | default: 'Share with a friend' }}
-                    </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                     <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-[#111111] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        {{ section.settings.discount_task3 | default: 'Join our Newsletter' }}
-                    </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
+            
+            <div class="space-y-3 text-left">
+                <ul class="text-[13px] text-stone-700 space-y-2.5 font-medium bg-stone-50 p-4 rounded-lg border border-stone-200">
+                    {%- assign rule_index = 1 -%}
+                    {%- for block in section.blocks -%}
+                        {%- if block.type == 'cashback_rule' -%}
+                            <li class="flex gap-2.5">
+                                <span class="text-stone-900 font-bold">{{ rule_index }}.</span> 
+                                {{ block.settings.rule_text }}
+                            </li>
+                            {%- assign rule_index = rule_index | plus: 1 -%}
+                        {%- endif -%}
+                    {%- endfor -%}
+                    
+                    {%- if rule_index == 1 -%}
+                        {%- comment -%} Fallback if no rules exist {%- endcomment -%}
+                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">1.</span> Order a product from VisualBook with a value of more than $100.</li>
+                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">2.</span> Create an opening (unboxing) video.</li>
+                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">3.</span> Share the video on 3 different social media platforms.</li>
+                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">4.</span> Tag us in your story or post.</li>
+                    {%- endif -%}
+                    
+                    <li class="flex gap-2.5 mt-3"><span class="text-[#25D366] font-bold">✓</span> {{ section.settings.cashback_success_text | default: 'After verification, our team will initiate your $8 cashback!' }}</li>
+                    <li class="flex gap-2.5 mt-2 pt-2 border-t border-stone-200"><span class="text-[#C5A059] font-bold">★</span> <span class="text-stone-900">{{ section.settings.cashback_bonus_text | default: 'Plus: Get a chance to win a giftcard!' }}</span></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -460,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (matchedVariant.available) {
                     mainSubmitBtn.removeAttribute('disabled');
                     mainSubmitBtn.removeAttribute('aria-disabled');
-                    textSpan.innerHTML = `Add to Cart <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
+                    textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
                 } else {
                     mainSubmitBtn.setAttribute('disabled', 'disabled');
                     mainSubmitBtn.setAttribute('aria-disabled', 'true');
@@ -522,28 +549,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const labelUpload = document.querySelector('label[for="media-upload"]');
-    const fileInput = document.getElementById('media-upload');
-    const uploadStatus = document.getElementById('upload-status');
-    
-    if(labelUpload && fileInput) {
-        labelUpload.addEventListener('keydown', (e) => {
-             if (e.key === ' ' || e.key === 'Enter') {
-                 e.preventDefault();
-                 fileInput.click();
-             }
-        });
-        fileInput.addEventListener('change', function() {
-            if(this.files && this.files.length > 0) {
-                uploadStatus.textContent = `${this.files.length} file(s) selected`;
-                uploadStatus.classList.add('text-stone-900', 'font-medium');
-            } else {
-                uploadStatus.textContent = `We'll pre-load them for you`;
-                uploadStatus.classList.remove('text-stone-900', 'font-medium');
-            }
-        });
-    }
-
     // --- 1.5 Custom Fields Logic (Title & Date) ---
     const titleInput = document.getElementById('book-title');
     const titleCounter = document.getElementById('book-title-counter');
@@ -580,14 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mainForm.addEventListener('submit', function(e) {
             
             if (e.submitter && e.submitter.name !== 'add') {
-                return; 
-            }
-
-            if (fileInput && fileInput.files.length > 0) {
-                const btn = this.querySelector('.product-form__submit');
-                const textSpan = btn?.querySelector('.btn-text');
-                if(textSpan) textSpan.textContent = 'Uploading & Adding...';
-                if(btn) btn.style.pointerEvents = 'none'; 
                 return; 
             }
 
@@ -879,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            ['support-modal', 'award-modal', 'discount-modal'].forEach(id => {
+            ['support-modal', 'award-modal', 'cashback-modal'].forEach(id => {
                 const modal = document.getElementById(id);
                 if (modal && !modal.classList.contains('hidden')) {
                     closeModalEl(modal, document.getElementById(id + '-content'));
@@ -902,12 +899,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-award-modal-btn')?.addEventListener('click', () => closeModalEl(awardModal, awardContent));
     awardModal?.addEventListener('click', (e) => { if(e.target === awardModal) closeModalEl(awardModal, awardContent); });
 
-    const discountBtn = document.getElementById('discount-btn');
-    const discountModal = document.getElementById('discount-modal');
-    const discountContent = document.getElementById('discount-modal-content');
-    if(discountBtn) discountBtn.addEventListener('click', function() { openModalEl(discountModal, discountContent, this); });
-    document.getElementById('close-discount-modal-btn')?.addEventListener('click', () => closeModalEl(discountModal, discountContent));
-    discountModal?.addEventListener('click', (e) => { if(e.target === discountModal) closeModalEl(discountModal, discountContent); });
+    const cashbackBtn = document.getElementById('cashback-btn');
+    const cashbackModal = document.getElementById('cashback-modal');
+    const cashbackContent = document.getElementById('cashback-modal-content');
+    if(cashbackBtn) cashbackBtn.addEventListener('click', function() { openModalEl(cashbackModal, cashbackContent, this); });
+    document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
+    cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
     
 });
 </script>
@@ -937,7 +934,19 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "header",
-      "content": "Form Elements"
+      "content": "Form Elements & Call to Actions"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_text",
+      "label": "Add to Cart Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
     },
     {
       "type": "checkbox",
@@ -946,10 +955,36 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": true
     },
     {
+      "type": "header",
+      "content": "UploadKit Configuration"
+    },
+    {
       "type": "checkbox",
       "id": "show_media_upload",
-      "label": "Show Media Upload field",
+      "label": "Enable UploadKit Trigger Box",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "upload_title",
+      "label": "Upload Area Title",
+      "default": "Upload Photos & Videos"
+    },
+    {
+      "type": "text",
+      "id": "upload_subtitle",
+      "label": "Upload Area Subtitle",
+      "default": "(Optional)"
+    },
+    {
+      "type": "text",
+      "id": "upload_help_text",
+      "label": "Upload Help Text",
+      "default": "Click to open UploadKit"
+    },
+    {
+      "type": "header",
+      "content": "Custom Inputs Configuration"
     },
     {
       "type": "checkbox",
@@ -965,37 +1000,91 @@ document.addEventListener('DOMContentLoaded', () => {
       "info": "Select the product that requires a Book Title & Date. If left blank, they will appear on all products using this template."
     },
     {
+      "type": "text",
+      "id": "book_title_label",
+      "label": "Book Title Label",
+      "default": "Book Title"
+    },
+    {
+      "type": "text",
+      "id": "book_title_sub",
+      "label": "Book Title Sub-label",
+      "default": "(3 words max)"
+    },
+    {
+      "type": "text",
+      "id": "book_title_placeholder",
+      "label": "Book Title Placeholder",
+      "default": "e.g. Our Wedding Day"
+    },
+    {
+      "type": "text",
+      "id": "date_label",
+      "label": "Date Label",
+      "default": "Date"
+    },
+    {
+      "type": "text",
+      "id": "date_placeholder",
+      "label": "Date Placeholder",
+      "default": "e.g. 12.10.2024"
+    },
+    {
       "type": "checkbox",
       "id": "show_bg_song",
       "label": "Show Background Song field",
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_dynamic_checkout",
-      "label": "Show dynamic checkout buttons",
-      "default": true
+      "type": "text",
+      "id": "song_label",
+      "label": "Background Song Label",
+      "default": "Background Song"
+    },
+    {
+      "type": "text",
+      "id": "song_placeholder",
+      "label": "Background Song Placeholder",
+      "default": "e.g. Perfect by Ed Sheeran"
     },
     {
       "type": "header",
       "content": "Tab Contents"
     },
     {
+      "type": "text",
+      "id": "tab_1_title",
+      "label": "Tab 1 Title",
+      "default": "Features"
+    },
+    {
       "type": "richtext",
       "id": "features_text",
-      "label": "Features Tab",
+      "label": "Tab 1 Text",
       "default": "<ul><li>Up to 6-Hour Video Capacity</li><li>Crisp audio speakers</li></ul>"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_title",
+      "label": "Tab 2 Title",
+      "default": "Design & Build"
     },
     {
       "type": "richtext",
       "id": "design_text",
-      "label": "Design Tab",
+      "label": "Tab 2 Text",
       "default": "<ul><li>Premium linen cover</li><li>Gold foil stamping</li></ul>"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_title",
+      "label": "Tab 3 Title",
+      "default": "Technical"
     },
     {
       "type": "richtext",
       "id": "tech_text",
-      "label": "Tech Tab",
+      "label": "Tab 3 Text",
       "default": "<ul><li>7 or 10.1 inch IPS Display</li><li>USB-C Charging</li></ul>"
     },
     {
@@ -1022,9 +1111,21 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "text",
-      "id": "support_email_text",
-      "label": "Email Button Text",
-      "default": "Email Support"
+      "id": "support_whatsapp_number",
+      "label": "WhatsApp Number",
+      "default": "+1234567890",
+      "info": "Include country code. Example: +1234567890"
+    },
+    {
+      "type": "text",
+      "id": "support_whatsapp_text",
+      "label": "WhatsApp Button Text",
+      "default": "Contact on WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "support_contact_url",
+      "label": "Contact Page URL"
     },
     {
       "type": "text",
@@ -1049,12 +1150,6 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": "Award-Winning Quality"
     },
     {
-      "type": "textarea",
-      "id": "award_modal_text",
-      "label": "Modal Text",
-      "default": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition."
-    },
-    {
       "type": "text",
       "id": "award_badge_text",
       "label": "Badge Text",
@@ -1062,43 +1157,37 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "header",
-      "content": "Discount Modal & Button"
+      "content": "Cashback Rules Modal & Button"
     },
     {
       "type": "text",
-      "id": "discount_btn_text",
-      "label": "Discount Button Text",
-      "default": "Get $5 / €5 Off"
+      "id": "cashback_btn_text",
+      "label": "Cashback Button Text",
+      "default": "Get $7 Cashback"
     },
     {
       "type": "text",
-      "id": "discount_modal_title",
+      "id": "cashback_modal_title",
       "label": "Modal Title",
-      "default": "Unlock $5 / €5 Off"
+      "default": "Unlock $8 Cashback & Giftcard"
     },
     {
       "type": "textarea",
-      "id": "discount_modal_text",
+      "id": "cashback_modal_text",
       "label": "Modal Text",
-      "default": "Complete any of the tasks below to automatically apply your discount at checkout."
+      "default": "Follow the rules below to get your cashback and a chance to win a giftcard!"
     },
     {
       "type": "text",
-      "id": "discount_task1",
-      "label": "Task 1 Text",
-      "default": "Follow us on Instagram"
+      "id": "cashback_success_text",
+      "label": "Success Rule Text (Green checkmark)",
+      "default": "After verification, our team will initiate your $8 cashback!"
     },
     {
       "type": "text",
-      "id": "discount_task2",
-      "label": "Task 2 Text",
-      "default": "Share with a friend"
-    },
-    {
-      "type": "text",
-      "id": "discount_task3",
-      "label": "Task 3 Text",
-      "default": "Join our Newsletter"
+      "id": "cashback_bonus_text",
+      "label": "Bonus Rule Text (Gold star)",
+      "default": "Plus: Get a chance to win a giftcard!"
     }
   ],
   "blocks": [
@@ -1117,6 +1206,36 @@ document.addEventListener('DOMContentLoaded', () => {
           "id": "content",
           "label": "Content",
           "default": "<p>Our books arrive in a luxury gift box.</p>"
+        }
+      ]
+    },
+    {
+      "type": "award",
+      "name": "Award Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "award_title",
+          "label": "Award Title",
+          "default": "Best Premium Visual Book 2024"
+        },
+        {
+          "type": "url",
+          "id": "award_link",
+          "label": "Award Link (PDF/Image/Page)",
+          "info": "Links will automatically open in a new tab."
+        }
+      ]
+    },
+    {
+      "type": "cashback_rule",
+      "name": "Cashback Task/Rule",
+      "settings": [
+        {
+          "type": "text",
+          "id": "rule_text",
+          "label": "Rule Text",
+          "default": "Order a product from VisualBook with a value of more than $100."
         }
       ]
     }

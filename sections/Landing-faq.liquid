@@ -21,11 +21,13 @@
 <section id="faq-{{ section.id }}" class="py-16 md:py-24 bg-[#FAFAFA]">
     <div class="max-w-[800px] mx-auto px-5 md:px-8">
         
+        {%- comment -%} Headers {%- endcomment -%}
         <div class="text-center mb-12">
             <p class="font-script text-[#181615] text-2xl md:text-3xl mb-2">{{ section.settings.subtitle }}</p>
             <h2 class="font-serif text-3xl md:text-5xl font-light tracking-tight text-black">{{ section.settings.title }}</h2>
         </div>
         
+        {%- comment -%} FAQ Accordion {%- endcomment -%}
         <div id="faqList-{{ section.id }}" class="space-y-0">
             {% for block in section.blocks %}
                 <div class="border-b border-gray-200 faq-item" {{ block.shopify_attributes }}>
@@ -54,6 +56,46 @@
             {% endfor %}
         </div>
         
+        {%- comment -%} Contact Support Block {%- endcomment -%}
+        {% if section.settings.show_contact %}
+        <div class="mt-20 border-t border-gray-200 pt-16 text-center">
+            <h3 class="font-serif text-2xl md:text-3xl text-black mb-4">How can I contact customer support?</h3>
+            <p class="font-sans text-[15px] text-gray-500 font-light mb-8">We offer a few ways to get in touch depending on how quickly you need a response:</p>
+            
+            <div class="space-y-6 font-sans text-[15px] text-gray-600 font-light text-left max-w-2xl mx-auto bg-white p-8 border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+                
+                <p>
+                    <strong class="text-black font-medium block mb-1">WhatsApp Fast Line:</strong> 
+                    For the fastest response to urgent inquiries, please message us on WhatsApp at 
+                    <a href="https://wa.me/{{ section.settings.whatsapp_number | remove: ' ' | remove: '-' }}" class="text-black underline font-medium hover:text-gray-600 transition-colors" target="_blank" rel="noopener noreferrer">
+                        {{ section.settings.whatsapp_number | default: '[Insert WhatsApp Number]' }}
+                    </a>.
+                </p>
+                
+                <p>
+                    <strong class="text-black font-medium block mb-1">Live Chat:</strong> 
+                    For normal response times during business hours, simply click the chat bubble in the bottom right corner of your screen to use our Shopify Inbox.
+                </p>
+                
+                <p>
+                    <strong class="text-black font-medium block mb-1">Email:</strong> 
+                    You can also email us anytime at 
+                    <a href="mailto:{{ section.settings.email_address }}" class="text-black underline font-medium hover:text-gray-600 transition-colors">
+                        {{ section.settings.email_address | default: '[Insert Email Address]' }}
+                    </a>.
+                </p>
+
+            </div>
+
+            <div class="mt-10">
+                <p class="font-sans text-sm text-gray-500 font-light mb-4">For more specific inquiries, wholesale questions, or further details:</p>
+                <a href="{{ section.settings.contact_page_link }}" class="inline-block bg-[#181615] text-white font-sans text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#c4b09e] transition-colors duration-300">
+                    Visit Contact Us Page
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        
     </div>
 </section>
 
@@ -67,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // SVG strings for open/close states
     const iconPlus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>';
     const iconMinus = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"/></svg>';
+    
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
             const answer = btn.nextElementSibling;
@@ -75,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Close all items
             container.querySelectorAll('.faq-answer').forEach(ans => ans.classList.remove('open'));
             container.querySelectorAll('.faq-title').forEach(title => { 
-                // Ensure closed items revert to gray and inherit hover state
                 title.className = "faq-title font-serif text-[20px] md:text-[24px] transition-colors text-gray-500 group-hover:text-black";
             });
             container.querySelectorAll('.faq-icon').forEach(icon => { 
@@ -90,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.setAttribute('aria-expanded', 'true');
                 
                 const title = btn.querySelector('.faq-title');
-                // Force open items to stay black, overriding the gray baseline
                 title.className = "faq-title font-serif text-[20px] md:text-[24px] transition-colors text-black";
                 const iconSpan = btn.querySelector('.faq-icon');
                 iconSpan.style.transform = 'rotate(180deg)';
@@ -106,15 +147,20 @@ document.addEventListener('DOMContentLoaded', () => {
   "name": "FAQ Accordion",
   "settings": [
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Support" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Common Questions" }
+    { "type": "text", "id": "title", "label": "Heading", "default": "Common Questions" },
+    { "type": "header", "content": "Contact Support Section" },
+    { "type": "checkbox", "id": "show_contact", "label": "Show Contact Block below FAQs", "default": true },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Number", "info": "Include country code (e.g., +1234567890)", "default": "+1234567890" },
+    { "type": "text", "id": "email_address", "label": "Support Email Address", "default": "support@yourstore.com" },
+    { "type": "url", "id": "contact_page_link", "label": "Contact Page Link" }
   ],
   "blocks": [
     {
       "type": "faq",
       "name": "FAQ Item",
       "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "How long does shipping take?" },
-        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Standard bespoke orders take 5-7 business days to craft and assemble." }
+        { "type": "text", "id": "question", "label": "Question", "default": "Question here?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Answer goes here." }
       ]
     }
   ],
@@ -125,29 +171,22 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
           "type": "faq",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "Standard bespoke orders take 5-7 business days to craft and assemble. Once shipped, delivery typically takes 2-3 days within the UK and US, and 5-10 days internationally."
+            "question": "1. Do you ship internationally, and how long does delivery take?",
+            "answer": "Yes, we ship worldwide! Standard domestic delivery takes 3-5 business days, while international shipping typically takes 7-14 business days depending on your location."
           }
         },
         { 
           "type": "faq",
           "settings": {
-            "question": "Can I change the videos after I receive the book?",
-            "answer": "Yes. Every Visual Book comes with a secure companion app. You can easily connect to your book via USB or Wi-Fi to update, add, or arrange your gallery at any time."
+            "question": "2. What is your return and exchange policy?",
+            "answer": "We accept returns and exchanges within 30 days of purchase, provided the item is unused and in its original packaging. Please contact our support team to initiate a return."
           }
         },
         { 
           "type": "faq",
           "settings": {
-            "question": "How long does the battery last?",
-            "answer": "The book features a high-capacity rechargeable battery. It offers up to 4 hours of continuous playback and an incredible 6 months of standby time. A magnetic charging cable is included."
-          }
-        },
-        { 
-          "type": "faq",
-          "settings": {
-            "question": "Is there a limit to how many videos I can upload?",
-            "answer": "The standard Visual Book includes 8GB of internal memory, which comfortably holds about 2-3 hours of high-definition video or thousands of photos."
+            "question": "3. Can I change or cancel my order after placing it?",
+            "answer": "We process orders very quickly to ensure fast delivery. If you need to change or cancel your order, please reach out to us within 2 hours of placing it, and we will do our best to accommodate your request."
           }
         }
       ]
