@@ -104,25 +104,37 @@
     },
     "product_hero_visual_UtKLpm": {
       "type": "product-hero-visual",
+      "blocks": {
+        "award_gHChyP": {
+          "type": "award",
+          "settings": {
+            "award_title": "Best Premium Visual Book 2024",
+            "award_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "award_gHChyP"
+      ],
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
         "fallback_review_count": "128",
         "add_to_cart_text": "Add to Cart",
         "show_dynamic_checkout": true,
-        "show_variants": true,
-        "show_media_upload": true,
+        "show_variants": false,
+        "show_media_upload": false,
         "upload_title": "Upload Photos & Videos",
         "upload_subtitle": "(Optional)",
         "upload_help_text": "Click to open UploadKit",
-        "enable_custom_fields": true,
+        "enable_custom_fields": false,
         "target_product": "",
         "book_title_label": "Book Title",
         "book_title_sub": "(3 words max)",
         "book_title_placeholder": "e.g. Our Wedding Day",
         "date_label": "Date",
         "date_placeholder": "e.g. 12.10.2024",
-        "show_bg_song": true,
+        "show_bg_song": false,
         "song_label": "Background Song",
         "song_placeholder": "e.g. Perfect by Ed Sheeran",
         "tab_1_title": "Features",
