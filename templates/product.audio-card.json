@@ -1,0 +1,173 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "disabled": true,
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "product_hero_visual_RfgfJ9": {
+      "type": "product-hero-visual",
+      "name": "Visual Product Hero",
+      "settings": {
+        "hide_section": false,
+        "fallback_review_count": "128",
+        "show_dynamic_checkout": true,
+        "show_variants": false,
+        "show_media_upload": false,
+        "enable_custom_fields": false,
+        "target_product": "",
+        "show_bg_song": false,
+        "features_text": "<ul><li>Advanced Audio Technology</li><li>Record Personalised Voice Messages</li><li>60-Second Record Capability</li><li>Re-record Flexibility</li><li>Timeless Emotional Memento</li><li>Premium Textured Paper</li></ul>",
+        "design_text": "<ul><li>Card Size: 210 x 150 mm</li><li>Battery: Torque Cell (AG10)</li><li>Textured Coated Paper</li><li>Foil Stamp Writing</li><li>Packaged Size: 229 x 162 mm</li><li>Packaged Weight: 65 g</li><li>Box Contents: Audio Card, Envelope, Wax Seal</li></ul>",
+        "tech_text": "<ul><li><strong>Start Recording</strong>: Press record button, hear a beep.</li><li><strong>Record</strong>: Speak or play audio.</li><li><strong>Stop Recording</strong>: Press record button again, hear two beeps.</li><li><strong>Playback</strong>: Press play button to listen.</li><li><strong>Re-Record</strong>: Follow steps again to replace recording.</li></ul>",
+        "support_btn_text": "Contact Live Support for Help",
+        "support_modal_title": "How can we help?",
+        "support_modal_text": "Our concierge team is available 24/7 to assist you with your Visual Book.",
+        "support_contact_text": "Visit Contact Page",
+        "award_btn_text": "Our Awards",
+        "award_modal_title": "Award-Winning Quality",
+        "award_badge_text": "Ships in 24 hours"
+      }
+    },
+    "product_experience1_xizDKV": {
+      "type": "product-experience1",
+      "name": "Product Experience Unified",
+      "settings": {
+        "bg_color": "#fafafa",
+        "accent_color": "#b8906b",
+        "subtitle": "Technology",
+        "heading": "The Visualbook Experience",
+        "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
+      }
+    },
+    "product_review_4KjB4F": {
+      "type": "product-review",
+      "name": "Product Reviews Section",
+      "settings": {
+        "subtitle": "Testimonials",
+        "title": "From our Customers",
+        "show_rating": false,
+        "fallback_review_count": "0",
+        "autoplay_speed": 3
+      }
+    },
+    "landing_shop_8w6YGV": {
+      "type": "Landing-shop",
+      "name": "Shop Carousel",
+      "settings": {
+        "subtitle": "Curated Essentials",
+        "title": "Shop the Collection",
+        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "tab_1_label": "Video Book",
+        "collection_1": "classic-visual-books",
+        "tab_2_label": "Audio Cards",
+        "collection_2": "audio-greetings-card"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "product_hero_visual_RfgfJ9",
+    "product_experience1_xizDKV",
+    "product_review_4KjB4F",
+    "landing_shop_8w6YGV"
+  ]
+}
