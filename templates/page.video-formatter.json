@@ -22,9 +22,18 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "visual_video_formatter_mY8RkA": {
+      "type": "visual-video-formatter",
+      "name": "Video Formatter Tool",
+      "settings": {
+        "subheading": "Companion Tool",
+        "description": "Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book."
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_video_formatter_mY8RkA"
   ]
 }
