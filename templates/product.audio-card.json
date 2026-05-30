@@ -110,7 +110,7 @@
         "fallback_review_count": "2",
         "add_to_cart_text": "Add to Cart",
         "show_dynamic_checkout": true,
-        "show_variants": false,
+        "show_variants": true,
         "show_media_upload": false,
         "upload_title": "Upload Photos & Videos",
         "upload_subtitle": "(Optional)",
