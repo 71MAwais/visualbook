@@ -3595,3 +3595,21 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+/* --- UPLOADKIT & ADD TO CART LAYOUT FIX --- */
+button.product-form__submit {
+  position: relative !important;
+}
+button.product-form__submit > .loading__spinner,
+button.product-form__submit > .uk-spinner,
+button.product-form__submit > svg:not(.icon) {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  display: flex !important;
+  margin: 0 !important;
+}
+button.product-form__submit.loading > span {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
