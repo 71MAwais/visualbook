@@ -24,11 +24,8 @@ if (!customElements.get('product-form')) {
         this.handleErrorMessage();
 
         this.submitButton.setAttribute('aria-disabled', true);
-        
-        // FIX: Removed this.submitButton.classList.add('loading'); to prevent CSS layout squeezing
-
-        const loadingSpinner = this.querySelector('.loading__spinner');
-        if (loadingSpinner) loadingSpinner.classList.remove('hidden');
+        this.submitButton.classList.add('loading');
+        this.querySelector('.loading__spinner').classList.remove('hidden');
 
         const config = fetchConfig('javascript');
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -103,13 +100,10 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            // FIX: Removed this.submitButton.classList.remove('loading');
-            
+            this.submitButton.classList.remove('loading');
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
             if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            
-            const finalSpinner = this.querySelector('.loading__spinner');
-            if (finalSpinner) finalSpinner.classList.add('hidden');
+            this.querySelector('.loading__spinner').classList.add('hidden');
 
             CartPerformance.measureFromEvent("add:user-action", evt);
           });
