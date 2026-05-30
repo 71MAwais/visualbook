@@ -18,7 +18,7 @@
     
     .no-select { user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
     
-    .product-form__submit { width: 100% !important; max-width: 100% !important; }
+    .product-form__submit { width: 100% !important; max-width: 100% !important; position: relative !important; }
     .shopify-payment-button__button--unbranded { display: none !important; }
     .shopify-payment-button__button { width: 100% !important; border-radius: 8px !important; height: 60px !important; font-size: 15px !important; font-weight: 600 !important; font-family: inherit !important; transition: all 0.2s ease !important; }
     
@@ -37,9 +37,14 @@
     .visual-prose p:last-child { margin-bottom: 0 !important; }
     .visual-prose strong, .visual-prose b { font-weight: 600 !important; color: #1a1a1a !important; }
 
-    /* Loading Layout Fix */
+    /* Bulletproof Button CSS against 3rd party apps */
+    .product-form__submit > *:not(.btn-text) {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
     .product-form__submit.loading .btn-text { opacity: 0 !important; visibility: hidden !important; }
-    .product-form__submit.loading .loading__spinner { display: flex !important; }
 </style>
 
 <script id="VisualMoneyFormat" type="application/json">
