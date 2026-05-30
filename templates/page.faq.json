@@ -23,76 +23,76 @@
         "padding_bottom": 28
       }
     },
-    "visual_fa_qs_9Xefba": {
+    "visual_fa_qs_qzdHBx": {
       "type": "visual-FAQs",
       "blocks": {
-        "category_8GfwGt": {
+        "category_ADgHMN": {
           "type": "category",
           "settings": {
             "title": "About Our Products"
           }
         },
-        "faq_NWkNr3": {
+        "faq_Q8DCwg": {
           "type": "faq",
           "settings": {
             "question": "What exactly is The Visual Book?",
             "answer": "<p>The Visual Book is a luxury memory preservation book featuring a built-in high-definition screen designed to play your personal videos and audio. Crafted with eco-friendly leather and linen, it seamlessly bridges the gap between digital media and physical photo albums.</p>"
           }
         },
-        "faq_gd3mwF": {
+        "faq_p6AGzn": {
           "type": "faq",
           "settings": {
             "question": "What if I don't upload a video during checkout?",
             "answer": "<p>That is completely fine! We will send you a blank video book along with an easy-to-use cable. You can easily plug it into your computer and load your own videos and background songs at home.</p>"
           }
         },
-        "category_GJ7DdG": {
+        "category_tttzAn": {
           "type": "category",
           "settings": {
             "title": "Processing & Editing"
           }
         },
-        "faq_CWbqTF": {
+        "faq_77gGft": {
           "type": "faq",
           "settings": {
             "question": "How long does it take to process my media?",
             "answer": "<p>Unedited bulk videos take 2 to 3 days to process. Pre-edited or single videos take 48 hours maximum. If you require our professional video editing services, please allow 1 additional day.</p>"
           }
         },
-        "category_pejEkA": {
+        "category_KT67Dd": {
           "type": "category",
           "settings": {
             "title": "Shipping & Delivery"
           }
         },
-        "faq_arPFgK": {
+        "faq_CDzyRk": {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
             "answer": "<p>After a standard 1-day dispatch period, delivery takes between 2 to 10 days depending on your country and region. We ship worldwide!</p>"
           }
         },
-        "faq_nFbBn3": {
+        "faq_QaM6Ej": {
           "type": "faq",
           "settings": {
             "question": "Do you offer Next Day Delivery in the UK?",
             "answer": "<p>Yes! Our UK Next Day Delivery cut-off time is 1:00 PM for orders with no file attachments or fewer than 3 files. If your order contains 1 or more files to be pre-loaded, it must be placed before 7:00 AM to qualify.</p>"
           }
         },
-        "category_RnG79w": {
+        "category_JPfNaM": {
           "type": "category",
           "settings": {
             "title": "Orders & Support"
           }
         },
-        "faq_GGw9de": {
+        "faq_QMdmHH": {
           "type": "faq",
           "settings": {
             "question": "Can I change or cancel my order after placing it?",
             "answer": "<p>We process orders very quickly to ensure prompt delivery. If you need to make a change or cancel your order, you can cancel it provided that our team has not yet started working on it. Once processing has begun, we are unable to modify or cancel it.</p>"
           }
         },
-        "faq_7hVnV8": {
+        "faq_nR4yMw": {
           "type": "faq",
           "settings": {
             "question": "How can I contact customer support?",
@@ -101,17 +101,17 @@
         }
       },
       "block_order": [
-        "category_8GfwGt",
-        "faq_NWkNr3",
-        "faq_gd3mwF",
-        "category_GJ7DdG",
-        "faq_CWbqTF",
-        "category_pejEkA",
-        "faq_arPFgK",
-        "faq_nFbBn3",
-        "category_RnG79w",
-        "faq_GGw9de",
-        "faq_7hVnV8"
+        "category_ADgHMN",
+        "faq_Q8DCwg",
+        "faq_p6AGzn",
+        "category_tttzAn",
+        "faq_77gGft",
+        "category_KT67Dd",
+        "faq_CDzyRk",
+        "faq_QaM6Ej",
+        "category_JPfNaM",
+        "faq_QMdmHH",
+        "faq_nR4yMw"
       ],
       "name": "Visual FAQ",
       "settings": {
@@ -121,12 +121,12 @@
         "contact_heading": "Contact Client Services",
         "contact_text": "Our dedicated Client Advisors are available to assist you by phone, email, or live chat. We invite you to contact us with any questions regarding your Visual Book, bespoke orders, or general inquiries.",
         "contact_button_text": "Contact Us",
-        "contact_link": "shopify://pages/contact"
+        "contact_link": ""
       }
     }
   },
   "order": [
     "main",
-    "visual_fa_qs_9Xefba"
+    "visual_fa_qs_qzdHBx"
   ]
 }
