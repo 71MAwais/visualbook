@@ -91,7 +91,7 @@
     </div>
   </section>
 
-  {%- comment -%} Features / Family Section {%- endcomment -%}
+  {%- comment -%} Features / Craftsmanship Section {%- endcomment -%}
   <section class="py-16 lg:py-20 px-6 text-center max-w-[1400px] mx-auto">
     <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Craftsmanship</span>
     <h2 class="text-3xl lg:text-4xl font-serif leading-tight text-[#111111]">The Visual Book Family</h2>
@@ -100,11 +100,13 @@
       
       {% for block in section.blocks %}
         <div class="text-center group" {{ block.shopify_attributes }}>
-          <div class="flex justify-center mb-6">
+          
+          <div class="w-24 h-24 mx-auto mb-6 bg-white border border-stone-200 shadow-sm flex items-center justify-center rounded-xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-white z-0" aria-hidden="true"></div>
             {% if block.settings.icon_image != blank %}
-              {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'w-10 h-10 object-contain transition-transform duration-500 group-hover:scale-110', loading: 'lazy' }}
+              {{ block.settings.icon_image | image_url: width: 200 | image_tag: class: 'w-14 h-14 object-contain relative z-10 transition-transform duration-500 group-hover:scale-110', loading: 'lazy', style: 'opacity: 1 !important; mix-blend-mode: normal !important;' }}
             {% else %}
-              <svg class="w-8 h-8 text-[#111111] transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h20L19 20H5L2 4z"></path><path d="M12 22v-8"></path><path d="M8 22v-8"></path><path d="M16 22v-8"></path></svg>
+              <svg class="w-10 h-10 text-[#111111] relative z-10 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h20L19 20H5L2 4z"></path><path d="M12 22v-8"></path><path d="M8 22v-8"></path><path d="M16 22v-8"></path></svg>
             {% endif %}
           </div>
           <h4 class="text-lg font-serif mb-3 text-[#111111]">{{ block.settings.title }}</h4>
