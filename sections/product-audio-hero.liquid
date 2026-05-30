@@ -18,7 +18,17 @@
     
     .no-select { user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
     
-    .product-form__submit { width: 100% !important; max-width: 100% !important; position: relative !important; }
+    /* Layout & Overflow Fixes */
+    .product-form { width: 100%; max-width: 100%; }
+    .product-form form { width: 100%; }
+    .product-form__submit { 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        min-width: 0 !important; 
+        position: relative !important; 
+    }
+    #ProductSection-{{ section.id }} { overflow-x: hidden; }
+
     .shopify-payment-button__button--unbranded { display: none !important; }
     .shopify-payment-button__button { width: 100% !important; border-radius: 8px !important; height: 60px !important; font-size: 15px !important; font-weight: 600 !important; font-family: inherit !important; transition: all 0.2s ease !important; }
     
@@ -173,14 +183,15 @@
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="product-variant-id">
 
                 <div class="mb-4 relative z-50">
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:w-[130px] h-[60px] sm:h-[54px] bg-white focus-within:ring-2 focus-within:ring-stone-900 focus-within:ring-offset-1 shadow-sm overflow-hidden">
+                    <div class="flex flex-col sm:flex-row gap-3 w-full items-stretch">
+                        
+                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:flex-none sm:w-[130px] h-[60px] sm:h-[54px] bg-white overflow-hidden shadow-sm">
                             <button type="button" name="minus" aria-label="Decrease quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
                             <input type="number" name="quantity" id="quantity-input" aria-label="Quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
                             <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" class="focus-ring product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                        <button type="submit" name="add" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
                             
                             <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
@@ -395,11 +406,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const priceDisplays = document.querySelectorAll('.price-display');
-    const qtyInputs = document.querySelectorAll('.qty-input');
+    
+    // FIX: Using querySelector instead of querySelectorAll for the specific quantity read
+    const qtyInput = document.querySelector('.qty-input');
+    const allQtyInputs = document.querySelectorAll('.qty-input'); // keeping this for syncing if multiple exist
 
     function updatePriceUI() {
-        if (baseVariant) {
-            const qty = parseInt(qtyInputs.value) || 1;
+        if (baseVariant && qtyInput) {
+            const qty = parseInt(qtyInput.value) || 1;
             const formattedPrice = formatMoney(baseVariant.price * qty);
             priceDisplays.forEach(el => el.textContent = formattedPrice);
             
@@ -413,10 +427,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            let val = parseInt(qtyInputs.value) || 1;
+            if(!qtyInput) return;
+            let val = parseInt(qtyInput.value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
-            qtyInputs.forEach(inp => inp.value = val);
+            
+            // Sync all inputs
+            allQtyInputs.forEach(inp => inp.value = val);
             updatePriceUI();
         });
     });
@@ -451,16 +468,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderProgress = document.getElementById('slider-progress');
     let currentIndex = 0;
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                currentIndex = parseInt(entry.target.getAttribute('data-index'));
-                updateThumbnailState(currentIndex);
-            }
-        });
-    }, { root: carousel, threshold: 0.6 });
-    
-    slides.forEach(slide => observer.observe(slide));
+    if(carousel) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentIndex = parseInt(entry.target.getAttribute('data-index'));
+                    updateThumbnailState(currentIndex);
+                }
+            });
+        }, { root: carousel, threshold: 0.6 });
+        
+        slides.forEach(slide => observer.observe(slide));
+    }
 
     function updateThumbnailState(index) {
         if(sliderProgress) {
@@ -478,23 +497,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('next-btn')?.addEventListener('click', () => {
+        if(!carousel) return;
         const width = carousel.offsetWidth;
         carousel.scrollBy({ left: width, behavior: 'smooth' });
     });
     
     document.getElementById('prev-btn')?.addEventListener('click', () => {
+        if(!carousel) return;
         const width = carousel.offsetWidth;
         carousel.scrollBy({ left: -width, behavior: 'smooth' });
     });
     
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
+            if(!carousel) return;
             const width = carousel.offsetWidth;
             carousel.scrollTo({ left: width * index, behavior: 'smooth' });
         });
         thumb.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
+                if(!carousel) return;
                 const width = carousel.offsetWidth;
                 carousel.scrollTo({ left: width * index, behavior: 'smooth' });
             }
