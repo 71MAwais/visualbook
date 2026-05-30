@@ -1836,6 +1836,9 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
+  .bg-green-600 {
+    background-color: var(--color-green-600);
+  }
   .bg-obsidian {
     background-color: var(--color-obsidian);
   }
@@ -3511,6 +3514,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-800);
+      }
+    }
+  }
+  .hover\:bg-green-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-700);
       }
     }
   }
