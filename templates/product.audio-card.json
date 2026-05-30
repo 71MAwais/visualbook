@@ -102,14 +102,29 @@
         "padding_bottom": 28
       }
     },
-    "product_audio_hero_Ld3nRk": {
-      "type": "product-audio-hero",
-      "name": "Product Audio Hero",
+    "product_hero_visual_Y4NYrr": {
+      "type": "product-hero-visual",
+      "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
-        "fallback_review_count": "1",
+        "fallback_review_count": "128",
         "add_to_cart_text": "Add to Cart",
         "show_dynamic_checkout": true,
+        "show_variants": false,
+        "show_media_upload": false,
+        "upload_title": "Upload Photos & Videos",
+        "upload_subtitle": "(Optional)",
+        "upload_help_text": "Click to open UploadKit",
+        "enable_custom_fields": true,
+        "target_product": "",
+        "book_title_label": "Book Title",
+        "book_title_sub": "(3 words max)",
+        "book_title_placeholder": "e.g. Our Wedding Day",
+        "date_label": "Date",
+        "date_placeholder": "e.g. 12.10.2024",
+        "show_bg_song": true,
+        "song_label": "Background Song",
+        "song_placeholder": "e.g. Perfect by Ed Sheeran",
         "tab_1_title": "Features",
         "features_text": "<ul><li>Up to 6-Hour Video Capacity</li><li>Crisp audio speakers</li></ul>",
         "tab_2_title": "Design & Build",
@@ -161,7 +176,7 @@
   "order": [
     "main",
     "related-products",
-    "product_audio_hero_Ld3nRk",
+    "product_hero_visual_Y4NYrr",
     "product_review_4KjB4F",
     "landing_shop_8w6YGV"
   ]
