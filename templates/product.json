@@ -102,35 +102,55 @@
         "padding_bottom": 28
       }
     },
-    "product_hero_visual_kkn7Mg": {
+    "product_hero_visual_RfgfJ9": {
       "type": "product-hero-visual",
+      "blocks": {
+        "accordion_HgaYcf": {
+          "type": "accordion",
+          "settings": {
+            "title": "GIFTING THE BOOK?",
+            "content": "<ol><li><strong>Pre-Loaded Gift:</strong> Upload your content for us to preload. The recipient will receive the book with your specially chosen memories already in place.</li><li><strong>DIY Upload:</strong> Alternatively, you can simply unbox the book, connect it to your computer, and upload those special memories yourself.</li><li><strong>Blank Book Gift:</strong> For a more personal touch, give the recipient a blank book. They can then add their cherished moments at their convenience, creating a truly personalized keepsake.</li></ol>"
+          }
+        },
+        "accordion_qncAw3": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping",
+            "content": "<p>If you choose to upload your videos yourself, shipping takes 2 -3 working days.</p><p>If we are uploading your videos, shipping takes 3 -5 working days.</p><p><strong>EU shipping</strong></p><p>3 - 11 working days</p><p><strong>International Shipping </strong></p><p>6- 14 working days</p>"
+          }
+        }
+      },
+      "block_order": [
+        "accordion_HgaYcf",
+        "accordion_qncAw3"
+      ],
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
-        "fallback_review_count": "128",
+        "fallback_review_count": "0",
         "add_to_cart_text": "Add to Cart",
         "show_dynamic_checkout": true,
-        "show_variants": false,
-        "show_media_upload": false,
+        "show_variants": true,
+        "show_media_upload": true,
         "upload_title": "Upload Photos & Videos",
         "upload_subtitle": "(Optional)",
-        "upload_help_text": "Click to open UploadKit",
-        "enable_custom_fields": false,
-        "target_product": "",
+        "upload_help_text": "Click to Upload Files",
+        "enable_custom_fields": true,
+        "target_product": "personalized-books",
         "book_title_label": "Book Title",
         "book_title_sub": "(3 words max)",
         "book_title_placeholder": "e.g. Our Wedding Day",
         "date_label": "Date",
         "date_placeholder": "e.g. 12.10.2024",
-        "show_bg_song": false,
+        "show_bg_song": true,
         "song_label": "Background Song",
         "song_placeholder": "e.g. Perfect by Ed Sheeran",
         "tab_1_title": "Features",
-        "features_text": "<ul><li>Up to 6-Hour Video Capacity</li><li>Crisp audio speakers</li></ul>",
+        "features_text": "<ul><li>Up to 6-Hour Video & Photo Capacity</li><li>One-Click Video/Photo Switch</li><li>Simple Drag & Drop Setup</li><li>Personal Gift/Keepsake</li><li>Complimentary Pre-Loading & Professional Editing</li></ul>",
         "tab_2_title": "Design & Build",
-        "design_text": "<ul><li>Premium linen cover</li><li>Gold foil stamping</li></ul>",
+        "design_text": "<ul><li>Premium Soft Linen Material</li><li>Gold Foil Stamp Debossed</li><li>Cream-Beige Linen Cover</li><li>Book Size: 210 x 148 x 13.5 mm</li><li>Packaged Size: 27 x 19 x 4.8 cm</li><li>Packaged Weight: 0.855 kg</li><li>In the Box: Classic Visual Book, USB Cable, User Manual, Guide Warranty Card</li></ul>",
         "tab_3_title": "Technical",
-        "tech_text": "<ul><li>7 or 10.1 inch IPS Display</li><li>USB-C Charging</li></ul>",
+        "tech_text": "<ul><li>IPS 1280 x 800 HD Display</li><li>8GB Storage Capacity</li><li>2500mAh Lithium Battery</li><li>16:9 Aspect Ratio</li><li>Buttons: Videos, Photos, Play, Pause, Volume Up/Down, Mute, Previous, Next</li><li>Magnetic/Light/Motion Sensor Power Switch</li></ul>",
         "support_btn_text": "Contact Live Support for Help",
         "support_modal_title": "How can we help?",
         "support_modal_text": "Our concierge team is available 24/7 to assist you with your Visual Book.",
@@ -293,7 +313,7 @@
   "order": [
     "main",
     "related-products",
-    "product_hero_visual_kkn7Mg",
+    "product_hero_visual_RfgfJ9",
     "product_experience1_r74Bzr",
     "product_review_wbmqa7",
     "landing_shop_8w6YGV"

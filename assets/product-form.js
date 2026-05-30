@@ -25,7 +25,10 @@ if (!customElements.get('product-form')) {
 
         this.submitButton.setAttribute('aria-disabled', true);
         this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        
+        // FIX: Check if spinner exists before removing 'hidden' class
+        const loadingSpinner = this.querySelector('.loading__spinner');
+        if (loadingSpinner) loadingSpinner.classList.remove('hidden');
 
         const config = fetchConfig('javascript');
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -103,7 +106,10 @@ if (!customElements.get('product-form')) {
             this.submitButton.classList.remove('loading');
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
             if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
+            
+            // FIX: Check if spinner exists before adding 'hidden' class
+            const finalSpinner = this.querySelector('.loading__spinner');
+            if (finalSpinner) finalSpinner.classList.add('hidden');
 
             CartPerformance.measureFromEvent("add:user-action", evt);
           });
