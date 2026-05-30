@@ -23,95 +23,142 @@
         "padding_bottom": 28
       }
     },
-    "visual_fa_qs_qzdHBx": {
+    "visual_fa_qs_x7cqUq": {
       "type": "visual-FAQs",
       "blocks": {
-        "category_ADgHMN": {
+        "category_rJ6AA8": {
           "type": "category",
           "settings": {
-            "title": "About Our Products"
+            "title": "About Digital Video Books & Audio Cards"
           }
         },
-        "faq_Q8DCwg": {
+        "faq_i66d7d": {
           "type": "faq",
           "settings": {
-            "question": "What exactly is The Visual Book?",
-            "answer": "<p>The Visual Book is a luxury memory preservation book featuring a built-in high-definition screen designed to play your personal videos and audio. Crafted with eco-friendly leather and linen, it seamlessly bridges the gap between digital media and physical photo albums.</p>"
+            "question": "What is a Digital Video Book?",
+            "answer": "<p><strong>The Visual Book</strong> is a luxury, hybrid memory album featuring a built-in HD IPS display. Crafted with premium vegan leather or linen and 24k gold foil stamping, it bridges the gap between digital media and physical photo albums. Each digital video book contains 8GB of storage, capable of playing up to 6 hours of high-definition video and photo slideshows instantly.</p>"
           }
         },
-        "faq_p6AGzn": {
+        "faq_34hweV": {
           "type": "faq",
           "settings": {
-            "question": "What if I don't upload a video during checkout?",
-            "answer": "<p>That is completely fine! We will send you a blank video book along with an easy-to-use cable. You can easily plug it into your computer and load your own videos and background songs at home.</p>"
+            "question": "Does the memory album require Wi-Fi or an app to play?",
+            "answer": "<p>No! Our electronic video books feature a zero-setup, \"open-and-play\" design. They require absolutely no Wi-Fi, internet connection, or third-party apps. Simply open the cover, and your cherished memories will play instantly through the integrated screen and crystal-clear speakers.</p>"
           }
         },
-        "category_tttzAn": {
+        "faq_48eBWa": {
+          "type": "faq",
+          "settings": {
+            "question": "How do Recordable Audio Greeting Cards work?",
+            "answer": "<p>Our <strong>Recordable Audio Greeting Cards</strong> elevate traditional gifting by allowing you to capture a 60-second personal voice message, holiday carol, or group cheer. Featuring a high-fidelity acoustic system hidden inside foil-stamped, premium textured cardstock, your recipient will hear your exact voice the moment they open it.</p>"
+          }
+        },
+        "category_fjEQzY": {
           "type": "category",
           "settings": {
-            "title": "Processing & Editing"
+            "title": "Uploading & Tech Support"
           }
         },
-        "faq_77gGft": {
+        "faq_zt7eRz": {
           "type": "faq",
           "settings": {
-            "question": "How long does it take to process my media?",
-            "answer": "<p>Unedited bulk videos take 2 to 3 days to process. Pre-edited or single videos take 48 hours maximum. If you require our professional video editing services, please allow 1 additional day.</p>"
+            "question": "How do I upload photos and videos to my Visual Book?",
+            "answer": "<p>It's incredibly easy! If you choose not to pre-load your media during checkout, we will ship you a blank video book along with an easy-to-use micro-USB cable. Simply plug the book into your Mac or PC, open it like a standard flash drive, and drag-and-drop your video and photo files directly into the folder.</p>"
           }
         },
-        "category_KT67Dd": {
+        "faq_ad7dBQ": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I edit or change the videos on my book later?",
+            "answer": "<p>Yes. You have total creative control. Using the provided micro-USB cable, you can connect the video book to your computer at any time to add, delete, or reorganize your media files, just as you would with a standard hard drive.</p>"
+          }
+        },
+        "category_yFM8eY": {
           "type": "category",
           "settings": {
-            "title": "Shipping & Delivery"
+            "title": "Processing, Shipping & Returns"
           }
         },
-        "faq_CDzyRk": {
+        "faq_QxFK3J": {
           "type": "faq",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>After a standard 1-day dispatch period, delivery takes between 2 to 10 days depending on your country and region. We ship worldwide!</p>"
+            "question": "How long does it take to process and pre-load my media?",
+            "answer": "<p>If you upload files during checkout, our processing times are as follows:</p><ul><li><strong>Pre-edited or single videos:</strong> 48 hours maximum.</li><li><strong>Unedited bulk videos:</strong> 2 to 3 days to process.</li><li><strong>Professional Video Editing Service:</strong> Please allow 1 additional day.</li></ul><p>Once processing is complete, standard dispatch takes 1 business day.</p>"
           }
         },
-        "faq_QaM6Ej": {
+        "faq_fFmNUm": {
           "type": "faq",
           "settings": {
-            "question": "Do you offer Next Day Delivery in the UK?",
-            "answer": "<p>Yes! Our UK Next Day Delivery cut-off time is 1:00 PM for orders with no file attachments or fewer than 3 files. If your order contains 1 or more files to be pre-loaded, it must be placed before 7:00 AM to qualify.</p>"
+            "question": "Do you offer UK Next Day Delivery?",
+            "answer": "<p>Yes! We offer a Next Day Delivery option for UK orders with the following conditions:</p><ul><li>The cut-off time is <strong>1:00 PM</strong> for blank books (no file attachments) or orders with fewer than 3 files.</li><li>Orders requiring us to pre-load 1 or more files must be placed before <strong>7:00 AM</strong> to qualify.</li></ul><p>Orders that do not meet these specific cut-offs will be processed within our standard timeframes.</p>"
           }
         },
-        "category_JPfNaM": {
+        "faq_mYYE3U": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, we offer worldwide shipping. After processing and our 1-day dispatch window, international delivery typically takes between 2 to 10 days depending on your country and regional customs processing.</p>"
+          }
+        },
+        "category_7ynFWf": {
           "type": "category",
           "settings": {
-            "title": "Orders & Support"
+            "title": "Gifting & Corporate Orders"
           }
         },
-        "faq_QMdmHH": {
+        "faq_mKdnPF": {
+          "type": "faq",
+          "settings": {
+            "question": "How do The Visual Book Digital Gift Cards work?",
+            "answer": "<p>Our Digital Gift Cards offer the ultimate gifting flexibility with instant inbox delivery. The recipient can redeem their gift card on our website to customize their own premium digital video book—choosing their preferred cover design (such as linen or vegan leather), screen size, and personal media uploads.</p>"
+          }
+        },
+        "faq_KjU3Hx": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I commission custom video books for corporate gifting?",
+            "answer": "<p>Absolutely. We provide bespoke Personalized Custom Digital Video Books perfect for VIP corporate gifting, real estate portfolios, and high-end presentations. With custom foil-stamped covers and offline playback, it is a striking physical presentation that bypasses digital email filters entirely. Please contact us for bulk ordering.</p>"
+          }
+        },
+        "category_Bwaqe3": {
+          "type": "category",
+          "settings": {
+            "title": "Contact & Customer Service"
+          }
+        },
+        "faq_rRAbHb": {
           "type": "faq",
           "settings": {
             "question": "Can I change or cancel my order after placing it?",
             "answer": "<p>We process orders very quickly to ensure prompt delivery. If you need to make a change or cancel your order, you can cancel it provided that our team has not yet started working on it. Once processing has begun, we are unable to modify or cancel it.</p>"
           }
         },
-        "faq_nR4yMw": {
+        "faq_Wg3JWF": {
           "type": "faq",
           "settings": {
             "question": "How can I contact customer support?",
-            "answer": "<p><strong>WhatsApp Fast Line:</strong> For the fastest response to urgent inquiries, message us at 07459553149.<br><br><strong>Email:</strong> You can email us anytime at info@thevisualbook.com.<br><br><strong>Live Chat:</strong> Simply click the chat bubble in the bottom right corner of your screen during business hours.</p>"
+            "answer": "<p>Our concierge team is available to assist you via multiple channels:</p><p><strong>WhatsApp Fast Line:</strong> For the fastest response to urgent inquiries, message us at <strong>07459553149</strong>.</p><p><strong>Email:</strong> Reach out to us anytime at <strong>info@thevisualbook.com</strong>.</p><p><strong>Live Chat:</strong> Click the chat bubble in the bottom right corner of your screen during business hours.</p>"
           }
         }
       },
       "block_order": [
-        "category_ADgHMN",
-        "faq_Q8DCwg",
-        "faq_p6AGzn",
-        "category_tttzAn",
-        "faq_77gGft",
-        "category_KT67Dd",
-        "faq_CDzyRk",
-        "faq_QaM6Ej",
-        "category_JPfNaM",
-        "faq_QMdmHH",
-        "faq_nR4yMw"
+        "category_rJ6AA8",
+        "faq_i66d7d",
+        "faq_34hweV",
+        "faq_48eBWa",
+        "category_fjEQzY",
+        "faq_zt7eRz",
+        "faq_ad7dBQ",
+        "category_yFM8eY",
+        "faq_QxFK3J",
+        "faq_fFmNUm",
+        "faq_mYYE3U",
+        "category_7ynFWf",
+        "faq_mKdnPF",
+        "faq_KjU3Hx",
+        "category_Bwaqe3",
+        "faq_rRAbHb",
+        "faq_Wg3JWF"
       ],
       "name": "Visual FAQ",
       "settings": {
@@ -127,6 +174,6 @@
   },
   "order": [
     "main",
-    "visual_fa_qs_qzdHBx"
+    "visual_fa_qs_x7cqUq"
   ]
 }
