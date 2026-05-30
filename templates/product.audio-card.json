@@ -109,7 +109,7 @@
         "hide_section": false,
         "fallback_review_count": "1",
         "add_to_cart_text": "Add to Cart",
-        "show_dynamic_checkout": true,
+        "show_dynamic_checkout": false,
         "tab_1_title": "Features",
         "features_text": "<ul><li>Up to 6-Hour Video Capacity</li><li>Crisp audio speakers</li></ul>",
         "tab_2_title": "Design & Build",
