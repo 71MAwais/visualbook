@@ -105,6 +105,20 @@
     "product_hero_visual_RfgfJ9": {
       "type": "product-hero-visual",
       "blocks": {
+        "award_N3Qy4m": {
+          "type": "award",
+          "settings": {
+            "award_title": "* Winner – Most Dedicated Memory Preservation Company: SME News Greater London Enterprise Awards",
+            "award_link": ""
+          }
+        },
+        "award_E8Vbm9": {
+          "type": "award",
+          "settings": {
+            "award_title": "* Winner – Global Recognition Award",
+            "award_link": ""
+          }
+        },
         "accordion_HgaYcf": {
           "type": "accordion",
           "settings": {
@@ -121,6 +135,8 @@
         }
       },
       "block_order": [
+        "award_N3Qy4m",
+        "award_E8Vbm9",
         "accordion_HgaYcf",
         "accordion_qncAw3"
       ],
