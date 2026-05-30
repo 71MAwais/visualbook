@@ -11,6 +11,9 @@ if (!customElements.get('product-form')) {
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
         this.submitButton = this.querySelector('[type="submit"]');
         this.submitButtonText = this.submitButton.querySelector('span');
+        
+        // Custom visual text span for animation (if it exists)
+        this.customTextSpan = this.submitButton.querySelector('.btn-text');
 
         if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
 
@@ -25,7 +28,21 @@ if (!customElements.get('product-form')) {
 
         this.submitButton.setAttribute('aria-disabled', true);
         this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        
+        const spinner = this.querySelector('.loading__spinner');
+        if(spinner) spinner.classList.remove('hidden');
+
+        // Optional Custom Animation if using VisualBook custom buttons
+        const originalText = this.customTextSpan ? this.customTextSpan.innerHTML : '';
+        if (this.customTextSpan) {
+            this.customTextSpan.style.transform = 'translateY(100%)';
+            this.customTextSpan.style.opacity = '0';
+            setTimeout(() => {
+                this.customTextSpan.textContent = 'Adding...';
+                this.customTextSpan.style.transform = 'translateY(-100%)';
+                setTimeout(() => { this.customTextSpan.style.transform = 'translateY(0)'; this.customTextSpan.style.opacity = '1'; }, 50);
+            }, 150);
+        }
 
         const config = fetchConfig('javascript');
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -57,7 +74,7 @@ if (!customElements.get('product-form')) {
               const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
               if (!soldOutMessage) return;
               this.submitButton.setAttribute('aria-disabled', true);
-              this.submitButtonText.classList.add('hidden');
+              if (this.submitButtonText) this.submitButtonText.classList.add('hidden');
               soldOutMessage.classList.remove('hidden');
               this.error = true;
               return;
@@ -66,46 +83,57 @@ if (!customElements.get('product-form')) {
               return;
             }
 
-            const startMarker = CartPerformance.createStartingMarker('add:wait-for-subscribers');
-            if (!this.error)
-              publish(PUB_SUB_EVENTS.cartUpdate, {
-                source: 'product-form',
-                productVariantId: formData.get('id'),
-                cartData: response,
-              }).then(() => {
-                CartPerformance.measureFromMarker('add:wait-for-subscribers', startMarker);
-              });
+            // Custom UI Success Animation
+            if (this.customTextSpan) {
+                this.customTextSpan.style.transform = 'translateY(100%)';
+                this.customTextSpan.style.opacity = '0';
+                this.submitButton.classList.replace('bg-[#111111]', 'bg-green-600');
+                this.submitButton.classList.replace('hover:bg-stone-800', 'hover:bg-green-700');
+
+                setTimeout(() => {
+                    this.customTextSpan.textContent = 'Added to Cart ✓';
+                    this.customTextSpan.style.transform = 'translateY(-100%)';
+                    setTimeout(() => { this.customTextSpan.style.transform = 'translateY(0)'; this.customTextSpan.style.opacity = '1'; }, 50);
+                }, 150);
+
+                setTimeout(() => {
+                    this.customTextSpan.style.transform = 'translateY(100%)';
+                    this.customTextSpan.style.opacity = '0';
+                    setTimeout(() => {
+                        this.customTextSpan.innerHTML = originalText;
+                        this.submitButton.classList.replace('bg-green-600', 'bg-[#111111]');
+                        this.submitButton.classList.replace('hover:bg-green-700', 'hover:bg-stone-800');
+                        this.customTextSpan.style.transform = 'translateY(-100%)';
+                        setTimeout(() => { this.customTextSpan.style.transform = 'translateY(0)'; this.customTextSpan.style.opacity = '1'; }, 50);
+                    }, 150);
+                }, 2500);
+            }
+
+            if (!this.error) publish(PUB_SUB_EVENTS.cartUpdate, { source: 'product-form', productVariantId: formData.get('id'), cartData: response });
+            
             this.error = false;
+            
             const quickAddModal = this.closest('quick-add-modal');
             if (quickAddModal) {
-              document.body.addEventListener(
-                'modalClosed',
-                () => {
-                  setTimeout(() => {
-                    CartPerformance.measure("add:paint-updated-sections", () => {
-                      this.cart.renderContents(response);
-                    });
-                  });
-                },
-                { once: true }
-              );
+              document.body.addEventListener('modalClosed', () => {
+                  setTimeout(() => { this.cart.renderContents(response); });
+              }, { once: true });
               quickAddModal.hide(true);
             } else {
-              CartPerformance.measure("add:paint-updated-sections", () => {
-                this.cart.renderContents(response);
-              });
+              this.cart.renderContents(response);
             }
           })
           .catch((e) => {
             console.error(e);
+            if (this.customTextSpan) {
+                this.customTextSpan.innerHTML = originalText;
+            }
           })
           .finally(() => {
             this.submitButton.classList.remove('loading');
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
             if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
-
-            CartPerformance.measureFromEvent("add:user-action", evt);
+            if(spinner) spinner.classList.add('hidden');
           });
       }
 
