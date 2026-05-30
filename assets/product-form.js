@@ -24,9 +24,9 @@ if (!customElements.get('product-form')) {
         this.handleErrorMessage();
 
         this.submitButton.setAttribute('aria-disabled', true);
-        this.submitButton.classList.add('loading');
         
-        // FIX: Check if spinner exists before removing 'hidden' class
+        // FIX: Removed this.submitButton.classList.add('loading'); to prevent CSS layout squeezing
+
         const loadingSpinner = this.querySelector('.loading__spinner');
         if (loadingSpinner) loadingSpinner.classList.remove('hidden');
 
@@ -103,11 +103,11 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            this.submitButton.classList.remove('loading');
+            // FIX: Removed this.submitButton.classList.remove('loading');
+            
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
             if (!this.error) this.submitButton.removeAttribute('aria-disabled');
             
-            // FIX: Check if spinner exists before adding 'hidden' class
             const finalSpinner = this.querySelector('.loading__spinner');
             if (finalSpinner) finalSpinner.classList.add('hidden');
 
