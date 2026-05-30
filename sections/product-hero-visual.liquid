@@ -18,7 +18,17 @@
     
     .no-select { user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
     
-    .product-form__submit { width: 100% !important; max-width: 100% !important; }
+    /* Layout & Squeeze Fixes */
+    .product-form { width: 100%; max-width: 100%; }
+    .product-form form { width: 100%; }
+    .product-form__submit { 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        min-width: 0 !important; 
+        position: relative !important; 
+    }
+    #ProductSection-{{ section.id }} { overflow-x: hidden; }
+
     .shopify-payment-button__button--unbranded { display: none !important; }
     .shopify-payment-button__button { width: 100% !important; border-radius: 8px !important; height: 60px !important; font-size: 15px !important; font-weight: 600 !important; font-family: inherit !important; transition: all 0.2s ease !important; }
     
@@ -39,6 +49,15 @@
 
     /* UploadKit Integration CSS */
     .uploadkit-button { display: none !important; }
+
+    /* Bulletproof Button CSS against 3rd party apps */
+    .product-form__submit > *:not(.btn-text) {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+    .product-form__submit.loading .btn-text { opacity: 0 !important; visibility: hidden !important; }
 </style>
 
 <script id="VisualMoneyFormat" type="application/json">
@@ -161,7 +180,7 @@
 
             {%- assign product_form_id = 'product-form-' | append: section.id -%}
             
-            <product-form class="product-form block w-full relative z-30" data-section-id="{{ section.id }}">
+            <product-form class="product-form block w-full relative z-30 mt-6" data-section-id="{{ section.id }}">
               {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', enctype: 'multipart/form-data' -%}
                 
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="product-variant-id">
@@ -186,18 +205,26 @@
                   {% endunless %}
                 {% endif %}
 
-                {%- comment -%} MEDIA UPLOAD (UploadKit Integration) {%- endcomment -%}
-                {% if section.settings.show_media_upload %}
+                {%- comment -%} MEDIA UPLOAD (UploadKit Integration) - Only show trigger if enabled {%- endcomment -%}
+                {%- if section.settings.show_media_upload -%}
                 <div class="mb-6 mt-6 relative z-40">
                     <div onclick="document.querySelector('.uploadkit-button')?.click()" tabindex="0" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer">
                         <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">{{ section.settings.upload_title | default: 'Upload Photos & Videos' }} <span class="text-stone-500 font-normal">{{ section.settings.upload_subtitle | default: '(Optional)' }}</span></span>
                         <span class="text-[12px] text-stone-600 font-light" id="upload-status">{{ section.settings.upload_help_text | default: 'Click to open UploadKit' }}</span>
                     </div>
-                    
+                </div>
+                {%- endif -%}
+
+                {%- comment -%} 
+                    CRITICAL UPLOADKIT FIX:
+                    Always load the script/element so JS doesn't crash, 
+                    but hide it completely if the user disabled it in settings.
+                {%- endcomment -%}
+                <div {% unless section.settings.show_media_upload %}style="height: 0; width: 0; position: absolute; overflow: hidden; opacity: 0; pointer-events: none; z-index: -999;" aria-hidden="true"{% endunless %}>
                     <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
                 </div>
-                {% endif %}
+
 
                 {%- comment -%} CONDITIONAL BOOK TITLE & DATE {%- endcomment -%}
                 {%- assign show_custom_fields = false -%}
@@ -240,21 +267,30 @@
                 {% endif %}
 
                 <div class="mb-4 relative z-50">
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:w-[130px] h-[60px] sm:h-[54px] bg-white focus-within:ring-2 focus-within:ring-stone-900 focus-within:ring-offset-1 shadow-sm overflow-hidden">
+                    <div class="flex flex-col sm:flex-row gap-3 w-full items-stretch">
+                        
+                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:flex-none sm:w-[130px] h-[60px] sm:h-[54px] bg-white overflow-hidden shadow-sm">
                             <button type="button" name="minus" aria-label="Decrease quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
                             <input type="number" name="quantity" id="quantity-input" aria-label="Quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
                             <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" class="focus-ring product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
-                            <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-transform duration-300 max-w-full">
+                        <button type="submit" name="add" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                            
+                            <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
                                     {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                                 {%- else -%}
                                     Sold Out
                                 {%- endif -%}
                             </span>
+
+                            <div class="loading__spinner hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white pointer-events-none flex items-center justify-center">
+                                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner animate-spin w-full h-full" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30" stroke="currentColor"></circle>
+                                </svg>
+                            </div>
+
                         </button>
                     </div>
                 </div>
@@ -311,11 +347,10 @@
 
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
-  (Teleports to body to override any hidden parent z-indexes)
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-[99999]">
+<div id="all-modals-container" class="relative z-">
     
-    <div id="support-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -339,7 +374,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -377,7 +412,7 @@
         </div>
     </div>
 
-    <div id="cashback-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
+    <div id="cashback-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
         <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -443,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
         const formatString = shopMoneyFormat.match(placeholderRegex);
 
-        switch (formatString[1]) {
+        switch (formatString) {
             case 'amount': value = (cents / 100).toFixed(2); break;
             case 'amount_no_decimals': value = (cents / 100).toFixed(0); break;
             case 'amount_with_comma_separator': value = (cents / 100).toFixed(2).replace('.', ','); break;
@@ -456,7 +491,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const variantIdInputs = document.querySelectorAll('.product-variant-id');
     const priceDisplays = document.querySelectorAll('.price-display');
     const optionButtons = document.querySelectorAll('.size-btn');
-    const qtyInputs = document.querySelectorAll('.qty-input');
+    
+    // Javascript Fix:
+    const qtyInput = document.querySelector('.qty-input');
+    const allQtyInputs = document.querySelectorAll('.qty-input'); 
     
     let currentOptions = {
         {% for option in product.options_with_values %}
@@ -473,10 +511,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
-            const qty = parseInt(qtyInputs[0].value) || 1;
+            const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
             
             priceDisplays.forEach(el => el.textContent = formattedPrice);
@@ -497,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
@@ -505,8 +543,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (targetThumbIndex !== -1) {
                     const carousel = document.getElementById('main-image-carousel');
-                    const width = carousel.offsetWidth;
-                    carousel.scrollTo({ left: width * targetThumbIndex, behavior: 'smooth' });
+                    if(carousel) {
+                        const width = carousel.offsetWidth;
+                        carousel.scrollTo({ left: width * targetThumbIndex, behavior: 'smooth' });
+                    }
                 }
             }
         }
@@ -541,10 +581,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            let val = parseInt(qtyInputs[0].value) || 1;
+            if(!qtyInput) return;
+            let val = parseInt(qtyInput.value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
-            qtyInputs.forEach(inp => inp.value = val);
+            
+            allQtyInputs.forEach(inp => inp.value = val);
             updateVariantUI();
         });
     });
@@ -609,16 +651,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderProgress = document.getElementById('slider-progress');
     let currentIndex = 0;
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                currentIndex = parseInt(entry.target.getAttribute('data-index'));
-                updateThumbnailState(currentIndex);
-            }
-        });
-    }, { root: carousel, threshold: 0.6 });
-    
-    slides.forEach(slide => observer.observe(slide));
+    if(carousel) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentIndex = parseInt(entry.target.getAttribute('data-index'));
+                    updateThumbnailState(currentIndex);
+                }
+            });
+        }, { root: carousel, threshold: 0.6 });
+        
+        slides.forEach(slide => observer.observe(slide));
+    }
 
     function updateThumbnailState(index) {
         if(sliderProgress) {
@@ -636,25 +680,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('next-btn')?.addEventListener('click', () => {
-        const width = carousel.offsetWidth;
-        carousel.scrollBy({ left: width, behavior: 'smooth' });
+        if(carousel) {
+            const width = carousel.offsetWidth;
+            carousel.scrollBy({ left: width, behavior: 'smooth' });
+        }
     });
     
     document.getElementById('prev-btn')?.addEventListener('click', () => {
-        const width = carousel.offsetWidth;
-        carousel.scrollBy({ left: -width, behavior: 'smooth' });
+        if(carousel) {
+            const width = carousel.offsetWidth;
+            carousel.scrollBy({ left: -width, behavior: 'smooth' });
+        }
     });
     
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
-            const width = carousel.offsetWidth;
-            carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+            if(carousel) {
+                const width = carousel.offsetWidth;
+                carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+            }
         });
         thumb.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                const width = carousel.offsetWidth;
-                carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+                if(carousel) {
+                    const width = carousel.offsetWidth;
+                    carousel.scrollTo({ left: width * index, behavior: 'smooth' });
+                }
             }
         });
     });
@@ -759,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalEl.classList.add('flex');
         
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements[0];
+        const firstFocusable = focusableElements;
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
         modalEl.addEventListener('keydown', function(e) {
