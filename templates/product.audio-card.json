@@ -115,7 +115,7 @@
         "upload_title": "Upload Photos & Videos",
         "upload_subtitle": "(Optional)",
         "upload_help_text": "Click to open UploadKit",
-        "enable_custom_fields": false,
+        "enable_custom_fields": true,
         "target_product": "",
         "book_title_label": "Book Title",
         "book_title_sub": "(3 words max)",
