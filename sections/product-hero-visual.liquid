@@ -348,9 +348,9 @@
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-">
+<div id="all-modals-container" class="relative z-[99999]">
     
-    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -374,7 +374,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -412,7 +412,7 @@
         </div>
     </div>
 
-    <div id="cashback-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
+    <div id="cashback-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
         <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
             const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalEl.classList.add('flex');
         
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements;
+        const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
         modalEl.addEventListener('keydown', function(e) {
