@@ -6,26 +6,82 @@ if (!customElements.get('product-form')) {
         super();
 
         this.form = this.querySelector('form');
-        this.variantIdInput.disabled = false;
+        this.variantIdInput = this.form.querySelector('[name=id]');
+        if (this.variantIdInput) this.variantIdInput.disabled = false;
+        
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
         this.submitButton = this.querySelector('[type="submit"]');
-        this.submitButtonText = this.submitButton.querySelector('span');
+        this.submitButtonText = this.submitButton ? this.submitButton.querySelector('span') : null;
 
-        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
+        if (document.querySelector('cart-drawer') && this.submitButton) {
+            this.submitButton.setAttribute('aria-haspopup', 'dialog');
+        }
 
         this.hideErrors = this.dataset.hideErrors === 'true';
+
+        // Initialize the UploadKit upload protection
+        this.initUploadKitProtection();
+      }
+
+      initUploadKitProtection() {
+        if (!this.submitButton || !this.submitButtonText) return;
+
+        setInterval(() => {
+          // Look for standard UploadKit / Uploadcare loading indicators in the DOM
+          const isUploading = 
+            document.querySelector('.uploadkit-uploading') ||
+            document.querySelector('.uploadcare--progress') ||
+            document.querySelector('.uploadcare--widget_status_started') ||
+            document.querySelector('[data-upload-status="uploading"]');
+
+          if (isUploading) {
+            // Lock the button
+            this.submitButton.disabled = true;
+            this.submitButton.setAttribute('aria-disabled', 'true');
+            this.submitButton.classList.add('opacity-50'); // visual dimming
+            
+            if (!this.submitButton.dataset.uploadLocked) {
+              this.submitButton.dataset.originalText = this.submitButtonText.innerHTML;
+              this.submitButtonText.innerHTML = 'Uploading File...';
+              this.submitButton.dataset.uploadLocked = 'true';
+            }
+          } else {
+            // Unlock the button once uploading is gone
+            if (this.submitButton.dataset.uploadLocked === 'true') {
+              this.submitButton.disabled = false;
+              this.submitButton.removeAttribute('aria-disabled');
+              this.submitButton.classList.remove('opacity-50');
+              
+              // Restore original text
+              this.submitButtonText.innerHTML = this.submitButton.dataset.originalText || 'Add to Cart';
+              delete this.submitButton.dataset.uploadLocked;
+            }
+          }
+        }, 500); // Check every half second
       }
 
       onSubmitHandler(evt) {
         evt.preventDefault();
-        if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
+        
+        // --- 1. UPLOAD PROTECTION FALLBACK ---
+        // If the user presses "Enter" on an input field while it's uploading, block it.
+        if (this.submitButton && this.submitButton.dataset.uploadLocked === 'true') {
+            alert('Please wait for your file to finish uploading before adding to cart.');
+            return;
+        }
+
+        if (this.submitButton && (this.submitButton.getAttribute('aria-disabled') === 'true' || this.submitButton.disabled)) return;
 
         this.handleErrorMessage();
 
-        this.submitButton.setAttribute('aria-disabled', true);
-        this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        if (this.submitButton) {
+            this.submitButton.setAttribute('aria-disabled', true);
+            this.submitButton.classList.add('loading');
+        }
+        
+        const spinner = this.querySelector('.loading__spinner');
+        if (spinner) spinner.classList.remove('hidden');
 
         const config = fetchConfig('javascript');
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -33,16 +89,14 @@ if (!customElements.get('product-form')) {
 
         const formData = new FormData(this.form);
 
-        // --- BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT & CUSTOM FIELDS ---
-        // 1. Grab everything starting with 'properties' inside this product component
+        // --- 2. BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT & CUSTOM FIELDS ---
         this.querySelectorAll('[name^="properties["]').forEach((field) => {
             if (field.value && field.value.trim() !== '') {
                 formData.set(field.name, field.value);
             }
         });
 
-        // 2. Grab anything UploadKit injected directly into the DOM (often detaches from the form)
-        document.querySelectorAll('.uploadkit-upload-field [name^="properties["]').forEach((field) => {
+        document.querySelectorAll('.uploadkit-upload-field [name^="properties["], .uploadkit [name^="properties["]').forEach((field) => {
             if (field.value && field.value.trim() !== '') {
                 formData.set(field.name, field.value);
             }
@@ -71,11 +125,13 @@ if (!customElements.get('product-form')) {
               });
               this.handleErrorMessage(response.description);
 
-              const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
-              if (!soldOutMessage) return;
-              this.submitButton.setAttribute('aria-disabled', true);
-              this.submitButtonText.classList.add('hidden');
-              soldOutMessage.classList.remove('hidden');
+              if (this.submitButton) {
+                  const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
+                  if (!soldOutMessage) return;
+                  this.submitButton.setAttribute('aria-disabled', true);
+                  if (this.submitButtonText) this.submitButtonText.classList.add('hidden');
+                  soldOutMessage.classList.remove('hidden');
+              }
               this.error = true;
               return;
             } else if (!this.cart) {
@@ -117,10 +173,14 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            this.submitButton.classList.remove('loading');
+            if (this.submitButton) {
+                this.submitButton.classList.remove('loading');
+                if (!this.error && this.submitButton.dataset.uploadLocked !== 'true') {
+                    this.submitButton.removeAttribute('aria-disabled');
+                }
+            }
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
-            if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
+            if (spinner) spinner.classList.add('hidden');
 
             CartPerformance.measureFromEvent("add:user-action", evt);
           });
@@ -139,20 +199,6 @@ if (!customElements.get('product-form')) {
         if (errorMessage) {
           this.errorMessage.textContent = errorMessage;
         }
-      }
-
-      toggleSubmitButton(disable = true, text) {
-        if (disable) {
-          this.submitButton.setAttribute('disabled', 'disabled');
-          if (text) this.submitButtonText.textContent = text;
-        } else {
-          this.submitButton.removeAttribute('disabled');
-          this.submitButtonText.textContent = window.variantStrings.addToCart;
-        }
-      }
-
-      get variantIdInput() {
-        return this.form.querySelector('[name=id]');
       }
     }
   );
