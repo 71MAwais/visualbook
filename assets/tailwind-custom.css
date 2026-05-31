@@ -451,6 +451,9 @@
   .z-\[70\] {
     z-index: 70;
   }
+  .z-\[100\] {
+    z-index: 100;
+  }
   .col-span-1 {
     grid-column: span 1 / span 1;
   }
@@ -3257,6 +3260,27 @@
       @media (hover: hover) {
         opacity: 100%;
       }
+    }
+  }
+  .peer-checked\:border-stone-900 {
+    &:is(:where(.peer):checked ~ *) {
+      border-color: var(--color-stone-900);
+    }
+  }
+  .peer-checked\:bg-stone-900 {
+    &:is(:where(.peer):checked ~ *) {
+      background-color: var(--color-stone-900);
+    }
+  }
+  .peer-checked\:text-white {
+    &:is(:where(.peer):checked ~ *) {
+      color: var(--color-white);
+    }
+  }
+  .peer-checked\:shadow-md {
+    &:is(:where(.peer):checked ~ *) {
+      --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
   .selection\:bg-stone-200 {
