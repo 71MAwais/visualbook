@@ -1,6 +1,6 @@
 {% comment %}
   Section: visual-product-hero.liquid
-  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, native UploadKit widget, and editable interactive modals.
+  Description: Custom Tailwind product section mirroring Dawn's exact native architecture for flawless AJAX cart/variant behavior.
 {% endcomment %}
 
 {% unless section.settings.hide_section %}
@@ -21,12 +21,7 @@
     /* Layout & Squeeze Fixes */
     .product-form { width: 100%; max-width: 100%; }
     .product-form form { width: 100%; }
-    .product-form__submit { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        min-width: 0 !important; 
-        position: relative !important; 
-    }
+    .product-form__submit { width: 100% !important; max-width: 100% !important; min-width: 0 !important; position: relative !important; }
     #ProductSection-{{ section.id }} { overflow-x: hidden; }
 
     .shopify-payment-button__button--unbranded { display: none !important; }
@@ -47,7 +42,6 @@
     .visual-prose p:last-child { margin-bottom: 0 !important; }
     .visual-prose strong, .visual-prose b { font-weight: 600 !important; color: #1a1a1a !important; }
 
-    /* Bulletproof Button CSS against 3rd party apps */
     .product-form__submit > *:not(.btn-text) {
         position: absolute !important;
         top: 50% !important;
@@ -57,12 +51,9 @@
     .product-form__submit.loading .btn-text { opacity: 0 !important; visibility: hidden !important; }
 </style>
 
-<script id="VisualMoneyFormat" type="application/json">
-  {{ shop.money_format | json }}
-</script>
-<script id="VisualProductVariants" type="application/json">
-  {{ product.variants | json }}
-</script>
+<script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
 
 <main class="max-w-[1200px] mx-auto px-[15px] md:px-8 pt-4 pb-16 md:pt-10 md:pb-20 font-sans text-stone-800 bg-[#FCFCFC] antialiased selection:bg-stone-200" id="ProductSection-{{ section.id }}">
     <div class="lg:grid lg:grid-cols-12 lg:gap-12 lg:items-start">
@@ -117,14 +108,13 @@
             </div>
         </div>
 
-        {%- comment -%} DETAILS COLUMN {%- endcomment -%}
-        <div class="lg:col-span-6 mt-6 lg:mt-0 relative z-20 lg:pl-4 xl:pl-6 pb-20 lg:pb-0">
+        {%- comment -%} DETAILS COLUMN (Wrapped in Dawn's native product-info) {%- endcomment -%}
+        <product-info id="ProductInfo-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" class="lg:col-span-6 mt-6 lg:mt-0 relative z-20 lg:pl-4 xl:pl-6 pb-20 lg:pb-0 block">
             
             {%- comment -%} DYNAMIC JUDGE.ME EXTRACTION {%- endcomment -%}
             {%- assign jm_badge = product.metafields.judgeme.badge -%}
             {%- assign rating_val = jm_badge | split: "data-average-rating='" | last | split: "'" | first | default: '5.0' -%}
             {%- assign review_count = jm_badge | split: "data-number-of-reviews='" | last | split: "'" | first | default: '0' -%}
-            
             {%- if review_count == '0' or review_count == blank or review_count == '0.0' -%}
               {%- assign rating_val = "5.0" -%}
               {%- assign review_count = section.settings.fallback_review_count | default: "128" -%}
@@ -150,9 +140,10 @@
                 {{ product.title }}
             </h1>
             
-            <p class="text-2xl font-medium text-stone-900 mb-6 price-display" aria-live="polite" data-base-price="{{ product.selected_or_first_available_variant.price }}">
-                {{ product.selected_or_first_available_variant.price | money }}
-            </p>
+            {%- comment -%} Dawn's Native Price Rendering API Wrapper {%- endcomment -%}
+            <div class="no-js-hidden" id="price-{{ section.id }}" role="status">
+                {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'text-2xl font-medium text-stone-900 mb-6' -%}
+            </div>
 
             <div class="mb-6 w-full relative group">
                 <div id="desc-scroll-box" tabindex="0" aria-label="Product Description" class="focus-ring max-h-[140px] overflow-y-auto pr-4 pb-6 custom-scrollbar overscroll-contain rounded-md text-[14.5px] text-stone-700 leading-relaxed font-light relative z-10 visual-prose">
@@ -177,30 +168,46 @@
 
             {%- assign product_form_id = 'product-form-' | append: section.id -%}
             
-            <product-form class="product-form block w-full relative z-30 mt-6" data-section-id="{{ section.id }}">
-              {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', enctype: 'multipart/form-data' -%}
-                
-                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="product-variant-id">
-
-                {%- comment -%} VARIANTS {%- endcomment -%}
-                {% if section.settings.show_variants %}
-                  {% unless product.has_only_default_variant %}
-                  <div class="mb-6">
-                      {% for option in product.options_with_values %}
-                      <fieldset class="mb-5 border-none p-0 m-0">
-                          <legend class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-3 w-full">{{ option.name }}</legend>
-                          <div class="flex flex-wrap gap-3" role="radiogroup" aria-label="{{ option.name }}">
-                              {% for value in option.values %}
-                              <button type="button" role="radio" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}" class="focus-ring size-btn flex-1 py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide touch-manipulation cursor-pointer {% if option.selected_value == value %}border-stone-900 bg-stone-900 text-white shadow-md{% else %}border-stone-300 bg-white text-stone-800 hover:border-stone-500{% endif %}" data-option-position="option{{ option.position }}" data-value="{{ value | escape }}">
+            {%- comment -%} Dawn's Native Variant Radios (using Tailwind Pill UI) {%- endcomment -%}
+            {% if section.settings.show_variants %}
+              {% unless product.has_only_default_variant %}
+              <variant-radios class="no-js-hidden mb-6 block" data-section="{{ section.id }}" data-url="{{ product.url }}">
+                  {% for option in product.options_with_values %}
+                  <fieldset class="mb-5 border-none p-0 m-0 js product-form__input">
+                      <legend class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-3 w-full">{{ option.name }}</legend>
+                      <div class="flex flex-wrap gap-3">
+                          {% for value in option.values %}
+                          <div class="flex-1 min-w-0">
+                              <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                     name="{{ option.name }}"
+                                     value="{{ value | escape }}"
+                                     form="{{ product_form_id }}"
+                                     {% if option.selected_value == value %}checked{% endif %}
+                                     class="peer hidden">
+                              <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                                     class="focus-ring flex items-center justify-center py-3.5 px-4 rounded-lg border text-[13px] font-medium transition-all tracking-wide cursor-pointer border-stone-300 bg-white text-stone-800 hover:border-stone-500 peer-checked:border-stone-900 peer-checked:bg-stone-900 peer-checked:text-white peer-checked:shadow-md w-full text-center">
                                   {{ value }}
-                              </button>
-                              {% endfor %}
+                              </label>
                           </div>
-                      </fieldset>
-                      {% endfor %}
-                  </div>
-                  {% endunless %}
-                {% endif %}
+                          {% endfor %}
+                      </div>
+                  </fieldset>
+                  {% endfor %}
+                  <script type="application/json">
+                    {{ product.variants | json }}
+                  </script>
+              </variant-radios>
+              {% endunless %}
+            {% endif %}
+
+            {%- comment -%} Dawn's Native Product Form Component {%- endcomment -%}
+            <product-form class="product-form block w-full relative z-30 mt-6" data-section-id="{{ section.id }}">
+              <div class="product-form__error-message-wrapper text-red-500 text-sm mb-4 font-medium" role="alert" hidden>
+                  <span class="product-form__error-message"></span>
+              </div>
+              
+              {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', enctype: 'multipart/form-data' -%}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %} class="product-variant-id">
 
                 {%- comment -%} NATIVE UPLOADKIT WIDGET {%- endcomment -%}
                 {%- if section.settings.show_media_upload -%}
@@ -226,7 +233,7 @@
                         </label>
                         <span id="book-title-counter" class="text-[10px] text-stone-500 font-medium">0/30</span>
                     </div>
-                    <input type="text" name="properties[Book Title]" id="book-title" maxlength="30" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.book_title_placeholder | default: 'e.g. Our Wedding Day' }}" required>
+                    <input type="text" name="properties[Book Title]" form="{{ product_form_id }}" id="book-title" maxlength="30" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.book_title_placeholder | default: 'e.g. Our Wedding Day' }}" required>
                     <p id="book-title-error" class="hidden text-red-500 text-xs mt-1 font-medium">Maximum 3 words allowed.</p>
                 </div>
 
@@ -237,7 +244,7 @@
                         </label>
                         <span id="book-date-counter" class="text-[10px] text-stone-500 font-medium">0/14</span>
                     </div>
-                    <input type="text" name="properties[Date]" id="book-date" maxlength="14" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.date_placeholder | default: 'e.g. 12.10.2024' }}">
+                    <input type="text" name="properties[Date]" form="{{ product_form_id }}" id="book-date" maxlength="14" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.date_placeholder | default: 'e.g. 12.10.2024' }}">
                 </div>
                 {%- endif -%}
 
@@ -245,26 +252,27 @@
                 {% if section.settings.show_bg_song %}
                 <div class="mb-6 relative z-40">
                     <label for="bg-song" class="block text-[12px] font-bold text-stone-900 uppercase tracking-widest mb-2">{{ section.settings.song_label | default: 'Background Song' }} <span class="text-stone-500 font-normal normal-case tracking-normal">(Optional)</span></label>
-                    <input type="text" name="properties[Background Song]" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.song_placeholder | default: 'e.g. Perfect by Ed Sheeran' }}">
+                    <input type="text" name="properties[Background Song]" form="{{ product_form_id }}" id="bg-song" class="focus-ring w-full border border-stone-300 rounded-lg p-3.5 text-[14px] text-stone-700 placeholder-stone-500 bg-white shadow-sm" placeholder="{{ section.settings.song_placeholder | default: 'e.g. Perfect by Ed Sheeran' }}">
                 </div>
                 {% endif %}
 
                 <div class="mb-4 relative z-50">
                     <div class="flex flex-col sm:flex-row gap-3 w-full items-stretch">
                         
-                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:flex-none sm:w-[130px] h-[60px] sm:h-[54px] bg-white overflow-hidden shadow-sm">
-                            <button type="button" name="minus" aria-label="Decrease quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
-                            <input type="number" name="quantity" id="quantity-input" aria-label="Quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
-                            <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
-                        </div>
+                        {%- comment -%} Dawn's Native Quantity Component {%- endcomment -%}
+                        <quantity-input class="flex items-center border border-stone-300 rounded-lg w-full sm:flex-none sm:w-[130px] h-[60px] sm:h-[54px] bg-white overflow-hidden shadow-sm" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                            <button type="button" name="minus" aria-label="Decrease quantity" class="quantity__button flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
+                            <input type="number" name="quantity" id="Quantity-{{ section.id }}" form="{{ product_form_id }}" aria-label="Quantity" value="1" min="1" class="quantity__input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
+                            <button type="button" name="plus" aria-label="Increase quantity" class="quantity__button flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
+                        </quantity-input>
                         
-                        <button type="submit" name="add" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                        <button type="submit" name="add" id="product-hero-submit-btn" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
                             
                             <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
-                                    {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                    {{ section.settings.add_to_cart_text | default: 'Add to Cart' }}
                                 {%- else -%}
-                                    Sold Out
+                                    {{ 'products.product.sold_out' | t }}
                                 {%- endif -%}
                             </span>
 
@@ -324,16 +332,16 @@
                 {% endfor %}
             </div>
             
-        </div>
+        </product-info>
     </div>
 </main>
 
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-">
+<div id="all-modals-container" class="relative z-50">
     
-    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -357,7 +365,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -395,7 +403,7 @@
         </div>
     </div>
 
-    <div id="cashback-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
+    <div id="cashback-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
         <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -404,7 +412,7 @@
                 <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
                 </div>
-                <h3 id="cashback-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.cashback_modal_title | default: 'Unlock $8 Cashback' }}</h3>
+                <h3 id="cashback-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.cashback_modal_title | default: 'Unlock $8 Cashback & Giftcard' }}</h3>
                 <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.cashback_modal_text | default: 'Follow the rules below to get your cashback and a chance to win a giftcard!' }}</p>
             </div>
             
@@ -445,142 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalsContainer && document.body) {
         document.body.appendChild(modalsContainer);
     }
-    // ===========================================
     
-    // --- 1. Shopify Variant & Pricing Logic ---
-    const rawMoneyFormat = document.getElementById('VisualMoneyFormat').textContent.trim();
-    const fallbackMoney = "$" + ["{", "{", "amount", "}", "}"].join("");
-    let shopMoneyFormat = (rawMoneyFormat && rawMoneyFormat !== 'null') ? JSON.parse(rawMoneyFormat) : fallbackMoney;
-    
-    const rawVariants = document.getElementById('VisualProductVariants').textContent.trim();
-    const productVariants = (rawVariants && rawVariants !== 'null') ? JSON.parse(rawVariants) : [];
-
-    const formatMoney = (cents) => {
-        if (typeof cents === 'string') cents = cents.replace('.', '');
-        let value = '';
-        const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-        const formatString = shopMoneyFormat.match(placeholderRegex);
-
-        switch (formatString) {
-            case 'amount': value = (cents / 100).toFixed(2); break;
-            case 'amount_no_decimals': value = (cents / 100).toFixed(0); break;
-            case 'amount_with_comma_separator': value = (cents / 100).toFixed(2).replace('.', ','); break;
-            case 'amount_no_decimals_with_comma_separator': value = (cents / 100).toFixed(0).replace('.', ','); break;
-            default: value = (cents / 100).toFixed(2); break;
-        }
-        return shopMoneyFormat.replace(placeholderRegex, value);
-    };
-
-    const variantIdInputs = document.querySelectorAll('.product-variant-id');
-    const priceDisplays = document.querySelectorAll('.price-display');
-    const optionButtons = document.querySelectorAll('.size-btn');
-    
-    // Javascript Fix:
-    const qtyInput = document.querySelector('.qty-input');
-    const allQtyInputs = document.querySelectorAll('.qty-input'); 
-    
-    let currentOptions = {
-        {% for option in product.options_with_values %}
-        "option{{ option.position }}": "{{ option.selected_value | escape }}"{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-    };
-
-    function updateVariantUI() {
-        const matchedVariant = productVariants.find(v => {
-            return (!v.option1 || v.option1 === currentOptions.option1) &&
-                   (!v.option2 || v.option2 === currentOptions.option2) &&
-                   (!v.option3 || v.option3 === currentOptions.option3);
-        });
-
-        if (matchedVariant) {
-            variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
-            window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
-
-            const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
-            const formattedPrice = formatMoney(matchedVariant.price * qty);
-            
-            priceDisplays.forEach(el => el.textContent = formattedPrice);
-
-            const mainSubmitBtn = document.querySelector('.product-form__submit');
-            if(mainSubmitBtn) {
-                const textSpan = mainSubmitBtn.querySelector('.btn-text');
-                
-                if (matchedVariant.available) {
-                    // ONLY re-enable the button if UploadKit is NOT currently uploading a file
-                    if (mainSubmitBtn.getAttribute('data-uploading') !== 'true') {
-                        mainSubmitBtn.removeAttribute('disabled');
-                        mainSubmitBtn.removeAttribute('aria-disabled');
-                        mainSubmitBtn.style.cursor = 'pointer';
-                        textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
-                    }
-                } else {
-                    mainSubmitBtn.setAttribute('disabled', 'disabled');
-                    mainSubmitBtn.setAttribute('aria-disabled', 'true');
-                    mainSubmitBtn.style.cursor = 'not-allowed';
-                    textSpan.textContent = 'Sold Out';
-                }
-            }
-
-            // Sync Image to Variant Image
-            if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
-                const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
-                    const img = btn.querySelector('img');
-                    return img && img.src.includes(targetUrl);
-                });
-                
-                if (targetThumbIndex !== -1) {
-                    const carousel = document.getElementById('main-image-carousel');
-                    if(carousel) {
-                        const width = carousel.offsetWidth;
-                        carousel.scrollTo({ left: width * targetThumbIndex, behavior: 'smooth' });
-                    }
-                }
-            }
-        }
-    }
-
-    optionButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const pos = this.dataset.optionPosition;
-            currentOptions[pos] = this.dataset.value;
-
-            document.querySelectorAll(`.size-btn[data-option-position="${pos}"]`).forEach(b => {
-                if(b === this) {
-                    b.classList.remove('border-stone-300', 'bg-white', 'text-stone-800', 'hover:border-stone-500');
-                    b.classList.add('border-stone-900', 'bg-stone-900', 'text-white', 'shadow-md');
-                    b.setAttribute('aria-checked', 'true');
-                } else {
-                    b.classList.remove('border-stone-900', 'bg-stone-900', 'text-white', 'shadow-md');
-                    b.classList.add('border-stone-300', 'bg-white', 'text-stone-800', 'hover:border-stone-500');
-                    b.setAttribute('aria-checked', 'false');
-                }
-            });
-            updateVariantUI();
-        });
-        
-        btn.addEventListener('keydown', function(e) {
-             if (e.key === ' ' || e.key === 'Enter') {
-                 e.preventDefault();
-                 this.click();
-             }
-        });
-    });
-
-    document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            if(!qtyInput) return;
-            let val = parseInt(qtyInput.value) || 1;
-            if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
-            if (btn.getAttribute('name') === 'minus' && val > 1) val--;
-            
-            allQtyInputs.forEach(inp => inp.value = val);
-            updateVariantUI();
-        });
-    });
-
-    // --- 1.5 Custom Fields Logic (Title & Date) ---
+    // --- Custom Fields Logic (Title & Date) ---
     const titleInput = document.getElementById('book-title');
     const titleCounter = document.getElementById('book-title-counter');
     const titleError = document.getElementById('book-title-error');
@@ -610,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. Description Box Fade Logic ---
+    // --- Description Box Fade Logic ---
     const descScrollBox = document.getElementById('desc-scroll-box');
     const descFade = document.getElementById('desc-fade');
     let isTicking = false;
@@ -633,13 +507,13 @@ document.addEventListener('DOMContentLoaded', () => {
         descScrollBox.addEventListener('scroll', checkScroll, { passive: true });
     }
 
-    // --- 4. Native CSS Scroll Carousel & Observer ---
+    // --- Native CSS Scroll Carousel & Observer ---
     const carousel = document.getElementById('main-image-carousel');
     const slides = document.querySelectorAll('.carousel-slide');
     const thumbnails = document.querySelectorAll('.thumbnail-btn');
     const sliderProgress = document.getElementById('slider-progress');
     let currentIndex = 0;
-    
+
     if(carousel) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -649,7 +523,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, { root: carousel, threshold: 0.6 });
-        
         slides.forEach(slide => observer.observe(slide));
     }
 
@@ -668,20 +541,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Sync image slider when Dawn updates the variant
+    document.addEventListener('variant:change', (event) => {
+        const variant = event.detail.variant;
+        if(variant && variant.featured_media) {
+           const targetUrl = variant.featured_media.preview_image.src.split('?')[0];
+           const targetThumbIndex = Array.from(thumbnails).findIndex(btn => {
+                const img = btn.querySelector('img');
+                return img && img.src.includes(targetUrl);
+           });
+           if (targetThumbIndex !== -1 && carousel) {
+                const width = carousel.offsetWidth;
+                carousel.scrollTo({ left: width * targetThumbIndex, behavior: 'smooth' });
+           }
+        }
+    });
+
     document.getElementById('next-btn')?.addEventListener('click', () => {
         if(carousel) {
             const width = carousel.offsetWidth;
             carousel.scrollBy({ left: width, behavior: 'smooth' });
         }
     });
-    
     document.getElementById('prev-btn')?.addEventListener('click', () => {
         if(carousel) {
             const width = carousel.offsetWidth;
             carousel.scrollBy({ left: -width, behavior: 'smooth' });
         }
     });
-    
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
             if(carousel) {
@@ -700,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 5. Thumbnail Container Mouse Drag ---
+    // --- Thumbnail Container Mouse Drag ---
     const thumbContainer = document.getElementById('thumbnails-container');
     let isDownThumb = false;
     let startXThumb;
@@ -733,10 +620,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('thumb-next')?.addEventListener('click', () => { thumbContainer?.scrollBy({ left: 150, behavior: 'smooth' }); });
     document.getElementById('thumb-prev')?.addEventListener('click', () => { thumbContainer?.scrollBy({ left: -150, behavior: 'smooth' }); });
 
-    // --- 6. Tab Selection ---
+    // --- Tab Selection ---
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
-    
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(b => {
@@ -767,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 7. Accordions ---
+    // --- Accordions ---
     document.querySelectorAll('.accordion-item').forEach(item => {
         const btn = item.querySelector('.accordion-btn');
         const content = item.querySelector('.accordion-content');
@@ -791,16 +677,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 8. Accessible Modal Logic ---
+    // --- Accessible Modal Logic ---
     let lastActiveElement = null;
-    
     function openModalEl(modalEl, contentEl, triggerEl) {
         lastActiveElement = triggerEl || document.activeElement;
         modalEl.classList.remove('hidden');
         modalEl.classList.add('flex');
-        
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements;
+        const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
         modalEl.addEventListener('keydown', function(e) {
@@ -818,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-        
+
         setTimeout(() => {
             modalEl.classList.remove('opacity-0');
             contentEl.classList.remove('scale-95', 'opacity-0');
@@ -829,7 +713,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModalEl(modalEl, contentEl) {
         modalEl.classList.add('opacity-0');
         contentEl.classList.add('scale-95', 'opacity-0');
-        
         setTimeout(() => {
             modalEl.classList.add('hidden');
             modalEl.classList.remove('flex');
@@ -868,49 +751,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if(cashbackBtn) cashbackBtn.addEventListener('click', function() { openModalEl(cashbackModal, cashbackContent, this); });
     document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
     cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
-    
-    // --- 9. Bulletproof UploadKit Cart Protection ---
-    const mainFormBtn = document.querySelector('.product-form__submit');
-    const productFormEl = document.querySelector('form[data-type="add-to-cart-form"]');
 
-    if (mainFormBtn) {
-        // 1. Listen on 'document' and add 'data-uploading' tracker
-        document.addEventListener('uploadkit:upload-started', () => {
-            mainFormBtn.setAttribute('data-uploading', 'true');
-            mainFormBtn.disabled = true; // Makes it stateless natively
-            mainFormBtn.setAttribute('aria-disabled', 'true'); // Tells Dawn to abort
-            mainFormBtn.style.cursor = 'not-allowed'; // SHOWS RED BAN MARKER
-            mainFormBtn.classList.add('opacity-50');
-            
-            const btnText = mainFormBtn.querySelector('.btn-text');
-            if (btnText) {
-                btnText.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Uploading File...`;
-            }
-        });
-
-        const unlockButton = () => {
-            mainFormBtn.removeAttribute('data-uploading');
-            mainFormBtn.disabled = false;
-            mainFormBtn.removeAttribute('aria-disabled');
-            mainFormBtn.style.cursor = 'pointer'; // Restores normal mouse pointer
-            mainFormBtn.classList.remove('opacity-50');
-            if (typeof updateVariantUI === 'function') { updateVariantUI(); }
-        };
-
-        // 2. Clear tracker and unlock when completely done
-        document.addEventListener('uploadkit:all-uploads-completed', unlockButton);
-        document.addEventListener('uploadkit:file-removed', unlockButton);
-    }
-
-    // 4. Force block Shopify's AJAX cart directly from the form BEFORE Dawn runs
-    if (productFormEl) {
-        productFormEl.addEventListener('submit', (e) => {
-            if (mainFormBtn && mainFormBtn.getAttribute('data-uploading') === 'true') {
-                e.preventDefault();
-                e.stopImmediatePropagation(); // KILLS THE SUBMIT INSTANTLY
-                alert('Please wait for your file to finish uploading before adding to cart.');
-            }
-        }, true); // Setting this to "true" captures the event first!
+    // --- UPLOADKIT "ADD TO CART" PROTECTION ---
+    const mainSubmitBtn = document.querySelector('#product-hero-submit-btn');
+    if (mainSubmitBtn) {
+        setInterval(() => {
+            try {
+                let isUploading = false;
+                const btnText = mainSubmitBtn.querySelector('.btn-text');
+                
+                if (document.querySelector('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, [data-upload-status="uploading"]')) {
+                    isUploading = true;
+                }
+                
+                const uploadBtn = document.querySelector('.uploadkit-button');
+                if (uploadBtn && (uploadBtn.textContent.toLowerCase().includes('uploading') || uploadBtn.textContent.toLowerCase().includes('processing') || uploadBtn.classList.contains('uploadkit-button-uploading'))) {
+                    isUploading = true;
+                }
+                
+                // UNLOCK
+                if (document.querySelector('.uploadkit-textarea')) {
+                    isUploading = false;
+                }
+                
+                if (isUploading) {
+                    mainSubmitBtn.disabled = true;
+                    mainSubmitBtn.setAttribute('aria-disabled', 'true');
+                    mainSubmitBtn.classList.add('opacity-50', 'pointer-events-none');
+                    
+                    if (mainSubmitBtn.dataset.uploadLocked !== 'true') {
+                        mainSubmitBtn.dataset.originalText = btnText ? btnText.innerHTML : 'Add to Cart';
+                        if (btnText) btnText.innerHTML = 'Uploading File...';
+                        mainSubmitBtn.dataset.uploadLocked = 'true';
+                    }
+                } else {
+                    if (mainSubmitBtn.dataset.uploadLocked === 'true') {
+                        mainSubmitBtn.disabled = false;
+                        mainSubmitBtn.removeAttribute('aria-disabled');
+                        mainSubmitBtn.classList.remove('opacity-50', 'pointer-events-none');
+                        
+                        if (btnText) btnText.innerHTML = mainSubmitBtn.dataset.originalText || 'Add to Cart';
+                        mainSubmitBtn.dataset.uploadLocked = 'false';
+                    }
+                }
+            } catch(e) { }
+        }, 250);
     }
 });
 </script>
