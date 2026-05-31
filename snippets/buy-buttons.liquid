@@ -5,8 +5,8 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} product form id.
   - section_id: {String} id of section to which this snippet belongs.
-  - show_pickup_availability: {Boolean} for the pickup availability. If true, the pickup availability is rendered, false - not rendered (optional).
-
+  - show_pickup_availability: {Boolean} for the pickup availability.
+  If true, the pickup availability is rendered, false - not rendered (optional).
   Usage:
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
 {% endcomment %}
@@ -63,7 +63,6 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
-        <!-- FREE CUSTOM TEXT FIELD START (SONG LINK) -->
         <div class="product-form__input mb-6" style="margin-bottom: 20px;">
           <label class="flex items-center gap-2 text-[12px] font-bold tracking-widest uppercase text-[#111111] mb-2" for="custom-note-{{ product_form_id }}">
             <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
@@ -78,7 +77,8 @@
             placeholder="Paste your song link here..."
           ></textarea>
         </div>
-        <!-- FREE CUSTOM TEXT FIELD END -->
+        {% comment %} --- UPLOADKIT ANCHOR --- {% endcomment %}
+        <div class="uploadkit"></div>
 
         <div class="product-form__buttons">
           {%- liquid

@@ -18,6 +18,15 @@ if (!customElements.get('product-form')) {
       }
 
       onSubmitHandler(evt) {
+        // --- UPLOADKIT FIX LOGIC START ---
+        // If the UploadKit widget is active on this form, bypass Dawn's AJAX 
+        // submission entirely. This allows the native UploadKit process to pause 
+        // the button, finish the upload, and then submit the form standardly.
+        if (this.form.querySelector('.uploadkit') || this.form.querySelector('[class*="uploadkit"]')) {
+          return; // Let standard form submission happen
+        }
+        // --- UPLOADKIT FIX LOGIC END ---
+
         evt.preventDefault();
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
 

@@ -14,6 +14,10 @@
 
     {{ content_for_header }}
 
+    {% comment %} --- UPLOADKIT INTEGRATION START --- {% endcomment %}
+    {% render 'uploadkit' %}
+    {% comment %} --- UPLOADKIT INTEGRATION END --- {% endcomment %}
+
     {% comment %} --- V2.1 BRAND ARCHITECTURE: FONTS & COLORS --- {% endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,8 +53,6 @@
     <link rel="preload" as="style" href="{{ 'tailwind-custom.css' | asset_url }}">
     {{ 'tailwind-custom.css' | asset_url | stylesheet_tag }}
 
-    {% comment %} The 404 Script Error 'visual-book-logic.js' was removed from here {% endcomment %}
-
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -65,7 +67,8 @@
     {% comment %} 
       DEFER 3RD-PARTY SCRIPTS
       Place your manual script tags for Privy, GTM, and FB Pixel inside 
-      this setTimeout function. They will load 3.5 seconds after the page renders, 
+      this setTimeout function.
+      They will load 3.5 seconds after the page renders, 
       drastically improving your Lighthouse Performance score.
     {% endcomment %}
     <script>
