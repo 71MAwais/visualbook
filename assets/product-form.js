@@ -6,58 +6,18 @@ if (!customElements.get('product-form')) {
         super();
 
         this.form = this.querySelector('form');
-        this.variantIdInput = this.form.querySelector('[name=id]');
-        if (this.variantIdInput) this.variantIdInput.disabled = false;
-        
+        this.variantIdInput.disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
         this.submitButton = this.querySelector('[type="submit"]');
-        this.submitButtonText = this.submitButton ? this.submitButton.querySelector('span.btn-text') || this.submitButton.querySelector('span.add-text') || this.submitButton.querySelector('span') : null;
+        this.submitButtonText = this.submitButton.querySelector('span');
 
-        if (document.querySelector('cart-drawer') && this.submitButton) this.submitButton.setAttribute('aria-haspopup', 'dialog');
+        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
 
         this.hideErrors = this.dataset.hideErrors === 'true';
-
-        // GLOBAL UPLOADKIT UI LOCK
-        setInterval(() => {
-          if (!this.submitButton) return;
-          
-          // Checks for active upload states from Uploadcare/UploadKit
-          const isUploading = document.querySelector('.uploadcare-widget_status_uploading, .uploadcare-widget_status_started, .uploadcare--progress, .uploadcare--button_state_uploading, .uploadkit-uploading');
-          
-          if (isUploading) {
-            this.submitButton.disabled = true;
-            this.submitButton.style.pointerEvents = 'none';
-            if (!this.submitButton.dataset.uploadingText && this.submitButtonText) {
-              this.submitButton.dataset.originalHtml = this.submitButtonText.innerHTML;
-              this.submitButton.dataset.uploadingText = 'true';
-              this.submitButtonText.innerHTML = 'Uploading...';
-            }
-          } else {
-            if (this.submitButton.dataset.uploadingText && this.submitButtonText) {
-              this.submitButton.disabled = false;
-              this.submitButton.style.pointerEvents = 'all';
-              this.submitButtonText.innerHTML = this.submitButton.dataset.originalHtml;
-              delete this.submitButton.dataset.uploadingText;
-            }
-          }
-        }, 200);
       }
 
       onSubmitHandler(evt) {
-        // 1. STRICT BLOCK: If somehow clicked while uploading, stop everything immediately.
-        const isUploading = document.querySelector('.uploadcare-widget_status_uploading, .uploadcare-widget_status_started, .uploadcare--progress, .uploadcare--button_state_uploading, .uploadkit-uploading');
-        if (isUploading) {
-          evt.preventDefault();
-          evt.stopImmediatePropagation();
-          return false;
-        }
-
-        // 2. UPLOADKIT BYPASS: Let UploadKit validate fields and submit natively
-        if (document.querySelector('.uploadkit') || document.querySelector('[class*="uploadkit"]')) {
-          return; // Allow the native browser submit to happen so UploadKit can intercept it
-        }
-
         evt.preventDefault();
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
 
@@ -72,6 +32,23 @@ if (!customElements.get('product-form')) {
         delete config.headers['Content-Type'];
 
         const formData = new FormData(this.form);
+
+        // --- BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT & CUSTOM FIELDS ---
+        // 1. Grab everything starting with 'properties' inside this product component
+        this.querySelectorAll('[name^="properties["]').forEach((field) => {
+            if (field.value && field.value.trim() !== '') {
+                formData.set(field.name, field.value);
+            }
+        });
+
+        // 2. Grab anything UploadKit injected directly into the DOM (often detaches from the form)
+        document.querySelectorAll('.uploadkit-upload-field [name^="properties["]').forEach((field) => {
+            if (field.value && field.value.trim() !== '') {
+                formData.set(field.name, field.value);
+            }
+        });
+        // ----------------------------------------------------------------
+
         if (this.cart) {
           formData.append(
             'sections',
@@ -97,7 +74,7 @@ if (!customElements.get('product-form')) {
               const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
               if (!soldOutMessage) return;
               this.submitButton.setAttribute('aria-disabled', true);
-              if(this.submitButtonText) this.submitButtonText.classList.add('hidden');
+              this.submitButtonText.classList.add('hidden');
               soldOutMessage.classList.remove('hidden');
               this.error = true;
               return;
@@ -167,11 +144,15 @@ if (!customElements.get('product-form')) {
       toggleSubmitButton(disable = true, text) {
         if (disable) {
           this.submitButton.setAttribute('disabled', 'disabled');
-          if (text && this.submitButtonText) this.submitButtonText.textContent = text;
+          if (text) this.submitButtonText.textContent = text;
         } else {
           this.submitButton.removeAttribute('disabled');
-          if(this.submitButtonText) this.submitButtonText.textContent = window.variantStrings.addToCart;
+          this.submitButtonText.textContent = window.variantStrings.addToCart;
         }
+      }
+
+      get variantIdInput() {
+        return this.form.querySelector('[name=id]');
       }
     }
   );
