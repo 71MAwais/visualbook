@@ -1,6 +1,6 @@
 {% comment %}
   Section: visual-product-hero.liquid
-  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, UploadKit integration, and editable interactive modals.
+  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, and editable interactive modals.
 {% endcomment %}
 
 {% unless section.settings.hide_section %}
@@ -18,25 +18,16 @@
     
     .no-select { user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
     
-    /* Layout & Squeeze Fixes */
-    .product-form { width: 100%; max-width: 100%; }
-    .product-form form { width: 100%; }
-    .product-form__submit { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        min-width: 0 !important; 
-        position: relative !important; 
-    }
-    
-    /* FIX: changed overflow-x: hidden to clip so position: sticky continues to work on the gallery */
-    #ProductSection-{{ section.id }} { overflow-x: clip; }
-
+    .product-form__submit { width: 100% !important; max-width: 100% !important; }
     .shopify-payment-button__button--unbranded { display: none !important; }
     .shopify-payment-button__button { width: 100% !important; border-radius: 8px !important; height: 60px !important; font-size: 15px !important; font-weight: 600 !important; font-family: inherit !important; transition: all 0.2s ease !important; }
     
     @media (min-width: 640px) {
         .shopify-payment-button__button { height: 54px !important; font-size: 14px !important; }
     }
+
+    /* FIX: changed overflow-x: hidden to clip so position: sticky works on the gallery */
+    #ProductSection-{{ section.id }} { overflow-x: clip; }
 
     .focus-ring { outline: none; }
     .focus-ring:focus-visible { outline: 2px solid #1c1917; outline-offset: 2px; }
@@ -48,18 +39,6 @@
     .visual-prose p { margin-bottom: 0.75rem !important; }
     .visual-prose p:last-child { margin-bottom: 0 !important; }
     .visual-prose strong, .visual-prose b { font-weight: 600 !important; color: #1a1a1a !important; }
-
-    /* UploadKit Integration CSS */
-    .uploadkit-button { display: none !important; }
-
-    /* Bulletproof Button CSS against 3rd party apps */
-    .product-form__submit > *:not(.btn-text) {
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-    .product-form__submit.loading .btn-text { opacity: 0 !important; visibility: hidden !important; }
 </style>
 
 <script id="VisualMoneyFormat" type="application/json">
@@ -207,25 +186,26 @@
                   {% endunless %}
                 {% endif %}
 
-                {%- comment -%} MEDIA UPLOAD (UploadKit Integration) - Only show trigger if enabled {%- endcomment -%}
-                {%- if section.settings.show_media_upload -%}
+                {%- comment -%} MEDIA UPLOAD (Fallback / Standard) {%- endcomment -%}
+                {% if section.settings.show_media_upload %}
                 <div class="mb-6 mt-6 relative z-40">
-                    <div onclick="document.querySelector('.uploadkit-button')?.click()" tabindex="0" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                    <label for="media-upload" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer" tabindex="0">
                         <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">{{ section.settings.upload_title | default: 'Upload Photos & Videos' }} <span class="text-stone-500 font-normal">{{ section.settings.upload_subtitle | default: '(Optional)' }}</span></span>
-                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">{{ section.settings.upload_help_text | default: 'Click to open UploadKit' }}</span>
-                    </div>
+                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">Upload Photos & Videos <span class="text-stone-500 font-normal">(Optional)</span></span>
+                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">We'll pre-load them for you</span>
+                    </label>
+                    <input type="file" name="properties[Media Upload]" id="media-upload" class="sr-only" multiple accept="image/*,video/*" tabindex="-1">
                 </div>
-                {%- endif -%}
+                {% endif %}
 
-                {%- comment -%} 
-                    CRITICAL UPLOADKIT FIX:
-                    Always load the script/element so JS doesn't crash, 
-                    but hide it completely if the user disabled it in settings.
-                {%- endcomment -%}
-                <div {% unless section.settings.show_media_upload %}style="height: 0; width: 0; position: absolute; overflow: hidden; opacity: 0; pointer-events: none; z-index: -999;" aria-hidden="true"{% endunless %}>
-                    <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
-                </div>
+                {%- comment -%} APP BLOCKS (UploadKit Widget Mounts Here) {%- endcomment -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == '@app' -%}
+                    <div class="mb-6 relative z-40" {{ block.shopify_attributes }}>
+                      {% render block %}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
 
                 {%- comment -%} CONDITIONAL BOOK TITLE & DATE {%- endcomment -%}
                 {%- assign show_custom_fields = false -%}
@@ -268,30 +248,21 @@
                 {% endif %}
 
                 <div class="mb-4 relative z-50">
-                    <div class="flex flex-col sm:flex-row gap-3 w-full items-stretch">
-                        
-                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:flex-none sm:w-[130px] h-[60px] sm:h-[54px] bg-white overflow-hidden shadow-sm">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex items-center border border-stone-300 rounded-lg w-full sm:w-[130px] h-[60px] sm:h-[54px] bg-white focus-within:ring-2 focus-within:ring-stone-900 focus-within:ring-offset-1 shadow-sm overflow-hidden">
                             <button type="button" name="minus" aria-label="Decrease quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-r border-stone-100 transition-colors">-</button>
                             <input type="number" name="quantity" id="quantity-input" aria-label="Quantity" value="1" min="1" class="qty-input w-12 text-center font-semibold text-stone-900 text-[15px] border-none focus:ring-0 p-0 m-0 bg-transparent" style="-moz-appearance: textfield;">
                             <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" id="product-hero-submit-btn" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
-                            
-                            <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
+                        <button type="submit" name="add" class="focus-ring product-form__submit flex-1 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative w-full shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                            <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-transform duration-300 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
-                                    {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                    Add to Cart <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                                 {%- else -%}
                                     Sold Out
                                 {%- endif -%}
                             </span>
-
-                            <div class="loading__spinner hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-white pointer-events-none flex items-center justify-center">
-                                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner animate-spin w-full h-full" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30" stroke="currentColor"></circle>
-                                </svg>
-                            </div>
-
                         </button>
                     </div>
                 </div>
@@ -317,9 +288,9 @@
                         <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.award_btn_text | default: 'Our Awards' }}</span>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </button>
-                    <button type="button" id="cashback-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
-                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.cashback_btn_text | default: 'Get $7 Cashback' }}</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+                    <button type="button" id="discount-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
+                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.discount_btn_text | default: 'Get $5 / €5 Off' }}</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                     </button>
                 </div>
             </div>
@@ -348,6 +319,7 @@
 
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
+  (Teleports to body to override any hidden parent z-indexes)
 {%- endcomment -%}
 <div id="all-modals-container" class="relative z-[99999]">
     
@@ -364,11 +336,10 @@
                 <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.support_modal_text | default: 'Our concierge team is available 24/7 to assist you with your Visual Book.' }}</p>
             </div>
             <div class="space-y-3">
-                <a href="https://wa.me/{{ section.settings.support_whatsapp_number | remove: '+' | remove: ' ' | default: '1234567890' }}" target="_blank" class="focus-ring w-full bg-[#25D366] text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-[#128C7E] transition-colors">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    {{ section.settings.support_whatsapp_text | default: 'Contact on WhatsApp' }}
+                <a href="mailto:{{ shop.email }}" class="focus-ring w-full bg-stone-900 text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 transition-colors">
+                    {{ section.settings.support_email_text | default: 'Email Support' }}
                 </a>
-                <a href="{{ section.settings.support_contact_url | default: '/pages/contact' }}" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
+                <a href="/pages/contact" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
                     {{ section.settings.support_contact_text | default: 'Visit Contact Page' }}
                 </a>
             </div>
@@ -380,29 +351,12 @@
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div class="mb-4">
+            <div class="mb-6">
                 <div class="w-14 h-14 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-5 text-[#C5A059] shadow-sm" aria-hidden="true">
                     <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                 </div>
-                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-4">{{ section.settings.award_modal_title | default: 'Our Achievements' }}</h3>
-                
-                <ul class="text-left space-y-3 mb-6 px-1">
-                    {%- assign has_awards = false -%}
-                    {%- for block in section.blocks -%}
-                        {%- if block.type == 'award' -%}
-                            {%- assign has_awards = true -%}
-                            <li class="flex items-start gap-2.5 text-[13.5px] text-stone-700 font-medium leading-tight">
-                                <svg class="w-4 h-4 text-[#C5A059] flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-                                <a href="{{ block.settings.award_link | default: '#' }}" target="_blank" class="hover:text-[#111111] transition-colors underline decoration-stone-300 underline-offset-4 hover:decoration-[#C5A059]">
-                                    {{ block.settings.award_title }}
-                                </a>
-                            </li>
-                        {%- endif -%}
-                    {%- endfor -%}
-                    {%- if has_awards == false -%}
-                        <li class="text-[13px] text-stone-500 italic text-center">No awards added yet. Add them in the theme editor!</li>
-                    {%- endif -%}
-                </ul>
+                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-3">{{ section.settings.award_modal_title | default: 'Award-Winning Quality' }}</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed px-2">{{ section.settings.award_modal_text | default: 'Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.' }}</p>
             </div>
             <div class="flex justify-center border-t border-stone-100 pt-5">
                 <div class="bg-stone-50 text-stone-700 border border-stone-200 rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm">
@@ -413,43 +367,40 @@
         </div>
     </div>
 
-    <div id="cashback-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
-        <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
-            <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
+    <div id="discount-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
+        <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
+            <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div class="text-center mb-5">
+            <div class="text-center mb-6">
                 <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 </div>
-                <h3 id="cashback-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.cashback_modal_title | default: 'Unlock $8 Cashback' }}</h3>
-                <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.cashback_modal_text | default: 'Follow the rules below to get your cashback and a chance to win a giftcard!' }}</p>
+                <h3 id="discount-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.discount_modal_title | default: 'Unlock $5 / €5 Off' }}</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.discount_modal_text | default: 'Complete any of the tasks below to automatically apply your discount at checkout.' }}</p>
             </div>
-            
-            <div class="space-y-3 text-left">
-                <ul class="text-[13px] text-stone-700 space-y-2.5 font-medium bg-stone-50 p-4 rounded-lg border border-stone-200">
-                    {%- assign rule_index = 1 -%}
-                    {%- for block in section.blocks -%}
-                        {%- if block.type == 'cashback_rule' -%}
-                            <li class="flex gap-2.5">
-                                <span class="text-stone-900 font-bold">{{ rule_index }}.</span> 
-                                {{ block.settings.rule_text }}
-                            </li>
-                            {%- assign rule_index = rule_index | plus: 1 -%}
-                        {%- endif -%}
-                    {%- endfor -%}
-                    
-                    {%- if rule_index == 1 -%}
-                        {%- comment -%} Fallback if no rules exist {%- endcomment -%}
-                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">1.</span> Order a product from VisualBook with a value of more than $100.</li>
-                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">2.</span> Create an opening (unboxing) video.</li>
-                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">3.</span> Share the video on 3 different social media platforms.</li>
-                        <li class="flex gap-2.5"><span class="text-stone-900 font-bold">4.</span> Tag us in your story or post.</li>
-                    {%- endif -%}
-                    
-                    <li class="flex gap-2.5 mt-3"><span class="text-[#25D366] font-bold">✓</span> {{ section.settings.cashback_success_text | default: 'After verification, our team will initiate your $8 cashback!' }}</li>
-                    <li class="flex gap-2.5 mt-2 pt-2 border-t border-stone-200"><span class="text-[#C5A059] font-bold">★</span> <span class="text-stone-900">{{ section.settings.cashback_bonus_text | default: 'Plus: Get a chance to win a giftcard!' }}</span></li>
-                </ul>
+            <div class="space-y-3">
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-pink-600 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        {{ section.settings.discount_task1 | default: 'Follow us on Instagram' }}
+                    </div>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
+                </button>
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                        {{ section.settings.discount_task2 | default: 'Share with a friend' }}
+                    </div>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
+                </button>
+                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
+                     <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-stone-500 group-hover:text-[#111111] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        {{ section.settings.discount_task3 | default: 'Join our Newsletter' }}
+                    </div>
+                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
+                </button>
             </div>
         </div>
     </div>
@@ -479,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
         const formatString = shopMoneyFormat.match(placeholderRegex);
 
-        switch (formatString) {
+        switch (formatString[1] || formatString[0]) {
             case 'amount': value = (cents / 100).toFixed(2); break;
             case 'amount_no_decimals': value = (cents / 100).toFixed(0); break;
             case 'amount_with_comma_separator': value = (cents / 100).toFixed(2).replace('.', ','); break;
@@ -492,10 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const variantIdInputs = document.querySelectorAll('.product-variant-id');
     const priceDisplays = document.querySelectorAll('.price-display');
     const optionButtons = document.querySelectorAll('.size-btn');
-    
-    // Javascript Fix:
-    const qtyInput = document.querySelector('.qty-input');
-    const allQtyInputs = document.querySelectorAll('.qty-input'); 
+    const qtyInputs = document.querySelectorAll('.qty-input');
     
     let currentOptions = {
         {% for option in product.options_with_values %}
@@ -515,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
-            const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
+            const qty = parseInt(qtyInputs[0]?.value) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
             
             priceDisplays.forEach(el => el.textContent = formattedPrice);
@@ -526,11 +474,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (matchedVariant.available) {
                     mainSubmitBtn.removeAttribute('disabled');
                     mainSubmitBtn.removeAttribute('aria-disabled');
-                    textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
+                    if (textSpan) textSpan.innerHTML = `Add to Cart <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
                 } else {
                     mainSubmitBtn.setAttribute('disabled', 'disabled');
                     mainSubmitBtn.setAttribute('aria-disabled', 'true');
-                    textSpan.textContent = 'Sold Out';
+                    if (textSpan) textSpan.textContent = 'Sold Out';
                 }
             }
 
@@ -544,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (targetThumbIndex !== -1) {
                     const carousel = document.getElementById('main-image-carousel');
-                    if(carousel) {
+                    if (carousel) {
                         const width = carousel.offsetWidth;
                         carousel.scrollTo({ left: width * targetThumbIndex, behavior: 'smooth' });
                     }
@@ -582,15 +530,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            if(!qtyInput) return;
-            let val = parseInt(qtyInput.value) || 1;
+            let val = parseInt(qtyInputs[0]?.value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
-            
-            allQtyInputs.forEach(inp => inp.value = val);
+            qtyInputs.forEach(inp => inp.value = val);
             updateVariantUI();
         });
     });
+
+    const labelUpload = document.querySelector('label[for="media-upload"]');
+    const fileInput = document.getElementById('media-upload');
+    const uploadStatus = document.getElementById('upload-status');
+    
+    if(labelUpload && fileInput) {
+        labelUpload.addEventListener('keydown', (e) => {
+             if (e.key === ' ' || e.key === 'Enter') {
+                 e.preventDefault();
+                 fileInput.click();
+             }
+        });
+        fileInput.addEventListener('change', function() {
+            if(this.files && this.files.length > 0) {
+                uploadStatus.textContent = `${this.files.length} file(s) selected`;
+                uploadStatus.classList.add('text-stone-900', 'font-medium');
+            } else {
+                uploadStatus.textContent = `We'll pre-load them for you`;
+                uploadStatus.classList.remove('text-stone-900', 'font-medium');
+            }
+        });
+    }
 
     // --- 1.5 Custom Fields Logic (Title & Date) ---
     const titleInput = document.getElementById('book-title');
@@ -620,6 +588,156 @@ document.addEventListener('DOMContentLoaded', () => {
         dateInput.addEventListener('input', function() {
             dateCounter.textContent = `${this.value.length}/14`;
         });
+    }
+
+    // --- 2. AJAX Add to Cart & Animation ---
+    const mainForm = document.querySelector('form[data-type="add-to-cart-form"]');
+    if (mainForm) {
+        mainForm.addEventListener('submit', function(e) {
+            
+            if (e.submitter && e.submitter.name !== 'add') {
+                return; 
+            }
+
+            const btn = this.querySelector('.product-form__submit');
+            const textSpan = btn?.querySelector('.btn-text');
+            
+            // --- UploadKit Protection ---
+            if (btn && btn.dataset.uploadLocked === 'true') {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                alert('Please wait for your file to finish uploading before adding to cart.');
+                return;
+            }
+
+            if (fileInput && fileInput.files.length > 0) {
+                if(textSpan) textSpan.textContent = 'Uploading & Adding...';
+                if(btn) btn.style.pointerEvents = 'none'; 
+                return; 
+            }
+
+            e.preventDefault(); 
+
+            if(!btn || btn.disabled) return;
+
+            const originalText = textSpan ? textSpan.innerHTML : '';
+
+            if(textSpan) {
+                textSpan.style.transform = 'translateY(100%)';
+                textSpan.style.opacity = '0';
+                setTimeout(() => {
+                    textSpan.textContent = 'Adding...';
+                    textSpan.style.transform = 'translateY(-100%)';
+                    setTimeout(() => { textSpan.style.transform = 'translateY(0)'; textSpan.style.opacity = '1'; }, 50);
+                }, 150);
+            }
+
+            const rootUrl = window.Shopify?.routes?.root || '/';
+            const formData = new FormData(mainForm);
+            
+            // --- UPLOADKIT DATA FIX ---
+            document.querySelectorAll('.uploadkit-upload-field [name^="properties["], .uploadkit [name^="properties["]').forEach((field) => {
+                if (field.value && field.value.trim() !== '') {
+                    formData.set(field.name, field.value);
+                }
+            });
+            // --------------------------
+            
+            fetch(rootUrl + 'cart/add.js', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                setTimeout(() => {
+                    if(textSpan) {
+                        textSpan.style.transform = 'translateY(100%)';
+                        textSpan.style.opacity = '0';
+                        btn.classList.replace('bg-[#111111]', 'bg-green-600');
+                        btn.classList.replace('hover:bg-stone-800', 'hover:bg-green-700');
+
+                        setTimeout(() => {
+                            textSpan.textContent = 'Added to Cart ✓';
+                            textSpan.style.transform = 'translateY(-100%)';
+                            setTimeout(() => { textSpan.style.transform = 'translateY(0)'; textSpan.style.opacity = '1'; }, 50);
+                        }, 150);
+
+                        setTimeout(() => {
+                            textSpan.style.transform = 'translateY(100%)';
+                            textSpan.style.opacity = '0';
+                            setTimeout(() => {
+                                textSpan.innerHTML = originalText;
+                                btn.classList.replace('bg-green-600', 'bg-[#111111]');
+                                btn.classList.replace('hover:bg-green-700', 'hover:bg-stone-800');
+                                textSpan.style.transform = 'translateY(-100%)';
+                                setTimeout(() => { textSpan.style.transform = 'translateY(0)'; textSpan.style.opacity = '1'; }, 50);
+                            }, 150);
+                        }, 2500);
+                    }
+                }, 800);
+            })
+            .catch((error) => {
+                console.error('Error adding to cart:', error);
+                if(textSpan) {
+                    textSpan.style.transform = 'translateY(100%)';
+                    textSpan.style.opacity = '0';
+                    setTimeout(() => {
+                        textSpan.innerHTML = originalText;
+                        textSpan.style.transform = 'translateY(-100%)';
+                        setTimeout(() => { textSpan.style.transform = 'translateY(0)'; textSpan.style.opacity = '1'; }, 50);
+                    }, 150);
+                }
+            });
+        });
+    }
+
+    // --- UPLOADKIT "ADD TO CART" LOCK LOGIC ---
+    const mainSubmitBtnHero = document.querySelector('.product-form__submit');
+    if (mainSubmitBtnHero) {
+        setInterval(() => {
+            try {
+                let isUploading = false;
+                const btnText = mainSubmitBtnHero.querySelector('.btn-text');
+                
+                // If progress bar / spinner is actively in DOM
+                if (document.querySelector('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, [data-upload-status="uploading"]')) {
+                    isUploading = true;
+                }
+                
+                // If UploadKit button says 'uploading'
+                const uploadBtn = document.querySelector('.uploadkit-button');
+                if (uploadBtn && (uploadBtn.textContent.toLowerCase().includes('uploading') || uploadBtn.textContent.toLowerCase().includes('processing') || uploadBtn.classList.contains('uploadkit-button-uploading'))) {
+                    isUploading = true;
+                }
+                
+                // EXPLICIT UNLOCK: If notes textarea appears, processing is complete.
+                if (document.querySelector('.uploadkit-textarea')) {
+                    isUploading = false;
+                }
+                
+                // Set the states
+                if (isUploading) {
+                    mainSubmitBtnHero.disabled = true;
+                    mainSubmitBtnHero.setAttribute('aria-disabled', 'true');
+                    mainSubmitBtnHero.classList.add('opacity-50', 'pointer-events-none');
+                    
+                    if (mainSubmitBtnHero.dataset.uploadLocked !== 'true') {
+                        mainSubmitBtnHero.dataset.originalText = btnText ? btnText.innerHTML : 'Add to Cart';
+                        if (btnText) btnText.innerHTML = 'Uploading File...';
+                        mainSubmitBtnHero.dataset.uploadLocked = 'true';
+                    }
+                } else {
+                    if (mainSubmitBtnHero.dataset.uploadLocked === 'true') {
+                        mainSubmitBtnHero.disabled = false;
+                        mainSubmitBtnHero.removeAttribute('aria-disabled');
+                        mainSubmitBtnHero.classList.remove('opacity-50', 'pointer-events-none');
+                        
+                        if (btnText) btnText.innerHTML = mainSubmitBtnHero.dataset.originalText || 'Add to Cart';
+                        mainSubmitBtnHero.dataset.uploadLocked = 'false';
+                    }
+                }
+            } catch(e) { }
+        }, 250);
     }
 
     // --- 3. Description Box Fade Logic ---
@@ -652,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sliderProgress = document.getElementById('slider-progress');
     let currentIndex = 0;
     
-    if(carousel) {
+    if (carousel) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -681,14 +799,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('next-btn')?.addEventListener('click', () => {
-        if(carousel) {
+        if (carousel) {
             const width = carousel.offsetWidth;
             carousel.scrollBy({ left: width, behavior: 'smooth' });
         }
     });
     
     document.getElementById('prev-btn')?.addEventListener('click', () => {
-        if(carousel) {
+        if (carousel) {
             const width = carousel.offsetWidth;
             carousel.scrollBy({ left: -width, behavior: 'smooth' });
         }
@@ -696,7 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
-            if(carousel) {
+            if (carousel) {
                 const width = carousel.offsetWidth;
                 carousel.scrollTo({ left: width * index, behavior: 'smooth' });
             }
@@ -704,7 +822,7 @@ document.addEventListener('DOMContentLoaded', () => {
         thumb.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                if(carousel) {
+                if (carousel) {
                     const width = carousel.offsetWidth;
                     carousel.scrollTo({ left: width * index, behavior: 'smooth' });
                 }
@@ -851,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            ['support-modal', 'award-modal', 'cashback-modal'].forEach(id => {
+            ['support-modal', 'award-modal', 'discount-modal'].forEach(id => {
                 const modal = document.getElementById(id);
                 if (modal && !modal.classList.contains('hidden')) {
                     closeModalEl(modal, document.getElementById(id + '-content'));
@@ -874,67 +992,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-award-modal-btn')?.addEventListener('click', () => closeModalEl(awardModal, awardContent));
     awardModal?.addEventListener('click', (e) => { if(e.target === awardModal) closeModalEl(awardModal, awardContent); });
 
-    const cashbackBtn = document.getElementById('cashback-btn');
-    const cashbackModal = document.getElementById('cashback-modal');
-    const cashbackContent = document.getElementById('cashback-modal-content');
-    if(cashbackBtn) cashbackBtn.addEventListener('click', function() { openModalEl(cashbackModal, cashbackContent, this); });
-    document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
-    cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
+    const discountBtn = document.getElementById('discount-btn');
+    const discountModal = document.getElementById('discount-modal');
+    const discountContent = document.getElementById('discount-modal-content');
+    if(discountBtn) discountBtn.addEventListener('click', function() { openModalEl(discountModal, discountContent, this); });
+    document.getElementById('close-discount-modal-btn')?.addEventListener('click', () => closeModalEl(discountModal, discountContent));
+    discountModal?.addEventListener('click', (e) => { if(e.target === discountModal) closeModalEl(discountModal, discountContent); });
     
-    // --- 9. UPLOADKIT "ADD TO CART" PROTECTION ---
-    const mainSubmitBtn = document.querySelector('#product-hero-submit-btn');
-    const productFormEl = document.querySelector('form[data-type="add-to-cart-form"]') || mainSubmitBtn?.closest('form');
-
-    if (mainSubmitBtn) {
-        setInterval(() => {
-            try {
-                let isUploading = false;
-                const btnText = mainSubmitBtn.querySelector('.btn-text');
-                
-                const hasProgressBar = document.querySelector('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, [data-upload-status="uploading"]');
-                
-                const uploadBtn = document.querySelector('.uploadkit-button');
-                const isBtnUploading = uploadBtn && (uploadBtn.textContent.toLowerCase().includes('uploading') || uploadBtn.textContent.toLowerCase().includes('processing') || uploadBtn.classList.contains('uploadkit-button-uploading'));
-                
-                // Only consider it uploading if we actively detect an upload process
-                if (hasProgressBar || isBtnUploading) {
-                    isUploading = true;
-                }
-                
-                if (isUploading) {
-                    mainSubmitBtn.disabled = true;
-                    mainSubmitBtn.setAttribute('aria-disabled', 'true');
-                    mainSubmitBtn.classList.add('opacity-50', 'pointer-events-none');
-                    
-                    if (mainSubmitBtn.dataset.uploadLocked !== 'true') {
-                        mainSubmitBtn.dataset.originalText = btnText ? btnText.innerHTML : 'Add to Cart';
-                        if (btnText) btnText.innerHTML = 'Uploading File...';
-                        mainSubmitBtn.dataset.uploadLocked = 'true';
-                    }
-                } else {
-                    if (mainSubmitBtn.dataset.uploadLocked === 'true') {
-                        mainSubmitBtn.disabled = false;
-                        mainSubmitBtn.removeAttribute('aria-disabled');
-                        mainSubmitBtn.classList.remove('opacity-50', 'pointer-events-none');
-                        
-                        if (btnText) btnText.innerHTML = mainSubmitBtn.dataset.originalText || 'Add to Cart';
-                        mainSubmitBtn.dataset.uploadLocked = 'false';
-                    }
-                }
-            } catch(e) { }
-        }, 250);
-
-        // Explicit event listener to intercept any form submits while locked
-        if (productFormEl) {
-            productFormEl.addEventListener('submit', (e) => {
-                if (mainSubmitBtn.getAttribute('aria-disabled') === 'true' || mainSubmitBtn.dataset.uploadLocked === 'true') {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    alert('Please wait for your file to finish uploading before adding to cart.');
-                }
-            }, true);
-        }
-    }
 });
 </script>
 
@@ -963,19 +1027,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "header",
-      "content": "Form Elements & Call to Actions"
-    },
-    {
-      "type": "text",
-      "id": "add_to_cart_text",
-      "label": "Add to Cart Button Text",
-      "default": "Add to Cart"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_dynamic_checkout",
-      "label": "Show dynamic checkout buttons",
-      "default": true
+      "content": "Form Elements"
     },
     {
       "type": "checkbox",
@@ -984,36 +1036,10 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": true
     },
     {
-      "type": "header",
-      "content": "UploadKit Configuration"
-    },
-    {
       "type": "checkbox",
       "id": "show_media_upload",
-      "label": "Enable UploadKit Trigger Box",
+      "label": "Show Media Upload field",
       "default": true
-    },
-    {
-      "type": "text",
-      "id": "upload_title",
-      "label": "Upload Area Title",
-      "default": "Upload Photos & Videos"
-    },
-    {
-      "type": "text",
-      "id": "upload_subtitle",
-      "label": "Upload Area Subtitle",
-      "default": "(Optional)"
-    },
-    {
-      "type": "text",
-      "id": "upload_help_text",
-      "label": "Upload Help Text",
-      "default": "Click to open UploadKit"
-    },
-    {
-      "type": "header",
-      "content": "Custom Inputs Configuration"
     },
     {
       "type": "checkbox",
@@ -1029,91 +1055,37 @@ document.addEventListener('DOMContentLoaded', () => {
       "info": "Select the product that requires a Book Title & Date. If left blank, they will appear on all products using this template."
     },
     {
-      "type": "text",
-      "id": "book_title_label",
-      "label": "Book Title Label",
-      "default": "Book Title"
-    },
-    {
-      "type": "text",
-      "id": "book_title_sub",
-      "label": "Book Title Sub-label",
-      "default": "(3 words max)"
-    },
-    {
-      "type": "text",
-      "id": "book_title_placeholder",
-      "label": "Book Title Placeholder",
-      "default": "e.g. Our Wedding Day"
-    },
-    {
-      "type": "text",
-      "id": "date_label",
-      "label": "Date Label",
-      "default": "Date"
-    },
-    {
-      "type": "text",
-      "id": "date_placeholder",
-      "label": "Date Placeholder",
-      "default": "e.g. 12.10.2024"
-    },
-    {
       "type": "checkbox",
       "id": "show_bg_song",
       "label": "Show Background Song field",
       "default": true
     },
     {
-      "type": "text",
-      "id": "song_label",
-      "label": "Background Song Label",
-      "default": "Background Song"
-    },
-    {
-      "type": "text",
-      "id": "song_placeholder",
-      "label": "Background Song Placeholder",
-      "default": "e.g. Perfect by Ed Sheeran"
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
     },
     {
       "type": "header",
       "content": "Tab Contents"
     },
     {
-      "type": "text",
-      "id": "tab_1_title",
-      "label": "Tab 1 Title",
-      "default": "Features"
-    },
-    {
       "type": "richtext",
       "id": "features_text",
-      "label": "Tab 1 Text",
+      "label": "Features Tab",
       "default": "<ul><li>Up to 6-Hour Video Capacity</li><li>Crisp audio speakers</li></ul>"
-    },
-    {
-      "type": "text",
-      "id": "tab_2_title",
-      "label": "Tab 2 Title",
-      "default": "Design & Build"
     },
     {
       "type": "richtext",
       "id": "design_text",
-      "label": "Tab 2 Text",
+      "label": "Design Tab",
       "default": "<ul><li>Premium linen cover</li><li>Gold foil stamping</li></ul>"
-    },
-    {
-      "type": "text",
-      "id": "tab_3_title",
-      "label": "Tab 3 Title",
-      "default": "Technical"
     },
     {
       "type": "richtext",
       "id": "tech_text",
-      "label": "Tab 3 Text",
+      "label": "Tech Tab",
       "default": "<ul><li>7 or 10.1 inch IPS Display</li><li>USB-C Charging</li></ul>"
     },
     {
@@ -1140,21 +1112,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "text",
-      "id": "support_whatsapp_number",
-      "label": "WhatsApp Number",
-      "default": "+1234567890",
-      "info": "Include country code. Example: +1234567890"
-    },
-    {
-      "type": "text",
-      "id": "support_whatsapp_text",
-      "label": "WhatsApp Button Text",
-      "default": "Contact on WhatsApp"
-    },
-    {
-      "type": "url",
-      "id": "support_contact_url",
-      "label": "Contact Page URL"
+      "id": "support_email_text",
+      "label": "Email Button Text",
+      "default": "Email Support"
     },
     {
       "type": "text",
@@ -1179,6 +1139,12 @@ document.addEventListener('DOMContentLoaded', () => {
       "default": "Award-Winning Quality"
     },
     {
+      "type": "textarea",
+      "id": "award_modal_text",
+      "label": "Modal Text",
+      "default": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition."
+    },
+    {
       "type": "text",
       "id": "award_badge_text",
       "label": "Badge Text",
@@ -1186,40 +1152,49 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       "type": "header",
-      "content": "Cashback Rules Modal & Button"
+      "content": "Discount Modal & Button"
     },
     {
       "type": "text",
-      "id": "cashback_btn_text",
-      "label": "Cashback Button Text",
-      "default": "Get $7 Cashback"
+      "id": "discount_btn_text",
+      "label": "Discount Button Text",
+      "default": "Get $5 / €5 Off"
     },
     {
       "type": "text",
-      "id": "cashback_modal_title",
+      "id": "discount_modal_title",
       "label": "Modal Title",
-      "default": "Unlock $8 Cashback & Giftcard"
+      "default": "Unlock $5 / €5 Off"
     },
     {
       "type": "textarea",
-      "id": "cashback_modal_text",
+      "id": "discount_modal_text",
       "label": "Modal Text",
-      "default": "Follow the rules below to get your cashback and a chance to win a giftcard!"
+      "default": "Complete any of the tasks below to automatically apply your discount at checkout."
     },
     {
       "type": "text",
-      "id": "cashback_success_text",
-      "label": "Success Rule Text (Green checkmark)",
-      "default": "After verification, our team will initiate your $8 cashback!"
+      "id": "discount_task1",
+      "label": "Task 1 Text",
+      "default": "Follow us on Instagram"
     },
     {
       "type": "text",
-      "id": "cashback_bonus_text",
-      "label": "Bonus Rule Text (Gold star)",
-      "default": "Plus: Get a chance to win a giftcard!"
+      "id": "discount_task2",
+      "label": "Task 2 Text",
+      "default": "Share with a friend"
+    },
+    {
+      "type": "text",
+      "id": "discount_task3",
+      "label": "Task 3 Text",
+      "default": "Join our Newsletter"
     }
   ],
   "blocks": [
+    {
+      "type": "@app"
+    },
     {
       "type": "accordion",
       "name": "Accordion Item",
@@ -1235,36 +1210,6 @@ document.addEventListener('DOMContentLoaded', () => {
           "id": "content",
           "label": "Content",
           "default": "<p>Our books arrive in a luxury gift box.</p>"
-        }
-      ]
-    },
-    {
-      "type": "award",
-      "name": "Award Item",
-      "settings": [
-        {
-          "type": "text",
-          "id": "award_title",
-          "label": "Award Title",
-          "default": "Best Premium Visual Book 2024"
-        },
-        {
-          "type": "url",
-          "id": "award_link",
-          "label": "Award Link (PDF/Image/Page)",
-          "info": "Links will automatically open in a new tab."
-        }
-      ]
-    },
-    {
-      "type": "cashback_rule",
-      "name": "Cashback Task/Rule",
-      "settings": [
-        {
-          "type": "text",
-          "id": "rule_text",
-          "label": "Rule Text",
-          "default": "Order a product from VisualBook with a value of more than $100."
         }
       ]
     }
