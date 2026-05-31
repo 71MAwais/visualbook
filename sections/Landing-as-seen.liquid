@@ -55,8 +55,8 @@
                         {% for block in section.blocks %}
                             <div class="shrink-0 flex items-center justify-center" {{ block.shopify_attributes }}>
                                 {% if block.settings.logo != blank %}
-                                    {% comment %} UPDATED: Added explicit width and height to fix Lighthouse CLS (Performance) error {% endcomment %}
-                                    <img src="{{ block.settings.logo | image_url: height: 100 }}" 
+                                    {% comment %} UPDATED: Capped width to 200px and forced WebP to fix Lighthouse oversized images error {% endcomment %}
+                                    <img src="{{ block.settings.logo | image_url: width: 200, format: 'webp' }}" 
                                          alt="{{ block.settings.text | escape }}" 
                                          width="{{ block.settings.logo.width }}" 
                                          height="{{ block.settings.logo.height }}"

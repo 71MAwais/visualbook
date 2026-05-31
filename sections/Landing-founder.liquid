@@ -55,7 +55,7 @@
                 {%- comment -%} SHORTER ASPECT RATIO: aspect-[4/5] instead of [3/4] {%- endcomment -%}
                 <div class="overflow-hidden rounded-sm shadow-2xl relative w-full aspect-[4/5] bg-[#111]">
                     {% if section.settings.main_image != blank %}
-                        <img id="founder-main-img-{{ section.id }}" src="{{ section.settings.main_image | image_url: width: 800 }}" alt="{{ section.settings.founder_name | escape }}" class="w-full h-full grayscale hover:grayscale-0 luxury-transition object-cover absolute inset-0" loading="lazy">
+                        <img id="founder-main-img-{{ section.id }}" src="{{ section.settings.main_image | image_url: width: 800, format: 'webp' }}" alt="{{ section.settings.founder_name | escape }}" class="w-full h-full grayscale hover:grayscale-0 luxury-transition object-cover absolute inset-0" fetchpriority="high">
                     {% else %}
                         <div id="founder-main-img-{{ section.id }}" class="w-full h-full bg-stone-200 flex items-center justify-center text-stone-400 font-sans text-xs tracking-widest uppercase absolute inset-0">Main Portrait</div>
                     {% endif %}

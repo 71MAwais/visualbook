@@ -60,7 +60,7 @@
                         <div class="hiw-slide select-none flex-shrink-0 w-full snap-center grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div class="relative w-full aspect-[4/3] md:aspect-[16/11] bg-stone-200 overflow-hidden rounded-md shadow-sm border border-stone-200/50 pointer-events-none">
                                 {% if block.settings.image %}
-                                    <img src="{{ block.settings.image | image_url: width: 800 }}" {% if tab1_count == 1 %}fetchpriority="high"{% else %}loading="lazy"{% endif %} class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
+                                    <img src="{{ block.settings.image | image_url: width: 800, format: 'webp' }}" {% if tab1_count == 1 %}fetchpriority="high"{% else %}loading="lazy"{% endif %} class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
                                 {% endif %}
                                 <div class="absolute inset-0 bg-stone-900/5 mix-blend-overlay"></div>
                                 <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-stone-950 shadow-sm rounded-sm">
@@ -92,7 +92,7 @@
                         <div class="hiw-slide select-none flex-shrink-0 w-full snap-center grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                             <div class="relative w-full aspect-[4/3] md:aspect-[16/11] bg-stone-200 overflow-hidden rounded-md shadow-sm border border-stone-200/50 pointer-events-none">
                                 {% if block.settings.image %}
-                                    <img src="{{ block.settings.image | image_url: width: 800 }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
+                                    <img src="{{ block.settings.image | image_url: width: 800, format: 'webp' }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" draggable="false" alt="{{ block.settings.title | escape }}">
                                 {% endif %}
                                 <div class="absolute inset-0 bg-stone-900/5 mix-blend-overlay"></div>
                                 <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-stone-950 shadow-sm rounded-sm">
