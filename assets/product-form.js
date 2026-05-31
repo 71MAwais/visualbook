@@ -18,15 +18,6 @@ if (!customElements.get('product-form')) {
       }
 
       onSubmitHandler(evt) {
-        // --- UPLOADKIT FIX LOGIC START ---
-        // If the UploadKit widget is active on this form, bypass Dawn's AJAX 
-        // submission entirely. This allows the native UploadKit process to pause 
-        // the button, finish the upload, and then submit the form standardly.
-        if (this.form.querySelector('.uploadkit') || this.form.querySelector('[class*="uploadkit"]')) {
-          return; // Let standard form submission happen
-        }
-        // --- UPLOADKIT FIX LOGIC END ---
-
         evt.preventDefault();
         if (this.submitButton.getAttribute('aria-disabled') === 'true') return;
 
@@ -41,6 +32,23 @@ if (!customElements.get('product-form')) {
         delete config.headers['Content-Type'];
 
         const formData = new FormData(this.form);
+
+        // --- BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT & CUSTOM FIELDS ---
+        // 1. Grab everything starting with 'properties' inside this product component
+        this.querySelectorAll('[name^="properties["]').forEach((field) => {
+            if (field.value && field.value.trim() !== '') {
+                formData.set(field.name, field.value);
+            }
+        });
+
+        // 2. Grab anything UploadKit injected directly into the DOM (often detaches from the form)
+        document.querySelectorAll('.uploadkit-upload-field [name^="properties["]').forEach((field) => {
+            if (field.value && field.value.trim() !== '') {
+                formData.set(field.name, field.value);
+            }
+        });
+        // ----------------------------------------------------------------
+
         if (this.cart) {
           formData.append(
             'sections',
