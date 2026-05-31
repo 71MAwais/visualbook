@@ -27,7 +27,9 @@
         min-width: 0 !important; 
         position: relative !important; 
     }
-    #ProductSection-{{ section.id }} { overflow-x: hidden; }
+    
+    /* FIX: changed overflow-x: hidden to clip so position: sticky continues to work on the gallery */
+    #ProductSection-{{ section.id }} { overflow-x: clip; }
 
     .shopify-payment-button__button--unbranded { display: none !important; }
     .shopify-payment-button__button { width: 100% !important; border-radius: 8px !important; height: 60px !important; font-size: 15px !important; font-weight: 600 !important; font-family: inherit !important; transition: all 0.2s ease !important; }
@@ -225,7 +227,6 @@
                     <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
                 </div>
 
-
                 {%- comment -%} CONDITIONAL BOOK TITLE & DATE {%- endcomment -%}
                 {%- assign show_custom_fields = false -%}
                 {%- if section.settings.enable_custom_fields -%}
@@ -275,7 +276,7 @@
                             <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                        <button type="submit" name="add" id="product-hero-submit-btn" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
                             
                             <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
@@ -880,6 +881,60 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
     cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
     
+    // --- 9. UPLOADKIT "ADD TO CART" PROTECTION ---
+    const mainSubmitBtn = document.querySelector('#product-hero-submit-btn');
+    const productFormEl = document.querySelector('form[data-type="add-to-cart-form"]') || mainSubmitBtn?.closest('form');
+
+    if (mainSubmitBtn) {
+        setInterval(() => {
+            try {
+                let isUploading = false;
+                const btnText = mainSubmitBtn.querySelector('.btn-text');
+                
+                const hasProgressBar = document.querySelector('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, [data-upload-status="uploading"]');
+                
+                const uploadBtn = document.querySelector('.uploadkit-button');
+                const isBtnUploading = uploadBtn && (uploadBtn.textContent.toLowerCase().includes('uploading') || uploadBtn.textContent.toLowerCase().includes('processing') || uploadBtn.classList.contains('uploadkit-button-uploading'));
+                
+                // Only consider it uploading if we actively detect an upload process
+                if (hasProgressBar || isBtnUploading) {
+                    isUploading = true;
+                }
+                
+                if (isUploading) {
+                    mainSubmitBtn.disabled = true;
+                    mainSubmitBtn.setAttribute('aria-disabled', 'true');
+                    mainSubmitBtn.classList.add('opacity-50', 'pointer-events-none');
+                    
+                    if (mainSubmitBtn.dataset.uploadLocked !== 'true') {
+                        mainSubmitBtn.dataset.originalText = btnText ? btnText.innerHTML : 'Add to Cart';
+                        if (btnText) btnText.innerHTML = 'Uploading File...';
+                        mainSubmitBtn.dataset.uploadLocked = 'true';
+                    }
+                } else {
+                    if (mainSubmitBtn.dataset.uploadLocked === 'true') {
+                        mainSubmitBtn.disabled = false;
+                        mainSubmitBtn.removeAttribute('aria-disabled');
+                        mainSubmitBtn.classList.remove('opacity-50', 'pointer-events-none');
+                        
+                        if (btnText) btnText.innerHTML = mainSubmitBtn.dataset.originalText || 'Add to Cart';
+                        mainSubmitBtn.dataset.uploadLocked = 'false';
+                    }
+                }
+            } catch(e) { }
+        }, 250);
+
+        // Explicit event listener to intercept any form submits while locked
+        if (productFormEl) {
+            productFormEl.addEventListener('submit', (e) => {
+                if (mainSubmitBtn.getAttribute('aria-disabled') === 'true' || mainSubmitBtn.dataset.uploadLocked === 'true') {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    alert('Please wait for your file to finish uploading before adding to cart.');
+                }
+            }, true);
+        }
+    }
 });
 </script>
 
