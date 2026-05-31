@@ -1,6 +1,6 @@
 {% comment %}
   Section: visual-product-hero.liquid
-  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, native UploadKit widget, and editable interactive modals.
+  Description: Custom Tailwind product section with square responsive gallery, CUSTOM DYNAMIC JUDGE.ME STARS, AJAX cart animation, fixed rich text, UploadKit integration, and editable interactive modals.
 {% endcomment %}
 
 {% unless section.settings.hide_section %}
@@ -46,6 +46,9 @@
     .visual-prose p { margin-bottom: 0.75rem !important; }
     .visual-prose p:last-child { margin-bottom: 0 !important; }
     .visual-prose strong, .visual-prose b { font-weight: 600 !important; color: #1a1a1a !important; }
+
+    /* UploadKit Integration CSS */
+    .uploadkit-button { display: none !important; }
 
     /* Bulletproof Button CSS against 3rd party apps */
     .product-form__submit > *:not(.btn-text) {
@@ -202,12 +205,26 @@
                   {% endunless %}
                 {% endif %}
 
-                {%- comment -%} NATIVE UPLOADKIT WIDGET {%- endcomment -%}
+                {%- comment -%} MEDIA UPLOAD (UploadKit Integration) - Only show trigger if enabled {%- endcomment -%}
                 {%- if section.settings.show_media_upload -%}
                 <div class="mb-6 mt-6 relative z-40">
-                    <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
+                    <div onclick="document.querySelector('.uploadkit-button')?.click()" tabindex="0" class="focus-ring w-full relative group border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 hover:border-stone-500 text-stone-700 transition-all rounded-xl py-5 px-4 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                        <svg class="w-6 h-6 text-stone-500 group-hover:text-stone-800 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span class="text-[13.5px] font-semibold tracking-wide text-stone-800">{{ section.settings.upload_title | default: 'Upload Photos & Videos' }} <span class="text-stone-500 font-normal">{{ section.settings.upload_subtitle | default: '(Optional)' }}</span></span>
+                        <span class="text-[12px] text-stone-600 font-light" id="upload-status">{{ section.settings.upload_help_text | default: 'Click to open UploadKit' }}</span>
+                    </div>
                 </div>
                 {%- endif -%}
+
+                {%- comment -%} 
+                    CRITICAL UPLOADKIT FIX:
+                    Always load the script/element so JS doesn't crash, 
+                    but hide it completely if the user disabled it in settings.
+                {%- endcomment -%}
+                <div {% unless section.settings.show_media_upload %}style="height: 0; width: 0; position: absolute; overflow: hidden; opacity: 0; pointer-events: none; z-index: -999;" aria-hidden="true"{% endunless %}>
+                    <div class="uploadkit" data-uploadkit-product-json="{{ product | json | escape }}" data-uploadkit-collections-json="{{ product.collections | json | escape }}"></div>
+                </div>
+
 
                 {%- comment -%} CONDITIONAL BOOK TITLE & DATE {%- endcomment -%}
                 {%- assign show_custom_fields = false -%}
@@ -331,9 +348,9 @@
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-">
+<div id="all-modals-container" class="relative z-[99999]">
     
-    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -357,7 +374,7 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+    <div id="award-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
         <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -395,7 +412,7 @@
         </div>
     </div>
 
-    <div id="cashback-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
+    <div id="cashback-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="cashback-modal-title">
         <div id="cashback-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-cashback-modal-btn" aria-label="Close cashback modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -494,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
             const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
@@ -505,26 +522,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const mainSubmitBtn = document.querySelector('.product-form__submit');
             if(mainSubmitBtn) {
                 const textSpan = mainSubmitBtn.querySelector('.btn-text');
-                
                 if (matchedVariant.available) {
-                    // ONLY re-enable the button if UploadKit is NOT currently uploading a file
-                    if (mainSubmitBtn.getAttribute('data-uploading') !== 'true') {
-                        mainSubmitBtn.removeAttribute('disabled');
-                        mainSubmitBtn.removeAttribute('aria-disabled');
-                        mainSubmitBtn.style.cursor = 'pointer';
-                        textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
-                    }
+                    mainSubmitBtn.removeAttribute('disabled');
+                    mainSubmitBtn.removeAttribute('aria-disabled');
+                    textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
                 } else {
                     mainSubmitBtn.setAttribute('disabled', 'disabled');
                     mainSubmitBtn.setAttribute('aria-disabled', 'true');
-                    mainSubmitBtn.style.cursor = 'not-allowed';
                     textSpan.textContent = 'Sold Out';
                 }
             }
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
@@ -800,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalEl.classList.add('flex');
         
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements;
+        const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
         modalEl.addEventListener('keydown', function(e) {
@@ -869,49 +880,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
     cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
     
-    // --- 9. Bulletproof UploadKit Cart Protection ---
-    const mainFormBtn = document.querySelector('.product-form__submit');
-    const productFormEl = document.querySelector('form[data-type="add-to-cart-form"]');
-
-    if (mainFormBtn) {
-        // 1. Listen on 'document' and add 'data-uploading' tracker
-        document.addEventListener('uploadkit:upload-started', () => {
-            mainFormBtn.setAttribute('data-uploading', 'true');
-            mainFormBtn.disabled = true; // Makes it stateless natively
-            mainFormBtn.setAttribute('aria-disabled', 'true'); // Tells Dawn to abort
-            mainFormBtn.style.cursor = 'not-allowed'; // SHOWS RED BAN MARKER
-            mainFormBtn.classList.add('opacity-50');
-            
-            const btnText = mainFormBtn.querySelector('.btn-text');
-            if (btnText) {
-                btnText.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Uploading File...`;
-            }
-        });
-
-        const unlockButton = () => {
-            mainFormBtn.removeAttribute('data-uploading');
-            mainFormBtn.disabled = false;
-            mainFormBtn.removeAttribute('aria-disabled');
-            mainFormBtn.style.cursor = 'pointer'; // Restores normal mouse pointer
-            mainFormBtn.classList.remove('opacity-50');
-            if (typeof updateVariantUI === 'function') { updateVariantUI(); }
-        };
-
-        // 2. Clear tracker and unlock when completely done
-        document.addEventListener('uploadkit:all-uploads-completed', unlockButton);
-        document.addEventListener('uploadkit:file-removed', unlockButton);
-    }
-
-    // 4. Force block Shopify's AJAX cart directly from the form BEFORE Dawn runs
-    if (productFormEl) {
-        productFormEl.addEventListener('submit', (e) => {
-            if (mainFormBtn && mainFormBtn.getAttribute('data-uploading') === 'true') {
-                e.preventDefault();
-                e.stopImmediatePropagation(); // KILLS THE SUBMIT INSTANTLY
-                alert('Please wait for your file to finish uploading before adding to cart.');
-            }
-        }, true); // Setting this to "true" captures the event first!
-    }
 });
 </script>
 
@@ -967,8 +935,26 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       "type": "checkbox",
       "id": "show_media_upload",
-      "label": "Enable Native UploadKit Widget",
+      "label": "Enable UploadKit Trigger Box",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "upload_title",
+      "label": "Upload Area Title",
+      "default": "Upload Photos & Videos"
+    },
+    {
+      "type": "text",
+      "id": "upload_subtitle",
+      "label": "Upload Area Subtitle",
+      "default": "(Optional)"
+    },
+    {
+      "type": "text",
+      "id": "upload_help_text",
+      "label": "Upload Help Text",
+      "default": "Click to open UploadKit"
     },
     {
       "type": "header",
