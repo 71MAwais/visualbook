@@ -5,86 +5,87 @@ if (!customElements.get('product-form')) {
       constructor() {
         super();
 
-        this.form = this.querySelector('form');
-        this.variantIdInput = this.form.querySelector('[name=id]');
-        if (this.variantIdInput) this.variantIdInput.disabled = false;
-        
-        this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
-        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
-        this.submitButton = this.querySelector('[type="submit"]');
-        this.submitButtonText = this.submitButton ? this.submitButton.querySelector('span') : null;
+        try {
+          this.form = this.querySelector('form');
+          this.variantIdInput = this.form.querySelector('[name=id]');
+          if (this.variantIdInput) this.variantIdInput.disabled = false;
+          
+          this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
+          this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+          this.submitButton = this.querySelector('[type="submit"]');
+          this.submitButtonText = this.submitButton ? this.submitButton.querySelector('span') : null;
 
-        if (document.querySelector('cart-drawer') && this.submitButton) {
-            this.submitButton.setAttribute('aria-haspopup', 'dialog');
+          if (document.querySelector('cart-drawer') && this.submitButton) {
+              this.submitButton.setAttribute('aria-haspopup', 'dialog');
+          }
+
+          this.hideErrors = this.dataset.hideErrors === 'true';
+
+          // Initialize the UploadKit upload protection safely
+          this.initUploadKitProtection();
+        } catch (err) {
+          console.error("ProductForm Init Error:", err);
         }
-
-        this.hideErrors = this.dataset.hideErrors === 'true';
-
-        // Initialize the UploadKit upload protection
-        this.initUploadKitProtection();
       }
 
       initUploadKitProtection() {
         if (!this.submitButton || !this.submitButtonText) return;
 
         setInterval(() => {
-          let isUploading = false;
-          
-          // 1. Check if standard upload indicators are present (Spinners, Progress bars, etc)
-          const progressEls = document.querySelectorAll('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, .uploadkit-progress-bar');
-          if (progressEls.length > 0) isUploading = true;
-          
-          // 2. Check the UploadKit button state
-          const uploadBtn = document.querySelector('.uploadkit-button');
-          if (uploadBtn) {
-             const btnText = uploadBtn.textContent.toLowerCase();
-             if (btnText.includes('uploading') || btnText.includes('processing')) {
-                 isUploading = true;
-             }
-             if (uploadBtn.disabled) {
-                 isUploading = true;
-             }
-          }
-
-          // 3. EXPLICIT OVERRIDE: End the upload lock when .uploadkit-textarea is detected
-          // Because if this textarea exists, the file is successfully uploaded!
-          const notesTextarea = document.querySelector('.uploadkit-textarea');
-          if (notesTextarea) {
-             isUploading = false; // Force the button to unlock
-          }
-
-          // Apply the Lock/Unlock states to the Add to Cart button
-          if (isUploading) {
-            // Lock the button
-            this.submitButton.disabled = true;
-            this.submitButton.setAttribute('aria-disabled', 'true');
-            this.submitButton.classList.add('opacity-50', 'pointer-events-none'); 
+          try {
+            let isUploading = false;
             
-            if (!this.submitButton.dataset.uploadLocked) {
-              this.submitButton.dataset.originalText = this.submitButtonText.innerHTML;
-              this.submitButtonText.innerHTML = 'Uploading File...';
-              this.submitButton.dataset.uploadLocked = 'true';
+            // 1. Check for standard UploadKit/Uploadcare progress indicators
+            const progressEls = document.querySelector('.uploadkit-uploading, .uploadcare--progress, .uploadcare--widget_status_started, .uploadkit-progress, [data-upload-status="uploading"]');
+            if (progressEls) isUploading = true;
+            
+            // 2. Check if the UploadKit button text says "uploading" or "processing"
+            const uploadBtn = document.querySelector('.uploadkit-button');
+            if (uploadBtn) {
+               const btnText = uploadBtn.textContent.toLowerCase();
+               if (btnText.includes('uploading') || btnText.includes('processing') || uploadBtn.classList.contains('uploadkit-button-uploading')) {
+                   isUploading = true;
+               }
             }
-          } else {
-            // Unlock the button
-            if (this.submitButton.dataset.uploadLocked === 'true') {
-              this.submitButton.disabled = false;
-              this.submitButton.removeAttribute('aria-disabled');
-              this.submitButton.classList.remove('opacity-50', 'pointer-events-none');
+
+            // 3. EXPLICIT OVERRIDE: Unlock immediately if the file is successfully added
+            // (When UploadKit generates the hidden inputs or the Notes textarea)
+            const successTextarea = document.querySelector('.uploadkit-textarea');
+            if (successTextarea) {
+               isUploading = false; // Force the Add to Cart button to unlock
+            }
+
+            // Apply states
+            if (isUploading) {
+              this.submitButton.disabled = true;
+              this.submitButton.setAttribute('aria-disabled', 'true');
+              this.submitButton.classList.add('opacity-50', 'pointer-events-none'); 
               
-              // Restore original button text
-              this.submitButtonText.innerHTML = this.submitButton.dataset.originalText || 'Add to Cart';
-              delete this.submitButton.dataset.uploadLocked;
+              if (this.submitButton.dataset.uploadLocked !== 'true') {
+                this.submitButton.dataset.originalText = this.submitButtonText.innerHTML;
+                this.submitButtonText.innerHTML = 'Uploading File...';
+                this.submitButton.dataset.uploadLocked = 'true';
+              }
+            } else {
+              if (this.submitButton.dataset.uploadLocked === 'true') {
+                this.submitButton.disabled = false;
+                this.submitButton.removeAttribute('aria-disabled');
+                this.submitButton.classList.remove('opacity-50', 'pointer-events-none');
+                
+                this.submitButtonText.innerHTML = this.submitButton.dataset.originalText || 'Add to Cart';
+                this.submitButton.dataset.uploadLocked = 'false';
+              }
             }
+          } catch(e) {
+            // Fails silently so it doesn't break the site
           }
-        }, 200); // Check extremely fast (every 200ms)
+        }, 250); // Scans the page every 250ms
       }
 
       onSubmitHandler(evt) {
         evt.preventDefault();
         
         // --- 1. UPLOAD PROTECTION FALLBACK ---
-        // Block enter-key submissions if locked
         if (this.submitButton && this.submitButton.dataset.uploadLocked === 'true') {
             alert('Please wait for your file to finish uploading before adding to cart.');
             return;
@@ -108,20 +109,20 @@ if (!customElements.get('product-form')) {
 
         const formData = new FormData(this.form);
 
-        // --- 2. BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT FIELDS ---
+        // --- 2. BULLETPROOF FIX: FORCE CAPTURE UPLOADKIT FIELDS INTO CART ---
         this.querySelectorAll('[name^="properties["]').forEach((field) => {
             if (field.value && field.value.trim() !== '') {
                 formData.set(field.name, field.value);
             }
         });
 
-        // Grabs the UploadKit hidden inputs and the textareas explicitly!
+        // Grabs the UploadKit hidden inputs and the textareas explicitly from the DOM
         document.querySelectorAll('.uploadkit-upload-field [name^="properties["], .uploadkit [name^="properties["]').forEach((field) => {
             if (field.value && field.value.trim() !== '') {
                 formData.set(field.name, field.value);
             }
         });
-        // ----------------------------------------------------------
+        // --------------------------------------------------------------------
 
         if (this.cart) {
           formData.append(
