@@ -259,13 +259,13 @@
                             <button type="button" name="plus" aria-label="Increase quantity" class="flex-1 sm:w-12 h-full text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xl focus:outline-none touch-manipulation cursor-pointer border-l border-stone-100 transition-colors">+</button>
                         </div>
                         
-                        <button type="submit" name="add" class="product-form__submit w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
+                        <button id="ProductSubmitButton-{{ section.id }}" type="submit" name="add" class="product-form__submit textboxAddToCartBtn w-full sm:flex-1 min-w-0 bg-[#111111] text-white rounded-lg min-h-[60px] sm:h-[54px] px-4 font-bold uppercase text-[14px] sm:text-[13px] hover:bg-stone-800 transition-colors flex items-center justify-center text-center relative shadow-sm touch-manipulation cursor-pointer overflow-hidden leading-tight" {% if product.selected_or_first_available_variant.available == false %}disabled aria-disabled="true"{% endif %}>
                             
                             <span class="btn-text inline-flex flex-wrap justify-center gap-1 items-center pointer-events-none transition-all duration-200 max-w-full">
                                 {%- if product.selected_or_first_available_variant.available -%}
-                                    {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                    <span class="add-text">{{ section.settings.add_to_cart_text | default: 'Add to Cart' }}</span> <span aria-hidden="true">—</span> <span class="price-display">{{ product.selected_or_first_available_variant.price | money }}</span>
                                 {%- else -%}
-                                    Sold Out
+                                    <span class="add-text">Sold Out</span>
                                 {%- endif -%}
                             </span>
 
@@ -482,7 +482,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "option{{ option.position }}": "{{ option.selected_value | escape }}"{% unless forloop.last %},{% endunless %}
         {% endfor %}
     };
-
     window.uploadKitActive = false; // Unified global state
 
     function updateVariantUI() {
@@ -491,10 +490,8 @@ document.addEventListener('DOMContentLoaded', () => {
                    (!v.option2 || v.option2 === currentOptions.option2) &&
                    (!v.option3 || v.option3 === currentOptions.option3);
         });
-
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            
             if(variantIdInputs) {
                 variantIdInputs.forEach(input => {
                     input.dispatchEvent(new Event('change', { bubbles: true }));
@@ -502,27 +499,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
-
             const qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
-            
             priceDisplays.forEach(el => {
                 if(el) el.textContent = formattedPrice;
             });
-
             // DO NOT update button if currently locked
             if (!window.uploadKitActive) {
                 const mainSubmitBtn = document.querySelector('.product-form__submit');
                 if(mainSubmitBtn) { 
                     const textSpan = mainSubmitBtn.querySelector('.btn-text');
-
                     if (matchedVariant.available) {
                         mainSubmitBtn.disabled = false;
                         mainSubmitBtn.removeAttribute('disabled');
                         mainSubmitBtn.removeAttribute('aria-disabled');
                         mainSubmitBtn.style.cursor = 'pointer';
                         if (textSpan) {
-                            textSpan.innerHTML = `{{ section.settings.add_to_cart_text | default: 'Add to Cart' }} <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
+                            textSpan.innerHTML = `<span class="add-text">{{ section.settings.add_to_cart_text | default: 'Add to Cart' }}</span> <span aria-hidden="true">—</span> <span class="price-display">${formattedPrice}</span>`;
                         }
                     } else {
                         mainSubmitBtn.disabled = true;
@@ -530,19 +523,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         mainSubmitBtn.setAttribute('aria-disabled', 'true');
                         mainSubmitBtn.style.cursor = 'not-allowed';
                         if (textSpan) {
-                            textSpan.textContent = 'Sold Out';
+                            textSpan.innerHTML = `<span class="add-text">Sold Out</span>`;
                         }
                     }
                 }
             }
 
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
                 });
-
                 if (targetThumbIndex !== -1) {
                     const carousel = document.getElementById('main-image-carousel');
                     if(carousel) {
@@ -592,11 +584,10 @@ document.addEventListener('DOMContentLoaded', () => {
             updateVariantUI();
         });
     });
-
+    
     const titleInput = document.getElementById('book-title');
     const titleCounter = document.getElementById('book-title-counter');
     const titleError = document.getElementById('book-title-error');
-
     if(titleInput && titleCounter) {
         titleInput.addEventListener('input', function(e) {
             let val = this.value;
@@ -616,7 +607,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dateInput = document.getElementById('book-date');
     const dateCounter = document.getElementById('book-date-counter');
-
     if(dateInput && dateCounter) {
         dateInput.addEventListener('input', function() {
             dateCounter.textContent = `${this.value.length}/14`;
@@ -626,7 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const descScrollBox = document.getElementById('desc-scroll-box');
     const descFade = document.getElementById('desc-fade');
     let isTicking = false;
-    
     if (descScrollBox && descFade) {
         const checkScroll = () => {
             if (!isTicking) {
@@ -660,7 +649,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, { root: carousel, threshold: 0.6 });
-
         slides.forEach(slide => observer.observe(slide));
     }
 
@@ -685,14 +673,12 @@ document.addEventListener('DOMContentLoaded', () => {
             carousel.scrollBy({ left: width, behavior: 'smooth' });
         }
     });
-
     document.getElementById('prev-btn')?.addEventListener('click', () => {
         if(carousel) {
             const width = carousel.offsetWidth;
             carousel.scrollBy({ left: -width, behavior: 'smooth' });
         }
     });
-
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
             if(carousel) {
@@ -710,12 +696,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     const thumbContainer = document.getElementById('thumbnails-container');
     let isDownThumb = false;
     let startXThumb;
     let scrollLeftThumb;
-
     if(thumbContainer) {
         thumbContainer.addEventListener('mousedown', (e) => {
             isDownThumb = true;
@@ -723,17 +707,14 @@ document.addEventListener('DOMContentLoaded', () => {
             startXThumb = e.pageX - thumbContainer.offsetLeft;
             scrollLeftThumb = thumbContainer.scrollLeft;
         });
-
         thumbContainer.addEventListener('mouseleave', () => {
             isDownThumb = false;
             thumbContainer.classList.remove('active:cursor-grabbing');
         });
-
         thumbContainer.addEventListener('mouseup', () => {
             isDownThumb = false;
             thumbContainer.classList.remove('active:cursor-grabbing');
         });
-
         thumbContainer.addEventListener('mousemove', (e) => {
             if (!isDownThumb) return;
             e.preventDefault();
@@ -748,7 +729,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
-
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(b => {
@@ -778,7 +758,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     document.querySelectorAll('.accordion-item').forEach(item => {
         const btn = item.querySelector('.accordion-btn');
         const content = item.querySelector('.accordion-content');
@@ -803,16 +782,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let lastActiveElement = null;
-
     function openModalEl(modalEl, contentEl, triggerEl) {
         lastActiveElement = triggerEl || document.activeElement;
         modalEl.classList.remove('hidden');
         modalEl.classList.add('flex');
-
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements[0];
+        const firstFocusable = focusableElements;
         const lastFocusable = focusableElements[focusableElements.length - 1];
-
         modalEl.addEventListener('keydown', function(e) {
             let isTabPressed = e.key === 'Tab';
             if (!isTabPressed) { return; }
@@ -828,7 +804,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-
         setTimeout(() => {
             modalEl.classList.remove('opacity-0');
             contentEl.classList.remove('scale-95', 'opacity-0');
@@ -839,7 +814,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModalEl(modalEl, contentEl) {
         modalEl.classList.add('opacity-0');
         contentEl.classList.add('scale-95', 'opacity-0');
-
         setTimeout(() => {
             modalEl.classList.add('hidden');
             modalEl.classList.remove('flex');
@@ -857,33 +831,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-
     const supportModal = document.getElementById('support-modal');
     const supportContent = document.getElementById('support-modal-content');
     const supportTrigger = document.getElementById('live-support-btn');
     if(supportTrigger) supportTrigger.addEventListener('click', function() { openModalEl(supportModal, supportContent, this); });
-
     document.getElementById('close-modal-btn')?.addEventListener('click', () => closeModalEl(supportModal, supportContent));
     supportModal?.addEventListener('click', (e) => { if(e.target === supportModal) closeModalEl(supportModal, supportContent); });
 
     const awardBtns = document.querySelectorAll('.award-btn');
-
     const awardModal = document.getElementById('award-modal');
     const awardContent = document.getElementById('award-modal-content');
     awardBtns.forEach(btn => btn.addEventListener('click', function() { openModalEl(awardModal, awardContent, this); }));
-
     document.getElementById('close-award-modal-btn')?.addEventListener('click', () => closeModalEl(awardModal, awardContent));
     awardModal?.addEventListener('click', (e) => { if(e.target === awardModal) closeModalEl(awardModal, awardContent); });
 
     const cashbackBtn = document.getElementById('cashback-btn');
-
     const cashbackModal = document.getElementById('cashback-modal');
     const cashbackContent = document.getElementById('cashback-modal-content');
     if(cashbackBtn) cashbackBtn.addEventListener('click', function() { openModalEl(cashbackModal, cashbackContent, this); });
-
     document.getElementById('close-cashback-modal-btn')?.addEventListener('click', () => closeModalEl(cashbackModal, cashbackContent));
     cashbackModal?.addEventListener('click', (e) => { if(e.target === cashbackModal) closeModalEl(cashbackModal, cashbackContent); });
-
     // --- BULLETPROOF UPLOADKIT UI LOCK ---
     setInterval(() => {
         const isUploading = document.querySelector('.uploadcare--progress') !== null;
@@ -933,7 +900,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }, 200);
-
 });
 </script>
 
