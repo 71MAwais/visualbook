@@ -77,7 +77,7 @@
       ],
       "name": "As Seen In",
       "settings": {
-        "heading": "As Seen",
+        "heading": "Featured In",
         "bg_color": "#fcfbf9"
       }
     },
@@ -87,7 +87,7 @@
       "settings": {
         "subtitle": "Curated Essentials",
         "title": "Shop the Collection",
-        "text": "Timeless pieces crafted with intention, designed to elevate everyday moments.",
+        "text": "Timeless luxury video books and audio cards crafted with intention. Elevate your everyday moments into everlasting heirlooms.",
         "tab_1_label": "Video Book",
         "collection_1": "classic-visual-books",
         "tab_2_label": "Audio Cards",
