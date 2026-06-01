@@ -13,12 +13,8 @@
       "type": "main-page",
       "disabled": true,
       "settings": {
-        "top_heading": "",
-        "bottom_heading": "",
-        "custom_title": "C",
-        "text_alignment": "center",
-        "title_size_desktop": 4,
-        "title_size_mobile": 2.5,
+        "show_title": true,
+        "content_width": "800",
         "padding_top": 28,
         "padding_bottom": 28
       }
@@ -27,7 +23,29 @@
       "type": "visual-contact",
       "name": "Contact Page",
       "settings": {
-        "whatsapp_link": ""
+        "hero_subheading": "Get in Touch",
+        "hero_title": "How can we assist you?",
+        "hero_description": "From order support and styling advice to retail partnerships and press inquiries, our dedicated teams are at your service.",
+        "whatsapp_title": "WhatsApp",
+        "whatsapp_badge": "Fast",
+        "whatsapp_text": "For quick, informal queries and rapid responses regarding your order or our products.",
+        "whatsapp_btn_text": "Message Us",
+        "whatsapp_link": "https://wa.me/+447466633503",
+        "chat_title": "Live Chat",
+        "chat_text": "Chat directly with our concierge team via Shopify Inbox while you browse our collections.",
+        "chat_btn_text": "Open Chat",
+        "dir_title": "Directory",
+        "dir_label_1": "Customer Care",
+        "email_support": "support@visualbook.com",
+        "dir_label_2": "Press & PR",
+        "email_marketing": "marketing@thevisualbook.com",
+        "dir_label_3": "Retail & Accounting",
+        "email_finance": "finance@thevisualbook.com",
+        "dir_label_4": "General Inquiries",
+        "email_info": "info@thevisualbook.com",
+        "form_title": "Send a Message",
+        "form_subtitle": "Select your inquiry type to ensure your message reaches the correct department.",
+        "form_btn_text": "Submit Inquiry"
       }
     }
   },
