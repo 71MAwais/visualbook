@@ -4444,6 +4444,11 @@
       margin-top: calc(var(--spacing) * 16);
     }
   }
+  .md\:mt-24 {
+    @media (width >= 48rem) {
+      margin-top: calc(var(--spacing) * 24);
+    }
+  }
   .md\:mr-8 {
     @media (width >= 48rem) {
       margin-right: calc(var(--spacing) * 8);
