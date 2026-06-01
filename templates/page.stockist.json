@@ -12,12 +12,8 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "top_heading": "",
-        "bottom_heading": "",
-        "custom_title": "",
-        "text_alignment": "center",
-        "title_size_desktop": 4,
-        "title_size_mobile": 2.5,
+        "show_title": true,
+        "content_width": "800",
         "padding_top": 28,
         "padding_bottom": 28
       }
@@ -140,6 +136,11 @@
         "filter_all_text": "All Locations",
         "filter_physical_text": "Physical Stores",
         "filter_online_text": "Online Partners",
+        "show_partner_section": true,
+        "partner_heading": "Become a Retail Partner",
+        "partner_text": "<p>Interested in stocking The Visual Book? We would love to hear from you. Contact our team for further process.</p>",
+        "partner_email": "marketing@thevisualbook.com",
+        "partner_btn_text": "Contact Us",
         "padding_top": 64,
         "padding_bottom": 64
       }
