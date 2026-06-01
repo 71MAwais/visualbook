@@ -1,119 +1,141 @@
 {%- comment -%}
-  Load custom fonts if they aren't already in your theme.liquid
+  Luxury Editorial About Page
+  Features: Immersive typography, staggered editorial layouts, and refined spacing.
 {%- endcomment -%}
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
   
   .font-serif { font-family: 'Playfair Display', serif; }
   .font-sans { font-family: 'Inter', sans-serif; }
+  
+  /* Smooth image reveal for luxury feel */
+  .reveal-img {
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease-out;
+  }
+  .reveal-img:hover {
+    transform: scale(1.03);
+  }
 </style>
 
-<div class="bg-white text-[#111111] antialiased font-sans overflow-hidden">
+<div class="bg-[#FCFBF9] text-[#181615] antialiased font-sans overflow-hidden">
   
-  {%- comment -%} Page Header {%- endcomment -%}
-  <section class="text-center pt-20 pb-10 px-4 lg:pt-28 lg:pb-12">
-    <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block font-medium">
-      {{ section.settings.page_subtitle | default: 'The Visual Book' }}
+  {%- comment -%} 1. EDITORIAL HERO {%- endcomment -%}
+  <section class="text-center pt-16 pb-12 px-6 lg:pt-24 lg:pb-20 max-w-4xl mx-auto">
+    <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#B8906B] font-semibold mb-6 block">
+      {{ section.settings.page_subtitle | default: 'Our Heritage' }}
     </span>
-    <h1 class="text-5xl lg:text-6xl font-serif tracking-tight text-[#111111]">
-      {{ page.title | default: 'About' }}
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif tracking-tight text-[#181615] leading-[1.1] mb-6">
+      {{ page.title | default: 'The Art of Preservation' }}
     </h1>
+    <p class="font-sans text-sm md:text-base text-stone-500 font-light max-w-2xl mx-auto leading-relaxed">
+      We believe that the moments that shape our lives deserve a permanent, beautiful home. Discover the story, the craft, and the heart behind The Visualbook.
+    </p>
   </section>
 
-  {%- comment -%} Our Story / Origin Section {%- endcomment -%}
-  <section class="flex flex-col lg:flex-row items-center py-12 lg:py-16 px-6 lg:px-12 max-w-[1400px] mx-auto gap-8 lg:gap-16">
-    <div class="flex-1 w-full relative">
-      {% if section.settings.story_image != blank %}
-        {{ section.settings.story_image | image_url: width: 1200 | image_tag: class: 'w-full h-[400px] lg:h-[600px] object-cover bg-[#faf8f5]', loading: 'lazy' }}
-      {% else %}
-        <div class="w-full h-[400px] lg:h-[600px] bg-[#f0ede6] flex items-center justify-center text-[#a39d93] uppercase tracking-widest text-sm">
-          Visual Memories (Image)
-        </div>
-      {% endif %}
-    </div>
-    <div class="flex-1 max-w-[550px] py-6">
-      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Our Origin</span>
-      <h2 class="text-3xl lg:text-4xl font-serif leading-tight mb-6 text-[#111111]">
-        {{ section.settings.story_heading | default: 'Our story revolves around something we all cherish deeply: Memories.' }}
-      </h2>
-      <div class="text-[1rem] text-gray-600 font-light leading-relaxed space-y-4">
-        {{ section.settings.story_text }}
-      </div>
-    </div>
-  </section>
-
-  {%- comment -%} Founder Letter Section {%- endcomment -%}
-  <section class="bg-[#faf8f5] py-16 lg:py-24 px-6 text-center my-10 lg:my-16">
-    <div class="max-w-[800px] mx-auto">
-      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-6 block">A Letter From Aisha Iman</span>
+  {%- comment -%} 2. THE ORIGIN (Split Layout) {%- endcomment -%}
+  <section class="py-12 lg:py-24 px-6 lg:px-12 max-w-[1400px] mx-auto">
+    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
       
-      <div class="text-[1.05rem] text-[#111111] leading-loose space-y-8">
-        <p class="text-xl lg:text-2xl font-serif italic leading-relaxed text-[#222222]">
-          {{ section.settings.letter_quote | default: '"Hi there, I wanted to share with you something very close to my heart – The Visual Book. In my home, these aren`t just books; they`re cherished collections of my dad`s life, my graduation, and moments with friends and family."' }}
-        </p>
+      <div class="w-full lg:w-1/2 relative group overflow-hidden">
+        {% if section.settings.story_image != blank %}
+          {{ section.settings.story_image | image_url: width: 1200 | image_tag: class: 'w-full aspect-[4/5] object-cover reveal-img', loading: 'lazy' }}
+        {% else %}
+          <div class="w-full aspect-[4/5] bg-stone-200 flex items-center justify-center text-stone-400 uppercase tracking-widest text-xs">
+            Origin Image
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="w-full lg:w-1/2 max-w-xl">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-5 block">The Origin</span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.1] mb-8 text-[#181615]">
+          {{ section.settings.story_heading | default: 'Born from a longing for permanence.' }}
+        </h2>
+        <div class="prose text-[15px] text-stone-600 font-light leading-loose space-y-6">
+          {{ section.settings.story_text }}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  {%- comment -%} 3. FOUNDER'S PULL QUOTE {%- endcomment -%}
+  <section class="bg-[#181615] text-white py-20 lg:py-32 px-6 mt-10 mb-20">
+    <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+      
+      <svg class="w-8 h-8 text-[#B8906B] mb-8 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+      </svg>
+
+      <div class="text-2xl md:text-4xl lg:text-5xl font-serif italic leading-[1.4] text-white/95 mb-12">
+        {{ section.settings.letter_quote | default: '“In my home, these aren’t just books; they are the physical manifestation of our greatest joys. A tangible way to hold onto the people and moments we love.”' }}
+      </div>
+      
+      <div class="flex flex-col items-center">
+        <span class="font-serif text-2xl mb-2">{{ section.settings.founder_name | default: 'Aisha Shafii Ndayako' }}</span>
+        <span class="text-[10px] uppercase tracking-[0.3em] text-[#B8906B] font-bold">Founder & Creative Director</span>
+      </div>
+
+    </div>
+  </section>
+
+  {%- comment -%} 4. SUSTAINABILITY (Reverse Split Layout) {%- endcomment -%}
+  <section class="py-12 lg:py-24 px-6 lg:px-12 max-w-[1400px] mx-auto">
+    <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-24">
+      
+      <div class="w-full lg:w-1/2 relative group overflow-hidden">
+        {% if section.settings.sustainability_image != blank %}
+          {{ section.settings.sustainability_image | image_url: width: 1200 | image_tag: class: 'w-full aspect-square md:aspect-[4/5] object-cover reveal-img', loading: 'lazy' }}
+        {% else %}
+          <div class="w-full aspect-square md:aspect-[4/5] bg-stone-200 flex items-center justify-center text-stone-400 uppercase tracking-widest text-xs">
+            Sustainability Image
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="w-full lg:w-1/2 max-w-xl">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-5 block">Our Commitment</span>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif leading-[1.1] mb-8 text-[#181615]">
+          {{ section.settings.sustainability_heading | default: 'Conscious Craftsmanship' }}
+        </h2>
+        <div class="prose text-[15px] text-stone-600 font-light leading-loose space-y-6">
+          {{ section.settings.sustainability_text }}
+        </div>
         
-        <div class="space-y-4 text-gray-700 font-light">
-          {{ section.settings.letter_text }}
-        </div>
+        {% if section.settings.sustainability_link != blank %}
+          <a href="{{ section.settings.sustainability_link }}" class="inline-block mt-10 text-[10px] uppercase tracking-[0.2em] font-bold text-[#181615] border-b border-[#181615] pb-1 hover:text-[#B8906B] hover:border-[#B8906B] transition-colors duration-300">
+            {{ section.settings.sustainability_link_text | default: 'Discover Our Materials' }}
+          </a>
+        {% endif %}
       </div>
 
-      <div class="mt-12">
-        <div class="font-serif text-2xl mb-1 text-[#111111]">{{ section.settings.founder_name | default: 'Aisha Shafii Ndayako' }}</div>
-        <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500">Founder, The Visual Book</span>
-      </div>
     </div>
   </section>
 
-  {%- comment -%} Sustainable Design Section {%- endcomment -%}
-  <section class="flex flex-col lg:flex-row-reverse items-center py-12 lg:py-16 px-6 lg:px-12 max-w-[1400px] mx-auto gap-8 lg:gap-16">
-    <div class="flex-1 w-full relative">
-      {% if section.settings.sustainability_image != blank %}
-        {{ section.settings.sustainability_image | image_url: width: 1200 | image_tag: class: 'w-full h-[400px] lg:h-[600px] object-cover bg-[#faf8f5]', loading: 'lazy' }}
-      {% else %}
-        <div class="w-full h-[400px] lg:h-[600px] bg-[#f0ede6] flex items-center justify-center text-[#a39d93] uppercase tracking-widest text-sm">
-          Sustainable Packaging (Image)
-        </div>
-      {% endif %}
+  {%- comment -%} 5. CRAFTSMANSHIP GRID (Editorial style) {%- endcomment -%}
+  <section class="py-20 lg:py-32 px-6 max-w-[1400px] mx-auto border-t border-stone-200/60 mt-10">
+    <div class="text-center mb-16">
+      <span class="text-[10px] uppercase tracking-[0.3em] text-[#B8906B] font-bold mb-4 block">The Details</span>
+      <h2 class="text-3xl md:text-4xl font-serif text-[#181615]">Engineered for Eternity</h2>
     </div>
-    <div class="flex-1 max-w-[550px] py-6">
-      <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Eco-Conscious</span>
-      <h2 class="text-3xl lg:text-4xl font-serif leading-tight mb-6 text-[#111111]">
-        {{ section.settings.sustainability_heading | default: 'Sustainable design' }}
-      </h2>
-      <div class="text-[1rem] text-gray-600 font-light leading-relaxed space-y-4">
-        {{ section.settings.sustainability_text }}
-      </div>
-      {% if section.settings.sustainability_link != blank %}
-        <a href="{{ section.settings.sustainability_link }}" class="inline-block mt-8 text-[0.75rem] uppercase tracking-[0.15em] font-medium text-[#111111] border-b border-[#111111] pb-1 hover:opacity-60 transition-opacity duration-300">
-          {{ section.settings.sustainability_link_text | default: 'Find out more' }}
-        </a>
-      {% endif %}
-    </div>
-  </section>
-
-  {%- comment -%} Features / Craftsmanship Section {%- endcomment -%}
-  <section class="py-16 lg:py-20 px-6 text-center max-w-[1400px] mx-auto">
-    <span class="text-[0.75rem] uppercase tracking-[0.2em] text-gray-500 mb-4 block">Craftsmanship</span>
-    <h2 class="text-3xl lg:text-4xl font-serif leading-tight text-[#111111]">The Visual Book Family</h2>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mt-12 pt-12 border-t border-gray-100">
-      
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-16">
       {% for block in section.blocks %}
-        <div class="text-center group" {{ block.shopify_attributes }}>
+        <div class="text-center group flex flex-col items-center" {{ block.shopify_attributes }}>
           
-          <div class="w-24 h-24 mx-auto mb-6 bg-white border border-stone-200 shadow-sm flex items-center justify-center rounded-xl relative overflow-hidden">
-            <div class="absolute inset-0 bg-white z-0" aria-hidden="true"></div>
+          <div class="w-16 h-16 mb-6 flex items-center justify-center text-[#181615]">
             {% if block.settings.icon_image != blank %}
-              {{ block.settings.icon_image | image_url: width: 200 | image_tag: class: 'w-14 h-14 object-contain relative z-10 transition-transform duration-500 group-hover:scale-110', loading: 'lazy', style: 'opacity: 1 !important; mix-blend-mode: normal !important;' }}
+              {{ block.settings.icon_image | image_url: width: 150 | image_tag: class: 'w-full h-full object-contain transition-transform duration-700 group-hover:scale-110', loading: 'lazy' }}
             {% else %}
-              <svg class="w-10 h-10 text-[#111111] relative z-10 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 4h20L19 20H5L2 4z"></path><path d="M12 22v-8"></path><path d="M8 22v-8"></path><path d="M16 22v-8"></path></svg>
+              <svg class="w-10 h-10 transition-transform duration-700 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             {% endif %}
           </div>
-          <h4 class="text-lg font-serif mb-3 text-[#111111]">{{ block.settings.title }}</h4>
-          <p class="text-sm text-gray-600 font-light leading-relaxed">{{ block.settings.text }}</p>
+          
+          <h4 class="text-xl font-serif mb-3 text-[#181615]">{{ block.settings.title }}</h4>
+          <p class="text-[14px] text-stone-500 font-light leading-relaxed max-w-xs">{{ block.settings.text }}</p>
         </div>
       {% endfor %}
-      
     </div>
   </section>
 
@@ -127,7 +149,7 @@
       "type": "text",
       "id": "page_subtitle",
       "label": "Page Subtitle",
-      "default": "The Visual Book"
+      "default": "Our Heritage"
     },
     {
       "type": "header",
@@ -142,13 +164,13 @@
       "type": "text",
       "id": "story_heading",
       "label": "Story Heading",
-      "default": "Our story revolves around something we all cherish deeply: Memories."
+      "default": "Born from a longing for permanence."
     },
     {
       "type": "richtext",
       "id": "story_text",
       "label": "Story Text",
-      "default": "<p>My journey towards creating The Visual Book is deeply connected to my early years. Losing my father at the age of three was a defining moment in my life. I grew up in Nigeria, holding onto a deep longing for the memories we never had the chance to create together.</p><p>My mother, with her creative resourcefulness, would photoshop images of us, crafting an imagined past that felt real in my dreams but was absent in reality.</p><p>Being part of Gen-Z, I grew up amidst the digital revolution, which profoundly shaped my understanding of the crucial role photos, videos, and audio play in defining our identities and connecting us with others. This insight, combined with my personal quest for tangible memories, became the driving force behind The Visual Book.</p><p>The idea truly took shape during my university years in the UK, where I envisioned a product that would revolutionise traditional memory preservation.</p>"
+      "default": "<p>I grew up in Nigeria, holding onto a deep longing for the memories we never had the chance to create together. Losing my father at the age of three left me with fragments—faded photographs my mother would carefully preserve, crafting an imagined past that felt real in my dreams but was physically absent.</p><p>As I grew older amidst the digital revolution, I realized we are taking more photos than ever, yet holding fewer. Thousands of our most precious milestones are trapped behind glass screens and forgotten cloud folders.</p><p>The Visualbook was born from this exact realization. I wanted to bridge the gap between digital convenience and physical permanence. We don't just create books; we create tangible heirlooms designed to ensure your legacy is never lost to a software update.</p>"
     },
     {
       "type": "header",
@@ -157,14 +179,8 @@
     {
       "type": "textarea",
       "id": "letter_quote",
-      "label": "Letter Highlight Quote",
-      "default": "\"Hi there, I wanted to share with you something very close to my heart – The Visual Book. In my home, these aren't just books; they're cherished collections of my dad's life, my graduation, and moments with friends and family.\""
-    },
-    {
-      "type": "richtext",
-      "id": "letter_text",
-      "label": "Letter Body Text",
-      "default": "<p>Creating The Visual Book has been a journey of love and remembrance. My vision for The Visual Book is to offer easy-to-use, beautifully designed products that bring innovation to how we preserve and display our most treasured stories and memories.</p><p>The Visual Book was conceived to blend the digital with the physical, creating a medium where memories are not just stored but felt and relived. It stands as a testament to bridging generational gaps, allowing me to connect with the essence of my father and offering others the chance to do the same with their loved ones.</p>"
+      "label": "Editorial Quote",
+      "default": "“In my home, these aren’t just books; they are the physical manifestation of our greatest joys. A tangible way to hold onto the people and moments we love.”"
     },
     {
       "type": "text",
@@ -185,19 +201,19 @@
       "type": "text",
       "id": "sustainability_heading",
       "label": "Sustainability Heading",
-      "default": "Sustainable design"
+      "default": "Conscious Craftsmanship"
     },
     {
       "type": "richtext",
       "id": "sustainability_text",
       "label": "Sustainability Text",
-      "default": "<p>Sustainability is at the heart of our mission. We aim to minimize waste in every aspect of our production.</p><p>Understanding the environmental impact of single-use packaging, we've designed our packaging to be more than just a disposable shell but an essential and attractive part of the product itself.</p><p>We envision our customers using this packaging as a stylish and functional element in their homes, aligning with our commitment to eco-friendly practices and thoughtful design.</p>"
+      "default": "<p>True luxury lies in longevity. We believe that creating an heirloom means creating something that is never thrown away. Sustainability is woven deeply into the fabric of our mission.</p><p>Instead of single-use disposable boxes, we have engineered our packaging to be the product itself. The exquisite artisan linen, the reinforced binding, and the timeless aesthetic mean your Visualbook is designed to sit proudly on your coffee table for generations to come.</p>"
     },
     {
       "type": "text",
       "id": "sustainability_link_text",
       "label": "Button Text",
-      "default": "Find out more"
+      "default": "Discover Our Materials"
     },
     {
       "type": "url",
@@ -227,7 +243,7 @@
           "type": "textarea",
           "id": "text",
           "label": "Text",
-          "default": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology."
+          "default": "Exquisitely conceived in the UK, marrying timeless elegance with cutting-edge technology."
         }
       ]
     }
@@ -236,10 +252,10 @@
     {
       "name": "About Page Content",
       "blocks": [
-        { "type": "feature", "settings": { "title": "British Design", "text": "Exquisitely crafted in the UK, marrying timeless elegance with cutting-edge technology." } },
-        { "type": "feature", "settings": { "title": "Eco-Friendly Quality", "text": "Built to last with sustainable materials, preserving your memories and the planet." } },
-        { "type": "feature", "settings": { "title": "Timeless Keepsake", "text": "A beautiful heirloom designed to be passed down through generations." } },
-        { "type": "feature", "settings": { "title": "Desbossed Foil", "text": "Luxurious finishing touches that elevate your book into a premium work of art." } }
+        { "type": "feature", "settings": { "title": "British Design", "text": "Exquisitely conceived in the UK, marrying timeless elegance with cutting-edge technology." } },
+        { "type": "feature", "settings": { "title": "Artisan Linen", "text": "Bound in premium, sustainably sourced linen that feels as beautiful as the memories inside." } },
+        { "type": "feature", "settings": { "title": "Timeless Heirloom", "text": "Engineered with precision to be passed down through generations without degrading." } },
+        { "type": "feature", "settings": { "title": "Debossed Foil", "text": "Finished with luxurious metallic debossing that elevates your book into a premium work of art." } }
       ]
     }
   ]
