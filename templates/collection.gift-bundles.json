@@ -96,11 +96,7 @@
     "shop_experience_aiRhTK": {
       "type": "shop-experience",
       "name": "Shop Experience",
-      "settings": {
-        "badge": "The Experience",
-        "heading": "Designed for Forever",
-        "subheading": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments."
-      }
+      "settings": {}
     },
     "visual_instore_iU4FHD": {
       "type": "Landing-instore",
