@@ -43,9 +43,9 @@
       "type": "shop-hero",
       "name": "Shop Hero",
       "settings": {
-        "badge": "Curated Essentials",
-        "heading": "Shop the Collection",
-        "subheading": "Timeless pieces crafted with intention, designed to elevate everyday moments and preserve your most cherished memories."
+        "badge": "Exclusive Collections",
+        "heading": "Curate Your Memories",
+        "subheading": "Timeless luxury video books and audio cards crafted with intention. Elevate your everyday moments into everlasting heirlooms."
       }
     },
     "shop_product_grid_HT3twG": {
@@ -57,13 +57,46 @@
         "tab_2_label": "Audio Cards",
         "collection_2": "audio-greetings-card",
         "max_products": 12,
-        "award_icon": "shopify://shop_images/images.png"
+        "award_icon": "shopify://shop_images/images.png",
+        "tab1_exp_heading": "Give the gift of <br class=\"md:hidden\"><i class=\"text-[#C5A059]\">happy tears.</i>",
+        "tab1_exp_text": "In a world of endless scrolling, give them something to hold. The Visual Book brings your digital memories into the physical world instantly. No setup, no internet, just pure emotion.",
+        "tab1_step1": "Plug & Upload",
+        "tab1_step2": "Open Cover",
+        "tab1_step3": "Instant Magic",
+        "tab2_exp_heading": "Voice the moments that <br class=\"md:hidden\"><i class=\"text-[#C5A059]\">matter most.</i>",
+        "tab2_exp_text": "Hear the voices of your loved ones anytime. The Audio Card lets you record a personal message that plays automatically when opened.",
+        "tab2_step1": "Press Record",
+        "tab2_step2": "Speak Your Heart",
+        "tab2_step3": "Share the Love"
       }
     },
     "shop_experience_aiRhTK": {
       "type": "shop-experience",
       "name": "Shop Experience",
-      "settings": {}
+      "settings": {
+        "tab1_badge": "The Experience",
+        "tab1_heading": "Designed for Forever",
+        "tab1_subheading": "Every Visual Book is a self-contained masterpiece. No Wi-Fi, no complicated apps—just open the cover to instantly transport yourself back to your most treasured moments.",
+        "tab1_feat1_title": "Instant Playback",
+        "tab1_feat1_text": "Magnetic sensors automatically play your crystal-clear HD videos the moment the book is opened.",
+        "tab1_feat2_title": "Easy Curation",
+        "tab1_feat2_text": "Connect via the provided USB to effortlessly drag and drop your photos and videos—no software required.",
+        "tab1_feat3_title": "Rechargeable",
+        "tab1_feat3_text": "The built-in battery provides hours of continuous playback, easily rechargeable via USB for endless viewing.",
+        "tab1_feat4_title": "Gift Ready",
+        "tab1_feat4_text": "Presented in a beautiful luxury box with an optional pre-loading service to create the ultimate personalized gift.",
+        "tab2_badge": "The Audio Experience",
+        "tab2_heading": "Voice the moments that matter",
+        "tab2_subheading": "Hear the voices of your loved ones anytime. The Audio Card lets you record a personal message that plays automatically when opened.",
+        "tab2_feat1_title": "Auto Playback",
+        "tab2_feat1_text": "Light sensors automatically trigger your personalized voice message the moment the card is opened.",
+        "tab2_feat2_title": "Easy Recording",
+        "tab2_feat2_text": "Simply press and hold the button to record your heartfelt message—no app or cable required.",
+        "tab2_feat3_title": "Long-lasting Battery",
+        "tab2_feat3_text": "Designed to keep your memories alive, equipped with a battery that supports hundreds of plays.",
+        "tab2_feat4_title": "Meaningful Keepsake",
+        "tab2_feat4_text": "A beautiful, tactile card that turns a simple greeting into an unforgettable, personalized gift."
+      }
     },
     "visual_instore_iU4FHD": {
       "type": "Landing-instore",
