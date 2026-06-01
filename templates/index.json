@@ -473,8 +473,8 @@
       "settings": {
         "main_image": "shopify://shop_images/DSC3638.jpg",
         "sub_image": "shopify://shop_images/photo_0220.jpg",
-        "subtitle": "Our Story",
-        "title": "Born from Loss,\nDesigned for Forever",
+        "subtitle": "The Heart Behind the Brand",
+        "title": "Born from Loss,\nCrafted for Forever",
         "story_html": "<p>A childhood longing to hold onto someone I barely remembered inspired a new way to preserve life's most precious memories.</p>",
         "button_link": "shopify://pages/about",
         "button_label": "Read Full Story",
@@ -571,9 +571,9 @@
       "type": "Landing-cta",
       "name": "Call to Action",
       "settings": {
-        "subtitle": "Begin Your Story",
-        "title": "Ready to preserve\nwhat matters most?",
-        "button_label": "Shop The Collection",
+        "subtitle": "Curate Your Legacy",
+        "title": "Ready to beautifully preserve\nyour most cherished moments?",
+        "button_label": "Explore the Collection",
         "button_link": "shopify://collections/all"
       }
     }
