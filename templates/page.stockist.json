@@ -141,7 +141,7 @@
         "partner_text": "<p>Interested in stocking The Visual Book? We would love to hear from you. Contact our team for further process.</p>",
         "partner_email": "marketing@thevisualbook.com",
         "partner_btn_text": "Contact Us",
-        "partner_btn_link": "",
+        "partner_btn_link": "shopify://pages/contact",
         "padding_top": 64,
         "padding_bottom": 64
       }
