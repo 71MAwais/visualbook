@@ -82,6 +82,26 @@
       {% endfor %}
 
     </div>
+
+    {% comment %} Become a Retail Partner Section {% endcomment %}
+    {% if section.settings.show_partner_section %}
+      <div class="mt-16 md:mt-24 text-center max-w-2xl mx-auto p-8 border border-gray-200 shadow-sm rounded-xl bg-white">
+        {% if section.settings.partner_heading != blank %}
+          <h2 class="text-2xl font-serif text-[#181615] mb-4">{{ section.settings.partner_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.partner_text != blank %}
+          <div class="text-gray-600 font-sans font-light mb-6 text-sm md:text-base leading-relaxed">
+            {{ section.settings.partner_text }}
+          </div>
+        {% endif %}
+        {% if section.settings.partner_email != blank %}
+          <a href="mailto:{{ section.settings.partner_email }}" class="inline-flex items-center justify-center px-8 py-3 bg-[#181615] text-white font-sans font-medium text-sm tracking-widest uppercase hover:bg-gray-800 transition-colors rounded-md">
+            {{ section.settings.partner_btn_text | escape }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
   </main>
 </section>
 
@@ -180,6 +200,40 @@
       "id": "filter_online_text",
       "label": "Online Tab Label",
       "default": "Online Partners"
+    },
+    {
+      "type": "header",
+      "content": "Retail Partner Call to Action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_partner_section",
+      "label": "Show Partner Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "partner_heading",
+      "label": "Partner Heading",
+      "default": "Become a Retail Partner"
+    },
+    {
+      "type": "richtext",
+      "id": "partner_text",
+      "label": "Partner Description",
+      "default": "<p>Interested in stocking The Visual Book? We would love to hear from you. Contact our team for further process.</p>"
+    },
+    {
+      "type": "text",
+      "id": "partner_email",
+      "label": "Contact Email Address",
+      "default": "marketing@thevisualbook.com"
+    },
+    {
+      "type": "text",
+      "id": "partner_btn_text",
+      "label": "Button Text",
+      "default": "Contact Us"
     },
     {
       "type": "header",
