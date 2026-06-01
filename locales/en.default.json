@@ -1,14 +1,14 @@
 {
   "general": {
     "password_page": {
-      "login_form_heading": "Enter store using password:",
-      "login_password_button": "Enter using password",
+      "login_form_heading": "Enter The Visualbook using password:",
+      "login_password_button": "Enter exclusive access",
       "login_form_password_label": "Password",
       "login_form_password_placeholder": "Your password",
-      "login_form_error": "Wrong password!",
+      "login_form_error": "Incorrect password. Please try again.",
       "login_form_submit": "Enter",
       "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"link underlined-link\">Log in here</a>",
-      "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
+      "powered_by_shopify_html": "This experience will be powered by {{ shopify }}"
     },
     "social": {
       "alt_text": {
@@ -28,7 +28,7 @@
         "tiktok": "TikTok"
       }
     },
-    "continue_shopping": "Continue shopping",
+    "continue_shopping": "Continue Exploring",
     "pagination": {
       "label": "Pagination",
       "page": "Page {{ number }}",
@@ -36,13 +36,13 @@
       "previous": "Previous page"
     },
     "search": {
-      "search": "Search",
+      "search": "Discover",
       "reset": "Clear search term"
     },
     "cart": {
-      "view": "View cart ({{ count }})",
-      "view_empty_cart": "View cart",
-      "item_added": "Item added to your cart"
+      "view": "View Bag ({{ count }})",
+      "view_empty_cart": "View Bag",
+      "item_added": "Keepsake added to your bag"
     },
     "share": {
       "close": "Close share",
@@ -59,15 +59,15 @@
   },
   "newsletter": {
     "label": "Email",
-    "success": "Thanks for subscribing",
+    "success": "Thank you for joining our inner circle.",
     "button_label": "Subscribe"
   },
   "accessibility": {
     "skip_to_text": "Skip to content",
-    "skip_to_product_info": "Skip to product information",
+    "skip_to_product_info": "Skip to product details",
     "close": "Close",
     "unit_price_separator": "per",
-    "vendor": "Vendor:",
+    "vendor": "Creator:",
     "error": "Error",
     "refresh_page": "Choosing a selection results in a full page refresh.",
     "link_messages": {
@@ -77,48 +77,48 @@
     "loading": "Loading...",
     "total_reviews": "total reviews",
     "star_reviews_info": "{{ rating_value }} out of {{ rating_max }} stars",
-    "collapsible_content_title": "Collapsible content",
-    "complementary_products": "Complementary products"
+    "collapsible_content_title": "Discover more",
+    "complementary_products": "Perfect Pairings"
   },
   "blogs": {
     "article": {
-      "blog": "Blog",
-      "read_more_title": "Read more: {{ title }}",
+      "blog": "Journal",
+      "read_more_title": "Read our story: {{ title }}",
       "comments": {
-        "one": "{{ count }} comment",
-        "other": "{{ count }} comments"
+        "one": "{{ count }} thought",
+        "other": "{{ count }} thoughts"
       },
-      "moderated": "Please note, comments need to be approved before they are published.",
-      "comment_form_title": "Leave a comment",
+      "moderated": "Please note, comments are reviewed prior to publishing.",
+      "comment_form_title": "Leave your thoughts",
       "name": "Name",
       "email": "Email",
-      "message": "Comment",
+      "message": "Message",
       "post": "Post comment",
-      "back_to_blog": "Back to blog",
-      "share": "Share this article",
-      "success": "Your comment was posted successfully! Thank you!",
-      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated."
+      "back_to_blog": "Return to Journal",
+      "share": "Share this story",
+      "success": "Your comment was posted successfully. Thank you!",
+      "success_moderated": "Your comment was posted successfully. We will publish it shortly, as our journal is moderated."
     }
   },
   "onboarding": {
-    "product_title": "Example product title",
-    "collection_title": "Your collection's name"
+    "product_title": "The Visualbook Wedding Video Album",
+    "collection_title": "Your Memories Collection"
   },
   "products": {
     "product": {
-      "add_to_cart": "Add to cart",
-      "choose_options": "Choose options",
-      "choose_product_options": "Choose options for {{ product_name }}",
-      "description": "Description",
-      "inventory_in_stock": "In stock",
-      "inventory_in_stock_show_count": "{{ quantity }} in stock",
-      "inventory_low_stock": "Low stock",
-      "inventory_low_stock_show_count": "Low stock: {{ quantity }} left",
-      "inventory_out_of_stock": "Out of stock",
-      "inventory_out_of_stock_continue_selling": "In stock",
+      "add_to_cart": "Add to Bag",
+      "choose_options": "Select Options",
+      "choose_product_options": "Select options for {{ product_name }}",
+      "description": "The Details",
+      "inventory_in_stock": "Available",
+      "inventory_in_stock_show_count": "{{ quantity }} available",
+      "inventory_low_stock": "Limited Edition",
+      "inventory_low_stock_show_count": "Limited availability: {{ quantity }} remaining",
+      "inventory_out_of_stock": "Currently Unavailable",
+      "inventory_out_of_stock_continue_selling": "Available on Reserve",
       "sku": "SKU",
-      "on_sale": "Sale",
-      "product_variants": "Product variants",
+      "on_sale": "Privilege",
+      "product_variants": "Personalization Options",
       "media": {
         "gallery_viewer": "Gallery Viewer",
         "load_image": "Load image {{ index }} in gallery view",
@@ -127,7 +127,7 @@
         "image_available": "Image {{ index }} is now available in gallery view",
         "open_media": "Open media {{ index }} in modal",
         "play_model": "Play 3D Viewer",
-        "play_video": "Play video"
+        "play_video": "Play Video Book presentation"
       },
       "nested_label": "{{ title }} for {{ parent_title }}",
       "quantity": {
@@ -140,21 +140,21 @@
         "multiples_of": "Increments of {{ quantity }}",
         "min_of": "Min {{ quantity }}",
         "max_of": "Max {{ quantity }}",
-        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> in cart",
-        "in_cart_aria_label": "Quantity ({{ quantity }} in cart)",
+        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> in your bag",
+        "in_cart_aria_label": "Quantity ({{ quantity }} in your bag)",
         "note": "View quantity rules"
       },
       "volume_pricing": {
-        "title": "Volume Pricing",
-        "note": "Volume pricing available",
+        "title": "Curated Pricing",
+        "note": "Volume pricing available for larger moments",
         "minimum": "{{ quantity }}+",
-        "price_at_each_html": "at {{ price }}/ea",
+        "price_at_each_html": "at {{ price }} / ea",
         "price_range": "{{ minimum }} - {{ maximum }}"
       },
       "pickup_availability": {
-        "view_store_info": "View store information",
-        "check_other_stores": "Check availability at other stores",
-        "pick_up_available": "Pickup available",
+        "view_store_info": "View boutique locations",
+        "check_other_stores": "Check availability at other boutiques",
+        "pick_up_available": "Boutique pickup available",
         "pick_up_available_at_html": "Pickup available at <span class=\"color-foreground\">{{ location_name }}</span>",
         "pick_up_unavailable_at_html": "Pickup currently unavailable at <span class=\"color-foreground\">{{ location_name }}</span>",
         "unavailable": "Couldn't load pickup availability",
@@ -163,20 +163,20 @@
       "price": {
         "from_price_html": "From {{ price }}",
         "regular_price": "Regular price",
-        "sale_price": "Sale price",
+        "sale_price": "Privilege price",
         "unit_price": "Unit price"
       },
-      "share": "Share this product",
-      "sold_out": "Sold out",
+      "share": "Share this Keepsake",
+      "sold_out": "Sold Out",
       "unavailable": "Unavailable",
-      "vendor": "Vendor",
+      "vendor": "Creator",
       "value_unavailable": "{{ option_value }} - Unavailable",
       "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
       "video_exit_message": "{{ title }} opens full screen video in same window.",
-      "view_full_details": "View full details",
+      "view_full_details": "Discover Full Features",
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
-      "taxes_included": "Taxes included.",
+      "taxes_included": "Complimentary taxes included.",
       "duties_included": "Duties included.",
       "duties_and_taxes_included": "Duties and taxes included.",
       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
@@ -185,12 +185,12 @@
       "label": "Media gallery"
     },
     "facets": {
-      "filter_and_operator_subtitle": "Match all",
+      "filter_and_operator_subtitle": "Match all requirements",
       "apply": "Apply",
       "clear": "Clear",
       "clear_all": "Remove all",
       "from": "From",
-      "filter_and_sort": "Filter and sort",
+      "filter_and_sort": "Filter and Sort Collections",
       "filter_by_label": "Filter:",
       "filter_button": "Filter",
       "filters_selected": {
@@ -202,12 +202,12 @@
       "show_less": "Show less",
       "max_price": "The highest price is {{ price }}",
       "product_count": {
-        "one": "{{ product_count }} of {{ count }} product",
-        "other": "{{ product_count }} of {{ count }} products"
+        "one": "{{ product_count }} of {{ count }} keepsake",
+        "other": "{{ product_count }} of {{ count }} keepsakes"
       },
       "product_count_simple": {
-        "one": "{{ count }} product",
-        "other": "{{ count }} products"
+        "one": "{{ count }} keepsake",
+        "other": "{{ count }} keepsakes"
       },
       "reset": "Reset",
       "sort_button": "Sort",
@@ -218,9 +218,9 @@
   },
   "templates": {
     "search": {
-      "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
+      "no_results": "We couldn't find any memories matching “{{ terms }}”. Please refine your search or explore our curated collections.",
       "page": "Page",
-      "products": "Products",
+      "products": "Video Books",
       "results_pages_with_count": {
         "one": "{{ count }} page",
         "other": "{{ count }} pages"
@@ -230,8 +230,8 @@
         "other": "{{ count }} suggestions"
       },
       "results_products_with_count": {
-        "one": "{{ count }} product",
-        "other": "{{ count }} products"
+        "one": "{{ count }} video book",
+        "other": "{{ count }} video books"
       },
       "results_with_count": {
         "one": "{{ count }} result",
@@ -241,29 +241,29 @@
         "one": "{{ count }} result found for “{{ terms }}”",
         "other": "{{ count }} results found for “{{ terms }}”"
       },
-      "title": "Search results",
+      "title": "Discover Collections",
       "search_for": "Search for “{{ terms }}”",
       "suggestions": "Suggestions",
       "pages": "Pages"
     },
     "cart": {
-      "cart": "Cart"
+      "cart": "Your Bag"
     },
     "contact": {
       "form": {
-        "title": "Contact form",
+        "title": "Connect with Our Concierge",
         "name": "Name",
         "email": "Email",
         "phone": "Phone number",
-        "comment": "Comment",
-        "send": "Send",
-        "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
-        "error_heading": "Please adjust the following:"
+        "comment": "How can we assist you in preserving your memories?",
+        "send": "Send Inquiry",
+        "post_success": "Thank you for reaching out. A member of our concierge team will be in touch shortly.",
+        "error_heading": "Please adjust the following details:"
       }
     },
     "404": {
-      "title": "Page not found",
-      "subtext": "404"
+      "title": "Page Not Found",
+      "subtext": "404 - The moment you are looking for seems to have faded."
     }
   },
   "sections": {
@@ -274,7 +274,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -284,16 +283,16 @@
       }
     },
     "cart": {
-      "title": "Your cart",
-      "caption": "Cart items",
+      "title": "Your Bag",
+      "caption": "Bag items",
       "remove_title": "Remove {{ title }}",
       "estimated_total": "Estimated total",
       "new_estimated_total": "New estimated total",
-      "note": "Order special instructions",
-      "checkout": "Check out",
-      "empty": "Your cart is empty",
-      "cart_error": "There was an error while updating your cart. Please try again.",
-      "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart.",
+      "note": "Special instructions for your keepsake",
+      "checkout": "Secure Checkout",
+      "empty": "Your bag awaits its first memory. Begin your curation.",
+      "cart_error": "An error occurred while updating your bag. Please try again.",
+      "cart_quantity_error_html": "You can only acquire {{ quantity }} of this limited edition item.",
       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Duties and taxes included. Discounts and shipping calculated at checkout.",
       "taxes_included_shipping_at_checkout_with_policy_html": "Taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
@@ -303,40 +302,40 @@
       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
       "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, discounts and shipping calculated at checkout.",
       "headings": {
-        "product": "Product",
+        "product": "Keepsake",
         "price": "Price",
         "total": "Total",
         "quantity": "Quantity",
-        "image": "Product image"
+        "image": "Keepsake visual"
       },
-      "update": "Update",
+      "update": "Update Bag",
       "login": {
-        "title": "Have an account?",
-        "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log in</a> to check out faster."
+        "title": "Already part of our circle?",
+        "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Sign in</a> to check out faster."
       }
     },
     "footer": {
-      "payment": "Payment methods"
+      "payment": "Secure Payment Methods"
     },
     "featured_blog": {
-      "view_all": "View all",
-      "onboarding_title": "Blog post",
-      "onboarding_content": "Give your customers a summary of your blog post"
+      "view_all": "Read all stories",
+      "onboarding_title": "The Visualbook Journal",
+      "onboarding_content": "Share your passion, news, and the beautiful stories your memories tell."
     },
     "featured_collection": {
-      "view_all": "View all",
-      "view_all_label": "View all products in the {{ collection_name }} collection"
+      "view_all": "Discover full collection",
+      "view_all_label": "Discover all keepsakes in the {{ collection_name }} collection"
     },
     "collection_list": {
-      "view_all": "View all"
+      "view_all": "View all collections"
     },
     "collection_template": {
-      "empty": "No products found",
+      "empty": "No Video Books or collections found",
       "title": "Collection",
-      "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">remove all</a>"
+      "use_fewer_filters_html": "Broaden your search or <a class=\"{{ class }}\" href=\"{{ link }}\">remove filters</a>"
     },
     "video": {
-      "load_video": "Load video: {{ description }}"
+      "load_video": "Experience: {{ description }}"
     },
     "slideshow": {
       "load_slide": "Load slide",
@@ -351,181 +350,181 @@
       "title": "Page title"
     },
     "quick_order_list": {
-      "product_total": "Product subtotal",
-      "view_cart": "View cart",
-      "each": "{{ money }}/ea",
-      "product": "Product",
-      "variant": "Variant",
-      "variant_total": "Variant total",
+      "product_total": "Keepsake subtotal",
+      "view_cart": "View Bag",
+      "each": "{{ money }} / ea",
+      "product": "Keepsake",
+      "variant": "Option",
+      "variant_total": "Option total",
       "items_added": {
-        "one": "{{ quantity }} item added",
-        "other": "{{ quantity }} items added"
+        "one": "{{ quantity }} keepsake added",
+        "other": "{{ quantity }} keepsakes added"
       },
       "items_removed": {
-        "one": "{{ quantity }} item removed",
-        "other": "{{ quantity }} items removed"
+        "one": "{{ quantity }} keepsake removed",
+        "other": "{{ quantity }} keepsakes removed"
       },
-      "product_variants": "Product variants",
+      "product_variants": "Personalization Options",
       "total_items": "Total items",
-      "remove_all_single_item_confirmation": "Remove 1 item from your cart?",
-      "remove_all_items_confirmation": "Remove all {{ quantity }} items from your cart?",
+      "remove_all_single_item_confirmation": "Remove 1 keepsake from your bag?",
+      "remove_all_items_confirmation": "Remove all {{ quantity }} keepsakes from your bag?",
       "remove_all": "Remove all",
       "cancel": "Cancel",
-      "min_error": "This item has a minimum of {{ min }}",
-      "max_error": "This item has a maximum of {{ max }}",
-      "step_error": "You can only add this item in increments of {{ step }}"
+      "min_error": "This edition has a minimum order of {{ min }}",
+      "max_error": "This edition has a maximum order of {{ max }}",
+      "step_error": "This edition is available in increments of {{ step }}"
     }
   },
   "localization": {
-    "country_label": "Country/region",
+    "country_label": "Delivery Region",
     "language_label": "Language",
-    "update_language": "Update language",
-    "update_country": "Update country/region",
-    "search": "Search",
-    "popular_countries_regions": "Popular countries/regions",
-    "country_results_count": "{{ count }} countries/regions found"
+    "update_language": "Update language preferences",
+    "update_country": "Update delivery region",
+    "search": "Search Regions",
+    "popular_countries_regions": "Popular delivery regions",
+    "country_results_count": "{{ count }} regions found"
   },
   "customer": {
     "account": {
-      "title": "Account",
-      "details": "Account details",
-      "view_addresses": "View addresses",
-      "return": "Return to Account details"
+      "title": "Your Visualbook Account",
+      "details": "Client Details",
+      "view_addresses": "Manage Delivery Addresses",
+      "return": "Return to Client Details"
     },
     "account_fallback": "Account",
     "activate_account": {
-      "title": "Activate account",
-      "subtext": "Create your password to activate your account.",
+      "title": "Activate Your Account",
+      "subtext": "Secure your password to complete your account setup.",
       "password": "Password",
       "password_confirm": "Confirm password",
       "submit": "Activate account",
       "cancel": "Decline invitation"
     },
     "addresses": {
-      "title": "Addresses",
-      "default": "Default",
+      "title": "Your Addresses",
+      "default": "Primary Delivery",
       "add_new": "Add a new address",
-      "edit_address": "Edit address",
+      "edit_address": "Edit details",
       "first_name": "First name",
       "last_name": "Last name",
       "company": "Company",
-      "address1": "Address 1",
-      "address2": "Address 2",
+      "address1": "Address Line 1",
+      "address2": "Address Line 2 (Suite, Apartment)",
       "city": "City",
-      "country": "Country/region",
-      "province": "Province",
-      "zip": "Postal/ZIP code",
-      "phone": "Phone",
-      "set_default": "Set as default address",
-      "add": "Add address",
-      "update": "Update address",
+      "country": "Country/Region",
+      "province": "State/Province",
+      "zip": "Postal/ZIP Code",
+      "phone": "Contact Number",
+      "set_default": "Set as primary delivery address",
+      "add": "Save Address",
+      "update": "Update Address",
       "cancel": "Cancel",
       "edit": "Edit",
-      "delete": "Delete",
-      "delete_confirm": "Are you sure you wish to delete this address?"
+      "delete": "Remove",
+      "delete_confirm": "Are you sure you wish to remove this delivery address?"
     },
-    "log_in": "Log in",
-    "log_out": "Log out",
+    "log_in": "Sign In",
+    "log_out": "Sign Out",
     "login_page": {
       "cancel": "Cancel",
-      "create_account": "Create account",
-      "email": "Email",
+      "create_account": "Register",
+      "email": "Email Address",
       "forgot_password": "Forgot your password?",
-      "guest_continue": "Continue",
-      "guest_title": "Continue as a guest",
+      "guest_continue": "Continue to Checkout",
+      "guest_title": "Continue as a Guest",
       "password": "Password",
-      "title": "Login",
-      "sign_in": "Sign in",
+      "title": "Sign In to Your Account",
+      "sign_in": "Sign In",
       "submit": "Submit",
-      "alternate_provider_separator": "or"
+      "alternate_provider_separator": "or access via"
     },
     "order": {
-      "title": "Order {{ name }}",
-      "date_html": "Placed on {{ date }}",
+      "title": "Order Reference: {{ name }}",
+      "date_html": "Secured on {{ date }}",
       "cancelled_html": "Order Cancelled on {{ date }}",
-      "cancelled_reason": "Reason: {{ reason }}",
-      "billing_address": "Billing Address",
+      "cancelled_reason": "Reason for cancellation: {{ reason }}",
+      "billing_address": "Billing Information",
       "payment_status": "Payment Status",
-      "shipping_address": "Shipping Address",
+      "shipping_address": "Delivery Information",
       "fulfillment_status": "Fulfillment Status",
-      "discount": "Discount",
+      "discount": "Courtesy Discount",
       "shipping": "Shipping",
       "tax": "Tax",
-      "product": "Product",
+      "product": "Video Book",
       "sku": "SKU",
       "price": "Price",
       "quantity": "Quantity",
       "total": "Total",
-      "total_refunded": "Refunded",
-      "fulfilled_at_html": "Fulfilled {{ date }}",
-      "track_shipment": "Track shipment",
+      "total_refunded": "Refunded amount",
+      "fulfilled_at_html": "Prepared for transit on {{ date }}",
+      "track_shipment": "Track your package",
       "tracking_url": "Tracking link",
-      "tracking_company": "Carrier",
-      "tracking_number": "Tracking number",
+      "tracking_company": "Logistics Partner",
+      "tracking_number": "Tracking Number",
       "subtotal": "Subtotal",
-      "total_duties": "Duties"
+      "total_duties": "Import Duties"
     },
     "orders": {
-      "title": "Order history",
-      "order_number": "Order",
-      "order_number_link": "Order number {{ number }}",
-      "date": "Date",
-      "payment_status": "Payment status",
-      "fulfillment_status": "Fulfillment status",
-      "total": "Total",
-      "none": "You haven't placed any orders yet."
+      "title": "Your Order History",
+      "order_number": "Order Reference",
+      "order_number_link": "Order {{ number }}",
+      "date": "Date Placed",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total Value",
+      "none": "You have not curated any memories with us yet."
     },
     "recover_password": {
-      "title": "Reset your password",
-      "subtext": "We will send you an email to reset your password",
-      "success": "We've sent you an email with a link to update your password."
+      "title": "Reset Your Password",
+      "subtext": "Provide your email, and we will send instructions to regain access.",
+      "success": "An email containing a secure link has been sent to update your password."
     },
     "register": {
-      "title": "Create account",
+      "title": "Join The Visualbook",
       "first_name": "First name",
       "last_name": "Last name",
-      "email": "Email",
+      "email": "Email Address",
       "password": "Password",
-      "submit": "Create"
+      "submit": "Create Account"
     },
     "reset_password": {
-      "title": "Reset account password",
-      "subtext": "Enter a new password",
-      "password": "Password",
-      "password_confirm": "Confirm password",
-      "submit": "Reset password"
+      "title": "Secure Your Account",
+      "subtext": "Please enter a new password below.",
+      "password": "New Password",
+      "password_confirm": "Confirm New Password",
+      "submit": "Save Password"
     }
   },
   "gift_cards": {
     "issued": {
-      "how_to_use_gift_card": "Use the gift card code online or QR code in-store",
-      "title": "Here's your {{ value }} gift card balance for {{ shop }}!",
-      "subtext": "Your gift card",
-      "gift_card_code": "Gift card code",
-      "shop_link": "Visit online store",
+      "how_to_use_gift_card": "Redeem your exclusive code online or present your QR code at our boutique",
+      "title": "You have received a {{ value }} gift card for {{ shop }}",
+      "subtext": "Your complimentary balance",
+      "gift_card_code": "Gift Card Code",
+      "shop_link": "Explore Our Collections",
       "add_to_apple_wallet": "Add to Apple Wallet",
-      "qr_image_alt": "QR code — scan to redeem gift card",
-      "copy_code": "Copy gift card code",
-      "expiration_date": "Expires {{ expires_on }}",
-      "copy_code_success": "Code copied successfully",
+      "qr_image_alt": "QR Code — scan to unlock your balance",
+      "copy_code": "Copy Code",
+      "expiration_date": "Valid until {{ expires_on }}",
+      "copy_code_success": "Code successfully copied",
       "expired": "Expired"
     }
   },
   "recipient": {
     "form": {
-      "checkbox": "I want to send this as a gift",
-      "expanded": "Gift card recipient form expanded",
-      "collapsed": "Gift card recipient form collapsed",
-      "email_label": "Recipient email",
-      "email_label_optional_for_no_js_behavior": "Recipient email (optional)",
+      "checkbox": "I would like to present this as a gift",
+      "expanded": "Gift card details expanded",
+      "collapsed": "Gift card details collapsed",
+      "email_label": "Recipient's Email Address",
+      "email_label_optional_for_no_js_behavior": "Recipient's Email Address (optional)",
       "email": "Email",
-      "name_label": "Recipient name (optional)",
+      "name_label": "Recipient's Name (optional)",
       "name": "Name",
-      "message_label": "Message (optional)",
+      "message_label": "A Personal Note (optional)",
       "message": "Message",
-      "max_characters": "{{ max_chars }} characters max",
+      "max_characters": "{{ max_chars }} characters limit",
       "send_on": "YYYY-MM-DD",
-      "send_on_label": "Send on (optional)"
+      "send_on_label": "Schedule Delivery Date (optional)"
     }
   }
 }
