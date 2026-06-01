@@ -86,19 +86,36 @@
     {% comment %} Become a Retail Partner Section {% endcomment %}
     {% if section.settings.show_partner_section %}
       <div class="mt-16 md:mt-24 text-center max-w-2xl mx-auto p-8 border border-gray-200 shadow-sm rounded-xl bg-white">
+        
         {% if section.settings.partner_heading != blank %}
           <h2 class="text-2xl font-serif text-[#181615] mb-4">{{ section.settings.partner_heading | escape }}</h2>
         {% endif %}
+        
         {% if section.settings.partner_text != blank %}
-          <div class="text-gray-600 font-sans font-light mb-6 text-sm md:text-base leading-relaxed">
+          <div class="text-gray-600 font-sans font-light mb-4 text-sm md:text-base leading-relaxed">
             {{ section.settings.partner_text }}
           </div>
         {% endif %}
+
+        {% comment %} Display Email as a Bullet Point {% endcomment %}
         {% if section.settings.partner_email != blank %}
-          <a href="mailto:{{ section.settings.partner_email }}" class="inline-flex items-center justify-center px-8 py-3 bg-[#181615] text-white font-sans font-medium text-sm tracking-widest uppercase hover:bg-gray-800 transition-colors rounded-md">
+          <ul class="flex items-center justify-center mb-8 text-sm md:text-base font-sans font-medium text-gray-600">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-gray-400 rounded-full block"></span>
+              <a href="mailto:{{ section.settings.partner_email }}" class="hover:text-[#181615] transition-colors border-b border-transparent hover:border-[#181615] pb-0.5">
+                {{ section.settings.partner_email }}
+              </a>
+            </li>
+          </ul>
+        {% endif %}
+        
+        {% comment %} Contact Us Page Link {% endcomment %}
+        {% if section.settings.partner_btn_text != blank %}
+          <a href="{{ section.settings.partner_btn_link }}" class="inline-flex items-center justify-center px-8 py-3 bg-[#181615] text-white font-sans font-medium text-sm tracking-widest uppercase hover:bg-gray-800 transition-colors rounded-md">
             {{ section.settings.partner_btn_text | escape }}
           </a>
         {% endif %}
+
       </div>
     {% endif %}
 
@@ -234,6 +251,12 @@
       "id": "partner_btn_text",
       "label": "Button Text",
       "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "partner_btn_link",
+      "label": "Button Link",
+      "info": "Select the contact page you want this button to link to."
     },
     {
       "type": "header",
