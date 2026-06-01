@@ -5575,6 +5575,11 @@
       padding-block: calc(var(--spacing) * 24);
     }
   }
+  .lg\:pt-16 {
+    @media (width >= 64rem) {
+      padding-top: calc(var(--spacing) * 16);
+    }
+  }
   .lg\:pt-28 {
     @media (width >= 64rem) {
       padding-top: calc(var(--spacing) * 28);
@@ -5588,6 +5593,11 @@
   .lg\:pb-0 {
     @media (width >= 64rem) {
       padding-bottom: calc(var(--spacing) * 0);
+    }
+  }
+  .lg\:pb-6 {
+    @media (width >= 64rem) {
+      padding-bottom: calc(var(--spacing) * 6);
     }
   }
   .lg\:pb-12 {
