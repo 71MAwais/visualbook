@@ -77,7 +77,11 @@
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
-          // --- PASTE PRIVY SCRIPT BELOW THIS LINE ---
+          // --- INJECT PRIVY SCRIPT ---
+          var privyScript = document.createElement('script');
+          privyScript.src = "https://widget.privy.com/assets/widget.js";
+          privyScript.async = true;
+          document.head.appendChild(privyScript);
 
           // --- PASTE GOOGLE TAG MANAGER SCRIPT BELOW THIS LINE ---
 
