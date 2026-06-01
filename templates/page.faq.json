@@ -13,12 +13,8 @@
       "type": "main-page",
       "disabled": true,
       "settings": {
-        "top_heading": "",
-        "bottom_heading": "",
-        "custom_title": "",
-        "text_alignment": "center",
-        "title_size_desktop": 4,
-        "title_size_mobile": 2.5,
+        "show_title": true,
+        "content_width": "800",
         "padding_top": 28,
         "padding_bottom": 28
       }
@@ -165,8 +161,8 @@
         "subheading": "Support",
         "title": "Frequently Asked Questions",
         "show_contact": true,
-        "contact_heading": "Contact Client Services",
-        "contact_text": "Our dedicated Client Advisors are available to assist you by phone, email, or live chat. We invite you to contact us with any questions regarding your Visual Book, bespoke orders, or general inquiries.",
+        "contact_heading": "Need Personal Assistance?",
+        "contact_text": "Whether you need help creating your perfect video book, checking on an order, or choosing a special gift, our team is here to make sure everything is perfect for you.",
         "contact_button_text": "Contact Us",
         "contact_link": "shopify://pages/contact"
       }
