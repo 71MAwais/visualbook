@@ -564,7 +564,7 @@
         "show_contact": true,
         "whatsapp_number": "+447466633503",
         "email_address": "support@thevisualbook.com",
-        "contact_page_link": ""
+        "contact_page_link": "shopify://pages/contact"
       }
     },
     "landing_cta_pF9D7X": {
