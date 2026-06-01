@@ -429,9 +429,9 @@
           "settings": {
             "custom_svg": "",
             "fallback_icon": "award",
-            "title": "Internationally Awarded",
-            "subtitle": "Global Excellence",
-            "text": "Crowned 'Best Luxury Wedding Memory Preservation' globally, and recognised by industry leaders for our commitment to artisan craftsmanship and technological innovation."
+            "title": "Internationally Acclaimed",
+            "subtitle": "Award-Winning Excellence",
+            "text": "Honored globally for 'Best Luxury Wedding Memory Preservation,' we are recognized by industry leaders for our unwavering commitment to artisan craftsmanship and technological innovation."
           }
         },
         "credential_ngwfTT": {
@@ -439,8 +439,8 @@
           "settings": {
             "custom_svg": "",
             "fallback_icon": "shopping-bag",
-            "title": "Global Retail Presence",
-            "subtitle": "Trusted by the Best",
+            "title": "Prestigious Retail Presence",
+            "subtitle": "Trusted by Luxury Patrons",
             "text": "Featured as the 'Star of the Show' in the world's most prestigious luxury department stores, from Selfridges in London to KaDeWe in Berlin and La Rinascente in Italy."
           }
         },
@@ -449,7 +449,7 @@
           "settings": {
             "custom_svg": "",
             "fallback_icon": "shield",
-            "title": "Unrivalled Quality",
+            "title": "Uncompromising Quality",
             "subtitle": "Sustainably & Safely Crafted",
             "text": "Engineered to rigorous international CE, RoHS, and UKCA standards, ensuring your most cherished memories are preserved flawlessly and safely for a lifetime."
           }
@@ -463,8 +463,8 @@
       ],
       "name": "Credentials & Trust",
       "settings": {
-        "subtitle": "Born in London, Loved Worldwide",
-        "title": "A Global Standard in Luxury Memory Preservation"
+        "subtitle": "Conceived in London, Treasured Worldwide",
+        "title": "The Global Standard in Luxury Memory Preservation"
       }
     },
     "landing_founder_zTBkD3": {
