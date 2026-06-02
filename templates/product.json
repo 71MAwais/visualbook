@@ -239,6 +239,7 @@
         "experience_card_pPQdbU": {
           "type": "experience_card",
           "settings": {
+            "card_image": "shopify://shop_images/IMG_5287.heic",
             "card_title": "Built for Forever",
             "card_desc": "A fully rechargeable battery and offline storage means your memories are always safe and ready to play.",
             "card_action_text": "Learn more",
