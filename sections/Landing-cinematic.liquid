@@ -142,13 +142,11 @@
             </button>
 
             {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
-            {% comment %} Added aspect-video for mobile and aspect-square for desktop to maintain a proper bounding box {% endcomment %}
             <div class="w-full md:w-1/2 aspect-video md:aspect-square bg-black relative flex items-center justify-center group/video shrink-0">
                 
                 {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
                 <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full relative">
                     {% if block.settings.video != blank %}
-                        {% comment %} Added 'muted' to start video without sound, and absolute inset-0 to perfectly map inside the container {% endcomment %}
                         <video id="video-{{ block.id }}" class="absolute inset-0 w-full h-full object-contain bg-black" controls playsinline preload="metadata" muted>
                             {% for source in block.settings.video.sources %}
                                 <source src="{{ source.url }}" type="{{ source.mime_type }}">
@@ -270,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById(`video-${blockId}`);
             if (video) {
                 video.currentTime = 0;
+                video.muted = true; // Ensure it's muted when opened
                 let playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => console.warn("Browser auto-play rules delayed execution.", error));
@@ -294,9 +293,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalBox.classList.add('scale-95');
             }
 
+            // Reset video to stateless on close
             const blockId = modal.id.replace('cine-modal-', '');
             const video = document.getElementById(`video-${blockId}`);
-            if (video) video.pause();
+            if (video) {
+                video.pause();
+                video.currentTime = 0; // Reset timer
+                video.muted = true;    // Reset audio back to muted
+            }
 
             setTimeout(() => {
                 modal.classList.add('hidden');
