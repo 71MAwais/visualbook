@@ -146,10 +146,22 @@
         "support_btn_text": "Contact Live Support for Help",
         "support_modal_title": "How can we help?",
         "support_modal_text": "Our concierge team is available 24/7 to assist you with your Visual Book.",
-        "support_email_text": "Email Support",
+        "support_email_text": "",
         "support_contact_text": "Visit Contact Page",
         "award_btn_text": "Our Awards",
-        "award_modal_title": "Award-Winning Quality"
+        "award_modal_title": "Award-Winning Quality",
+        "award_year_1": "2026",
+        "award_text_1": "<ul><li>Winner – Global Recognition Award</li></ul>",
+        "award_year_2": "2024",
+        "award_text_2": "<ul><li>Winner – Most Dedicated Memory Preservation Company: SME News Greater London Enterprise Awards</li></ul>",
+        "award_year_3": "2023",
+        "award_text_3": "<ul><li>Winner – Best Luxury Wedding Memory Preservation Company: Global Wedding Awards</li><li>Winner – Most Pioneering Memory Preservation Company: SME News Greater London Enterprise Awards</li><li>Winner – Memorabilia Company of the Year: Innovation & Excellence Awards</li></ul>",
+        "cashback_btn_text": "Get 6% Cashback",
+        "cashback_modal_title": "Claim 6% Cashback",
+        "cashback_modal_desc": "Valid for orders above <strong>$100</strong>. Follow the steps below to claim your instant cashback!",
+        "cashback_step_1": "Post a story or post on minimum <strong>two</strong> social media platforms (Facebook, TikTok, or Instagram).",
+        "cashback_step_2": "Tag <strong>@thevisualbook</strong> in your posts (find our official social links in the footer).",
+        "cashback_step_3": "Take a screenshot and share the proof with us on WhatsApp along with your <strong>Order ID</strong> to verify and win!"
       }
     },
     "product_experience1_hwNmVK": {
