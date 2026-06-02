@@ -107,7 +107,7 @@
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
-        "fallback_review_count": "2",
+        "fallback_review_count": "0",
         "show_variants": false,
         "enable_custom_fields": false,
         "target_product": "",
