@@ -322,9 +322,7 @@
                 <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.support_modal_text | default: 'Our concierge team is available 24/7 to assist you with your Visual Book.' }}</p>
             </div>
             <div class="space-y-3">
-                <a href="mailto:{{ shop.email }}" class="focus-ring w-full bg-stone-900 text-white rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-800 transition-colors">
-                    {{ section.settings.support_email_text | default: 'Email Support' }}
-                </a>
+                
                 <a href="/pages/contact" class="focus-ring w-full bg-white border border-stone-200 text-stone-800 rounded-lg py-3.5 text-[13px] font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors shadow-sm">
                     {{ section.settings.support_contact_text | default: 'Visit Contact Page' }}
                 </a>
@@ -1081,12 +1079,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "label": "Modal Text",
       "default": "Our concierge team is available 24/7 to assist you with your Visual Book."
     },
-    {
-      "type": "text",
-      "id": "support_email_text",
-      "label": "Email Button Text",
-      "default": "Email Support"
-    },
+    
     {
       "type": "text",
       "id": "support_contact_text",
