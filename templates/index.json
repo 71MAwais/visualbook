@@ -100,8 +100,8 @@
         "experience_zfp7T3": {
           "type": "experience",
           "settings": {
-            "tag": "ALWAYS & FOREVER",
-            "title": "Classic Visual Book",
+            "tag": "CLASSIC VISUAL BOOK",
+            "title": "ALWAYS & FOREVER",
             "description": "A timeless, heirloom-quality keepsake to celebrate your eternal bond and most cherished moments together.",
             "video_duration": "00:13",
             "cover_image": "shopify://shop_images/5065017721152_ALT01.jpg",
@@ -124,8 +124,8 @@
         "experience_fUUBki": {
           "type": "experience",
           "settings": {
-            "tag": "OUR WEDDING",
-            "title": "Classic Visual Book",
+            "tag": "CLASSIC VISUAL BOOK",
+            "title": "OUR WEDDING",
             "description": "Relive the magic of your special day with a beautifully crafted visual book of your wedding memories.",
             "video_duration": "00:26",
             "cover_image": "shopify://shop_images/5065017721077_ALT03.jpg",
@@ -148,7 +148,7 @@
         "experience_RDmccT": {
           "type": "experience",
           "settings": {
-            "tag": "HAPPY BIRTHDAY",
+            "tag": "CLASSIC VISUAL BOOK",
             "title": "HAPPY BIRTHDAY",
             "description": "The perfect, unforgettable birthday gift to look back on epic celebrations and life's greatest milestones.",
             "video_duration": "00:15",
