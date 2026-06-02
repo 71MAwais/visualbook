@@ -134,7 +134,7 @@
       "name": "Visual Product Hero",
       "settings": {
         "hide_section": false,
-        "fallback_review_count": "0",
+        "fallback_review_count": "2",
         "show_variants": true,
         "enable_custom_fields": true,
         "target_product": "personalized-books",
@@ -149,9 +149,7 @@
         "support_email_text": "Email Support",
         "support_contact_text": "Visit Contact Page",
         "award_btn_text": "Our Awards",
-        "award_modal_title": "Award-Winning Quality",
-        "discount_btn_text": "Get $5 / €5 Off",
-        "discount_modal_title": "Unlock $5 / €5 Off"
+        "award_modal_title": "Award-Winning Quality"
       }
     },
     "product_experience1_hwNmVK": {
@@ -216,8 +214,8 @@
       ],
       "name": "Premium Feature Grid",
       "settings": {
-        "bg_color": "#FAFAFA",
-        "accent_color": "#B8906B",
+        "bg_color": "#fafafa",
+        "accent_color": "#b8906b",
         "subtitle": "Technology",
         "heading": "The Visualbook Experience",
         "subheading": "Discover the seamless technology behind your most cherished memories."
