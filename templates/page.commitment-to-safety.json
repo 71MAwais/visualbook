@@ -13,12 +13,24 @@
       "type": "main-page",
       "disabled": true,
       "settings": {
+        "show_title": true,
+        "content_width": "800",
         "padding_top": 28,
         "padding_bottom": 28
+      }
+    },
+    "visual_wellbeing_sustainability_L47tfx": {
+      "type": "visual-wellbeing-sustainability",
+      "name": "Our Commitments",
+      "settings": {
+        "bg_color": "#FAFAFA",
+        "accent_color": "#B8906B",
+        "title": "Ensuring the Wellbeing of All Those Involved in the Visual Book"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "visual_wellbeing_sustainability_L47tfx"
   ]
 }
