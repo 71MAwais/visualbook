@@ -13,7 +13,7 @@
       "type": "landing-hero",
       "name": "Visual Hero",
       "settings": {
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/9809126aa75a4c6eb83a877fe17b0900.mp4",
+        "video_url": "https://cdn.shopify.com/s/files/1/0579/6554/3477/files/hero.mkv?v=1780403613",
         "image": "shopify://shop_images/photo_0300_6779b2a9-9803-4a44-a806-1da0b824ab0e.jpg",
         "heading": "Your Memories, Elegantly Preserved.",
         "subheading": "Experience the timeless elegance of a physical memory album, elevated with a breathtaking HD video display. A luxury keepsake with no internet or setup required.",
@@ -91,8 +91,7 @@
         "tab_1_label": "Video Book",
         "collection_1": "classic-visual-books",
         "tab_2_label": "Audio Cards",
-        "collection_2": "audio-greetings-card",
-        "award_icon": "shopify://shop_images/images.png"
+        "collection_2": "audio-greetings-card"
       }
     },
     "landing_cinematic_dVzXyi": {
@@ -104,8 +103,9 @@
             "tag": "ALWAYS & FOREVER",
             "title": "Classic Visual Book",
             "description": "A timeless, heirloom-quality keepsake to celebrate your eternal bond and most cherished moments together.",
-            "video_duration": "02:30",
+            "video_duration": "00:13",
             "cover_image": "shopify://shop_images/5065017721152_ALT01.jpg",
+            "video": "shopify://files/videos/Always forever.mp4",
             "tab_1_title": "The Video",
             "tab_2_title": "Features & Specs",
             "tab_2_text": "<p><strong>Display:</strong> Available in 7-inch and 10.1-inch IPS HD Displays<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> One-Click Video/Photo Switch and Complimentary Pre-Loading</p>",
@@ -127,8 +127,9 @@
             "tag": "OUR WEDDING",
             "title": "Classic Visual Book",
             "description": "Relive the magic of your special day with a beautifully crafted visual book of your wedding memories.",
-            "video_duration": "05:00",
+            "video_duration": "00:26",
             "cover_image": "shopify://shop_images/5065017721077_ALT03.jpg",
+            "video": "shopify://files/videos/wedding videobook.mp4",
             "tab_1_title": "The Video",
             "tab_2_title": "Features & Specs",
             "tab_2_text": "<p><strong>Display:</strong> Available in 7-inch and 10.1-inch IPS HD Displays<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> One-Click Video/Photo Switch and Complimentary Pre-Loading</p>",
@@ -150,8 +151,9 @@
             "tag": "HAPPY BIRTHDAY",
             "title": "HAPPY BIRTHDAY",
             "description": "The perfect, unforgettable birthday gift to look back on epic celebrations and life's greatest milestones.",
-            "video_duration": "01:45",
+            "video_duration": "00:15",
             "cover_image": "shopify://shop_images/5065017721060_ALT03.jpg",
+            "video": "shopify://files/videos/birthday book.mp4",
             "tab_1_title": "The Video",
             "tab_2_title": "Features & Specs",
             "tab_2_text": "<p><strong>Display:</strong> 7.1-inch IPS HD Display<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> Simple Drag & Drop Setup with a 2500mAh Lithium Battery.</p>",
@@ -166,60 +168,12 @@
             "chapter_3_label": "",
             "chapter_3_time": 30
           }
-        },
-        "experience_4qNMfY": {
-          "type": "experience",
-          "settings": {
-            "tag": "FAMILY",
-            "title": "Family Book",
-            "description": "Preserve the joy of family vacations, everyday milestones, and the moments that matter most.",
-            "video_duration": "03:15",
-            "cover_image": "shopify://shop_images/TheVisualBookLowRes_33.jpg",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features & Specs",
-            "tab_2_text": "<p><strong>Display:</strong> 7.1-inch IPS HD Display<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> Simple Drag & Drop Setup with a 2500mAh Lithium Battery</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>Kids grow up too fast and memories get buried in camera rolls. This is a physical time capsule of your family's laughter, first steps, and messy, beautiful life.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "shopify://products/family-book",
-            "chapter_1_label": "",
-            "chapter_1_time": 0,
-            "chapter_2_label": "",
-            "chapter_2_time": 15,
-            "chapter_3_label": "",
-            "chapter_3_time": 30
-          }
-        },
-        "experience_hxJmdV": {
-          "type": "experience",
-          "settings": {
-            "tag": "I LOVE YOU",
-            "title": "Classic Visual Book Gift",
-            "description": "A heartfelt gift to simply say \"I love you\" through a collection of the moving memories you've shared.",
-            "video_duration": "02:00",
-            "cover_image": "shopify://shop_images/5065017721084_ALT03.jpg",
-            "tab_1_title": "The Video",
-            "tab_2_title": "Features & Specs",
-            "tab_2_text": "<p><strong>Display:</strong> 7.1-inch IPS HD Display<br/><strong>Storage:</strong> 8GB Capacity (Up to 6-Hour Video & Photo Capacity)<br/><strong>Design:</strong> Premium Cream-Beige Soft Linen Cover with Gold Foil Stamp<br/><strong>Smart Tech:</strong> Magnetic/Light/Motion Sensor Power Switch (opens to play)<br/><strong>Extras:</strong> Simple Drag & Drop Setup with a 2500mAh Lithium Battery</p>",
-            "tab_3_title": "The Purpose",
-            "tab_3_text": "<p>Sometimes words aren't enough. Show them exactly how much they mean to you with a curated video experience wrapped in a luxury, tangible book.</p>",
-            "button_label": "Create Your Book",
-            "button_link": "shopify://products/i-love-you-classic-visual-book-classic-visual-book-gift",
-            "chapter_1_label": "",
-            "chapter_1_time": 0,
-            "chapter_2_label": "",
-            "chapter_2_time": 15,
-            "chapter_3_label": "",
-            "chapter_3_time": 30
-          }
         }
       },
       "block_order": [
         "experience_zfp7T3",
         "experience_fUUBki",
-        "experience_RDmccT",
-        "experience_4qNMfY",
-        "experience_hxJmdV"
+        "experience_RDmccT"
       ],
       "name": "Cinematic Showcase",
       "settings": {
