@@ -105,6 +105,12 @@
     "product_hero_visual_RfgfJ9": {
       "type": "product-hero-visual",
       "blocks": {
+        "file_uploads_by_uploadkit_app_block_DTUhfN": {
+          "type": "shopify://apps/file-uploads-by-uploadkit/blocks/app-block/d7b05810-6170-4288-808a-df45248c4d28",
+          "settings": {
+            "product": "{{section.settings.target_product}}"
+          }
+        },
         "accordion_HgaYcf": {
           "type": "accordion",
           "settings": {
@@ -121,6 +127,7 @@
         }
       },
       "block_order": [
+        "file_uploads_by_uploadkit_app_block_DTUhfN",
         "accordion_HgaYcf",
         "accordion_qncAw3"
       ],
@@ -245,23 +252,6 @@
         "tab_2_label": "Audio Cards",
         "collection_2": "audio-greetings-card"
       }
-    },
-    "1780265235de2fae7e": {
-      "type": "apps",
-      "blocks": {
-        "file_uploads_by_uploadkit_app_block_ed78yw": {
-          "type": "shopify://apps/file-uploads-by-uploadkit/blocks/app-block/d7b05810-6170-4288-808a-df45248c4d28",
-          "settings": {
-            "product": "{{product}}"
-          }
-        }
-      },
-      "block_order": [
-        "file_uploads_by_uploadkit_app_block_ed78yw"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
@@ -270,7 +260,6 @@
     "product_hero_visual_RfgfJ9",
     "product_experience1_hwNmVK",
     "product_review_wbmqa7",
-    "landing_shop_8w6YGV",
-    "1780265235de2fae7e"
+    "landing_shop_8w6YGV"
   ]
 }
