@@ -7,7 +7,7 @@
         {{ section.settings.subheading | default: 'Companion Tool' }}
       </span>
       <h1 class="text-4xl md:text-6xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
-        {{ page.title | default: 'Video Formatter' }}
+        {{ section.settings.title | default: 'Video Converter' }}
       </h1>
       <p class="text-sm text-[#555555] font-light leading-relaxed max-w-xl mx-auto">
         {{ section.settings.description | default: 'Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book.' }}
@@ -31,7 +31,7 @@
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Resolution</span>
-              <span class="text-sm text-[#737373]">HD (1280x720)</span>
+              <span class="text-sm text-[#737373]">720p (16:9)</span>
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Audio</span>
@@ -77,8 +77,8 @@
             <p class="text-sm text-[#737373] font-light mb-8">Your video is now perfectly formatted for The Visual Book.</p>
             
            <a id="DownloadBtn" href="#" target="_blank" rel="noopener noreferrer" class="inline-block w-full md:w-auto bg-[#1a1a1a] text-white text-[11px] font-bold uppercase tracking-[0.2em] py-4 px-12 hover:bg-[#c4b09e] transition-colors duration-300 mb-4">
-  Download Video
-</a>
+              Download Video
+            </a>
             <br>
             <button id="ConvertAnotherBtn" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a39d93] hover:text-[#1a1a1a] transition-colors underline">
               Convert Another File
@@ -103,10 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const downloadBtn = document.getElementById('DownloadBtn');
   const convertAnotherBtn = document.getElementById('ConvertAnotherBtn');
 
-  // URL to your secure Vercel backend
+  // Backend API endpoint
   const BACKEND_API_URL = 'https://vb-video-formatting-tool.vercel.app/api/convert';
 
-  // UI State Management
+  // --- UI State Management ---
   function showProcessing(text, progress) {
     dropZone.classList.add('hidden');
     successState.classList.add('hidden');
@@ -128,22 +128,55 @@ document.addEventListener('DOMContentLoaded', function() {
     dropZone.classList.remove('hidden');
   }
 
-  // File handling
+  convertAnotherBtn.addEventListener('click', resetUI);
+
+  // --- Advanced Drag & Drop Handling ---
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.add('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.remove('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  dropZone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files);
+    }
+  }, false);
+
   videoInput.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
+    if (e.target.files && e.target.files.length > 0) {
       handleFileUpload(e.target.files);
     }
   });
 
-  convertAnotherBtn.addEventListener('click', resetUI);
-
-  // --- THE REAL CLOUDCONVERT LOGIC ---
-  async function handleFileUpload(incomingData) {
-    // FIXED: Grabs the actual file object at index 0 if it's a FileList array
-    const file = incomingData.length > 0 ? incomingData[0] : incomingData;
-
+  // --- CONVERSION LOGIC ---
+  async function handleFileUpload(file) {
     if (!file || !file.name) {
       alert("No valid file detected. Please try selecting the video again.");
+      resetUI();
+      return;
+    }
+
+    if (!file.type.startsWith('video/')) {
+      alert("Please upload a valid video file (MP4, MOV, AVI, etc).");
       resetUI();
       return;
     }
@@ -151,20 +184,19 @@ document.addEventListener('DOMContentLoaded', function() {
     showProcessing('Initializing connection...', 5);
 
     try {
-      // Send the exact file name so CloudConvert knows it is a video
+      // Initialize upload parameters securely
       const initResponse = await fetch(BACKEND_API_URL + '?filename=' + encodeURIComponent(file.name), { method: 'POST' });
       const initData = await initResponse.json();
 
       if (!initData.uploadUrl) throw new Error("Could not initialize upload.");
 
-      showProcessing('Uploading directly to CloudConvert (This depends on your internet speed)...', 15);
+      showProcessing('Uploading video (this depends on your internet speed)...', 15);
 
       const formData = new FormData();
       for (const key in initData.uploadParameters) {
         formData.append(key, initData.uploadParameters[key]);
       }
       
-      // Attach the actual video file
       formData.append('file', file);
 
       const uploadResponse = await fetch(initData.uploadUrl, {
@@ -173,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!uploadResponse.ok) {
-         throw new Error("Direct upload rejected. The file failed to send.");
+         throw new Error("Upload rejected. The file failed to send.");
       }
 
       showProcessing('Converting Video (This may take a while)...', 50);
@@ -181,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
       checkJobStatus(initData.jobId);
 
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      alert("An error occurred during upload. Check your connection and try again.");
       console.error(error);
       resetUI();
     }
@@ -197,9 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showProcessing('Finalizing...', 100);
         setTimeout(() => showSuccess(data.downloadUrl), 500);
       } else if (data.status === 'error') {
-        throw new Error("CloudConvert failed to process the file: " + (data.message || 'Unknown error'));
+        throw new Error("Failed to process the file: " + (data.message || 'Unknown error'));
       } else {
-        // Still processing. Wait 5 seconds and check again.
         setTimeout(() => checkJobStatus(jobId), 5000);
       }
     } catch (error) {
@@ -213,13 +244,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% schema %}
 {
-  "name": "Video Formatter",
+  "name": "Video Converter",
   "settings": [
     {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
       "default": "Companion Tool"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Video Converter"
     },
     {
       "type": "textarea",
@@ -230,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ],
   "presets": [
     {
-      "name": "Video Formatter Tool"
+      "name": "Video Converter Tool"
     }
   ]
 }
