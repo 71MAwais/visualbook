@@ -105,6 +105,12 @@
     "product_hero_visual_RfgfJ9": {
       "type": "product-hero-visual",
       "blocks": {
+        "file_uploads_by_uploadkit_app_block_DTUhfN": {
+          "type": "shopify://apps/file-uploads-by-uploadkit/blocks/app-block/d7b05810-6170-4288-808a-df45248c4d28",
+          "settings": {
+            "product": "{{section.settings.target_product}}"
+          }
+        },
         "accordion_HgaYcf": {
           "type": "accordion",
           "settings": {
@@ -121,6 +127,7 @@
         }
       },
       "block_order": [
+        "file_uploads_by_uploadkit_app_block_DTUhfN",
         "accordion_HgaYcf",
         "accordion_qncAw3"
       ],
@@ -153,122 +160,73 @@
         "discount_task3": "Join our Newsletter"
       }
     },
-    "product_experience1_r74Bzr": {
+    "product_experience1_hwNmVK": {
       "type": "product-experience1",
       "blocks": {
-        "experience_card_ajPBhC": {
-          "type": "experience_card",
+        "feature_x8QFFd": {
+          "type": "feature",
           "settings": {
-            "card_title": "Unbox & Play",
-            "card_desc": "Experience the magic instantly. The book opens seamlessly and starts playing your memories right out of the box.",
-            "card_action_text": "Discover how",
-            "tab1_btn": "Magnetic Switch",
-            "tab1_heading": "Smart Cover Technology",
-            "tab1_desc": "Our built-in magnetic sensor detects the exact moment the cover is lifted. No power buttons to hunt for—the book simply knows when you're ready to watch. Closing it instantly saves battery.",
-            "tab2_btn": "Instant Playback",
-            "tab2_heading": "Zero Loading Time",
-            "tab2_desc": "Unlike apps or streaming services, the Visualbook reads directly from high-speed internal memory. Your videos start playing in crisp HD the second the cover opens.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "play",
+            "title": "Instant Playback",
+            "description": "Our built-in magnetic sensor detects the exact moment the cover is lifted. The book simply knows when you're ready to watch."
           }
         },
-        "experience_card_fBkziY": {
-          "type": "experience_card",
+        "feature_twYt6F": {
+          "type": "feature",
           "settings": {
-            "card_title": "Stunning Display & Sound",
-            "card_desc": "Crystal clear HD video and rich, room-filling sound bring your most cherished moments back to life.",
-            "card_action_text": "See the specs",
-            "tab1_btn": "Brilliant Screen",
-            "tab1_heading": "High-Definition IPS Display",
-            "tab1_desc": "Relive your memories in stunning clarity. Our premium IPS screen ensures your videos are bright, colorful, and perfectly viewable from any angle without glare.",
-            "tab2_btn": "Immersive Audio",
-            "tab2_heading": "Specially Tuned Speakers",
-            "tab2_desc": "Relive the laughter and the vows. The internal speaker is specially calibrated for clear voices and rich background music, ensuring the audio is just as emotional as the video.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "screen",
+            "title": "Stunning Display",
+            "description": "Relive your memories in stunning clarity. Our premium IPS screen ensures your videos are bright and perfectly viewable from any angle."
           }
         },
-        "experience_card_rTcdHD": {
-          "type": "experience_card",
+        "feature_TWyJhA": {
+          "type": "feature",
           "settings": {
-            "card_title": "Premium Craftsmanship",
-            "card_desc": "Designed to sit beautifully in your home. A timeless linen finish that feels like a classic heirloom.",
-            "card_action_text": "View details",
-            "tab1_btn": "Linen Cover",
-            "tab1_heading": "Elegant Linen Finish",
-            "tab1_desc": "Wrapped in high-quality, tactile linen, the Visualbook feels substantial and luxurious in your hands. It’s designed to be a centerpiece, not something you hide in a drawer.",
-            "tab2_btn": "Coffee Table Ready",
-            "tab2_heading": "A Modern Heirloom",
-            "tab2_desc": "We removed the distraction of glowing screens and messy cables. With its minimalist spine and cover, it blends perfectly into your bookshelf or coffee table decor.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "volume",
+            "title": "Immersive Audio",
+            "description": "The internal speaker is specially calibrated for clear voices and rich background music, ensuring the audio is just as emotional as the video."
           }
         },
-        "experience_card_HCWFxa": {
-          "type": "experience_card",
+        "feature_eVGXmX": {
+          "type": "feature",
           "settings": {
-            "card_title": "Effortless Uploads",
-            "card_desc": "Drag, drop, and done. Treat it like a standard flash drive to add or change your videos anytime.",
-            "card_action_text": "See how easy",
-            "tab1_btn": "Plug & Play",
-            "tab1_heading": "Drag and Drop Simplicity",
-            "tab1_desc": "Use the included USB-C cable to connect the Visualbook to any Mac or PC. It opens just like a standard USB flash drive. No special software or apps required.",
-            "tab2_btn": "Universal Formats",
-            "tab2_heading": "Endless Storage",
-            "tab2_desc": "We support standard MP4, MOV, and AVI formats. Upload a single long wedding documentary, or load multiple short clips—the book will play them seamlessly in order.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "book",
+            "title": "Premium Craftsmanship",
+            "description": "Wrapped in high-quality, tactile linen, the Visualbook feels substantial and luxurious in your hands. A true modern heirloom."
           }
         },
-        "experience_card_Uf3Ph9": {
-          "type": "experience_card",
+        "feature_QrDMK7": {
+          "type": "feature",
           "settings": {
-            "card_title": "Intuitive Controls",
-            "card_desc": "Complete control without distraction. Soft-touch buttons let you pause, skip, and adjust volume effortlessly.",
-            "card_action_text": "View controls",
-            "tab1_btn": "Playback Options",
-            "tab1_heading": "Skip, Rewind, Relive",
-            "tab1_desc": "Subtle, flush-mounted buttons let you skip to your favorite video clip or pause the action without distracting from the gorgeous aesthetic of the book.",
-            "tab2_btn": "Volume Adjust",
-            "tab2_heading": "Perfect Audio Levels",
-            "tab2_desc": "Easily adjust the volume up or down using the dedicated +/- buttons depending on your environment, from a quiet living room to a bustling family gathering.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "upload",
+            "title": "Effortless Uploads",
+            "description": "Use the included USB-C cable to connect to any Mac or PC. Drag and drop your files just like a standard USB flash drive."
           }
         },
-        "experience_card_pPQdbU": {
-          "type": "experience_card",
+        "feature_8JbXTT": {
+          "type": "feature",
           "settings": {
-            "card_image": "shopify://shop_images/IMG_5287.heic",
-            "card_title": "Built for Forever",
-            "card_desc": "A fully rechargeable battery and offline storage means your memories are always safe and ready to play.",
-            "card_action_text": "Learn more",
-            "tab1_btn": "Rechargeable",
-            "tab1_heading": "Long-Lasting Battery",
-            "tab1_desc": "The built-in battery provides hours of continuous playback on a single charge. When it runs low, simply plug it in with the included USB-C cable to recharge it for endless viewings.",
-            "tab2_btn": "Offline Safety",
-            "tab2_heading": "No Cloud, No Subscriptions",
-            "tab2_desc": "Your privacy and memories are secure. Because the video lives on the physical memory of the book, you never have to worry about Wi-Fi dropping, lost cloud passwords, or ongoing subscription fees.",
-            "button_label": "Add to Cart",
-            "button_link": ""
+            "icon": "battery",
+            "title": "Built for Forever",
+            "description": "The built-in rechargeable battery provides hours of continuous playback, while offline storage keeps your memories completely private."
           }
         }
       },
       "block_order": [
-        "experience_card_ajPBhC",
-        "experience_card_fBkziY",
-        "experience_card_rTcdHD",
-        "experience_card_HCWFxa",
-        "experience_card_Uf3Ph9",
-        "experience_card_pPQdbU"
+        "feature_x8QFFd",
+        "feature_twYt6F",
+        "feature_TWyJhA",
+        "feature_eVGXmX",
+        "feature_QrDMK7",
+        "feature_8JbXTT"
       ],
-      "name": "Product Experience Unified",
+      "name": "Premium Feature Grid",
       "settings": {
-        "bg_color": "#fafafa",
-        "accent_color": "#b8906b",
+        "bg_color": "#FAFAFA",
+        "accent_color": "#B8906B",
         "subtitle": "Technology",
         "heading": "The Visualbook Experience",
-        "subheading": "Select a feature to discover the seamless technology behind your most cherished memories."
+        "subheading": "Discover the seamless technology behind your most cherished memories."
       }
     },
     "product_review_wbmqa7": {
@@ -294,32 +252,14 @@
         "tab_2_label": "Audio Cards",
         "collection_2": "audio-greetings-card"
       }
-    },
-    "1780265235de2fae7e": {
-      "type": "apps",
-      "blocks": {
-        "file_uploads_by_uploadkit_app_block_ed78yw": {
-          "type": "shopify://apps/file-uploads-by-uploadkit/blocks/app-block/d7b05810-6170-4288-808a-df45248c4d28",
-          "settings": {
-            "product": "{{product}}"
-          }
-        }
-      },
-      "block_order": [
-        "file_uploads_by_uploadkit_app_block_ed78yw"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
     "main",
     "related-products",
     "product_hero_visual_RfgfJ9",
-    "product_experience1_r74Bzr",
+    "product_experience1_hwNmVK",
     "product_review_wbmqa7",
-    "landing_shop_8w6YGV",
-    "1780265235de2fae7e"
+    "landing_shop_8w6YGV"
   ]
 }
