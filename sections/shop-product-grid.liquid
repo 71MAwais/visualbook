@@ -196,7 +196,7 @@
             
             {%- comment -%} DYNAMIC RATING WITH BULLETPROOF FALLBACK {%- endcomment -%}
             {%- assign full_stars = 5 -%}
-            {%- assign rating_count = "2,145" -%}
+            {%- assign rating_count = "0" -%}
             
             {%- if product.metafields.reviews.rating.value != blank -%}
               {%- assign full_stars = product.metafields.reviews.rating.value.rating | round -%}
