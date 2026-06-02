@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // URL to your secure Vercel backend
   const BACKEND_API_URL = 'https://vb-video-formatting-tool.vercel.app/api/convert';
 
-  // UI State Management
+  // --- UI State Management ---
   function showProcessing(text, progress) {
     dropZone.classList.add('hidden');
     successState.classList.add('hidden');
@@ -128,22 +128,62 @@ document.addEventListener('DOMContentLoaded', function() {
     dropZone.classList.remove('hidden');
   }
 
-  // File handling
+  convertAnotherBtn.addEventListener('click', resetUI);
+
+  // --- Advanced Drag & Drop Handling ---
+  
+  // Prevent default browser behavior (opening the file in a new tab)
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // Highlight drop zone on hover
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.add('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.remove('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  // Handle dropped files
+  dropZone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files); // Pass the exact file directly
+    }
+  }, false);
+
+  // Handle clicked/browsed files
   videoInput.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
-      handleFileUpload(e.target.files);
+    if (e.target.files && e.target.files.length > 0) {
+      handleFileUpload(e.target.files); // Pass the exact file directly
     }
   });
 
-  convertAnotherBtn.addEventListener('click', resetUI);
-
-  // --- THE REAL CLOUDCONVERT LOGIC ---
-  async function handleFileUpload(incomingData) {
-    // FIXED: Grabs the actual file object at index 0 if it's a FileList array
-    const file = incomingData.length > 0 ? incomingData[0] : incomingData;
-
+  // --- THE CONVERSION LOGIC ---
+  async function handleFileUpload(file) {
+    // Check if the file is actually passed and has a name
     if (!file || !file.name) {
       alert("No valid file detected. Please try selecting the video again.");
+      resetUI();
+      return;
+    }
+
+    // Basic check to ensure it's a video file (optional but recommended)
+    if (!file.type.startsWith('video/')) {
+      alert("Please upload a valid video file (MP4, MOV, AVI, etc).");
       resetUI();
       return;
     }
@@ -151,20 +191,18 @@ document.addEventListener('DOMContentLoaded', function() {
     showProcessing('Initializing connection...', 5);
 
     try {
-      // Send the exact file name so CloudConvert knows it is a video
       const initResponse = await fetch(BACKEND_API_URL + '?filename=' + encodeURIComponent(file.name), { method: 'POST' });
       const initData = await initResponse.json();
 
       if (!initData.uploadUrl) throw new Error("Could not initialize upload.");
 
-      showProcessing('Uploading directly to CloudConvert (This depends on your internet speed)...', 15);
+      showProcessing('Uploading video (this depends on your internet speed)...', 15);
 
       const formData = new FormData();
       for (const key in initData.uploadParameters) {
         formData.append(key, initData.uploadParameters[key]);
       }
       
-      // Attach the actual video file
       formData.append('file', file);
 
       const uploadResponse = await fetch(initData.uploadUrl, {
@@ -173,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!uploadResponse.ok) {
-         throw new Error("Direct upload rejected. The file failed to send.");
+         throw new Error("Upload rejected. The file failed to send.");
       }
 
       showProcessing('Converting Video (This may take a while)...', 50);
@@ -181,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
       checkJobStatus(initData.jobId);
 
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      alert("An error occurred during upload. Check your connection and try again.");
       console.error(error);
       resetUI();
     }
@@ -197,9 +235,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showProcessing('Finalizing...', 100);
         setTimeout(() => showSuccess(data.downloadUrl), 500);
       } else if (data.status === 'error') {
-        throw new Error("CloudConvert failed to process the file: " + (data.message || 'Unknown error'));
+        throw new Error("Failed to process the file: " + (data.message || 'Unknown error'));
       } else {
-        // Still processing. Wait 5 seconds and check again.
         setTimeout(() => checkJobStatus(jobId), 5000);
       }
     } catch (error) {
