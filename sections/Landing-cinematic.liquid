@@ -140,8 +140,8 @@
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            {% comment %} Left Side: The 3 Tabs Content Area {% endcomment %}
-            <div class="w-full md:w-1/2 aspect-video md:aspect-square bg-black relative flex items-center justify-center group/video shrink-0">
+            {% comment %} Left Side: Media Area (Flex-1 on mobile to use all free space, Aspect-Square on Desktop) {% endcomment %}
+            <div class="w-full md:w-1/2 flex-1 md:flex-none md:aspect-square bg-black relative flex items-center justify-center group/video min-h-[30vh]">
                 
                 {% comment %} TAB 1 CONTENT: RAW HTML5 VIDEO {% endcomment %}
                 <div id="tab-content-1-{{ block.id }}" class="cine-tab-content active absolute inset-0 w-full h-full relative">
@@ -208,13 +208,13 @@
 
             </div>
 
-            {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
-            <div class="w-full md:w-1/2 flex flex-col bg-[#0A0A0A] z-10 flex-1 overflow-hidden relative">
+            {% comment %} Right Side: Title & Mobile Bottom Action Bar {% endcomment %}
+            <div class="w-full md:w-1/2 flex flex-col bg-[#0A0A0A] z-10 shrink-0 md:flex-1 relative">
                 
-                {% comment %} Scrollable Content Area {% endcomment %}
-                <div class="flex-1 overflow-y-auto modal-scroll p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col">
+                {% comment %} Text Content Area (Scrolls nicely under the video on mobile) {% endcomment %}
+                <div class="flex-1 overflow-y-auto modal-scroll p-5 sm:p-8 md:p-12 lg:p-16 flex flex-col max-h-[25vh] md:max-h-none shrink-0">
                     <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#181615] font-bold mb-2">{{ block.settings.tag | escape }}</span>
-                    <h3 id="modal-title-{{ block.id }}" class="font-serif text-[28px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-8 md:mb-10">{{ block.settings.title | escape }}</h3>
+                    <h3 id="modal-title-{{ block.id }}" class="font-serif text-[24px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-4 md:mb-10">{{ block.settings.title | escape }}</h3>
 
                     {% comment %} Desktop Tabs (Hidden on mobile) {% endcomment %}
                     <div class="hidden md:flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap modal-scroll shrink-0" role="tablist">
@@ -229,25 +229,36 @@
                         </button>
                     </div>
 
-                    {% comment %} Dynamic Text area below tabs {% endcomment %}
-                    <div class="mt-auto pt-6 md:pt-8 sm:pb-0 shrink-0">
+                    {% comment %} Desktop CTA (Hidden on mobile) {% endcomment %}
+                    <div class="hidden md:block mt-auto pt-6 md:pt-8 sm:pb-0 shrink-0">
                         <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#181615] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#181615] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
                             {{ block.settings.button_label | default: "Create Your Book" | escape }}
                         </a>
                     </div>
                 </div>
 
-                {% comment %} Mobile App-like Sticky Bottom Tabs {% endcomment %}
-                <div class="md:hidden flex justify-around w-full border-t border-white/10 bg-[#0A0A0A] shrink-0 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20" style="padding-bottom: env(safe-area-inset-bottom);" role="tablist">
-                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
-                        {{ block.settings.tab_1_title | escape }}
-                    </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
-                        {{ block.settings.tab_2_title | escape }}
-                    </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
-                        {{ block.settings.tab_3_title | escape }}
-                    </button>
+                {% comment %} Mobile App-like Fixed Bottom Bar (Tabs + Button) {% endcomment %}
+                <div class="md:hidden flex flex-col w-full border-t border-white/10 bg-[#0A0A0A] shrink-0 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20" style="padding-bottom: env(safe-area-inset-bottom);">
+                    
+                    {% comment %} Mobile Sticky Tabs Row {% endcomment %}
+                    <div class="flex justify-around w-full" role="tablist">
+                        <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active flex-1 py-3 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
+                            {{ block.settings.tab_1_title | escape }}
+                        </button>
+                        <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn flex-1 py-3 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
+                            {{ block.settings.tab_2_title | escape }}
+                        </button>
+                        <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn flex-1 py-3 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
+                            {{ block.settings.tab_3_title | escape }}
+                        </button>
+                    </div>
+
+                    {% comment %} Mobile Sticky CTA Button {% endcomment %}
+                    <div class="px-4 pb-4 pt-2">
+                        <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 py-3.5 bg-white text-black font-sans text-[12px] font-bold tracking-widest uppercase hover:bg-[#181615] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#181615] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
+                            {{ block.settings.button_label | default: "Create Your Book" | escape }}
+                        </a>
+                    </div>
                 </div>
 
             </div>
@@ -347,7 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
         allBtns.forEach(b => b.classList.remove('active'));
         allContents.forEach(c => c.classList.remove('active'));
 
-        // Use querySelectorAll to find both desktop AND mobile buttons and activate both
         const activeBtns = modalContext.querySelectorAll(`.cine-tab-btn[data-tab="${tabNumber}"]`);
         const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
 
