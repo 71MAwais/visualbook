@@ -314,21 +314,21 @@
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
-            "handle": "@the_visual_book"
+            "handle": ""
           }
         },
         "moment_yGJxpQ": {
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/video.mp4",
-            "handle": "@the_visual_book"
+            "handle": ""
           }
         },
         "moment_Wx6JTN": {
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
-            "handle": "@the_visual_book"
+            "handle": ""
           }
         },
         "moment_9RcEkx": {
@@ -336,7 +336,7 @@
           "settings": {
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
             "image": "shopify://shop_images/j_1770874208698d6560805bd8569.png",
-            "handle": "@the_visual_book"
+            "handle": ""
           }
         }
       },

@@ -151,9 +151,9 @@
         "award_btn_text": "Our Awards",
         "award_modal_title": "Award-Winning Quality",
         "award_modal_text": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.",
-        "award_badge_text": "Ships in 24 hours",
-        "discount_btn_text": "Get $5 / €5 Off",
-        "discount_modal_title": "Unlock $5 / €5 Off",
+        "award_badge_text": "#1",
+        "discount_btn_text": "Get $5 Off Cashback",
+        "discount_modal_title": "Unlock $5 Off Cashback",
         "discount_modal_text": "Complete any of the tasks below to automatically apply your discount at checkout.",
         "discount_task1": "Follow us on Instagram",
         "discount_task2": "Share with a friend",
@@ -222,8 +222,8 @@
       ],
       "name": "Premium Feature Grid",
       "settings": {
-        "bg_color": "#FAFAFA",
-        "accent_color": "#B8906B",
+        "bg_color": "#fafafa",
+        "accent_color": "#b8906b",
         "subtitle": "Technology",
         "heading": "The Visualbook Experience",
         "subheading": "Discover the seamless technology behind your most cherished memories."
