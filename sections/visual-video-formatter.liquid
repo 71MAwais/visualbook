@@ -21,25 +21,25 @@
       {%- comment -%} Left Column: Specs & Info {%- endcomment -%}
       <div class="w-full lg:w-1/3">
         <div class="bg-white border border-[#eaeaea] p-8 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.02)] h-full">
-          <h3 class="font-serif text-2xl text-[#1a1a1a] mb-6">Optimal Specs</h3>
-          <p class="text-sm text-[#555555] font-light mb-8 leading-relaxed">Your video will be automatically converted to meet these exact hardware specifications for seamless playback.</p>
+          <h3 class="font-serif text-2xl text-[#1a1a1a] mb-6">{{ section.settings.spec_heading | default: 'Optimal Specs' }}</h3>
+          <p class="text-sm text-[#555555] font-light mb-8 leading-relaxed">{{ section.settings.spec_description | default: 'Your video will be automatically converted to meet these exact hardware specifications for seamless playback.' }}</p>
           
           <ul class="space-y-5 border-t border-[#eaeaea] pt-6">
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Format</span>
-              <span class="text-sm text-[#737373]">MP4 (H.264)</span>
+              <span class="text-sm text-[#737373]">{{ section.settings.spec_format | default: 'MP4 (H.264)' }}</span>
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Resolution</span>
-              <span class="text-sm text-[#737373]">720p (16:9)</span>
+              <span class="text-sm text-[#737373]">{{ section.settings.spec_resolution | default: '720p (16:9)' }}</span>
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Audio</span>
-              <span class="text-sm text-[#737373]">AAC Stereo</span>
+              <span class="text-sm text-[#737373]">{{ section.settings.spec_audio | default: 'AAC Stereo' }}</span>
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Max Size</span>
-              <span class="text-sm text-[#737373]">2 GB</span>
+              <span class="text-sm text-[#737373]">{{ section.settings.spec_max_size | default: '2 GB' }}</span>
             </li>
           </ul>
         </div>
@@ -55,8 +55,8 @@
             <div class="w-16 h-16 mx-auto bg-[#fafafa] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#1a1a1a" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             </div>
-            <h3 class="font-serif text-xl text-[#1a1a1a] mb-2">Drag & Drop your video here</h3>
-            <p class="text-xs text-[#737373] font-light">or click to browse your files (MOV, AVI, MKV, etc.)</p>
+            <h3 class="font-serif text-xl text-[#1a1a1a] mb-2">{{ section.settings.dropzone_title | default: 'Drag & Drop your video here' }}</h3>
+            <p class="text-xs text-[#737373] font-light">{{ section.settings.dropzone_subtitle | default: 'or click to browse your files (MOV, AVI, MKV, etc.)' }}</p>
           </div>
 
           <div id="ProcessingState" class="hidden text-center py-8">
@@ -103,10 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const downloadBtn = document.getElementById('DownloadBtn');
   const convertAnotherBtn = document.getElementById('ConvertAnotherBtn');
 
-  // URL to your secure Vercel backend
+  // Backend API endpoint
   const BACKEND_API_URL = 'https://vb-video-formatting-tool.vercel.app/api/convert';
 
-  // UI State Management
+  // --- UI State Management ---
   function showProcessing(text, progress) {
     dropZone.classList.add('hidden');
     successState.classList.add('hidden');
@@ -128,21 +128,55 @@ document.addEventListener('DOMContentLoaded', function() {
     dropZone.classList.remove('hidden');
   }
 
-  // File handling
+  convertAnotherBtn.addEventListener('click', resetUI);
+
+  // --- Advanced Drag & Drop Handling ---
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.add('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.remove('border-[#c4b09e]', 'bg-[#faf8f5]');
+    }, false);
+  });
+
+  dropZone.addEventListener('drop', function(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files);
+    }
+  }, false);
+
   videoInput.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
+    if (e.target.files && e.target.files.length > 0) {
       handleFileUpload(e.target.files);
     }
   });
 
-  convertAnotherBtn.addEventListener('click', resetUI);
-
-  // --- THE CONVERSION LOGIC ---
-  async function handleFileUpload(incomingData) {
-    const file = incomingData.length > 0 ? incomingData : incomingData;
-
+  // --- CONVERSION LOGIC ---
+  async function handleFileUpload(file) {
     if (!file || !file.name) {
       alert("No valid file detected. Please try selecting the video again.");
+      resetUI();
+      return;
+    }
+
+    if (!file.type.startsWith('video/')) {
+      alert("Please upload a valid video file (MP4, MOV, AVI, etc).");
       resetUI();
       return;
     }
@@ -150,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     showProcessing('Initializing connection...', 5);
 
     try {
+      // Initialize upload parameters securely
       const initResponse = await fetch(BACKEND_API_URL + '?filename=' + encodeURIComponent(file.name), { method: 'POST' });
       const initData = await initResponse.json();
 
@@ -178,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
       checkJobStatus(initData.jobId);
 
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      alert("An error occurred during upload. Check your connection and try again.");
       console.error(error);
       resetUI();
     }
@@ -212,6 +247,10 @@ document.addEventListener('DOMContentLoaded', function() {
   "name": "Video Converter",
   "settings": [
     {
+      "type": "header",
+      "content": "Page Hero Settings"
+    },
+    {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
@@ -220,14 +259,70 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       "type": "text",
       "id": "title",
-      "label": "Heading",
+      "label": "Page Title (Heading)",
       "default": "Video Converter"
     },
     {
       "type": "textarea",
       "id": "description",
-      "label": "Description",
+      "label": "Hero Description",
       "default": "Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book."
+    },
+    {
+      "type": "header",
+      "content": "Optimal Specs Settings"
+    },
+    {
+      "type": "text",
+      "id": "spec_heading",
+      "label": "Specs Heading",
+      "default": "Optimal Specs"
+    },
+    {
+      "type": "textarea",
+      "id": "spec_description",
+      "label": "Specs Description",
+      "default": "Your video will be automatically converted to meet these exact hardware specifications for seamless playback."
+    },
+    {
+      "type": "text",
+      "id": "spec_format",
+      "label": "Format Text",
+      "default": "MP4 (H.264)"
+    },
+    {
+      "type": "text",
+      "id": "spec_resolution",
+      "label": "Resolution Text",
+      "default": "720p (16:9)"
+    },
+    {
+      "type": "text",
+      "id": "spec_audio",
+      "label": "Audio Text",
+      "default": "AAC Stereo"
+    },
+    {
+      "type": "text",
+      "id": "spec_max_size",
+      "label": "Max Size Text",
+      "default": "2 GB"
+    },
+    {
+      "type": "header",
+      "content": "Dropzone Settings"
+    },
+    {
+      "type": "text",
+      "id": "dropzone_title",
+      "label": "Upload Heading",
+      "default": "Drag & Drop your video here"
+    },
+    {
+      "type": "text",
+      "id": "dropzone_subtitle",
+      "label": "Upload Subtitle",
+      "default": "or click to browse your files (MOV, AVI, MKV, etc.)"
     }
   ],
   "presets": [
