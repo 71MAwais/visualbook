@@ -59,7 +59,6 @@
         {% for block in section.blocks limit: 6 %}
             {%- assign title = block.settings.title | escape -%}
             
-            {% comment %} ACCESSIBILITY FIX: Removed aria-label to let screen readers read the actual visual content {% endcomment %}
             <button type="button" 
                  class="group relative w-full bg-white border border-gray-100 rounded-2xl text-left cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#181615] focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAFAFA] cine-modal-trigger flex flex-col overflow-hidden" 
                  data-modal-target="cine-modal-{{ block.id }}" 
@@ -210,29 +209,47 @@
             </div>
 
             {% comment %} Right Side: Title & Tab Navigation {% endcomment %}
-            <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col bg-[#0A0A0A] modal-scroll flex-1 overflow-y-auto z-10">
-                <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#181615] font-bold mb-2">{{ block.settings.tag | escape }}</span>
-                <h3 id="modal-title-{{ block.id }}" class="font-serif text-[28px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-8 md:mb-10">{{ block.settings.title | escape }}</h3>
+            <div class="w-full md:w-1/2 flex flex-col bg-[#0A0A0A] z-10 flex-1 overflow-hidden relative">
+                
+                {% comment %} Scrollable Content Area {% endcomment %}
+                <div class="flex-1 overflow-y-auto modal-scroll p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col">
+                    <span class="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#181615] font-bold mb-2">{{ block.settings.tag | escape }}</span>
+                    <h3 id="modal-title-{{ block.id }}" class="font-serif text-[28px] md:text-[36px] lg:text-[48px] text-white leading-tight mb-8 md:mb-10">{{ block.settings.title | escape }}</h3>
 
-                {% comment %} The 3 Tabs Buttons {% endcomment %}
-                <div class="flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap modal-scroll" role="tablist">
-                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                    {% comment %} Desktop Tabs (Hidden on mobile) {% endcomment %}
+                    <div class="hidden md:flex gap-4 md:gap-6 border-b border-white/10 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap modal-scroll shrink-0" role="tablist">
+                        <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                            {{ block.settings.tab_1_title | escape }}
+                        </button>
+                        <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                            {{ block.settings.tab_2_title | escape }}
+                        </button>
+                        <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                            {{ block.settings.tab_3_title | escape }}
+                        </button>
+                    </div>
+
+                    {% comment %} Dynamic Text area below tabs {% endcomment %}
+                    <div class="mt-auto pt-6 md:pt-8 sm:pb-0 shrink-0">
+                        <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#181615] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#181615] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
+                            {{ block.settings.button_label | default: "Create Your Book" | escape }}
+                        </a>
+                    </div>
+                </div>
+
+                {% comment %} Mobile App-like Sticky Bottom Tabs {% endcomment %}
+                <div class="md:hidden flex justify-around w-full border-t border-white/10 bg-[#0A0A0A] shrink-0 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20" style="padding-bottom: env(safe-area-inset-bottom);" role="tablist">
+                    <button type="button" data-block="{{ block.id }}" data-tab="1" class="cine-tab-btn active flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
                         {{ block.settings.tab_1_title | escape }}
                     </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                    <button type="button" data-block="{{ block.id }}" data-tab="2" class="cine-tab-btn flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
                         {{ block.settings.tab_2_title | escape }}
                     </button>
-                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn pb-3 md:pb-4 text-[12px] md:text-[13px] uppercase tracking-widest font-bold text-white/50 hover:text-white border-b-2 border-transparent transition-colors focus:outline-none shrink-0" role="tab">
+                    <button type="button" data-block="{{ block.id }}" data-tab="3" class="cine-tab-btn flex-1 py-4 text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-white/50 hover:text-white transition-colors focus:outline-none border-b-2 border-transparent text-center" role="tab">
                         {{ block.settings.tab_3_title | escape }}
                     </button>
                 </div>
 
-                {% comment %} Dynamic Text area below tabs {% endcomment %}
-                <div class="mt-auto pt-6 md:pt-8 pb-4 sm:pb-0">
-                    <a href="{{ block.settings.button_link }}" class="inline-flex w-full items-center justify-center px-6 md:px-8 py-4 bg-white text-black font-sans text-[12px] md:text-[13px] font-bold tracking-widest uppercase hover:bg-[#181615] hover:text-white transition-colors duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#181615] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]">
-                        {{ block.settings.button_label | default: "Create Your Book" | escape }}
-                    </a>
-                </div>
             </div>
 
         </div>
@@ -268,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById(`video-${blockId}`);
             if (video) {
                 video.currentTime = 0;
-                video.muted = true; // Ensure it's muted when opened
+                video.muted = true;
                 let playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => console.warn("Browser auto-play rules delayed execution.", error));
@@ -293,13 +310,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalBox.classList.add('scale-95');
             }
 
-            // Reset video to stateless on close
             const blockId = modal.id.replace('cine-modal-', '');
             const video = document.getElementById(`video-${blockId}`);
             if (video) {
                 video.pause();
-                video.currentTime = 0; // Reset timer
-                video.muted = true;    // Reset audio back to muted
+                video.currentTime = 0; 
+                video.muted = true;   
             }
 
             setTimeout(() => {
@@ -331,10 +347,11 @@ document.addEventListener('DOMContentLoaded', function() {
         allBtns.forEach(b => b.classList.remove('active'));
         allContents.forEach(c => c.classList.remove('active'));
 
-        const activeBtn = modalContext.querySelector(`.cine-tab-btn[data-tab="${tabNumber}"]`);
+        // Use querySelectorAll to find both desktop AND mobile buttons and activate both
+        const activeBtns = modalContext.querySelectorAll(`.cine-tab-btn[data-tab="${tabNumber}"]`);
         const activeContent = document.getElementById(`tab-content-${tabNumber}-${blockId}`);
 
-        if (activeBtn) activeBtn.classList.add('active');
+        activeBtns.forEach(btn => btn.classList.add('active'));
         if (activeContent) activeContent.classList.add('active');
 
         const video = document.getElementById(`video-${blockId}`);
@@ -539,4 +556,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   ]
 }
-{% endschema %}t
+{% endschema %}
