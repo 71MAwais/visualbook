@@ -276,8 +276,8 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </button>
                     <button type="button" id="discount-btn" class="focus-ring py-4 flex items-center justify-center gap-2.5 hover:bg-stone-50 transition-colors group rounded-r-lg cursor-pointer">
-                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.discount_btn_text | default: 'Get $5 / €5 Off' }}</span>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                        <span class="text-[14px] text-stone-800 font-medium">{{ section.settings.discount_btn_text | default: 'Get $6 Cashback' }}</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-600 group-hover:text-stone-900 transition-colors" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
                     </button>
                 </div>
             </div>
@@ -307,9 +307,9 @@
 {%- comment -%} 
   FIXED Z-INDEX MODALS CONTAINER 
 {%- endcomment -%}
-<div id="all-modals-container" class="relative z-[99999]">
+<div id="all-modals-container" class="relative z-">
     
-    <div id="support-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+    <div id="support-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
         <div id="support-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-modal-btn" type="button" aria-label="Close support modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -332,61 +332,73 @@
         </div>
     </div>
 
-    <div id="award-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
-        <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300 text-center">
+    <div id="award-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="award-modal-title">
+        <div id="award-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-award-modal-btn" aria-label="Close award modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div class="mb-6">
-                <div class="w-14 h-14 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-5 text-[#C5A059] shadow-sm" aria-hidden="true">
-                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <div class="mb-4 text-center mt-2">
+                <div class="w-12 h-12 bg-stone-50 border border-stone-100 rounded-full flex items-center justify-center mx-auto mb-3 text-[#C5A059] shadow-sm" aria-hidden="true">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                 </div>
-                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-3">{{ section.settings.award_modal_title | default: 'Award-Winning Quality' }}</h3>
-                <p class="text-[13px] text-stone-600 font-light leading-relaxed px-2">{{ section.settings.award_modal_text | default: 'Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition.' }}</p>
+                <h3 id="award-modal-title" class="text-2xl font-serif font-medium text-[#111111]">{{ section.settings.award_modal_title | default: 'Award-Winning Recognition' }}</h3>
             </div>
-            <div class="flex justify-center border-t border-stone-100 pt-5">
-                <div class="bg-stone-50 text-stone-700 border border-stone-200 rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide flex items-center justify-center gap-2 shadow-sm">
-                    <svg class="w-4 h-4 text-[#111111]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                    {{ section.settings.award_badge_text | default: 'Ships in 24 hours' }}
+            
+            <div class="space-y-4 max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-4 text-left">
+                <div>
+                    <h4 class="text-[14px] font-bold text-stone-900 border-b border-stone-200 pb-1 mb-2">2026</h4>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 pl-4 list-disc marker:text-stone-300">
+                        <li>Winner – Global Recognition Award</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[14px] font-bold text-stone-900 border-b border-stone-200 pb-1 mb-2">2024</h4>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 pl-4 list-disc marker:text-stone-300">
+                        <li>Winner – Most Dedicated Memory Preservation Company: SME News Greater London Enterprise Awards</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[14px] font-bold text-stone-900 border-b border-stone-200 pb-1 mb-2">2023</h4>
+                    <ul class="text-[13px] text-stone-600 space-y-1.5 pl-4 list-disc marker:text-stone-300">
+                        <li>Winner – Best Luxury Wedding Memory Preservation Company: Global Wedding Awards</li>
+                        <li>Winner – Most Pioneering Memory Preservation Company: SME News Greater London Enterprise Awards</li>
+                        <li>Winner – Memorabilia Company of the Year: Innovation & Excellence Awards</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="discount-modal" class="fixed inset-0 z-[100000] hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
+    <div id="discount-modal" class="fixed inset-0 z- hidden flex-col items-center justify-center bg-stone-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 px-4" role="dialog" aria-modal="true" aria-labelledby="discount-modal-title">
         <div id="discount-modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-8 relative transform scale-95 opacity-0 transition-all duration-300">
             <button id="close-discount-modal-btn" aria-label="Close discount modal" class="focus-ring absolute top-4 right-4 p-2 text-stone-500 hover:text-[#111111] hover:bg-stone-100 rounded-full transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div class="text-center mb-6">
                 <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#111111]" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
-                <h3 id="discount-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.discount_modal_title | default: 'Unlock $5 / €5 Off' }}</h3>
-                <p class="text-[13px] text-stone-600 font-light leading-relaxed">{{ section.settings.discount_modal_text | default: 'Complete any of the tasks below to automatically apply your discount at checkout.' }}</p>
+                <h3 id="discount-modal-title" class="text-2xl font-serif font-medium text-[#111111] mb-2">{{ section.settings.discount_modal_title | default: 'Claim $6 Cashback' }}</h3>
+                <p class="text-[13px] text-stone-600 font-light leading-relaxed">
+                    Valid for orders above <strong>$100</strong>. Follow the steps below to claim your instant cashback!
+                </p>
             </div>
-            <div class="space-y-3">
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-pink-600 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        {{ section.settings.discount_task1 | default: 'Follow us on Instagram' }}
+            
+            <div class="space-y-3 text-left">
+                <div class="bg-stone-50 border border-stone-200 text-stone-700 rounded-xl p-5 text-[13px] font-medium flex flex-col gap-4">
+                    <div class="flex items-start gap-3">
+                        <span class="bg-[#111111] text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">1</span>
+                        <p class="leading-snug text-stone-600">Post a story or post on minimum <strong>two</strong> social media platforms (Facebook, TikTok, or Instagram).</p>
                     </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-blue-500 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                        {{ section.settings.discount_task2 | default: 'Share with a friend' }}
+                    <div class="flex items-start gap-3">
+                        <span class="bg-[#111111] text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">2</span>
+                        <p class="leading-snug text-stone-600">Tag <strong>@thevisualbook</strong> in your posts (find our official social links in the footer).</p>
                     </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
-                <button class="focus-ring w-full bg-white border border-stone-200 text-stone-700 rounded-md py-3 text-[13px] font-medium flex items-center justify-between px-4 hover:bg-stone-50 transition-colors group">
-                     <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 text-stone-500 group-hover:text-[#111111] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        {{ section.settings.discount_task3 | default: 'Join our Newsletter' }}
+                    <div class="flex items-start gap-3">
+                        <span class="bg-[#111111] text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">3</span>
+                        <p class="leading-snug text-stone-600">Take a screenshot and share the proof with us on WhatsApp along with your <strong>Order ID</strong> to verify and win!</p>
                     </div>
-                    <span class="text-[#111111] font-semibold" aria-hidden="true">+</span>
-                </button>
+                </div>
             </div>
         </div>
     </div>
@@ -416,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
         const formatString = shopMoneyFormat.match(placeholderRegex);
 
-        switch (formatString[1] || formatString[0]) {
+        switch (formatString || formatString) {
             case 'amount': value = (cents / 100).toFixed(2); break;
             case 'amount_no_decimals': value = (cents / 100).toFixed(0); break;
             case 'amount_with_comma_separator': value = (cents / 100).toFixed(2).replace('.', ','); break;
@@ -446,10 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (matchedVariant) {
             variantIdInputs.forEach(input => input.value = matchedVariant.id);
-            if(variantIdInputs[0]) variantIdInputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+            if(variantIdInputs) variantIdInputs.dispatchEvent(new Event('change', { bubbles: true }));
             window.history.replaceState({ }, '', `${window.location.pathname}?variant=${matchedVariant.id}`);
 
-            const qty = parseInt(qtyInputs[0]?.value) || 1;
+            const qty = parseInt(qtyInputs?.value) || 1;
             const formattedPrice = formatMoney(matchedVariant.price * qty);
             
             priceDisplays.forEach(el => el.textContent = formattedPrice);
@@ -470,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sync Image to Variant Image
             if (matchedVariant.featured_media && matchedVariant.featured_media.preview_image) {
-                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?')[0];
+                const targetUrl = matchedVariant.featured_media.preview_image.src.split('?');
                 const targetThumbIndex = Array.from(document.querySelectorAll('.thumbnail-btn')).findIndex(btn => {
                     const img = btn.querySelector('img');
                     return img && img.src.includes(targetUrl);
@@ -516,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[name="plus"], button[name="minus"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            let val = parseInt(qtyInputs[0]?.value) || 1;
+            let val = parseInt(qtyInputs?.value) || 1;
             if (btn.getAttribute('name') === 'plus' && val < 10) val++; 
             if (btn.getAttribute('name') === 'minus' && val > 1) val--;
             qtyInputs.forEach(inp => inp.value = val);
@@ -888,7 +900,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalEl.classList.add('flex');
         
         const focusableElements = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstFocusable = focusableElements[0];
+        const firstFocusable = focusableElements;
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
         modalEl.addEventListener('keydown', function(e) {
@@ -950,6 +962,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-award-modal-btn')?.addEventListener('click', () => closeModalEl(awardModal, awardContent));
     awardModal?.addEventListener('click', (e) => { if(e.target === awardModal) closeModalEl(awardModal, awardContent); });
 
+    // Discount modal IDs maintained internally to avoid breaking JS, but conceptually acts as Cashback.
     const discountBtn = document.getElementById('discount-btn');
     const discountModal = document.getElementById('discount-modal');
     const discountContent = document.getElementById('discount-modal-content');
@@ -1088,59 +1101,23 @@ document.addEventListener('DOMContentLoaded', () => {
       "type": "text",
       "id": "award_modal_title",
       "label": "Modal Title",
-      "default": "Award-Winning Quality"
-    },
-    {
-      "type": "textarea",
-      "id": "award_modal_text",
-      "label": "Modal Text",
-      "default": "Recognized globally for outstanding craftsmanship, timeless elegance, and preserving your most precious memories in stunning high definition."
-    },
-    {
-      "type": "text",
-      "id": "award_badge_text",
-      "label": "Badge Text",
-      "default": "Ships in 24 hours"
+      "default": "Award-Winning Recognition"
     },
     {
       "type": "header",
-      "content": "Discount Modal & Button"
+      "content": "Cashback Modal & Button"
     },
     {
       "type": "text",
       "id": "discount_btn_text",
-      "label": "Discount Button Text",
-      "default": "Get $5 / €5 Off"
+      "label": "Cashback Button Text",
+      "default": "Get $6 Cashback"
     },
     {
       "type": "text",
       "id": "discount_modal_title",
       "label": "Modal Title",
-      "default": "Unlock $5 / €5 Off"
-    },
-    {
-      "type": "textarea",
-      "id": "discount_modal_text",
-      "label": "Modal Text",
-      "default": "Complete any of the tasks below to automatically apply your discount at checkout."
-    },
-    {
-      "type": "text",
-      "id": "discount_task1",
-      "label": "Task 1 Text",
-      "default": "Follow us on Instagram"
-    },
-    {
-      "type": "text",
-      "id": "discount_task2",
-      "label": "Task 2 Text",
-      "default": "Share with a friend"
-    },
-    {
-      "type": "text",
-      "id": "discount_task3",
-      "label": "Task 3 Text",
-      "default": "Join our Newsletter"
+      "default": "Claim $6 Cashback"
     }
   ],
   "blocks": [

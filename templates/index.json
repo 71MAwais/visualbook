@@ -250,7 +250,7 @@
             "title": "Fix Video Format Issues Fast",
             "description": "Seeing a 'no file' or 'format not supported' error? Use our free video converter tool to quickly optimize your files for seamless, high-quality playback on your Visual Book.",
             "link_text": "Use Converter",
-            "link_url": "shopify://pages/video-converter"
+            "link_url": "shopify://pages/how-it-works"
           }
         },
         "step_jnJQdn": {
@@ -314,21 +314,21 @@
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/AISHA + MOHAMMED_The Magical Prewedding.mov",
-            "handle": ""
+            "handle": "@the_visual_book"
           }
         },
         "moment_yGJxpQ": {
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/video.mp4",
-            "handle": ""
+            "handle": "@the_visual_book"
           }
         },
         "moment_Wx6JTN": {
           "type": "moment",
           "settings": {
             "video": "shopify://files/videos/Snaptik_7133283273563704581_tiktok2.mov",
-            "handle": ""
+            "handle": "@the_visual_book"
           }
         },
         "moment_9RcEkx": {
@@ -336,7 +336,7 @@
           "settings": {
             "video": "shopify://files/videos/visualbook_vert_birthday_jan22.mov",
             "image": "shopify://shop_images/j_1770874208698d6560805bd8569.png",
-            "handle": ""
+            "handle": "@the_visual_book"
           }
         }
       },
