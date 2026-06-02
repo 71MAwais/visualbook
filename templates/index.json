@@ -13,7 +13,7 @@
       "type": "landing-hero",
       "name": "Visual Hero",
       "settings": {
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/9809126aa75a4c6eb83a877fe17b0900.mp4",
+        "video_url": "https://cdn.shopify.com/s/files/1/0579/6554/3477/files/hero.mkv?v=1780403613",
         "image": "shopify://shop_images/photo_0300_6779b2a9-9803-4a44-a806-1da0b824ab0e.jpg",
         "heading": "Your Memories, Elegantly Preserved.",
         "subheading": "Experience the timeless elegance of a physical memory album, elevated with a breathtaking HD video display. A luxury keepsake with no internet or setup required.",
@@ -91,8 +91,7 @@
         "tab_1_label": "Video Book",
         "collection_1": "classic-visual-books",
         "tab_2_label": "Audio Cards",
-        "collection_2": "audio-greetings-card",
-        "award_icon": "shopify://shop_images/images.png"
+        "collection_2": "audio-greetings-card"
       }
     },
     "landing_cinematic_dVzXyi": {
