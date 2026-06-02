@@ -5199,6 +5199,11 @@
       font-size: 20px;
     }
   }
+  .md\:text-\[22px\] {
+    @media (width >= 48rem) {
+      font-size: 22px;
+    }
+  }
   .md\:text-\[24px\] {
     @media (width >= 48rem) {
       font-size: 24px;
