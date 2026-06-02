@@ -7,7 +7,7 @@
         {{ section.settings.subheading | default: 'Companion Tool' }}
       </span>
       <h1 class="text-4xl md:text-6xl font-serif mb-6 text-[#1a1a1a] tracking-tight">
-        {{ page.title | default: 'Video Formatter' }}
+        {{ page.title | default: 'Video Converter' }}
       </h1>
       <p class="text-sm text-[#555555] font-light leading-relaxed max-w-xl mx-auto">
         {{ section.settings.description | default: 'Optimize your memories for flawless playback. Our tool automatically converts your files into the perfect format and resolution for your Visual Book.' }}
@@ -31,7 +31,7 @@
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Resolution</span>
-              <span class="text-sm text-[#737373]">HD (1280x720)</span>
+              <span class="text-sm text-[#737373]">720p (16:9)</span>
             </li>
             <li class="flex justify-between items-center">
               <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">Audio</span>
@@ -137,10 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   convertAnotherBtn.addEventListener('click', resetUI);
 
-  // --- THE REAL CLOUDCONVERT LOGIC ---
+  // --- THE CONVERSION LOGIC ---
   async function handleFileUpload(incomingData) {
     // FIXED: Grabs the actual file object at index 0 if it's a FileList array
-    const file = incomingData.length > 0 ? incomingData[0] : incomingData;
+    const file = incomingData.length > 0 ? incomingData : incomingData;
 
     if (!file || !file.name) {
       alert("No valid file detected. Please try selecting the video again.");
@@ -151,13 +151,13 @@ document.addEventListener('DOMContentLoaded', function() {
     showProcessing('Initializing connection...', 5);
 
     try {
-      // Send the exact file name so CloudConvert knows it is a video
+      // Send the exact file name so backend knows it is a video
       const initResponse = await fetch(BACKEND_API_URL + '?filename=' + encodeURIComponent(file.name), { method: 'POST' });
       const initData = await initResponse.json();
 
       if (!initData.uploadUrl) throw new Error("Could not initialize upload.");
 
-      showProcessing('Uploading directly to CloudConvert (This depends on your internet speed)...', 15);
+      showProcessing('Uploading video (this depends on your internet speed)...', 15);
 
       const formData = new FormData();
       for (const key in initData.uploadParameters) {
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!uploadResponse.ok) {
-         throw new Error("Direct upload rejected. The file failed to send.");
+         throw new Error("Upload rejected. The file failed to send.");
       }
 
       showProcessing('Converting Video (This may take a while)...', 50);
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showProcessing('Finalizing...', 100);
         setTimeout(() => showSuccess(data.downloadUrl), 500);
       } else if (data.status === 'error') {
-        throw new Error("CloudConvert failed to process the file: " + (data.message || 'Unknown error'));
+        throw new Error("Failed to process the file: " + (data.message || 'Unknown error'));
       } else {
         // Still processing. Wait 5 seconds and check again.
         setTimeout(() => checkJobStatus(jobId), 5000);
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {% schema %}
 {
-  "name": "Video Formatter",
+  "name": "Video Converter",
   "settings": [
     {
       "type": "text",
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ],
   "presets": [
     {
-      "name": "Video Formatter Tool"
+      "name": "Video Converter Tool"
     }
   ]
 }
